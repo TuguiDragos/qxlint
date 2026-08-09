@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Thin launcher. qxlint is a Python tool; this package exists so that people
-// working in a JavaScript toolchain can run `npx qxlint` without learning the
-// Python packaging story first. It does not bundle a Python runtime.
+// working in a JavaScript toolchain can run `npx @tuguidragos/qxlint` without
+// learning the Python packaging story first. It does not bundle a Python
+// runtime.
 //
 // Resolution order, first that works wins:
 //   1. QXLINT_PYTHON, if set
@@ -152,7 +153,7 @@ if (result === null) {
       "",
       "qxlint analyses Python source, so it needs Python available. Any of these works:",
       "",
-      "  uv tool install qxlint      # then `npx qxlint` finds it",
+      "  uv tool install qxlint      # then the launcher finds it",
       "  pipx install qxlint",
       "  pip install qxlint",
       "",

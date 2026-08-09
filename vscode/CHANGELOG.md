@@ -1,9 +1,10 @@
 # Changelog
 
 The extension, the [`qxlint` Python package](https://pypi.org/project/qxlint/)
-and the [`qxlint` npm launcher](https://www.npmjs.com/package/qxlint) are
-released together from one tag and share a version number. Changes to the rules
-themselves are listed with
+and the
+[`@tuguidragos/qxlint` npm launcher](https://www.npmjs.com/package/@tuguidragos/qxlint)
+are released together from one tag and share a version number. Changes to the
+rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
 ## 0.1.0

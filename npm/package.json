@@ -1,5 +1,5 @@
 {
-  "name": "qxlint",
+  "name": "@tuguidragos/qxlint",
   "version": "0.1.0",
   "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
   "keywords": [

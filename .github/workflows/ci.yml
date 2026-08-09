@@ -156,7 +156,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/npx-check"
           cd "$RUNNER_TEMP/npx-check"
           npm init -y > /dev/null
-          npm install "$RUNNER_TEMP"/qxlint-*.tgz
+          npm install "$RUNNER_TEMP"/*qxlint-*.tgz
           npx --no-install qxlint --version
           npx --no-install qxlint "$GITHUB_WORKSPACE/tests/fixtures/clean"
           set +e

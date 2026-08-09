@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://pypi.org/project/qxlint/"><img alt="PyPI downloads a month" src="https://img.shields.io/pypi/dm/qxlint?style=flat&color=161826&label=PyPI&logo=pypi&logoColor=9184D9" /></a>
-  <a href="https://www.npmjs.com/package/qxlint"><img alt="npm downloads a month" src="https://img.shields.io/npm/dm/qxlint?style=flat&color=161826&label=npm&logo=npm&logoColor=9184D9" /></a>
+  <a href="https://www.npmjs.com/package/@tuguidragos/qxlint"><img alt="npm downloads a month" src="https://img.shields.io/npm/dm/@tuguidragos/qxlint?style=flat&color=161826&label=npm&logo=npm&logoColor=9184D9" /></a>
   <a href="https://github.com/TuguiDragos/qxlint/blob/main/LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/License-MIT-161826?style=flat" /></a>
 </p>
 
@@ -22,7 +22,7 @@
 Deterministic static checks for Qiskit Primitives V2 workflows.
 
 ```bash
-npx qxlint .
+npx @tuguidragos/qxlint .
 ```
 
 ## What this package is
@@ -30,7 +30,8 @@ npx qxlint .
 A launcher, not a port. qxlint analyses Python source, so the analyser itself is
 the Python package [`qxlint`](https://pypi.org/project/qxlint/). This package
 exists so a JavaScript toolchain can call it without a separate Python setup
-step, and so `npx qxlint` behaves like every other linter in a JS project.
+step, and so `npx @tuguidragos/qxlint` behaves like every other linter in a JS
+project.
 
 It bundles no Python runtime and runs no install script.
 
@@ -65,7 +66,7 @@ skips this wrapper entirely.
 ## Links
 
 - Documentation and rules: <https://github.com/TuguiDragos/qxlint>
-- This package on npm: <https://www.npmjs.com/package/qxlint>
+- This package on npm: <https://www.npmjs.com/package/@tuguidragos/qxlint>
 - PyPI package, the analyser itself: <https://pypi.org/project/qxlint/>
 - VS Code extension: <https://marketplace.visualstudio.com/items?itemName=tuguidragos.qxlint>
 

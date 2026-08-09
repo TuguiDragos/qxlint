@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://pypi.org/project/qxlint/"><img alt="PyPI downloads a month" src="https://img.shields.io/pypi/dm/qxlint?style=flat&color=161826&label=PyPI&logo=pypi&logoColor=9184D9" /></a>
-  <a href="https://www.npmjs.com/package/qxlint"><img alt="npm downloads a month" src="https://img.shields.io/npm/dm/qxlint?style=flat&color=161826&label=npm&logo=npm&logoColor=9184D9" /></a>
+  <a href="https://www.npmjs.com/package/@tuguidragos/qxlint"><img alt="npm downloads a month" src="https://img.shields.io/npm/dm/@tuguidragos/qxlint?style=flat&color=161826&label=npm&logo=npm&logoColor=9184D9" /></a>
   <a href="https://github.com/TuguiDragos/qxlint/blob/main/LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/License-MIT-161826?style=flat" /></a>
 </p>
 
@@ -119,7 +119,7 @@ From the command palette:
 
 - Source and rule documentation: <https://github.com/TuguiDragos/qxlint>
 - Python package: <https://pypi.org/project/qxlint/>
-- npm launcher: <https://www.npmjs.com/package/qxlint>
+- npm launcher: <https://www.npmjs.com/package/@tuguidragos/qxlint>
 - Open VSX: <https://open-vsx.org/extension/tuguidragos/qxlint>
 
 ---

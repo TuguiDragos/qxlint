@@ -2,7 +2,7 @@ name: Release
 
 # One tag publishes to all three registries, in dependency order:
 #   PyPI                 -> the analyser itself, everything else launches it
-#   npm                  -> `npx qxlint`
+#   npm                  -> `npx @tuguidragos/qxlint`
 #   VS Code Marketplace  -> the editor extension
 #
 # Each stage waits for the one before it, so a failed PyPI publish never leaves
@@ -153,8 +153,8 @@ jobs:
         working-directory: npm
         run: |
           version=$(node -p "require('./package.json').version")
-          if npm view "qxlint@$version" version > /dev/null 2>&1; then
-            echo "qxlint@$version is already published, skipping"
+          if npm view "@tuguidragos/qxlint@$version" version > /dev/null 2>&1; then
+            echo "@tuguidragos/qxlint@$version is already published, skipping"
             exit 0
           fi
           npm publish
@@ -193,12 +193,8 @@ jobs:
     # Drafted rather than published, because the changelog is written in the
     # release itself and drafting is what leaves room to write it. Publishing it
     # by hand is also where the Actions Marketplace listing gets ticked.
-    # npm stays in needs so it still runs and a failure stays visible, but it
-    # does not gate the release: the registry rejects the unscoped name as too
-    # close to eslint and oxlint, and the analyser and the extension ship
-    # whether or not the launcher has a name yet.
     needs: [npm, marketplace]
-    if: always() && github.ref_type == 'tag' && needs.marketplace.result == 'success'
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     permissions:
       contents: write

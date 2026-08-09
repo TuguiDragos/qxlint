@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://pypi.org/project/qxlint/"><img alt="PyPI downloads a month" src="https://img.shields.io/pypi/dm/qxlint?style=flat&color=161826&label=PyPI&logo=pypi&logoColor=9184D9" /></a>
-  <a href="https://www.npmjs.com/package/qxlint"><img alt="npm downloads a month" src="https://img.shields.io/npm/dm/qxlint?style=flat&color=161826&label=npm&logo=npm&logoColor=9184D9" /></a>
+  <a href="https://www.npmjs.com/package/@tuguidragos/qxlint"><img alt="npm downloads a month" src="https://img.shields.io/npm/dm/@tuguidragos/qxlint?style=flat&color=161826&label=npm&logo=npm&logoColor=9184D9" /></a>
   <a href="https://github.com/TuguiDragos/qxlint/blob/main/LICENSE"><img alt="MIT licence" src="https://img.shields.io/badge/License-MIT-161826?style=flat" /></a>
 </p>
 
@@ -68,7 +68,7 @@ computer.
 | Run without installing | `uvx qxlint .` |
 | Install as a tool | `uv tool install qxlint` or `pipx install qxlint` |
 | Add to a project | `pip install qxlint` |
-| From a JavaScript toolchain | `npx qxlint .`, the [npm launcher](https://www.npmjs.com/package/qxlint); still needs Python |
+| From a JavaScript toolchain | `npx @tuguidragos/qxlint .`, the [npm launcher](https://www.npmjs.com/package/@tuguidragos/qxlint); still needs Python |
 | In VS Code | the [qxlint extension](https://marketplace.visualstudio.com/items?itemName=tuguidragos.qxlint), also on [Open VSX](https://open-vsx.org/extension/tuguidragos/qxlint) |
 | With the circuit checks | `pip install 'qxlint[circuit]'` |
 
