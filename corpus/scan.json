@@ -1,0 +1,7007 @@
+{
+ "scanned_on": "2026-08-09",
+ "qxlint_version": "qxlint 0.1.0",
+ "target_runtime": "0.48",
+ "repositories": 244,
+ "python_files": 50389,
+ "notebooks": 1326,
+ "exit_code_2": 0,
+ "totals": {
+  "QXL201": 79,
+  "QXL000": 138,
+  "QXL202": 21,
+  "QXL104": 47,
+  "QXL103": 9,
+  "QXL102": 11,
+  "QXL101": 7
+ },
+ "findings": 312,
+ "records": [
+  {
+   "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
+   "sha": "e99d5d79d51cd9c35a55ba8df8626168a97168a7",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "0penAGI/0p3q",
+   "sha": "aa9ad5eb51a8c1fe047c593b6d488cbe161ed0d1",
+   "stratum": "D_qiskit_readme",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "0TimonB/QiskitProjects",
+   "sha": "3c3720148a3e92ce315200a3785b837d262c86e5",
+   "stratum": "E_qiskit_name",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "12Arsh34/Q-SecureNet",
+   "sha": "dfd6859941472b39e168a99e7ccb44b41150a1c6",
+   "stratum": "O_hackathon",
+   "py_files": 19,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "12KrishPatel/12KrishPatel",
+   "sha": "1e6789210c2ab36765b8bb5885efc1ba96d57a5c",
+   "stratum": "O_hackathon",
+   "py_files": 0,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "1640675651/HyperQ",
+   "sha": "11a2e17e1204fee7c51df36415b62ce6c87b45e2",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 20,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 12
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "benchmark.py",
+      "line": 72,
+      "column": 40,
+      "endLine": 72,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "benchmark_baseline.py",
+      "line": 57,
+      "column": 40,
+      "endLine": 57,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "benchmark_poisson.py",
+      "line": 60,
+      "column": 40,
+      "endLine": 60,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/get_calibration.py",
+      "line": 43,
+      "column": 44,
+      "endLine": 43,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/get_job_time.py",
+      "line": 26,
+      "column": 40,
+      "endLine": 26,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/get_result.py",
+      "line": 21,
+      "column": 40,
+      "endLine": 21,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/get_result_baseline.py",
+      "line": 31,
+      "column": 40,
+      "endLine": 31,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/get_result_poisson.py",
+      "line": 21,
+      "column": 40,
+      "endLine": 21,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/throughput_utilization.py",
+      "line": 32,
+      "column": 41,
+      "endLine": 32,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/throughput_utilization.py",
+      "line": 34,
+      "column": 41,
+      "endLine": 34,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/throughput_utilization_poisson.py",
+      "line": 31,
+      "column": 41,
+      "endLine": 31,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "getdata/throughput_utilization_poisson.py",
+      "line": 33,
+      "column": 41,
+      "endLine": 33,
+      "endColumn": 54
+     }
+    }
+   ]
+  },
+  {
+   "repo": "1Aiden-K/Intro-to-Quantum-Computing",
+   "sha": "4f386433e59c7d4283c5e5553d4bfc1135e57ea5",
+   "stratum": "N_algorithms",
+   "py_files": 58,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "1chooo/quantum-oracle",
+   "sha": "2412f4bc52e5f4e2fa28ea53b519b2f03dfb6f95",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 62,
+   "notebooks": 20,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "1hubert/ql-hackathon-challenge1-splatanicznie",
+   "sha": "154f85e59d16085b1ab4a778baac125a5cbe389b",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 0,
+   "notebooks": 3,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "qiskit_basics.ipynb",
+      "cellIndex": 10,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 54,
+      "column": 16,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "1Neeshu/Quantum-Optimization-for-Distributed-Order-Management",
+   "sha": "c9271b67dedd2e42c771969f64df4204d06d1e3b",
+   "stratum": "G_vqe_qaoa",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "run.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "202Q-lab/QDesignOptimizer",
+   "sha": "d4f6ada5ada59b786df1006d53f8f148b364364e",
+   "stratum": "D_qiskit_readme",
+   "py_files": 47,
+   "notebooks": 13,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "24501a0238-beep/Quantum-Secure-Login-using-QRNG",
+   "sha": "1633997bd831b66401c0292f209d1553c592f244",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "24am5a0410-DaViD/WISER-QAPINN",
+   "sha": "4bf2a25da6846c2c548c016723b64cf6af4c7c68",
+   "stratum": "I_notebooks",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated triple-quoted string literal (detected at line 155)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "WISER_PINN.ipynb",
+      "cellIndex": 12,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 155,
+      "column": 38,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "27rchana/Autism-Spectrum-Disorder-Detection-using-fMRI",
+   "sha": "88552a32d6e9ac3a9bac13290e7a22752549c852",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "2rajgupta/quantum-computing-with-qiskit",
+   "sha": "705483c915469e1d35593ed496c7cad4142b27c7",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 8,
+   "notebooks": 48,
+   "exit": 1,
+   "counts": {
+    "QXL000": 6
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated f-string literal (detected at line 2)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "ibm-qiskit/Day1/Constants.ipynb",
+      "cellIndex": 6,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 7,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "ibm-qiskit/Day1/Python_Suite.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 4,
+      "column": 25,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated string literal (detected at line 4)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "ibm-qiskit/Day1/Variables.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 4,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u201c' (U+201C)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "ibm-qiskit/Day1/Variables.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 4,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "ibm-qiskit/Day4/Import.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 3,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: f-string: expecting '=', or '!', or ':', or '}'",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "openqasm/run_qasm.py",
+      "line": 22,
+      "column": 36,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "2T0nnks/moriarty-v2",
+   "sha": "a2d625c3b6c856f7ef553a4f6792bec1935d0ee5",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 10,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "3rishabh2005-rgb/Grover-Search-Algorithm-Qiskit",
+   "sha": "fbf1e048fdcc91afab8ace4d584b56add6d19bcc",
+   "stratum": "E_qiskit_name",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "3steban22/Proyecto-Qiskit",
+   "sha": "4ca55b1538f53e627231f5954b9986190982b5c2",
+   "stratum": "F_quasi_dists",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "48984228328Aninha/qiskit",
+   "sha": "c39f102f60618e3c175620ecefc4b86efe4599ef",
+   "stratum": "L_low_stars",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "5qvsai/quantum_computing",
+   "sha": "c8db4d818fd5b6c0ad1bafbc794820e35661ca4c",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "624183-NITAP/QuantumShield",
+   "sha": "f3bb19a59fed18f2b9551efd4d76a699554f9a4d",
+   "stratum": "O_hackathon",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "a-auer/qiskit",
+   "sha": "0506734c83790fcddf84d3497f6a99c3db05ba2d",
+   "stratum": "R1_qiskit_repos",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "A-n-d-R-o/MiQE-Mini-Quantum-Emulator",
+   "sha": "3cafcf37a1c5d995feb5c7c1511f0a6bf36b7c2e",
+   "stratum": "I_notebooks",
+   "py_files": 1,
+   "notebooks": 8,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "a0ax/QubitPulseGenerator",
+   "sha": "f3d8698b90a4708dfd48d9883bda27c0d11df9b8",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aabhimittal/deutsch-jozsa-algo",
+   "sha": "cd5c49d237aaa2545f91f62bc4ce4d4e2ae74eb0",
+   "stratum": "H_qml",
+   "py_files": 23,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AADH2002/Quantum-Computing-with-Qiskit",
+   "sha": "0c7e60c086146f3e222af4697dc5e6ab782c1ba2",
+   "stratum": "G_vqe_qaoa",
+   "py_files": 0,
+   "notebooks": 8,
+   "exit": 1,
+   "counts": {
+    "QXL000": 13
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/03_Quantum-Arithmetic-Circuits-with-Qiskit.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u2192' (U+2192)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/05_Deutsch_Algorithm.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 10,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u27e9' (U+27E9)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/05_Deutsch_Algorithm.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 11,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/05_Deutsch_Algorithm.ipynb",
+      "cellIndex": 10,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/06_Deutsch_Jozsa_Algorithm.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 5,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u27e9' (U+27E9)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/06_Deutsch_Jozsa_Algorithm.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 32,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/06_Deutsch_Jozsa_Algorithm.ipynb",
+      "cellIndex": 11,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u00b7' (U+00B7)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/07_Bernstein_Vazirani_Algorithm.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 10,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u27e9' (U+27E9)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/07_Bernstein_Vazirani_Algorithm.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 35,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/07_Bernstein_Vazirani_Algorithm.ipynb",
+      "cellIndex": 10,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated string literal (detected at line 5)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/08_Grover_Search_Algorithm.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 5,
+      "column": 7,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u221a' (U+221A)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/08_Grover_Search_Algorithm.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 8,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated string literal (detected at line 3)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/08_Grover_Search_Algorithm.ipynb",
+      "cellIndex": 11,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 7,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "aadhi2297/eeg-gsp-qml-alzheimers-detection",
+   "sha": "51025814ba9136eaf91c3b7b72da815692e19fdc",
+   "stratum": "H_qml",
+   "py_files": 31,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aadithya-bash/QAOA-Qiskit",
+   "sha": "c8b357a95cb7fcc2dc950d1e37a423b0732eac96",
+   "stratum": "E_qiskit_name",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Aahan0605/quntra",
+   "sha": "d6618e6aeee015b20b2f06fe1c2c8f5eb5dbb742",
+   "stratum": "G_vqe_qaoa",
+   "py_files": 188,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AakarGupta-coder/Darshan-QML",
+   "sha": "24fcc142323f7c9e927ecfb798d5a8a7c7940d72",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 29,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Aaliyah6529/Qiskit-Global-Summer-School-2024",
+   "sha": "28a521190eda93d6f54942bfe9f04814573dd9f4",
+   "stratum": "R1_qiskit_repos",
+   "py_files": 0,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aanhaislam/qiskit-hardware-transpilation-demo",
+   "sha": "9bb810c289f41f69a14b990595d269c505355f47",
+   "stratum": "E_qiskit_name",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aarsh-adhvaryu/Q_Alpha_Research",
+   "sha": "cb209c4bd6135f93eb3adee781a63f8fd77d8476",
+   "stratum": "N_algorithms",
+   "py_files": 52,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aash-gates/IBM-Quantum-Challenge-Fall-2021",
+   "sha": "951b001c7bf73c6dfa28ad8d1c4f12715260a00f",
+   "stratum": "R2_runtime",
+   "py_files": 1,
+   "notebooks": 5,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: expected an indented block after function definition on line 46",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "guide/submission_template.py",
+      "line": 56,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Aather-nabi/Explainable-Machine-Learning-for-Higgs-Boson-Classification",
+   "sha": "0705cdc068a5e8b5e2d44dfee12e194e61f4e204",
+   "stratum": "I_notebooks",
+   "py_files": 4,
+   "notebooks": 13,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: '(' was never closed",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/01_data_exploration.ipynb",
+      "cellIndex": 30,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 16,
+      "column": 16,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Aatiqa04/Quantum-Computing",
+   "sha": "821968ab536b10b3d81c043cc9da816f9b9f8995",
+   "stratum": "R2_runtime",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2,
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "quantum.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 3,
+      "column": 40,
+      "endLine": 3,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "quantum.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 4,
+      "column": 43,
+      "endLine": 4,
+      "endColumn": 56,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "quantum.ipynb",
+      "cellIndex": 17,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 3,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "aayush-a-kumar/qaoa-qubo-compiler",
+   "sha": "f1573730124eb627845c8b0827cc7ca991bc329a",
+   "stratum": "F_quasi_dists",
+   "py_files": 14,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL202": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/examples/run_qaoa_maxcut_runtime.py",
+      "line": 30,
+      "column": 41,
+      "endLine": 30,
+      "endColumn": 48
+     }
+    }
+   ]
+  },
+  {
+   "repo": "abbasmaster/Quantum-prime-state",
+   "sha": "6f37270332bdb4c6e45e3086277f116149fa9c60",
+   "stratum": "I_notebooks",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AbdullahKazi500/WISER-2026",
+   "sha": "6c9de3d2840461d2092abba4639ea94f7f3c360d",
+   "stratum": "I_notebooks",
+   "py_files": 3,
+   "notebooks": 11,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AbdulRehman0745/Nature-use-skills",
+   "sha": "f490252cae44c232327e793a201f141fdd0b510a",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 0,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Abdussamed-1/QGSS-26-labSolution",
+   "sha": "5b7ff588db22618d3b24bbc0bbaf83a5672d3353",
+   "stratum": "I_notebooks",
+   "py_files": 4,
+   "notebooks": 9,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "lab00/lab0.ipynb",
+      "cellIndex": 24,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 3,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "lab02/lab2.ipynb",
+      "cellIndex": 59,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 7,
+      "column": 9,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "abeashvil/Quantum-Random-Number",
+   "sha": "e5d9fd76addbd97209b3ac9aa96323babdfae24f",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "rand_generator.py",
+      "line": 13,
+      "column": 13,
+      "endLine": 13,
+      "endColumn": 26
+     }
+    }
+   ]
+  },
+  {
+   "repo": "AbeCoull/prism-q",
+   "sha": "abfec50600ab7b84d1891f389c2fc75839c5c323",
+   "stratum": "J_ibm_runtime",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "abelcarreras/VQEmulti",
+   "sha": "6a6cfaaa8b8de033a71d65f33883f8fd9155cebc",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 73,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL202": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "vqemulti/simulators/ibm_hardware.py",
+      "line": 120,
+      "column": 45,
+      "endLine": 120,
+      "endColumn": 58
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Abhijith-E/quantum-algorithms-lab",
+   "sha": "f1f4601b934269c0d691f41225dbc7a99048592f",
+   "stratum": "K_tutorial",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Abhishek-2532/Cu-ntica-Study-Platform",
+   "sha": "e5a9372c5de0810973009bb4dc2b601cce6ec60e",
+   "stratum": "G_vqe_qaoa",
+   "py_files": 38,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "abhishekpanthee/quantum-database",
+   "sha": "886e0b16e1c9daf480a50133f6777e25e34e5c17",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 163,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qndb/core/engine/hardware/ibm_backend.py",
+      "line": 91,
+      "column": 25,
+      "endLine": 91,
+      "endColumn": 38
+     }
+    }
+   ]
+  },
+  {
+   "repo": "AbhishekYadav2207/Quantum-Job-Tracker",
+   "sha": "d825aa35844876f9e7cba5870b0843bbcbcdbb28",
+   "stratum": "R2_runtime",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AbhishekYalagandula/QuantumShield-X",
+   "sha": "7adc2dee74503fee7b9560a18821a19f845f4fc7",
+   "stratum": "H_qml",
+   "py_files": 92,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AbihaEhtisham/quantum-contract-auditor",
+   "sha": "06f3584653298e295e5e623e656ab1f73542f9e9",
+   "stratum": "N_algorithms",
+   "py_files": 17,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ACE07-Sev/clifft_qiskit_backend",
+   "sha": "670645c33fe86a65375039d770481193a94751d7",
+   "stratum": "E_qiskit_name",
+   "py_files": 8,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AcID3r/AcID3r",
+   "sha": "e8aba14cfd10cffeac5616b2183845c273f80d01",
+   "stratum": "H_qml",
+   "py_files": 5,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "acomphealth/quantum-reup",
+   "sha": "8cd8fd8437131559231f930971b54927316271a4",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 24,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL202": 1,
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/algorithms/vqc_classifier.py",
+      "line": 83,
+      "column": 31,
+      "endLine": 83,
+      "endColumn": 38
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/core/ibmcloud.py",
+      "line": 26,
+      "column": 17,
+      "endLine": 26,
+      "endColumn": 30
+     }
+    }
+   ]
+  },
+  {
+   "repo": "acroscopic/CHSH",
+   "sha": "5199474ce54f0c3d100380280157b26d3df2e28e",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 5,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "CHSH_Experiment.py",
+      "line": 22,
+      "column": 12,
+      "endLine": 22,
+      "endColumn": 25
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "CHSH_Experiment.py",
+      "line": 27,
+      "column": 40,
+      "endLine": 27,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "AdaHgrace/Noise_Fingerprinting",
+   "sha": "0dc495960d6bfc8c02387c2e977e5f19d474db5c",
+   "stratum": "H_qml",
+   "py_files": 13,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "adeelHassan123/bb84-qkd-qiskit-simulation",
+   "sha": "392e1be59653b9b3c4431cd88547423f4f3c87af",
+   "stratum": "E_qiskit_name",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "adelelwan24/Quantum-K-Means",
+   "sha": "23e19bf3057385f6ce5b713ef67428d4c0a3169c",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "adh182/finite-sp-quantum-simulation",
+   "sha": "c30aa324ac6f6e0de9b3b723eb852450bcd0011f",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 0,
+   "notebooks": 7,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Adhavan1801/quantum-success-prediction",
+   "sha": "3eae20a9e90061354d36333f2de359332ecba16d",
+   "stratum": "I_notebooks",
+   "py_files": 5,
+   "notebooks": 2,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Adithyaphani/Adithyaphani",
+   "sha": "fb8b3289b4b18685c14d3edbceb0fedbf80de21a",
+   "stratum": "H_qml",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Aditya-Garimella13/vanguard",
+   "sha": "f99cbaf16541a3302e12ee147496456d98310e0a",
+   "stratum": "I_notebooks",
+   "py_files": 5,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Adityacodes06/quantum-information-bottleneck",
+   "sha": "4a71e29348e2657fe44665f311f9783aa2887ccc",
+   "stratum": "L_low_stars",
+   "py_files": 9344,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "adnathanail/cqasm-testing",
+   "sha": "450eabdc8375a8a733bea00d0d8b46df528f094e",
+   "stratum": "C_statevector_estimator",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ADNRs/arXivDaily",
+   "sha": "d3a0edd3c1bdb5db9ead9fed837cccb40cac195f",
+   "stratum": "J_ibm_runtime",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AdrianLipa90/CIEL-Omega-General-Quantum-Consciousness",
+   "sha": "5812b547a6308d79ef6b42606b9bda28f1879274",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 563,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated f-string literal (detected at line 481)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ext/ext21.py",
+      "line": 481,
+      "column": 31,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: expected '('",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ext/ext6.py",
+      "line": 79,
+      "column": 20,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "adrianrguez314/quantum-computing-with-qiskit",
+   "sha": "ae8255789c241cb20371c656bd5c40561beaa104",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 0,
+   "notebooks": 5,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AdvayMonga/quantum-algorithms",
+   "sha": "15918f769273d6839b85d06348b1b027dfb5cf78",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 4,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Aegiq/lightworks",
+   "sha": "891ff4237770daf3f1be9d924abaa1733347e9bb",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 127,
+   "notebooks": 14,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aeio2/markowitz-qaoa-portfolio",
+   "sha": "41f52368eb430030c2a4e1813f480067b5fddd52",
+   "stratum": "G_vqe_qaoa",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ag4267research1/Quantum-Accelerated-Adjoint-Method-PDE-Constrained-Optimization",
+   "sha": "b03aee27206d3bd01e07ccd3a542813804d1ff78",
+   "stratum": "N_algorithms",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aghasyedi/aqca",
+   "sha": "5461e75b02e3214ebe6c881d81e073fd46163b7a",
+   "stratum": "G_vqe_qaoa",
+   "py_files": 0,
+   "notebooks": 21,
+   "exit": 1,
+   "counts": {
+    "QXL000": 4
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
+      "cellIndex": 10,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 31,
+      "column": 22,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid decimal literal",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
+      "cellIndex": 11,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 14,
+      "column": 57,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid decimal literal",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
+      "cellIndex": 12,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 109,
+      "column": 18,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
+      "cellIndex": 14,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 63,
+      "column": 16,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "agupte01/Quantum-Hacker-Terminal",
+   "sha": "8234b22d02d19bb1dcdd956547a94f57b8b56f5a",
+   "stratum": "L_low_stars",
+   "py_files": 14,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1,
+    "QXL202": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/backend/quantum/hardware.py",
+      "line": 67,
+      "column": 29,
+      "endLine": 67,
+      "endColumn": 42
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/backend/quantum/hardware.py",
+      "line": 102,
+      "column": 43,
+      "endLine": 102,
+      "endColumn": 50
+     }
+    }
+   ]
+  },
+  {
+   "repo": "ahmad-jalil/portfolio",
+   "sha": "9d91121ca61aca014faa9cd220761992cc7f2452",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Ahmed-3411/Exploring-Quantum-Feature-Maps-for-Machine-Learning",
+   "sha": "ea9f4b0ac55f5a43a96d28320ba019b9abf695da",
+   "stratum": "L_low_stars",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AI-Governance-Lab/governed-quantum-agents",
+   "sha": "07a4224878701e1d4f7d8d175b45472080eba1b0",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 30,
+   "notebooks": 2,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ai4s-research/awesome-ai-for-science",
+   "sha": "024f42bf93fa5ffd95d7d1284655bfca1271038d",
+   "stratum": "J_ibm_runtime",
+   "py_files": 0,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aiforfreecloud-sudo/quantum-portfolio-lab",
+   "sha": "0b06376991c329eff14c3e3f97b46c39cf205300",
+   "stratum": "N_algorithms",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AIML-Dept/AbdulRahman_1GA23AI001",
+   "sha": "04e378a96dd13da116afb615d4c85e65f084c30e",
+   "stratum": "J_ibm_runtime",
+   "py_files": 15,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aimsfad/qai-learning-platform",
+   "sha": "3565619e281dcea40ff6428e758af0d58a17610f",
+   "stratum": "J_ibm_runtime",
+   "py_files": 111,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "airbus/discrete-optimization",
+   "sha": "60e8f4b6c49a5c67adf5ee2589e3c9478ce11706",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 1156,
+   "notebooks": 18,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AishikTokdar/Hybrid-Quantum-Optical-Key-Generation",
+   "sha": "12a8d969509130dd1f5b457056c3ee053faa9e8e",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 5,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ajavadia/big-cats",
+   "sha": "f9860101c8fc1f3f60c94dc114502279491de9d8",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 14,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "submit_parity.py",
+      "line": 62,
+      "column": 28,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "submit_population.py",
+      "line": 79,
+      "column": 24,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "ajay2367/Quantum-bits-visualization-using-QIskit",
+   "sha": "58c41e72ccfcb8240ef58366d0f224f2899bbd35",
+   "stratum": "E_qiskit_name",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Akash-Kishore/Quantum_VLSI",
+   "sha": "4316028dfba11640457592343d9632aac968343e",
+   "stratum": "N_algorithms",
+   "py_files": 47,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "akash100302/qiskit_tutorials",
+   "sha": "59185f4b37b99c64def086fe46bedb0797fd5538",
+   "stratum": "K_tutorial",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Akhila707/PROJECT_Q_DAY_Capstone_Project",
+   "sha": "75ceb4c66242f599438192ad4a43590fd08786be",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 12,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "akiwelekar/qiskit-codespaces",
+   "sha": "064bd932e4089cebcfc9c128157f9b5b59a6d1c0",
+   "stratum": "E_qiskit_name",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aklein4/Shors-Algorithm",
+   "sha": "2a30193034e7e60b1319dff461effa35e53f75fa",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 1,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Akshat-ui-git07/quantum-sim",
+   "sha": "08be0829711d3e6c42cfd472710aa2bbbe778a0e",
+   "stratum": "L_low_stars",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Akshit-08/Hybrid-QCNN-Pneumonia-Detection",
+   "sha": "f54ce71908488915c9638534461836ebbf5b9217",
+   "stratum": "L_low_stars",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Alain-Abraham-hub/SQD-Algorithm-Groundstatefinder",
+   "sha": "af36fa8a4ec44c11de7705d7a7c612ac2a21116b",
+   "stratum": "B_runtime_v2",
+   "py_files": 9,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AlbertJosephCSQC/quantumbellstate",
+   "sha": "b18bda04de2c014fe5661a37e6bad78cd75e0add",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "albertnieto/qcml",
+   "sha": "ea2657de0b85cb3c41c0b89fb1cb7546a944b903",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 158,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "aldenweaver/quantum-learning-notes",
+   "sha": "dec0bf6d6245f96cf5efd7b17c685e37238b1e05",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 0,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AlenLeban/KvantneKlike",
+   "sha": "1527ae93cd64eeb1de4e966edd240e3fc24e3a51",
+   "stratum": "B_runtime_v2",
+   "py_files": 7,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "alessandrofelici/Bell-Inequality",
+   "sha": "8cb6578ba4635f9e65fb3073e6d207d42a3da5ef",
+   "stratum": "K_tutorial",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "entanglement.py",
+      "line": 18,
+      "column": 59,
+      "endLine": 18,
+      "endColumn": 72
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "entanglement.py",
+      "line": 21,
+      "column": 40,
+      "endLine": 21,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "alessandrosebastianelli/qml4eo_tutorial_qiskit",
+   "sha": "5928747df70bd9d2a86c8fdfe416752a48b94aab",
+   "stratum": "K_tutorial",
+   "py_files": 3,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Alessio20092007/small-toy",
+   "sha": "cdd2ac7649d520817d658a576d184f0cc333469e",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "alex-messerlian/shadow-moment-crossover",
+   "sha": "ed5cfc8d9d9170ce6fc4e05fd42e4f842d2af5ba",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 125,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Alexyskoutnev/QuantumRL",
+   "sha": "3a9568db0fbfba471c55c0e390ea03a67b62b1f9",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Ali-hey-0/Qiskit",
+   "sha": "9b2b5ddffeaf3e9d7732cc154977eb51b099e3cf",
+   "stratum": "F_quasi_dists",
+   "py_files": 1085,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL104": 3,
+    "QXL103": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_circuit_load_from_qpy.py",
+      "line": 312,
+      "column": 9,
+      "endLine": 312,
+      "endColumn": 29
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: inverse() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_instructions.py",
+      "line": 266,
+      "column": 9,
+      "endLine": 266,
+      "endColumn": 21
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_sampler_v2.py",
+      "line": 762,
+      "column": 22,
+      "endLine": 762,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_statevector_sampler.py",
+      "line": 303,
+      "column": 21,
+      "endLine": 303,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_statevector_sampler.py",
+      "line": 624,
+      "column": 22,
+      "endLine": 624,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_sabre_swap.py",
+      "line": 228,
+      "column": 9,
+      "endLine": 228,
+      "endColumn": 19
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Ali-X2/shotwise",
+   "sha": "bf1fb4c4c168a6fa2025e656619aad0b7e46df85",
+   "stratum": "A_topic_qiskit_recent",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "alia5252/Q_HIRS",
+   "sha": "117a81af44157ae060a1fad0f43f38281c637571",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 29,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "statistics.py",
+      "line": 1,
+      "column": 4,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Alice-Bob-SW/qiskit-alice-bob-provider",
+   "sha": "de8d543992f9964a77abda910bba731bec428144",
+   "stratum": "D_qiskit_readme",
+   "py_files": 73,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "alihakimtaskiran/JetsonNanoQiskit",
+   "sha": "69b3c3c5e76c2eb93f5ce27ae0870cd5ca1db3fc",
+   "stratum": "B_topic_qiskit_old",
+   "py_files": 0,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "alodolo/qiskit-3D-trophy",
+   "sha": "1e0394fa0b36db2868e21f1c5ab7811599014b38",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AlpaganB/VQR",
+   "sha": "1f4053b7a1508f5ad95a86292b51da1fad51256b",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 19,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "altaris/pauli-coloring-benchmark",
+   "sha": "4ba5180de1e16c4610d911e2cd86c8b927c52c53",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 34,
+   "notebooks": 4,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AlterLab-IEU/AlterLab-Academic-Skills",
+   "sha": "a0064fd54180541785cd1986ad8eb1689b834270",
+   "stratum": "D_qiskit_readme",
+   "py_files": 285,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "amachino/qubex",
+   "sha": "c7fc5606efb963f26f7ea3fb70f67494c2749489",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 458,
+   "notebooks": 40,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "amazon-braket/qiskit-braket-provider",
+   "sha": "8abfac5b6af8c468620bbe744fda8afe2f8183a4",
+   "stratum": "R1_qiskit_repos",
+   "py_files": 41,
+   "notebooks": 13,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ameliaquinn/PHY211_final_project",
+   "sha": "ddc02679d981efedd2b96e63b36901c75dab9923",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 4,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "amerorchis/Hybrid-Quantum-GAN",
+   "sha": "de7ebb0370aeff9eab1e4506981c4873d974fbd8",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 14,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/custom_layers.py",
+      "line": 87,
+      "column": 21,
+      "endLine": 87,
+      "endColumn": 34
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/custom_layers.py",
+      "line": 89,
+      "column": 48,
+      "endLine": 89,
+      "endColumn": 61
+     }
+    }
+   ]
+  },
+  {
+   "repo": "amiraskari969-rgb/fdnr-qiskit-app",
+   "sha": "a18788e88073f057f6f9cee9e1f3cc585e4657ad",
+   "stratum": "F_qiskit_desc_small",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AmirshayanHamidin/qrc-shot-wall",
+   "sha": "407b9001f59a7867e85ea2338ed169bc5d5422b7",
+   "stratum": "M_zero_stars",
+   "py_files": 79,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "audits/audit_mnist_pca_qda_run.py",
+      "line": 16,
+      "column": 17,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "amitb-quantum/ising-bench",
+   "sha": "cf204ec13350bbaae4ed338e2e4bd29557c95817",
+   "stratum": "J_ibm_runtime",
+   "py_files": 14,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AmruthaPreethi/Project_Heart_using_Quantum",
+   "sha": "6e40b09a7a7fcb3769bd2271a767dfad0476aded",
+   "stratum": "M_zero_stars",
+   "py_files": 4,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "anamariarojas123/Qiskit-Global-Summer-School-2023",
+   "sha": "7f3297e55307ec0f02363d326797d05b6000b52e",
+   "stratum": "R1_qiskit_repos",
+   "py_files": 0,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "anandk3012/sdes-vqa",
+   "sha": "e246008f433f1a001db94c9444fada3f4f76fa22",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 18,
+   "notebooks": 4,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/visualization_testing.ipynb",
+      "cellIndex": 6,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 14,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "anapaulaappel/quantum-encoding-agents",
+   "sha": "6e5cc26981d5d17231fd8846fa10a53d4ae15740",
+   "stratum": "M_zero_stars",
+   "py_files": 29,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Anay2005/Time-Evolution-on-a-Quantum-Computer",
+   "sha": "07cc32e2e602308f22df058f1521260ca4964ab6",
+   "stratum": "J_ibm_runtime",
+   "py_files": 0,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "andre-gray/computational-astro-AI",
+   "sha": "a4d6f759eb7779a6b6cdc138fad10724d5936b62",
+   "stratum": "D_qiskit_readme",
+   "py_files": 73,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated triple-quoted string literal (detected at line 18)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "part_2_algorithms/ch07_sph/cubic_spline_kernel.py",
+      "line": 8,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "part_3_frontier/ch15_ethics/carbon_calculator.py",
+      "line": 68,
+      "column": 78,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "anedumla/quantum_linear_solvers",
+   "sha": "f144d59e1916c9071baf3f4a3d4b0a06bba24ea0",
+   "stratum": "D_qiskit_readme",
+   "py_files": 29,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "angadhsingh1/DistributedQuantumFramework",
+   "sha": "edc44c4933693d82e874334c002338af0714f284",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 12,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL202": 6
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "MultipleVMSimple/VQE.py",
+      "line": 87,
+      "column": 39,
+      "endLine": 87,
+      "endColumn": 46
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "MultithreadingUsingDask/VQEMultithreadingUsingDask.py",
+      "line": 101,
+      "column": 39,
+      "endLine": 101,
+      "endColumn": 46
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "VQEHamiltonianDistribution-VHD/VHDUsingForLoops.py",
+      "line": 38,
+      "column": 39,
+      "endLine": 38,
+      "endColumn": 46
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "VQEHamiltonianDistribution-VHD/VHDWorker.py",
+      "line": 48,
+      "column": 39,
+      "endLine": 48,
+      "endColumn": 46
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "VQESeparateParameter-VSP/VSPUsingForLoops.py",
+      "line": 131,
+      "column": 39,
+      "endLine": 131,
+      "endColumn": 46
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "VQESeparateParameter-VSP/VSPWorker.py",
+      "line": 26,
+      "column": 39,
+      "endLine": 26,
+      "endColumn": 46
+     }
+    }
+   ]
+  },
+  {
+   "repo": "AnimeshShaw/quantum-safe-auditor",
+   "sha": "7d14ab432befeb9001402a8df0099f3416b3bd83",
+   "stratum": "C_estimator_v2",
+   "py_files": 26,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AnjumAshraaf/WISER-DOM-Quantum",
+   "sha": "55228b9aac75f15af78aafb0d60039d46c915551",
+   "stratum": "J_ibm_runtime",
+   "py_files": 16,
+   "notebooks": 10,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "anshumansahu-stack/Quantum_Bilinear_Interpolation",
+   "sha": "0a19cd9e645b46e1305bcc7eed3deb94049216c6",
+   "stratum": "M_zero_stars",
+   "py_files": 17,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AntaoA/Projet_long",
+   "sha": "bf3a0c53d7b227c52586463913564661014b8bc9",
+   "stratum": "A_local_v2",
+   "py_files": 5,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AnthonyW2/HHL-algorithm",
+   "sha": "5f2a2488bb810e9bd75e5e3e1c16da39edfe183d",
+   "stratum": "M_zero_stars",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "anulum/sc-neurocore",
+   "sha": "e633d1c15f8429d0538b7ab778dc7f83194d3f1d",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 6656,
+   "notebooks": 49,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated f-string literal (detected at line 7)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/05_nir_bridge.ipynb",
+      "cellIndex": 9,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 7,
+      "column": 7,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "notebook is not valid UTF-8: 'utf-8' codec can't decode byte 0x97 in position 326: invalid start byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "notebooks/quickstart_colab.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "aocbaeta/quantum_comp",
+   "sha": "981b3638911a9b3b96a4799df559fcb2e50bf0a5",
+   "stratum": "C_statevector_estimator",
+   "py_files": 33,
+   "notebooks": 2,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "apayne185/quantum_classical_VQE_algorithm",
+   "sha": "d10cf0771554631a8b202207c91211e2a7a9cb3e",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 19,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Aqasch/KANQAS_code",
+   "sha": "b2da833f801d44265b395a8b7f879f8eaebfc614",
+   "stratum": "D_qiskit_readme",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AravindB98/qemag-validation",
+   "sha": "2535296ec51b9a5e55b20c60900140332c5fb6b0",
+   "stratum": "M_zero_stars",
+   "py_files": 10,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Arbitrage0/quantum-noodling",
+   "sha": "7174c1b5c215e69ca7471c804b343a95c51fa871",
+   "stratum": "K_tutorial",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: '(' was never closed",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "QuantumDice.py",
+      "line": 24,
+      "column": 15,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "arfendy/PyTenNet",
+   "sha": "2bc06d111dfda74431b299e1eddb978ef5cd623b",
+   "stratum": "C_topic_quantum_py",
+   "py_files": 17,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "arnavdas88/FragQC",
+   "sha": "aeaaf43712a77da030087c3ebf9ee923ce21f985",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 50,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 4
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "example2.py",
+      "line": 92,
+      "column": 44,
+      "endLine": 92,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_1.py",
+      "line": 27,
+      "column": 44,
+      "endLine": 27,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_2.py",
+      "line": 42,
+      "column": 44,
+      "endLine": 42,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_3.py",
+      "line": 34,
+      "column": 44,
+      "endLine": 34,
+      "endColumn": 57
+     }
+    }
+   ]
+  },
+  {
+   "repo": "arnoop88/ftl_quantum",
+   "sha": "b0f41e478cc8ccf977946642889698d0b5aeca8d",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 12,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "save_token.py",
+      "line": 4,
+      "column": 43,
+      "endLine": 4,
+      "endColumn": 56
+     }
+    }
+   ]
+  },
+  {
+   "repo": "artificial-brain/quantumcat",
+   "sha": "eff99cac7674b3a1b7e1f752e7ebed2b960f85b3",
+   "stratum": "D_qiskit_readme",
+   "py_files": 84,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "asierarranz/QiskitVideoTutorials",
+   "sha": "9fbe277192bfac3025656b6d00c8a7497350209c",
+   "stratum": "K_tutorial",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "AsmarMuqeet/STGP",
+   "sha": "088141d9e7fc7492401400e78cea73aeb9f33170",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 10,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "GP.py",
+      "line": 134,
+      "column": 44,
+      "endLine": 134,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "RP.py",
+      "line": 48,
+      "column": 44,
+      "endLine": 48,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "Run Real.py",
+      "line": 10,
+      "column": 40,
+      "endLine": 10,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "AurumAsinus/quantum_boltzmann_machine",
+   "sha": "2c761895f4d870430ea833a386f18e75c8502e10",
+   "stratum": "F_quasi_dists",
+   "py_files": 26,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "bajwa4200/grover-ibm-quantum",
+   "sha": "5e1f841b442e5d22dda36d2c4c0b4df6b0de2059",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 10,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "grover/ibm_backend.py",
+      "line": 49,
+      "column": 44,
+      "endLine": 49,
+      "endColumn": 57
+     }
+    }
+   ]
+  },
+  {
+   "repo": "bennyp85/HelloBell",
+   "sha": "655bde3c3c811a4579bf0b3dbb75684cca6ba57d",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "BillSkarlatos/Perturbative_Kraus_Noise_Reduction",
+   "sha": "a6ca1255f897b11d251a89d034ccaedb9e5b7b63",
+   "stratum": "F_quasi_dists",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL102": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "real.py",
+      "line": 76,
+      "column": 15,
+      "endLine": 76,
+      "endColumn": 38
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "real.py",
+      "line": 85,
+      "column": 20,
+      "endLine": 85,
+      "endColumn": 42
+     }
+    }
+   ]
+  },
+  {
+   "repo": "biswajitcsecu/-Quantum-Fourier-Transform-QFT-to-process-images-using-quantum-computing",
+   "sha": "551ff50565b4b2b63588b6db3cd2ad5d6e18c5b0",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "QFT.py",
+      "line": 61,
+      "column": 69,
+      "endLine": 61,
+      "endColumn": 82
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Bkiser2000/KQuanFS",
+   "sha": "45b1ffbfd7a4769cc807c051f1c12d480e2d6769",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL202": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "execute.py",
+      "line": 14,
+      "column": 33,
+      "endLine": 14,
+      "endColumn": 40
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "execute.py",
+      "line": 24,
+      "column": 33,
+      "endLine": 24,
+      "endColumn": 40
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "execute.py",
+      "line": 36,
+      "column": 33,
+      "endLine": 36,
+      "endColumn": 40
+     }
+    }
+   ]
+  },
+  {
+   "repo": "BobocAlexFlorin/Proca-Yukawa-Field-Modulations-in-Molecular-Nano-Electronics",
+   "sha": "0f87d70c3e7f7256d24562d47944483d2099b5ef",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 1,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "Proca-Yukawa Field Modulations in Molecular Nano-Electronics.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 40,
+      "endLine": 2,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "proca_experiment.py",
+      "line": 16,
+      "column": 40,
+      "endLine": 16,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Boby-Booba/FTL_Quantum",
+   "sha": "2a783886c8832857827b6a4968f730434fbb91e0",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "setup/setup.py",
+      "line": 7,
+      "column": 43,
+      "endLine": 7,
+      "endColumn": 56
+     }
+    }
+   ]
+  },
+  {
+   "repo": "BoredDam/quantum-longest-common-substring",
+   "sha": "f12a39cc7aae8756885013dac7bca3ed589e8f1c",
+   "stratum": "B_runtime_v2",
+   "py_files": 1,
+   "notebooks": 4,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Brandon-Acres/MMWGA",
+   "sha": "6215e6075817ad0843d99302011053363b20591f",
+   "stratum": "B_runtime_v2",
+   "py_files": 29,
+   "notebooks": 8,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "brodriguesdemiranda/QVR4GW",
+   "sha": "23dfcbbda8dc65c7870470814b7e8bb96bf2989b",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2,
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "circuits.py",
+      "line": 117,
+      "column": 40,
+      "endLine": 117,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "circuits.py",
+      "line": 150,
+      "column": 40,
+      "endLine": 150,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "fisher.py",
+      "line": 235,
+      "column": 2,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: expected ':'",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "utils.py",
+      "line": 164,
+      "column": 78,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "C2-Q/C2Q",
+   "sha": "42e9cb642d4300662274c859e96f131a26d0a714",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 73,
+   "notebooks": 6,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "src/tests/tests.ipynb",
+      "cellIndex": 4,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 13,
+      "endLine": 6,
+      "endColumn": 26,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "captainredbleach/Quantum-miniproject",
+   "sha": "54625ecb68e7161c6f7116a343c55e4092078823",
+   "stratum": "F_quasi_dists",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "CasperStaahl/QIC-Mini-Project",
+   "sha": "aa7c72b32551e9166a567e6f8c015d1de80c20b5",
+   "stratum": "A_local_v2",
+   "py_files": 4,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL104": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "main.py",
+      "line": 170,
+      "column": 9,
+      "endLine": 170,
+      "endColumn": 24
+     }
+    }
+   ]
+  },
+  {
+   "repo": "cccbook/py2cs",
+   "sha": "9091b7096aa69f0b25236ec779450ee1534eddba",
+   "stratum": "A_statevector_sampler",
+   "py_files": 5876,
+   "notebooks": 102,
+   "exit": 1,
+   "counts": {
+    "QXL000": 50,
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/_more/_code/04-scipy/anovaTest1.py",
+      "line": 11,
+      "column": 20,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: expected an indented block after function definition on line 38",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/02-\u4ee3\u6578/_code/06a-\u5411\u91cf\u904b\u7b97/vector.py",
+      "line": 41,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/04-\u5fae\u7a4d\u5206/_code/_more/calculus/partial.py",
+      "line": 2,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/04-\u5fae\u7a4d\u5206/_code/_more/partial.py",
+      "line": 2,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/05-\u6a5f\u7387\u7d71\u8a08/_code/05-\u6a5f\u7387\u7d71\u8a08/03-scipy/anovaTest1.py",
+      "line": 11,
+      "column": 20,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/07-\u8a08\u7b97\u7406\u8ad6/code/_bak/02-\u6b4c\u5fb7\u723e\u7684\u5b9a\u7406/01-\u7f85\u7d20\u6096\u8ad6/ressellSet2.py",
+      "line": 5,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected character after line continuation character",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u7fd2\u984c/11-\u5fae\u5206\u5e7e\u4f55/_code/04-diff_manifolds/4.4-geodesic.py",
+      "line": 96,
+      "column": 20,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/_more/_code/\u03bb.py",
+      "line": 5,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/_more/\u03bb.py",
+      "line": 4,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/code/08-combinator/BCKW.py",
+      "line": 10,
+      "column": 17,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/code/09-lambda/\u03bb.py",
+      "line": 5,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "02-\u6f14\u7b97\u6cd5/_book/\u91cf\u5b50\u96fb\u8166\u66f8/_code/01-hello/grover1_fail.ipynb",
+      "cellIndex": 3,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 40,
+      "endLine": 2,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "02-\u6f14\u7b97\u6cd5/_book/\u91cf\u5b50\u96fb\u8166\u66f8/_code/04-grover-need-account/grover1need_account.ipynb",
+      "cellIndex": 3,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 40,
+      "endLine": 2,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/03-scipy/anovaTest1.py",
+      "line": 11,
+      "column": 20,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/aiTest.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/aiTest2.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/scatter1.py",
+      "line": 4,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/Untitled.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/aiTest.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/aiTest2.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/scatter1.py",
+      "line": 4,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/ttest1.py",
+      "line": 18,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/ttest2.py",
+      "line": 27,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/ttest1b.py",
+      "line": 18,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/ttest2b.py",
+      "line": 27,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/\u53d7\u9650\u6ce2\u8332\u66fc\u6a5f/iorbm.py",
+      "line": 8,
+      "column": 23,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/03-scipy/anovaTest1.py",
+      "line": 11,
+      "column": 20,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/aiTest.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/aiTest2.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/scatter1.py",
+      "line": 4,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/ttest1b.py",
+      "line": 18,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/ttest2b.py",
+      "line": 27,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/07-\u96fb\u8166\u4e0b\u68cb/_more/01-chess/gomoku4.py",
+      "line": 58,
+      "column": 47,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: expected an indented block after 'if' statement on line 42",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/08-\u8a9e\u8a00\u4ea4\u8ac7/01-\u50b3\u7d71NLP/01-\u8a9e\u8a00\u8655\u7406/04-\u6b04\u4f4d\u586b\u5145/slot_notfinished.py",
+      "line": 44,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/08-\u8a9e\u8a00\u4ea4\u8ac7/02-\u73fe\u4ee3LLM/03-LLM\u6539\u826f/04a-\u5fae\u8abf/loratrain1.py",
+      "line": 15,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/08-\u8a9e\u8a00\u4ea4\u8ac7/02-\u73fe\u4ee3LLM/C1-mychat/system2/system2/scheduler/background/memgpt/memgpt1.py",
+      "line": 1,
+      "column": 5,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: '(' was never closed",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "03-\u6a5f\u5668\u5b78\u7fd2/_book/02-\u6df1\u5ea6\u5b78\u7fd2\u66f8/_codeMlxBook/03.4/autoDiff2.py",
+      "line": 5,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: expected an indented block after 'case' statement on line 14",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/05-\u7a0b\u5f0f\u8a9e\u8a00/code/10-py0\u8a9e\u8a00/version/v1.1/genpy.py",
+      "line": 15,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/05-\u7a0b\u5f0f\u8a9e\u8a00/code/10-py0\u8a9e\u8a00/version/v1.3half/parser0.py",
+      "line": 285,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/06-\u8edf\u9ad4\u5de5\u7a0b/code/python/publish/ai6/solution_scheduling.py",
+      "line": 7,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/08-\u61c9\u7528\u7a0b\u5f0f/code/05-chatgpt/_chat/01-chess/gomoku4.py",
+      "line": 58,
+      "column": 47,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/00e-python/10-gui/kivy/3d/objloader.py",
+      "line": 77,
+      "column": 24,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/00e-python/98-exercise/poly1.py",
+      "line": 19,
+      "column": 12,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/00e-python/publish/ai6/solution_scheduling.py",
+      "line": 7,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/10-gui/kivy/3d/objloader.py",
+      "line": 77,
+      "column": 24,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/98-exercise/poly1.py",
+      "line": 19,
+      "column": 12,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/publish/ai6/solution_scheduling.py",
+      "line": 7,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/_bak/04a-\u8a08\u7b97\u7406\u8ad6/code/03-\u4e18\u5947\u7684\u51fd\u6578/code/\u03bb.py",
+      "line": 4,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/_bak/04b-LambdaCalculus/08/BCKW.py",
+      "line": 10,
+      "column": 17,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/_bak/04b-LambdaCalculus/09/\u03bb.py",
+      "line": 5,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/_bak/04b-LambdaCalculus/_code/\u03bb.py",
+      "line": 5,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "_more/_bak/04b-LambdaCalculus/_more/\u03bb.py",
+      "line": 4,
+      "column": 11,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "ccicconetti/serverless_quantum_sim",
+   "sha": "d6cde2e70efca73e36d82719640afcb94edc2397",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 21,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL202": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/function/vqe.py",
+      "line": 165,
+      "column": 39,
+      "endLine": 165,
+      "endColumn": 46
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/function/vqe.py",
+      "line": 194,
+      "column": 35,
+      "endLine": 194,
+      "endColumn": 42
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/ibm_job_estimate.py",
+      "line": 48,
+      "column": 27,
+      "endLine": 48,
+      "endColumn": 34
+     }
+    }
+   ]
+  },
+  {
+   "repo": "CERN-QTI/QuASK",
+   "sha": "3ac5bef5aff678e2239af4207ed9e89b8a0668b9",
+   "stratum": "A_statevector_sampler",
+   "py_files": 70,
+   "notebooks": 7,
+   "exit": 1,
+   "counts": {
+    "QXL202": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/quask/core_implementation/qiskit_kernel.py",
+      "line": 100,
+      "column": 39,
+      "endLine": 100,
+      "endColumn": 51
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/quask/core_implementation/qiskit_kernel.py",
+      "line": 107,
+      "column": 41,
+      "endLine": 107,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "chaoshune/1131127",
+   "sha": "c49ddada76957a274bd8a23745d4ca8cb51754ec",
+   "stratum": "F_quasi_dists",
+   "py_files": 1,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "christopher-altman/ibmq-weakmeasurement-entanglement",
+   "sha": "d9842b531ea7e61541d3b2064aa0894db7f7e6fc",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 19,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL201": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "scripts/run_ibm_matrix.py",
+      "line": 114,
+      "column": 45,
+      "endLine": 114,
+      "endColumn": 58
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/ibm_backend.py",
+      "line": 21,
+      "column": 45,
+      "endLine": 21,
+      "endColumn": 58
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/ibm_backend.py",
+      "line": 22,
+      "column": 41,
+      "endLine": 22,
+      "endColumn": 54
+     }
+    }
+   ]
+  },
+  {
+   "repo": "clinder2/Quantum-State-Preparation",
+   "sha": "3e7b8b0b2adaabbf21ae7a3570f4ea3bb486057c",
+   "stratum": "A_statevector_sampler",
+   "py_files": 34,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "cluna80/AMD-Hackathon",
+   "sha": "9fbfd16e9b676be6ce1a62bd5e424dbf85bfc5b5",
+   "stratum": "F_quasi_dists",
+   "py_files": 355,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 6,
+    "QXL102": 2,
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 1073: invalid continuation byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "compound_ranking_analysis.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 2411: invalid continuation byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "convert_100.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 976: invalid continuation byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "docking_example.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "first_quantum_job.py",
+      "line": 47,
+      "column": 38,
+      "endLine": 47,
+      "endColumn": 56
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "first_quantum_job.py",
+      "line": 50,
+      "column": 10,
+      "endLine": 50,
+      "endColumn": 28
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 1149: invalid continuation byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "novelty_check.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_search.py",
+      "line": 74,
+      "column": 56,
+      "endLine": 74,
+      "endColumn": 69
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 193: invalid continuation byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test_docking.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 1185: invalid continuation byte",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "visualize_analogs.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "cnhz95/QRNG",
+   "sha": "ce76158ace4437a7ffce8731f2b40594e327299e",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qrng.py",
+      "line": 7,
+      "column": 40,
+      "endLine": 7,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "coding-xyz/huayi-vqe",
+   "sha": "1ef7e573c71b2784aa0b6c21e2fcc564fb04faa8",
+   "stratum": "F_quasi_dists",
+   "py_files": 4,
+   "notebooks": 2,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "cogu92/qvoting",
+   "sha": "2df0a5377370874eb952713c2acf48a751aa91b6",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 30,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ColibrITD-SAS/mpqp",
+   "sha": "f974bca564a1601aa767a534b840055c6d5a1516",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 156,
+   "notebooks": 10,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "cometta/quantum_search_ansatz",
+   "sha": "361c5579ce26c96fa781fb8bb26fa533554770ac",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "comp-physics/Quantum-HRF-Tomography",
+   "sha": "fc1788d0c5658f3ef400f3a29d621c39d1d35742",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 9,
+   "notebooks": 7,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test.ipynb",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "corvvs/q",
+   "sha": "fbec98d8288a9c8ea90bc46b140cfc9d33a43c31",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 4,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "Token.py",
+      "line": 6,
+      "column": 41,
+      "endLine": 6,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "lt/Q.py",
+      "line": 188,
+      "column": 42,
+      "endLine": 188,
+      "endColumn": 55
+     }
+    }
+   ]
+  },
+  {
+   "repo": "CosmoUniverso/quantum_lab",
+   "sha": "a47f944b66930028a5f21472b0701b60a884d9ff",
+   "stratum": "C_statevector_estimator",
+   "py_files": 10,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ctminh/quantumcompfs",
+   "sha": "51904af8e3a3d72ad690d5d5cd1f20af608e0470",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 26,
+   "notebooks": 5,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "cumbof/hdlib",
+   "sha": "78fe8a3839e6c22ee7767c7fafb32e125acd3709",
+   "stratum": "A_statevector_sampler",
+   "py_files": 19,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Cyptopimpinainteazy/bumbott",
+   "sha": "1a379b3e449476f9d790a19f94d4c80a22d245f6",
+   "stratum": "F_quasi_dists",
+   "py_files": 707,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1,
+    "QXL201": 3,
+    "QXL202": 3,
+    "QXL102": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebook.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 4,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_orchestrator.py",
+      "line": 81,
+      "column": 62,
+      "endLine": 81,
+      "endColumn": 75
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_orchestrator.py",
+      "line": 157,
+      "column": 47,
+      "endLine": 157,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_orchestrator.py",
+      "line": 159,
+      "column": 47,
+      "endLine": 159,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_trader.py",
+      "line": 17,
+      "column": 44,
+      "endLine": 17,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL202",
+     "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_trader.py",
+      "line": 52,
+      "column": 31,
+      "endLine": 52,
+      "endColumn": 38
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_trader.py",
+      "line": 68,
+      "column": 27,
+      "endLine": 68,
+      "endColumn": 45
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "verify_connections.py",
+      "line": 36,
+      "column": 52,
+      "endLine": 36,
+      "endColumn": 65
+     }
+    }
+   ]
+  },
+  {
+   "repo": "DamianKobylinski/HackYeah2023_KNML_TEAM_2_QUANTUM_ART",
+   "sha": "60363bf942bf4e20d9583cd8246c167925134c2d",
+   "stratum": "F_quasi_dists",
+   "py_files": 5,
+   "notebooks": 2,
+   "exit": 1,
+   "counts": {
+    "QXL102": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/quantum_made_easy.py",
+      "line": 54,
+      "column": 17,
+      "endLine": 54,
+      "endColumn": 35
+     }
+    }
+   ]
+  },
+  {
+   "repo": "danexistsmaybe/qSearch",
+   "sha": "82d5f8f76c287d4af951b788a3367f47be709979",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 2,
+   "notebooks": 3,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "Testing/test.py",
+      "line": 32,
+      "column": 40,
+      "endLine": 32,
+      "endColumn": 53
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "demo1.ipynb",
+      "cellIndex": 5,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 40,
+      "endLine": 2,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "danisotosol/qobs",
+   "sha": "f7f10b95de01c43888822a7b4f9a8a85c64b35b8",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 9,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "DEQSE-Project/deqse-vscode-extension",
+   "sha": "a8c8e0ff7d9b9603849871f59feeae3508fac870",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "derekrex333/Q-vs.-Qiskit-eficiencia-en-la-generaci-n-del-Estado-de-Bell",
+   "sha": "56ae2198424e6c5692224e4a28c9fb631800478a",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "dhruvin771/Quantum-Circuit",
+   "sha": "28739aa3480b41c95d81cd95bbed58eceb702a7e",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 1,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "dipankardas011/Quantum-Coding",
+   "sha": "5c7eb587201949c61deb4e4c72e97eb670eb86d4",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 5,
+   "notebooks": 27,
+   "exit": 1,
+   "counts": {
+    "QXL201": 8
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "aer-package.ipynb",
+      "cellIndex": 3,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 41,
+      "endLine": 6,
+      "endColumn": 54,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "error-mitigation.ipynb",
+      "cellIndex": 38,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 10,
+      "column": 40,
+      "endLine": 10,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ibmq/__init__.py",
+      "line": 14,
+      "column": 45,
+      "endLine": 14,
+      "endColumn": 58
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "noise-models.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 9,
+      "column": 40,
+      "endLine": 9,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "pulse-schedules.ipynb",
+      "cellIndex": 26,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 40,
+      "endLine": 6,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qiskit_runtime.py",
+      "line": 11,
+      "column": 41,
+      "endLine": 11,
+      "endColumn": 54
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "run_real.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 5,
+      "column": 40,
+      "endLine": 5,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "transpiler_circuit_optimization.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 7,
+      "column": 40,
+      "endLine": 7,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "dnkrow/octo-quantum-lab",
+   "sha": "4393f6c7a05e5d79af0354307fa85a9df1d82753",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 17,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "dohyun06/qiskit",
+   "sha": "b997a7d97decec93e458806577563ed446e3112e",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 5,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Dpbm/ghz",
+   "sha": "495fd53bb053873dbfa5325954c817859247e304",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 3,
+   "notebooks": 6,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "backend.py",
+      "line": 8,
+      "column": 43,
+      "endLine": 8,
+      "endColumn": 56
+     }
+    }
+   ]
+  },
+  {
+   "repo": "dvirmor/quantum_algo_exercises",
+   "sha": "e76fcabf7b640f98c88cc70827747b8962c44a96",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/HWs/HW1.py",
+      "line": 25,
+      "column": 44,
+      "endLine": 25,
+      "endColumn": 57
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "src/HWs/HW1.py",
+      "line": 44,
+      "column": 17,
+      "endLine": 44,
+      "endColumn": 30
+     }
+    }
+   ]
+  },
+  {
+   "repo": "eclipse-qrisp/Qrisp",
+   "sha": "29c397a3b7f35c31f7cfa939140cfd1a204a9ff0",
+   "stratum": "F_quasi_dists",
+   "py_files": 641,
+   "notebooks": 23,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "src/qrisp/examples/jasp_demo.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 3,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "eKidenge/IBM_Quantum_Experiment",
+   "sha": "d6b421a45d2e0957f2e388750eaf5b46407f7b19",
+   "stratum": "F_quasi_dists",
+   "py_files": 12,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL102": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "experiments/fixed_circuit.py",
+      "line": 36,
+      "column": 14,
+      "endLine": 36,
+      "endColumn": 32
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "experiments/simple_test.py",
+      "line": 24,
+      "column": 27,
+      "endLine": 24,
+      "endColumn": 45
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "first_circuit.py",
+      "line": 43,
+      "column": 14,
+      "endLine": 43,
+      "endColumn": 32
+     }
+    }
+   ]
+  },
+  {
+   "repo": "ellibrodepython/50-ejemplos-python",
+   "sha": "7f578d5b6eed7a8c5d32b6902eaf158d84b09f15",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 50,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ejemplos/05_computacion_cuantica.py",
+      "line": 21,
+      "column": 40,
+      "endLine": 21,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "ellypeop/Dissertation",
+   "sha": "1a9e8559a8fb9dc9566b8df26d93f33b535230d7",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 1,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL201": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "Code/vqe.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 5,
+      "column": 43,
+      "endLine": 5,
+      "endColumn": 56,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "Code/vqe.ipynb",
+      "cellIndex": 3,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 40,
+      "endLine": 6,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "Code/vqe.py",
+      "line": 21,
+      "column": 40,
+      "endLine": 21,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "emiliantolo/ensembles-quantum-classifiers",
+   "sha": "912ddd6bb84afb23d1adf498f94ff52547fc088d",
+   "stratum": "E_ibm_quantum_channel",
+   "py_files": 14,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "simulation/backend.py",
+      "line": 19,
+      "column": 48,
+      "endLine": 19,
+      "endColumn": 61
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "simulation/save_account.py",
+      "line": 8,
+      "column": 43,
+      "endLine": 8,
+      "endColumn": 56
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "simulation/save_account.py",
+      "line": 9,
+      "column": 40,
+      "endLine": 9,
+      "endColumn": 53
+     }
+    }
+   ]
+  },
+  {
+   "repo": "emketterer/quantum",
+   "sha": "fe3910747175becdcad653b66735e8fe6eb32391",
+   "stratum": "D_runtime_estimatorv2",
+   "py_files": 10,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "eulambda/qi-playground",
+   "sha": "e5547368349bea16d7a4b28c04273d5db9994359",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 4,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "EV2872/quantum-algorithms",
+   "sha": "c9e38485b3f97d67bd77baa7ab620c1cd07ee79e",
+   "stratum": "A_local_v2",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Even-Explizit/Kvante",
+   "sha": "17b8ea3ce8d4ccd685483eade8af7c3655724005",
+   "stratum": "B_runtime_v2",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "EXPmaster/DAEM",
+   "sha": "c3e36a8fb1cdd5c33331c6c7ea5f5450a967983e",
+   "stratum": "F_quasi_dists",
+   "py_files": 40,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "FedericoQuartieri/ETHQuantumHackaton",
+   "sha": "d1d5f7428cf42d8d0341f8352028d3407a14f4d7",
+   "stratum": "B_runtime_v2",
+   "py_files": 8,
+   "notebooks": 2,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "fishan/Veector",
+   "sha": "56ed17fb3ba31620b0e2ecbe2b1adfbd4327569f",
+   "stratum": "F_quasi_dists",
+   "py_files": 32,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "!refs/buffer.py",
+      "line": 44,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "!refs/google_colab_model_to_blocks.py",
+      "line": 11,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "frankharkins/quPython",
+   "sha": "3d34a6978b0aea9f6c3789ca87e80331d2a8731e",
+   "stratum": "F_quasi_dists",
+   "py_files": 11,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Galyn26/quantum-cockpit",
+   "sha": "e188e0ee41ee5e1a24e4fc59e7090324657d403e",
+   "stratum": "A_statevector_sampler",
+   "py_files": 11,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "GBisi/quantum-executor",
+   "sha": "cedf111d052f4c214e37cccb67cf3f5a0ee46de6",
+   "stratum": "B_runtime_v2",
+   "py_files": 16,
+   "notebooks": 4,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Gokulraj0906/GQNN",
+   "sha": "9f18d2fa3a0aebdf9bb22abfe594b9e2dde2cf1e",
+   "stratum": "A_local_v2",
+   "py_files": 23,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "gtroina57/QISKIT",
+   "sha": "24a2fe276224dc1258f311484a7f80f20e79a608",
+   "stratum": "A_statevector_sampler",
+   "py_files": 15,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "HAMEEMM/qiskit",
+   "sha": "91a612319281fcb887252cd63edcace8c66b874b",
+   "stratum": "A_local_v2",
+   "py_files": 1259,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL104": 3,
+    "QXL103": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_circuit_load_from_qpy.py",
+      "line": 325,
+      "column": 9,
+      "endLine": 325,
+      "endColumn": 29
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: inverse() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_instructions.py",
+      "line": 276,
+      "column": 9,
+      "endLine": 276,
+      "endColumn": 21
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_sampler_v2.py",
+      "line": 1400,
+      "column": 22,
+      "endLine": 1400,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_statevector_sampler.py",
+      "line": 309,
+      "column": 21,
+      "endLine": 309,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_statevector_sampler.py",
+      "line": 633,
+      "column": 22,
+      "endLine": 633,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_sabre_swap.py",
+      "line": 228,
+      "column": 9,
+      "endLine": 228,
+      "endColumn": 19
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Herutriana44/qcnn-amr",
+   "sha": "bb81e753fa2825a9070658ebed4e094592ad7ff7",
+   "stratum": "C_estimator_v2",
+   "py_files": 7,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "hmillerbakewell/partitioned-quantum-cellular-automata",
+   "sha": "fd7b3fb2ed0394802a5b6e74f0b699269f6c454d",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 13,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "huyenemma/qt-native-gate-optimization",
+   "sha": "3762f8044480958f7849c2b5acedd2a206cacb9c",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 18,
+   "notebooks": 5,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: '(' was never closed",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "recycle.py",
+      "line": 92,
+      "column": 17,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "IDONTEVENHAVEANAME/QasmXray",
+   "sha": "aa43d20861ecae8a5b53cc85855af75c8cd0265f",
+   "stratum": "A_statevector_sampler",
+   "py_files": 2,
+   "notebooks": 2,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "iitis/PyQBench",
+   "sha": "a41e3e5b7e878013947ca9fd34be25a327c431e0",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 53,
+   "notebooks": 3,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "qbench/common_models.py",
+      "line": 151,
+      "column": 21,
+      "endLine": 151,
+      "endColumn": 34
+     }
+    }
+   ]
+  },
+  {
+   "repo": "ioankolot/Ascending_CVaR",
+   "sha": "e431d06c90a173d3eef758400c5fd2102220e484",
+   "stratum": "A_statevector_sampler",
+   "py_files": 3,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "jackhmorgan/Quantum_Game_Theory",
+   "sha": "0741c125a3454b02c64877120e5c08d7c3d89cdd",
+   "stratum": "B_runtime_samplerv2",
+   "py_files": 8,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "jakobmina/websteria",
+   "sha": "b4afdc12d1b3ec4981aa41bccdbad26c2ee5f00d",
+   "stratum": "A_statevector_sampler",
+   "py_files": 47,
+   "notebooks": 3,
+   "exit": 1,
+   "counts": {
+    "QXL000": 5
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: closing parenthesis ')' does not match opening parenthesis '['",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "attention.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 178,
+      "column": 44,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid decimal literal",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/attention.ipynb",
+      "cellIndex": 2,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 39,
+      "column": 17,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "souldierAI/PRN/policy.py",
+      "line": 3,
+      "column": 28,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "souldierAI/logic/evaluator.py",
+      "line": 10,
+      "column": 8,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "static/ibm-q/open/main/instance.py",
+      "line": 1,
+      "column": 9,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "JanusQ/Choco-Q",
+   "sha": "542dd50d6301f2f09fc394bb620a0e8d0e0a98eb",
+   "stratum": "B_runtime_v2",
+   "py_files": 74,
+   "notebooks": 3,
+   "exit": 1,
+   "counts": {
+    "QXL201": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "chocoq/solvers/qiskit/provider/cloud_provider/cloud_service.py",
+      "line": 20,
+      "column": 52,
+      "endLine": 20,
+      "endColumn": 65
+     }
+    }
+   ]
+  },
+  {
+   "repo": "jeffybrailin/Quantum-VQE-Project-Hybrid-Quantum-Classical-Materials-Simulation",
+   "sha": "c18f9a66a5144a03698128c137850079e0789258",
+   "stratum": "C_statevector_estimator",
+   "py_files": 8,
+   "notebooks": 3,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "JennaE23/ELEN4012_Investigation_2025_25G19",
+   "sha": "03687ed403cd6e64d17b8ac74e8122445506c67d",
+   "stratum": "B_runtime_v2",
+   "py_files": 26,
+   "notebooks": 60,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Jij-Inc/Qamomile",
+   "sha": "346c7947c0f04e62a0184cd88e89685763d7978a",
+   "stratum": "C_estimator_v2",
+   "py_files": 586,
+   "notebooks": 62,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "johngeorgea157-stack/quantum-portfolio-opt",
+   "sha": "8eccf34ace617c183bfd9d28110b5a7b21831b9a",
+   "stratum": "C_statevector_estimator",
+   "py_files": 18,
+   "notebooks": 5,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ketayon/Quantum-Brain-Tumor-Detection",
+   "sha": "ab3342facaefb735f5a1dc8e46f0d8216d79d29a",
+   "stratum": "A_statevector_sampler",
+   "py_files": 20,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL201": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_classification/quantum_async_jobs.py",
+      "line": 16,
+      "column": 13,
+      "endLine": 16,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "quantum_classification/quantum_estimation.py",
+      "line": 17,
+      "column": 13,
+      "endLine": 17,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "workflow/workflow_manager.py",
+      "line": 28,
+      "column": 13,
+      "endLine": 28,
+      "endColumn": 26
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Kolo-Naukowe-Axion/QC1_Quantum_Banknote_Classifier_on_ODRA_5",
+   "sha": "45972fdfb7d18c0066100ad3bd5332a84efdebfd",
+   "stratum": "C_estimator_v2",
+   "py_files": 41,
+   "notebooks": 38,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "KOSASIH/autonomous-swarm-negotiation-engine",
+   "sha": "4c5f7e7f062465bea738b5435a48a1001d4eae1b",
+   "stratum": "A_local_v2",
+   "py_files": 43,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "LucaGandolfi77/Qiskit-QuantumComputing",
+   "sha": "9a8d3934f592f7b26a97f7d11f47778e9b43ad79",
+   "stratum": "A_local_v2",
+   "py_files": 200,
+   "notebooks": 379,
+   "exit": 1,
+   "counts": {
+    "QXL000": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: source code string cannot contain null bytes",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "1603/admm_solver.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "QISKIT/Qiskit85.ipynb",
+      "cellIndex": 11,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "backup_QISKIT/Qiskit85.ipynb",
+      "cellIndex": 11,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "MagePro310/Quantum_Simulation_Scheduling_ver1",
+   "sha": "feb74b7c39675c8c04ead96b38148fa8758fa029",
+   "stratum": "B_runtime_v2",
+   "py_files": 105,
+   "notebooks": 12,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "maxg56/Ftl_quantum",
+   "sha": "99d1badc46bc46ebbb0908c20a43803cfa931245",
+   "stratum": "A_statevector_sampler",
+   "py_files": 5,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "minnie1012/qc-portfolio-optimization",
+   "sha": "0ebd5d14419ded716b9258b6e8f94f31b1f24890",
+   "stratum": "A_statevector_sampler",
+   "py_files": 50,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL000": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "results/classical-algos/medium_0040.py",
+      "line": 1,
+      "column": 2,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid character '\u25c6' (U+25C6)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "results/classical-algos/small_0024.py",
+      "line": 1,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unexpected indent",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "results/classical-algos/tiny_0000.py",
+      "line": 1,
+      "column": 2,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "mit-han-lab/torchquantum",
+   "sha": "8dc3255c51477dd4c28892049571df032c77e2ff",
+   "stratum": "C_statevector_estimator",
+   "py_files": 229,
+   "notebooks": 23,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "mrossinek/demo-qiskit-c-api",
+   "sha": "9e82ca0a3c2c0d8e22805abfd3ef58f9f8c000f2",
+   "stratum": "C_statevector_estimator",
+   "py_files": 2,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "pavlyhalim/samaQ",
+   "sha": "91b29599fe26aecbc859c700cbe4ac67de2f0196",
+   "stratum": "C_statevector_estimator",
+   "py_files": 8,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "pfaustLouKy/cse696",
+   "sha": "738c37f10c8e9199180c3a5f2eaf11595b3f2ab8",
+   "stratum": "A_statevector_sampler",
+   "py_files": 13,
+   "notebooks": 43,
+   "exit": 1,
+   "counts": {
+    "QXL000": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "MLtutorial.ipynb",
+      "cellIndex": 28,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 3,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "MLtutorial.ipynb",
+      "cellIndex": 29,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "phase_estimation.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 3,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "PoCInnovation/FastQuantum",
+   "sha": "e5c9c64e7f1fa4ef6ae614c0fae47f46f3a771f7",
+   "stratum": "C_estimator_v2",
+   "py_files": 32,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "ProvideQ/toolbox-server",
+   "sha": "92d06b0792c7b19646f7320a24c350fd544519df",
+   "stratum": "A_statevector_sampler",
+   "py_files": 43,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "qiskit-community/povm-toolbox",
+   "sha": "745f146ac25633313182f161e115b6903d59fa2d",
+   "stratum": "A_statevector_sampler",
+   "py_files": 66,
+   "notebooks": 11,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Qiskit/qiskit",
+   "sha": "dded8c800684e587e449287be9b14dd8621fe7f5",
+   "stratum": "C_estimator_v2",
+   "py_files": 1151,
+   "notebooks": 1,
+   "exit": 1,
+   "counts": {
+    "QXL104": 3,
+    "QXL103": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_circuit_load_from_qpy.py",
+      "line": 331,
+      "column": 9,
+      "endLine": 331,
+      "endColumn": 29
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: inverse() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_instructions.py",
+      "line": 265,
+      "column": 9,
+      "endLine": 265,
+      "endColumn": 21
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_sampler_v2.py",
+      "line": 803,
+      "column": 22,
+      "endLine": 803,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_statevector_sampler.py",
+      "line": 307,
+      "column": 21,
+      "endLine": 307,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL103",
+     "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
+     "severity": "warning",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_statevector_sampler.py",
+      "line": 629,
+      "column": 22,
+      "endLine": 629,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_sabre_swap.py",
+      "line": 292,
+      "column": 9,
+      "endLine": 292,
+      "endColumn": 19
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Qiskit/qiskit-serverless",
+   "sha": "159b87303c15640b6f422d7fc11d87d82e61c071",
+   "stratum": "A_statevector_sampler",
+   "py_files": 512,
+   "notebooks": 6,
+   "exit": 1,
+   "counts": {
+    "QXL000": 3
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: unterminated f-string literal (detected at line 2)",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "docs/function_features/basic/02_arguments_and_results.ipynb",
+      "cellIndex": 9,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 7,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "gateway/templates/fleet_custom_job_wrapper.py",
+      "line": 1,
+      "column": 2,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "gateway/templates/fleet_provider_job_wrapper.py",
+      "line": 1,
+      "column": 2,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "QMCPACK/stalk",
+   "sha": "72a9c90d5e0162ee17840545f767f858e73eebc0",
+   "stratum": "C_statevector_estimator",
+   "py_files": 195,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 2
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "examples/nexus/pyscf_pes.py",
+      "line": 4,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "examples/nexus/pyscf_relax.py",
+      "line": 3,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Qwenty228/Solving_QUBOs",
+   "sha": "f92fba63844651e191d6318e49a807241c478afc",
+   "stratum": "A_local_v2",
+   "py_files": 7,
+   "notebooks": 7,
+   "exit": 1,
+   "counts": {
+    "QXL201": 2,
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "Maxcut/quantum-approximate-optimization-algorithm.ipynb",
+      "cellIndex": 5,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 40,
+      "endLine": 6,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "TSP/local.ipynb",
+      "cellIndex": 7,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 19,
+      "column": 9,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL201",
+     "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "TSP/qpu.ipynb",
+      "cellIndex": 8,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 6,
+      "column": 40,
+      "endLine": 6,
+      "endColumn": 53,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "RahatulAshakin/ibd-quantum-esm",
+   "sha": "b509870fe4ff3a3a8a1fd0ae25d50e24537644a2",
+   "stratum": "A_local_v2",
+   "py_files": 22,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "Rithvik-Rajesh/classical-quantum-sketch-ml",
+   "sha": "db15e5471618c92192c4c3214c53d50fd82b38fa",
+   "stratum": "A_local_v2",
+   "py_files": 10,
+   "notebooks": 4,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "runtsang/Q-Bridge",
+   "sha": "3eaccadabbd593982d89216c08ff4c30fcd2f826",
+   "stratum": "A_statevector_sampler",
+   "py_files": 13859,
+   "notebooks": 2,
+   "exit": 1,
+   "counts": {
+    "QXL102": 2,
+    "QXL104": 37,
+    "QXL101": 7
+   },
+   "findings": [
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/3600.py",
+      "line": 323,
+      "column": 30,
+      "endLine": 323,
+      "endColumn": 48
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4001.py",
+      "line": 90,
+      "column": 9,
+      "endLine": 90,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4001.py",
+      "line": 91,
+      "column": 9,
+      "endLine": 91,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4001.py",
+      "line": 92,
+      "column": 9,
+      "endLine": 92,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4001.py",
+      "line": 93,
+      "column": 9,
+      "endLine": 93,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4001.py",
+      "line": 94,
+      "column": 9,
+      "endLine": 94,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4001.py",
+      "line": 95,
+      "column": 9,
+      "endLine": 95,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/1921.py",
+      "line": 52,
+      "column": 5,
+      "endLine": 52,
+      "endColumn": 24
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2624.py",
+      "line": 130,
+      "column": 5,
+      "endLine": 130,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2727.py",
+      "line": 74,
+      "column": 5,
+      "endLine": 74,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2731.py",
+      "line": 75,
+      "column": 21,
+      "endLine": 75,
+      "endColumn": 41
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2731.py",
+      "line": 122,
+      "column": 22,
+      "endLine": 122,
+      "endColumn": 39
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3510.py",
+      "line": 72,
+      "column": 5,
+      "endLine": 72,
+      "endColumn": 22
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3557.py",
+      "line": 65,
+      "column": 9,
+      "endLine": 65,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3557.py",
+      "line": 69,
+      "column": 9,
+      "endLine": 69,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3557.py",
+      "line": 96,
+      "column": 9,
+      "endLine": 96,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3600.py",
+      "line": 138,
+      "column": 25,
+      "endLine": 138,
+      "endColumn": 43
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3794.py",
+      "line": 25,
+      "column": 5,
+      "endLine": 25,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3930.py",
+      "line": 71,
+      "column": 5,
+      "endLine": 71,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 66,
+      "column": 5,
+      "endLine": 66,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 70,
+      "column": 5,
+      "endLine": 70,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 71,
+      "column": 5,
+      "endLine": 71,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 72,
+      "column": 5,
+      "endLine": 72,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 73,
+      "column": 5,
+      "endLine": 73,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 74,
+      "column": 5,
+      "endLine": 74,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4001.py",
+      "line": 75,
+      "column": 5,
+      "endLine": 75,
+      "endColumn": 19
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4056.py",
+      "line": 103,
+      "column": 5,
+      "endLine": 103,
+      "endColumn": 26
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4614.py",
+      "line": 75,
+      "column": 13,
+      "endLine": 75,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4614.py",
+      "line": 79,
+      "column": 13,
+      "endLine": 79,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4614.py",
+      "line": 102,
+      "column": 13,
+      "endLine": 102,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4693.py",
+      "line": 93,
+      "column": 18,
+      "endLine": 93,
+      "endColumn": 50
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4693.py",
+      "line": 103,
+      "column": 18,
+      "endLine": 103,
+      "endColumn": 50
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4693.py",
+      "line": 132,
+      "column": 33,
+      "endLine": 132,
+      "endColumn": 67
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4841.py",
+      "line": 92,
+      "column": 33,
+      "endLine": 92,
+      "endColumn": 84
+     }
+    },
+    {
+     "rule": "QXL101",
+     "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5443.py",
+      "line": 95,
+      "column": 18,
+      "endLine": 95,
+      "endColumn": 35
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5494.py",
+      "line": 89,
+      "column": 13,
+      "endLine": 89,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5494.py",
+      "line": 93,
+      "column": 13,
+      "endLine": 93,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5494.py",
+      "line": 114,
+      "column": 13,
+      "endLine": 114,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5510.py",
+      "line": 82,
+      "column": 13,
+      "endLine": 82,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5510.py",
+      "line": 86,
+      "column": 13,
+      "endLine": 86,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5510.py",
+      "line": 109,
+      "column": 13,
+      "endLine": 109,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5514.py",
+      "line": 73,
+      "column": 13,
+      "endLine": 73,
+      "endColumn": 36
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5514.py",
+      "line": 82,
+      "column": 13,
+      "endLine": 82,
+      "endColumn": 36
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5515.py",
+      "line": 74,
+      "column": 13,
+      "endLine": 74,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5515.py",
+      "line": 75,
+      "column": 13,
+      "endLine": 75,
+      "endColumn": 23
+     }
+    },
+    {
+     "rule": "QXL104",
+     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5902.py",
+      "line": 106,
+      "column": 5,
+      "endLine": 106,
+      "endColumn": 26
+     }
+    }
+   ]
+  },
+  {
+   "repo": "Scirelgar/FSM-QAOA",
+   "sha": "b4d11df462b1be0bb14dc99505d129395e0b94e5",
+   "stratum": "C_statevector_estimator",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "SRI-International/QC-App-Oriented-Benchmarks",
+   "sha": "feb22a900d9d94d40e81bc1d25e149bd8f3cbc18",
+   "stratum": "C_statevector_estimator",
+   "py_files": 200,
+   "notebooks": 55,
+   "exit": 1,
+   "counts": {
+    "QXL000": 1
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "notebook",
+      "path": "qedcbench/quantum-volume-qiskit.ipynb",
+      "cellIndex": 4,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 40,
+      "column": 48,
+      "endLine": null,
+      "endColumn": null,
+      "physicalLine": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "TharrmashasthaPV/Maximum-Independent-Set-using-VQA",
+   "sha": "7e548d3857f8de0d4b4b593ecfb2f79b732cebfc",
+   "stratum": "C_statevector_estimator",
+   "py_files": 11,
+   "notebooks": 8,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "timowhite88/Farnsworth",
+   "sha": "1d51c1a6b7d6cc0a009a114a20f6205fce5885b3",
+   "stratum": "A_statevector_sampler",
+   "py_files": 723,
+   "notebooks": 0,
+   "exit": 1,
+   "counts": {
+    "QXL000": 10
+   },
+   "findings": [
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_112719_32_20260202_112719/kimi_ui.py",
+      "line": 77,
+      "column": 7,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid decimal literal",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_112719_32_20260202_112719/phi_ui.py",
+      "line": 123,
+      "column": 13,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_120933_34_20260202_120933/deepseek_farnsworth_ui_notifications.py",
+      "line": 76,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_120933_34_20260202_120933/kimi_farnsworth_ui_notifications.py",
+      "line": 69,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_120933_34_20260202_120933/phi_farnsworth_ui_notifications.py",
+      "line": 71,
+      "column": 10,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid decimal literal",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_141534_45_20260202_141534/deepseek_farnsworth_web_ui_features.py",
+      "line": 35,
+      "column": 38,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_141534_45_20260202_141534/kimi_ui_features.py",
+      "line": 79,
+      "column": 1,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid decimal literal",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_141534_45_20260202_141534/phi_farnsworth_web_templates_community_highlights.html.jinja2.py",
+      "line": 14,
+      "column": 30,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: invalid syntax",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_204650_8_20260204_204652/deepseek_farnsworth_ui_greeting.py",
+      "line": 13,
+      "column": 14,
+      "endLine": null,
+      "endColumn": null
+     }
+    },
+    {
+     "rule": "QXL000",
+     "message": "cannot parse: var-keyword argument cannot have default value",
+     "severity": "error",
+     "location": {
+      "kind": "source",
+      "path": "staging_review/auto_231243_1_20260131_231243/deepseek_farnsworthDynamicUI.py",
+      "line": 26,
+      "column": 36,
+      "endLine": null,
+      "endColumn": null
+     }
+    }
+   ]
+  },
+  {
+   "repo": "TrevorD2/RHS-Coding-Club-2024-25",
+   "sha": "062a18b8eca27e5e70b1b5e45153b3b9be5bc4a0",
+   "stratum": "A_statevector_sampler",
+   "py_files": 4,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "unitarylab/quantum-skills",
+   "sha": "ff6ae873e68723fc68ed5a8fbcc1e3855fa7b572",
+   "stratum": "C_statevector_estimator",
+   "py_files": 52,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "UTokyo-ICEPP/aqcel",
+   "sha": "6f7ff5a9dd5de7106da5d33b6a4cd0819fbd5273",
+   "stratum": "A_statevector_sampler",
+   "py_files": 16,
+   "notebooks": 1,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  },
+  {
+   "repo": "VedantMahadik-qc/qaoa-maxcut",
+   "sha": "fa035ddf5c9da5ab1b1810656e6f033fd0a552a0",
+   "stratum": "C_statevector_estimator",
+   "py_files": 6,
+   "notebooks": 0,
+   "exit": 0,
+   "counts": {},
+   "findings": []
+  }
+ ]
+}

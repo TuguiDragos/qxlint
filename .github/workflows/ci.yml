@@ -1,0 +1,206 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: py${{ matrix.python }} ${{ matrix.qiskit }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13", "3.14"]
+        qiskit: [pinned]
+        include:
+          # Engine A must work with no Qiskit installed at all. This is the job
+          # that proves it, not a comment in the README.
+          - python: "3.13"
+            qiskit: none
+          # The exact floor declared in pyproject.toml, so the claim stays
+          # a regression test once the latest release moves past it.
+          - python: "3.11"
+            qiskit: minimum
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v9.0.0
+        with:
+          enable-cache: true
+
+      - name: Install (no Qiskit)
+        if: matrix.qiskit == 'none'
+        run: uv sync
+
+      - name: Install (pinned Qiskit)
+        if: matrix.qiskit == 'pinned'
+        run: uv sync --extra circuit
+
+      - name: Install (minimum Qiskit)
+        if: matrix.qiskit == 'minimum'
+        run: |
+          uv sync --extra circuit
+          uv pip install "qiskit==2.0.*"
+
+      - name: Ruff
+        run: uv run ruff check src tests scripts
+
+      - name: Ruff format
+        run: uv run ruff format --check src tests scripts
+
+      - name: Mypy
+        run: uv run mypy
+
+      - name: Tests
+        run: uv run pytest -q
+
+      - name: Coverage gate
+        # Only on the pinned interpreter: the others would need Qiskit present
+        # to reach the circuit rules, and the gate is absolute.
+        if: matrix.python == '3.13' && matrix.qiskit == 'pinned'
+        run: uv run pytest -q --cov --cov-report=term
+
+      - name: Generated docs are current
+        run: |
+          uv run python scripts/generate_docs.py
+          git diff --exit-code docs/rules
+
+      - name: Self check
+        run: uv run qxlint src tests/fixtures/clean
+
+  flake8-plugin:
+    name: flake8 plugin registration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install . flake8
+      - name: The QXL entry point is registered and selectable
+        run: |
+          flake8 --select=QXL tests/fixtures/positive/qxl101_get_counts.py \
+            | tee out.txt
+          grep -q QXL101 out.txt
+      - name: A clean fixture reports nothing
+        run: flake8 --select=QXL tests/fixtures/clean
+
+  action:
+    name: composite action metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      # The action installs qxlint from PyPI, so it cannot be executed here
+      # before the first release. Validate its metadata instead.
+      - name: action.yml is well formed
+        run: |
+          python - <<'EOF'
+          import sys, tomllib  # noqa: F401
+          try:
+              import yaml
+          except ImportError:
+              sys.exit(0)
+          spec = yaml.safe_load(open("action.yml"))
+          assert spec["runs"]["using"] == "composite", spec["runs"]
+          assert spec["inputs"]["paths"]["default"] == "."
+          assert spec["outputs"]["exit-code"]
+          print("action.yml ok")
+          EOF
+
+  npm:
+    name: npm launcher
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install .
+      - run: node --check npm/bin/qxlint.js
+      - working-directory: npm
+        run: npm test
+
+      - name: Direct invocation propagates the exit code
+        working-directory: npm
+        run: |
+          node bin/qxlint.js --version
+          node bin/qxlint.js ../tests/fixtures/clean
+          set +e
+          node bin/qxlint.js ../tests/fixtures/positive
+          test $? -eq 1
+
+      # Running the file directly misses what npx does to PATH: it puts
+      # node_modules/.bin first, where qxlint is this launcher. That is how the
+      # launcher came to call itself without ever finishing, so the packed
+      # package has to be installed and driven through npx here.
+      - name: npx runs the installed package
+        timeout-minutes: 5
+        run: |
+          set -e
+          npm pack ./npm --pack-destination "$RUNNER_TEMP"
+          mkdir -p "$RUNNER_TEMP/npx-check"
+          cd "$RUNNER_TEMP/npx-check"
+          npm init -y > /dev/null
+          npm install "$RUNNER_TEMP"/qxlint-*.tgz
+          npx --no-install qxlint --version
+          npx --no-install qxlint "$GITHUB_WORKSPACE/tests/fixtures/clean"
+          set +e
+          npx --no-install qxlint "$GITHUB_WORKSPACE/tests/fixtures/positive"
+          test $? -eq 1
+
+      - working-directory: npm
+        run: npm pack --dry-run
+
+  vscode:
+    name: vs code extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - working-directory: vscode
+        run: npm ci
+      - working-directory: vscode
+        run: npm run typecheck
+      - working-directory: vscode
+        run: npm test
+      - working-directory: vscode
+        run: npm run compile
+
+      # core.test.ts covers the pure functions. This runs the extension inside a
+      # real editor and reads the diagnostics it produces, which is the only way
+      # to catch a wrong coordinate or a notebook finding placed on the file
+      # instead of the cell. xvfb is how VS Code documents running this on Linux.
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install .
+      - name: Extension tests in a real editor
+        working-directory: vscode
+        timeout-minutes: 15
+        env:
+          QXLINT_TEST_PATH: qxlint
+        run: xvfb-run -a npm run test:e2e
+
+      # vsce validates the manifest, so a bad engines range or a missing
+      # LICENSE fails here rather than at release time.
+      - working-directory: vscode
+        run: npx vsce package --out qxlint.vsix
+      - working-directory: vscode
+        run: npx vsce ls

@@ -1,0 +1,36 @@
+cff-version: 1.2.0
+message: If you use qxlint in your research, please cite it as below.
+title: "qxlint: deterministic static checks for Qiskit Primitives V2 workflows"
+abstract: >-
+  An offline static linter for the workflow errors introduced by the Qiskit
+  V1-to-V2 primitives migration: reading counts off the wrong object, using a V1
+  field on a V2 result, sampling a circuit that has no measurements, and passing
+  a channel value a targeted release has removed. It resolves object identity
+  with a small abstract interpreter rather than matching syntax, so it reports
+  only facts it can prove, and it never imports or executes the code it
+  analyses.
+type: software
+authors:
+  - family-names: Tugui
+    given-names: Dragos
+    email: contact@tuguidragos.com
+    website: "https://tuguidragos.com"
+contact:
+  - family-names: Tugui
+    given-names: Dragos
+    email: contact@tuguidragos.com
+repository-code: "https://github.com/TuguiDragos/qxlint"
+repository-artifact: "https://pypi.org/project/qxlint/"
+url: "https://github.com/TuguiDragos/qxlint"
+license: MIT
+version: 0.1.0
+date-released: "2026-08-09"
+keywords:
+  - qiskit
+  - quantum computing
+  - quantum software engineering
+  - static analysis
+  - abstract interpretation
+  - linter
+  - python
+  - software quality

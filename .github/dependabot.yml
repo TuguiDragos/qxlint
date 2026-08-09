@@ -1,0 +1,43 @@
+version: 2
+
+# Three ecosystems ship from this repository and each pins versions somewhere
+# different. Without this, a pinned action or hook goes stale silently: the uv
+# setup action sat two majors behind because its major tag stopped moving and
+# nothing was watching the releases.
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci"
+
+  - package-ecosystem: uv
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      dev-dependencies:
+        dependency-type: development
+    commit-message:
+      prefix: "build"
+
+  - package-ecosystem: npm
+    directory: /vscode
+    schedule:
+      interval: monthly
+    groups:
+      vscode-extension:
+        patterns: ["*"]
+    commit-message:
+      prefix: "build"
+
+  - package-ecosystem: npm
+    directory: /npm
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "build"

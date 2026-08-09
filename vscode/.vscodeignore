@@ -1,0 +1,13 @@
+# A bundler does not stop vsce from packaging everything else.
+.vscode/**
+src/**
+out/**
+test/**
+node_modules/**
+esbuild.mjs
+tsconfig.json
+**/*.map
+**/*.ts
+.gitignore
+qxlint.vsix
+**/*.test.ts

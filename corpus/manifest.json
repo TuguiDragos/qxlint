@@ -1,0 +1,2355 @@
+{
+ "selection_date": "2026-08-09",
+ "selected_before_scanning": true,
+ "repository_count": 244,
+ "distinct_owners": 243,
+ "owners_holding_two_entries": [
+  "qiskit"
+ ],
+ "selection_rule": "Alphabetical, case insensitive, within each stratum. At most one repository per owner, with the single exception recorded above. No forks, no archived repositories, under 200 MB. The author's own repositories excluded. Every repository pinned to a commit SHA and written here before qxlint was run on any of them, so a repository cannot be added after seeing what a rule does to it.",
+ "strata": {
+  "A_local_v2": {
+   "query": "\"from qiskit.primitives import StatevectorSampler\" language:python",
+   "quota": 10,
+   "candidate_pool": 60
+  },
+  "B_runtime_v2": {
+   "query": "\"from qiskit_ibm_runtime import SamplerV2\" language:python",
+   "quota": 10,
+   "candidate_pool": 152
+  },
+  "C_estimator_v2": {
+   "query": "\"from qiskit.primitives import StatevectorEstimator\" language:python",
+   "quota": 6,
+   "candidate_pool": 83
+  },
+  "A_statevector_sampler": {
+   "query": "from qiskit.primitives import StatevectorSampler",
+   "quota": 20,
+   "candidate_pool": 31
+  },
+  "B_runtime_samplerv2": {
+   "query": "from qiskit_ibm_runtime import SamplerV2",
+   "quota": 22,
+   "candidate_pool": 85
+  },
+  "C_statevector_estimator": {
+   "query": "from qiskit.primitives import StatevectorEstimator",
+   "quota": 16,
+   "candidate_pool": 26
+  },
+  "D_runtime_estimatorv2": {
+   "query": "from qiskit_ibm_runtime import EstimatorV2",
+   "quota": 18,
+   "candidate_pool": 84
+  },
+  "E_ibm_quantum_channel": {
+   "query": "channel=\"ibm_quantum\"",
+   "quota": 16,
+   "candidate_pool": 79
+  },
+  "F_quasi_dists": {
+   "query": "quasi_dists",
+   "quota": 16,
+   "candidate_pool": 71
+  },
+  "G_get_counts": {
+   "query": "result.get_counts qiskit",
+   "quota": 8,
+   "candidate_pool": 0
+  },
+  "H_notebook_v2": {
+   "query": "SamplerV2",
+   "quota": 10,
+   "candidate_pool": 0
+  },
+  "I_notebook_counts": {
+   "query": "get_counts qiskit",
+   "quota": 6,
+   "candidate_pool": 0
+  },
+  "R1_qiskit_repos": {
+   "query": "qiskit",
+   "quota": 4,
+   "candidate_pool": 76
+  },
+  "R2_runtime": {
+   "query": "qiskit-ibm-runtime",
+   "quota": 3,
+   "candidate_pool": 36
+  },
+  "A_topic_qiskit_recent": {
+   "query": "topic:qiskit pushed:>2025-01-01 (sorted by updated, desc)",
+   "quota": 10,
+   "candidate_pool": 200
+  },
+  "B_topic_qiskit_old": {
+   "query": "topic:qiskit pushed:2023-01-01..2024-12-31 (sorted by updated, asc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "C_topic_quantum_py": {
+   "query": "topic:quantum-computing language:python pushed:>2024-06-01 (sorted by updated, desc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "D_qiskit_readme": {
+   "query": "qiskit in:readme language:python pushed:>2024-01-01 (sorted by stars, desc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "E_qiskit_name": {
+   "query": "qiskit in:name language:python (sorted by updated, desc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "F_qiskit_desc_small": {
+   "query": "qiskit in:description language:python size:<20000 (sorted by updated, desc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "G_vqe_qaoa": {
+   "query": "qiskit vqe in:name,description,readme (sorted by updated, desc)",
+   "quota": 6,
+   "candidate_pool": 200
+  },
+  "H_qml": {
+   "query": "qiskit machine-learning in:name,description,readme language:python (sorted by updated, desc)",
+   "quota": 6,
+   "candidate_pool": 200
+  },
+  "I_notebooks": {
+   "query": "qiskit in:readme language:jupyter-notebook pushed:>2024-06-01 (sorted by updated, desc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "J_ibm_runtime": {
+   "query": "qiskit-ibm-runtime in:name,description,readme (sorted by updated, desc)",
+   "quota": 8,
+   "candidate_pool": 200
+  },
+  "K_tutorial": {
+   "query": "qiskit tutorial in:name,description language:python (sorted by updated, desc)",
+   "quota": 6,
+   "candidate_pool": 30
+  },
+  "L_low_stars": {
+   "query": "qiskit language:python stars:1..5 pushed:>2025-01-01 (sorted by updated, desc)",
+   "quota": 6,
+   "candidate_pool": 200
+  },
+  "M_zero_stars": {
+   "query": "qiskit language:python stars:0 pushed:>2025-06-01 (sorted by updated, desc)",
+   "quota": 6,
+   "candidate_pool": 200
+  },
+  "N_algorithms": {
+   "query": "qiskit algorithms in:name,description,readme language:python (sorted by updated, desc)",
+   "quota": 6,
+   "candidate_pool": 200
+  },
+  "O_hackathon": {
+   "query": "qiskit hackathon in:name,description,readme (sorted by updated, desc)",
+   "quota": 4,
+   "candidate_pool": 200
+  }
+ },
+ "repositories": [
+  {
+   "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
+   "sha": "e99d5d79d51cd9c35a55ba8df8626168a97168a7",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 507
+  },
+  {
+   "repo": "0penAGI/0p3q",
+   "sha": "aa9ad5eb51a8c1fe047c593b6d488cbe161ed0d1",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 59,
+   "size_kb": 242
+  },
+  {
+   "repo": "0TimonB/QiskitProjects",
+   "sha": "3c3720148a3e92ce315200a3785b837d262c86e5",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 7255
+  },
+  {
+   "repo": "12Arsh34/Q-SecureNet",
+   "sha": "dfd6859941472b39e168a99e7ccb44b41150a1c6",
+   "stratum": "O_hackathon",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 2067
+  },
+  {
+   "repo": "12KrishPatel/12KrishPatel",
+   "sha": "1e6789210c2ab36765b8bb5885efc1ba96d57a5c",
+   "stratum": "O_hackathon",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 50
+  },
+  {
+   "repo": "1640675651/HyperQ",
+   "sha": "11a2e17e1204fee7c51df36415b62ce6c87b45e2",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 8,
+   "size_kb": 840
+  },
+  {
+   "repo": "1Aiden-K/Intro-to-Quantum-Computing",
+   "sha": "4f386433e59c7d4283c5e5553d4bfc1135e57ea5",
+   "stratum": "N_algorithms",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1392
+  },
+  {
+   "repo": "1chooo/quantum-oracle",
+   "sha": "2412f4bc52e5f4e2fa28ea53b519b2f03dfb6f95",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 20220
+  },
+  {
+   "repo": "1hubert/ql-hackathon-challenge1-splatanicznie",
+   "sha": "154f85e59d16085b1ab4a778baac125a5cbe389b",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 47
+  },
+  {
+   "repo": "1Neeshu/Quantum-Optimization-for-Distributed-Order-Management",
+   "sha": "c9271b67dedd2e42c771969f64df4204d06d1e3b",
+   "stratum": "G_vqe_qaoa",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 671
+  },
+  {
+   "repo": "202Q-lab/QDesignOptimizer",
+   "sha": "d4f6ada5ada59b786df1006d53f8f148b364364e",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 20,
+   "size_kb": 20281
+  },
+  {
+   "repo": "24501a0238-beep/Quantum-Secure-Login-using-QRNG",
+   "sha": "1633997bd831b66401c0292f209d1553c592f244",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 26
+  },
+  {
+   "repo": "24am5a0410-DaViD/WISER-QAPINN",
+   "sha": "4bf2a25da6846c2c548c016723b64cf6af4c7c68",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 6569
+  },
+  {
+   "repo": "27rchana/Autism-Spectrum-Disorder-Detection-using-fMRI",
+   "sha": "88552a32d6e9ac3a9bac13290e7a22752549c852",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 13
+  },
+  {
+   "repo": "2rajgupta/quantum-computing-with-qiskit",
+   "sha": "705483c915469e1d35593ed496c7cad4142b27c7",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 149
+  },
+  {
+   "repo": "2T0nnks/moriarty-v2",
+   "sha": "a2d625c3b6c856f7ef553a4f6792bec1935d0ee5",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 1,
+   "size_kb": 16207
+  },
+  {
+   "repo": "3rishabh2005-rgb/Grover-Search-Algorithm-Qiskit",
+   "sha": "fbf1e048fdcc91afab8ace4d584b56add6d19bcc",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 6
+  },
+  {
+   "repo": "3steban22/Proyecto-Qiskit",
+   "sha": "4ca55b1538f53e627231f5954b9986190982b5c2",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 2
+  },
+  {
+   "repo": "48984228328Aninha/qiskit",
+   "sha": "c39f102f60618e3c175620ecefc4b86efe4599ef",
+   "stratum": "L_low_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 39
+  },
+  {
+   "repo": "5qvsai/quantum_computing",
+   "sha": "c8db4d818fd5b6c0ad1bafbc794820e35661ca4c",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 22
+  },
+  {
+   "repo": "624183-NITAP/QuantumShield",
+   "sha": "f3bb19a59fed18f2b9551efd4d76a699554f9a4d",
+   "stratum": "O_hackathon",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 2768
+  },
+  {
+   "repo": "a-auer/qiskit",
+   "sha": "0506734c83790fcddf84d3497f6a99c3db05ba2d",
+   "stratum": "R1_qiskit_repos",
+   "default_branch": "master",
+   "license": null,
+   "stars": 19,
+   "size_kb": 13275
+  },
+  {
+   "repo": "A-n-d-R-o/MiQE-Mini-Quantum-Emulator",
+   "sha": "3cafcf37a1c5d995feb5c7c1511f0a6bf36b7c2e",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 3339
+  },
+  {
+   "repo": "a0ax/QubitPulseGenerator",
+   "sha": "f3d8698b90a4708dfd48d9883bda27c0d11df9b8",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 297
+  },
+  {
+   "repo": "aabhimittal/deutsch-jozsa-algo",
+   "sha": "cd5c49d237aaa2545f91f62bc4ce4d4e2ae74eb0",
+   "stratum": "H_qml",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 38
+  },
+  {
+   "repo": "AADH2002/Quantum-Computing-with-Qiskit",
+   "sha": "0c7e60c086146f3e222af4697dc5e6ab782c1ba2",
+   "stratum": "G_vqe_qaoa",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 303
+  },
+  {
+   "repo": "aadhi2297/eeg-gsp-qml-alzheimers-detection",
+   "sha": "51025814ba9136eaf91c3b7b72da815692e19fdc",
+   "stratum": "H_qml",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 30
+  },
+  {
+   "repo": "aadithya-bash/QAOA-Qiskit",
+   "sha": "c8b357a95cb7fcc2dc950d1e37a423b0732eac96",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 4106
+  },
+  {
+   "repo": "Aahan0605/quntra",
+   "sha": "d6618e6aeee015b20b2f06fe1c2c8f5eb5dbb742",
+   "stratum": "G_vqe_qaoa",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 14241
+  },
+  {
+   "repo": "AakarGupta-coder/Darshan-QML",
+   "sha": "24fcc142323f7c9e927ecfb798d5a8a7c7940d72",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 2028
+  },
+  {
+   "repo": "Aaliyah6529/Qiskit-Global-Summer-School-2024",
+   "sha": "28a521190eda93d6f54942bfe9f04814573dd9f4",
+   "stratum": "R1_qiskit_repos",
+   "default_branch": "main",
+   "license": null,
+   "stars": 36,
+   "size_kb": 69260
+  },
+  {
+   "repo": "aanhaislam/qiskit-hardware-transpilation-demo",
+   "sha": "9bb810c289f41f69a14b990595d269c505355f47",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 3
+  },
+  {
+   "repo": "aarsh-adhvaryu/Q_Alpha_Research",
+   "sha": "cb209c4bd6135f93eb3adee781a63f8fd77d8476",
+   "stratum": "N_algorithms",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 7760
+  },
+  {
+   "repo": "aash-gates/IBM-Quantum-Challenge-Fall-2021",
+   "sha": "951b001c7bf73c6dfa28ad8d1c4f12715260a00f",
+   "stratum": "R2_runtime",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 12691
+  },
+  {
+   "repo": "Aather-nabi/Explainable-Machine-Learning-for-Higgs-Boson-Classification",
+   "sha": "0705cdc068a5e8b5e2d44dfee12e194e61f4e204",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 11473
+  },
+  {
+   "repo": "Aatiqa04/Quantum-Computing",
+   "sha": "821968ab536b10b3d81c043cc9da816f9b9f8995",
+   "stratum": "R2_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 738
+  },
+  {
+   "repo": "aayush-a-kumar/qaoa-qubo-compiler",
+   "sha": "f1573730124eb627845c8b0827cc7ca991bc329a",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 51
+  },
+  {
+   "repo": "abbasmaster/Quantum-prime-state",
+   "sha": "6f37270332bdb4c6e45e3086277f116149fa9c60",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 6214
+  },
+  {
+   "repo": "AbdullahKazi500/WISER-2026",
+   "sha": "6c9de3d2840461d2092abba4639ea94f7f3c360d",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 8481
+  },
+  {
+   "repo": "AbdulRehman0745/Nature-use-skills",
+   "sha": "f490252cae44c232327e793a201f141fdd0b510a",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 42
+  },
+  {
+   "repo": "Abdussamed-1/QGSS-26-labSolution",
+   "sha": "5b7ff588db22618d3b24bbc0bbaf83a5672d3353",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 67305
+  },
+  {
+   "repo": "abeashvil/Quantum-Random-Number",
+   "sha": "e5d9fd76addbd97209b3ac9aa96323babdfae24f",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 193
+  },
+  {
+   "repo": "AbeCoull/prism-q",
+   "sha": "abfec50600ab7b84d1891f389c2fc75839c5c323",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 6,
+   "size_kb": 3175
+  },
+  {
+   "repo": "abelcarreras/VQEmulti",
+   "sha": "6a6cfaaa8b8de033a71d65f33883f8fd9155cebc",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "master",
+   "license": null,
+   "stars": 5,
+   "size_kb": 10082
+  },
+  {
+   "repo": "Abhijith-E/quantum-algorithms-lab",
+   "sha": "f1f4601b934269c0d691f41225dbc7a99048592f",
+   "stratum": "K_tutorial",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 2208
+  },
+  {
+   "repo": "Abhishek-2532/Cu-ntica-Study-Platform",
+   "sha": "e5a9372c5de0810973009bb4dc2b601cce6ec60e",
+   "stratum": "G_vqe_qaoa",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 69572
+  },
+  {
+   "repo": "abhishekpanthee/quantum-database",
+   "sha": "886e0b16e1c9daf480a50133f6777e25e34e5c17",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 17,
+   "size_kb": 1470
+  },
+  {
+   "repo": "AbhishekYadav2207/Quantum-Job-Tracker",
+   "sha": "d825aa35844876f9e7cba5870b0843bbcbcdbb28",
+   "stratum": "R2_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 54
+  },
+  {
+   "repo": "AbhishekYalagandula/QuantumShield-X",
+   "sha": "7adc2dee74503fee7b9560a18821a19f845f4fc7",
+   "stratum": "H_qml",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 204
+  },
+  {
+   "repo": "AbihaEhtisham/quantum-contract-auditor",
+   "sha": "06f3584653298e295e5e623e656ab1f73542f9e9",
+   "stratum": "N_algorithms",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 898
+  },
+  {
+   "repo": "ACE07-Sev/clifft_qiskit_backend",
+   "sha": "670645c33fe86a65375039d770481193a94751d7",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 24
+  },
+  {
+   "repo": "AcID3r/AcID3r",
+   "sha": "e8aba14cfd10cffeac5616b2183845c273f80d01",
+   "stratum": "H_qml",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 758
+  },
+  {
+   "repo": "acomphealth/quantum-reup",
+   "sha": "8cd8fd8437131559231f930971b54927316271a4",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 29
+  },
+  {
+   "repo": "acroscopic/CHSH",
+   "sha": "5199474ce54f0c3d100380280157b26d3df2e28e",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "stars": 1,
+   "size_kb": 2932
+  },
+  {
+   "repo": "AdaHgrace/Noise_Fingerprinting",
+   "sha": "0dc495960d6bfc8c02387c2e977e5f19d474db5c",
+   "stratum": "H_qml",
+   "default_branch": "main",
+   "license": null,
+   "stars": 2,
+   "size_kb": 29909
+  },
+  {
+   "repo": "adeelHassan123/bb84-qkd-qiskit-simulation",
+   "sha": "392e1be59653b9b3c4431cd88547423f4f3c87af",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 11
+  },
+  {
+   "repo": "adelelwan24/Quantum-K-Means",
+   "sha": "23e19bf3057385f6ce5b713ef67428d4c0a3169c",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 79
+  },
+  {
+   "repo": "adh182/finite-sp-quantum-simulation",
+   "sha": "c30aa324ac6f6e0de9b3b723eb852450bcd0011f",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "master",
+   "license": null,
+   "stars": 4,
+   "size_kb": 73664
+  },
+  {
+   "repo": "Adhavan1801/quantum-success-prediction",
+   "sha": "3eae20a9e90061354d36333f2de359332ecba16d",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 4675
+  },
+  {
+   "repo": "Adithyaphani/Adithyaphani",
+   "sha": "fb8b3289b4b18685c14d3edbceb0fedbf80de21a",
+   "stratum": "H_qml",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 991
+  },
+  {
+   "repo": "Aditya-Garimella13/vanguard",
+   "sha": "f99cbaf16541a3302e12ee147496456d98310e0a",
+   "stratum": "I_notebooks",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 25657
+  },
+  {
+   "repo": "Adityacodes06/quantum-information-bottleneck",
+   "sha": "4a71e29348e2657fe44665f311f9783aa2887ccc",
+   "stratum": "L_low_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 182462
+  },
+  {
+   "repo": "adnathanail/cqasm-testing",
+   "sha": "450eabdc8375a8a733bea00d0d8b46df528f094e",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "stars": 0,
+   "size_kb": 286
+  },
+  {
+   "repo": "ADNRs/arXivDaily",
+   "sha": "d3a0edd3c1bdb5db9ead9fed837cccb40cac195f",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 442
+  },
+  {
+   "repo": "AdrianLipa90/CIEL-Omega-General-Quantum-Consciousness",
+   "sha": "5812b547a6308d79ef6b42606b9bda28f1879274",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 9,
+   "size_kb": 2377
+  },
+  {
+   "repo": "adrianrguez314/quantum-computing-with-qiskit",
+   "sha": "ae8255789c241cb20371c656bd5c40561beaa104",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 1819
+  },
+  {
+   "repo": "AdvayMonga/quantum-algorithms",
+   "sha": "15918f769273d6839b85d06348b1b027dfb5cf78",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 6
+  },
+  {
+   "repo": "Aegiq/lightworks",
+   "sha": "891ff4237770daf3f1be9d924abaa1733347e9bb",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 4,
+   "size_kb": 9193
+  },
+  {
+   "repo": "aeio2/markowitz-qaoa-portfolio",
+   "sha": "41f52368eb430030c2a4e1813f480067b5fddd52",
+   "stratum": "G_vqe_qaoa",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 460
+  },
+  {
+   "repo": "ag4267research1/Quantum-Accelerated-Adjoint-Method-PDE-Constrained-Optimization",
+   "sha": "b03aee27206d3bd01e07ccd3a542813804d1ff78",
+   "stratum": "N_algorithms",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 41772
+  },
+  {
+   "repo": "aghasyedi/aqca",
+   "sha": "5461e75b02e3214ebe6c881d81e073fd46163b7a",
+   "stratum": "G_vqe_qaoa",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 25935
+  },
+  {
+   "repo": "agupte01/Quantum-Hacker-Terminal",
+   "sha": "8234b22d02d19bb1dcdd956547a94f57b8b56f5a",
+   "stratum": "L_low_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 17575
+  },
+  {
+   "repo": "ahmad-jalil/portfolio",
+   "sha": "9d91121ca61aca014faa9cd220761992cc7f2452",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1
+  },
+  {
+   "repo": "Ahmed-3411/Exploring-Quantum-Feature-Maps-for-Machine-Learning",
+   "sha": "ea9f4b0ac55f5a43a96d28320ba019b9abf695da",
+   "stratum": "L_low_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 3,
+   "size_kb": 42
+  },
+  {
+   "repo": "AI-Governance-Lab/governed-quantum-agents",
+   "sha": "07a4224878701e1d4f7d8d175b45472080eba1b0",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 199
+  },
+  {
+   "repo": "ai4s-research/awesome-ai-for-science",
+   "sha": "024f42bf93fa5ffd95d7d1284655bfca1271038d",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 1850,
+   "size_kb": 590
+  },
+  {
+   "repo": "aiforfreecloud-sudo/quantum-portfolio-lab",
+   "sha": "0b06376991c329eff14c3e3f97b46c39cf205300",
+   "stratum": "N_algorithms",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 6
+  },
+  {
+   "repo": "AIML-Dept/AbdulRahman_1GA23AI001",
+   "sha": "04e378a96dd13da116afb615d4c85e65f084c30e",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 33
+  },
+  {
+   "repo": "aimsfad/qai-learning-platform",
+   "sha": "3565619e281dcea40ff6428e758af0d58a17610f",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 43123
+  },
+  {
+   "repo": "airbus/discrete-optimization",
+   "sha": "60e8f4b6c49a5c67adf5ee2589e3c9478ce11706",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 84,
+   "size_kb": 27858
+  },
+  {
+   "repo": "AishikTokdar/Hybrid-Quantum-Optical-Key-Generation",
+   "sha": "12a8d969509130dd1f5b457056c3ee053faa9e8e",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 6331
+  },
+  {
+   "repo": "ajavadia/big-cats",
+   "sha": "f9860101c8fc1f3f60c94dc114502279491de9d8",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 16,
+   "size_kb": 2100
+  },
+  {
+   "repo": "ajay2367/Quantum-bits-visualization-using-QIskit",
+   "sha": "58c41e72ccfcb8240ef58366d0f224f2899bbd35",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 8
+  },
+  {
+   "repo": "Akash-Kishore/Quantum_VLSI",
+   "sha": "4316028dfba11640457592343d9632aac968343e",
+   "stratum": "N_algorithms",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 303
+  },
+  {
+   "repo": "akash100302/qiskit_tutorials",
+   "sha": "59185f4b37b99c64def086fe46bedb0797fd5538",
+   "stratum": "K_tutorial",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 4
+  },
+  {
+   "repo": "Akhila707/PROJECT_Q_DAY_Capstone_Project",
+   "sha": "75ceb4c66242f599438192ad4a43590fd08786be",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 41
+  },
+  {
+   "repo": "akiwelekar/qiskit-codespaces",
+   "sha": "064bd932e4089cebcfc9c128157f9b5b59a6d1c0",
+   "stratum": "E_qiskit_name",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 6
+  },
+  {
+   "repo": "aklein4/Shors-Algorithm",
+   "sha": "2a30193034e7e60b1319dff461effa35e53f75fa",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": null,
+   "stars": 2,
+   "size_kb": 1943
+  },
+  {
+   "repo": "Akshat-ui-git07/quantum-sim",
+   "sha": "08be0829711d3e6c42cfd472710aa2bbbe778a0e",
+   "stratum": "L_low_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 2,
+   "size_kb": 175
+  },
+  {
+   "repo": "Akshit-08/Hybrid-QCNN-Pneumonia-Detection",
+   "sha": "f54ce71908488915c9638534461836ebbf5b9217",
+   "stratum": "L_low_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 12
+  },
+  {
+   "repo": "Alain-Abraham-hub/SQD-Algorithm-Groundstatefinder",
+   "sha": "af36fa8a4ec44c11de7705d7a7c612ac2a21116b",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 1016
+  },
+  {
+   "repo": "AlbertJosephCSQC/quantumbellstate",
+   "sha": "b18bda04de2c014fe5661a37e6bad78cd75e0add",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 5
+  },
+  {
+   "repo": "albertnieto/qcml",
+   "sha": "ea2657de0b85cb3c41c0b89fb1cb7546a944b903",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 7,
+   "size_kb": 3432
+  },
+  {
+   "repo": "aldenweaver/quantum-learning-notes",
+   "sha": "dec0bf6d6245f96cf5efd7b17c685e37238b1e05",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 439
+  },
+  {
+   "repo": "AlenLeban/KvantneKlike",
+   "sha": "1527ae93cd64eeb1de4e966edd240e3fc24e3a51",
+   "stratum": "B_runtime_v2",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 10979
+  },
+  {
+   "repo": "alessandrofelici/Bell-Inequality",
+   "sha": "8cb6578ba4635f9e65fb3073e6d207d42a3da5ef",
+   "stratum": "K_tutorial",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 126
+  },
+  {
+   "repo": "alessandrosebastianelli/qml4eo_tutorial_qiskit",
+   "sha": "5928747df70bd9d2a86c8fdfe416752a48b94aab",
+   "stratum": "K_tutorial",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 45
+  },
+  {
+   "repo": "Alessio20092007/small-toy",
+   "sha": "cdd2ac7649d520817d658a576d184f0cc333469e",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1947
+  },
+  {
+   "repo": "alex-messerlian/shadow-moment-crossover",
+   "sha": "ed5cfc8d9d9170ce6fc4e05fd42e4f842d2af5ba",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 1,
+   "size_kb": 11598
+  },
+  {
+   "repo": "Alexyskoutnev/QuantumRL",
+   "sha": "3a9568db0fbfba471c55c0e390ea03a67b62b1f9",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 185
+  },
+  {
+   "repo": "Ali-hey-0/Qiskit",
+   "sha": "9b2b5ddffeaf3e9d7732cc154977eb51b099e3cf",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 6,
+   "size_kb": 8473
+  },
+  {
+   "repo": "Ali-X2/shotwise",
+   "sha": "bf1fb4c4c168a6fa2025e656619aad0b7e46df85",
+   "stratum": "A_topic_qiskit_recent",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 2,
+   "size_kb": 25
+  },
+  {
+   "repo": "alia5252/Q_HIRS",
+   "sha": "117a81af44157ae060a1fad0f43f38281c637571",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 1008
+  },
+  {
+   "repo": "Alice-Bob-SW/qiskit-alice-bob-provider",
+   "sha": "de8d543992f9964a77abda910bba731bec428144",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 45,
+   "size_kb": 304
+  },
+  {
+   "repo": "alihakimtaskiran/JetsonNanoQiskit",
+   "sha": "69b3c3c5e76c2eb93f5ce27ae0870cd5ca1db3fc",
+   "stratum": "B_topic_qiskit_old",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "stars": 2,
+   "size_kb": 25
+  },
+  {
+   "repo": "alodolo/qiskit-3D-trophy",
+   "sha": "1e0394fa0b36db2868e21f1c5ab7811599014b38",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 702
+  },
+  {
+   "repo": "AlpaganB/VQR",
+   "sha": "1f4053b7a1508f5ad95a86292b51da1fad51256b",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 6,
+   "size_kb": 508
+  },
+  {
+   "repo": "altaris/pauli-coloring-benchmark",
+   "sha": "4ba5180de1e16c4610d911e2cd86c8b927c52c53",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 5583
+  },
+  {
+   "repo": "AlterLab-IEU/AlterLab-Academic-Skills",
+   "sha": "a0064fd54180541785cd1986ad8eb1689b834270",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 58,
+   "size_kb": 10784
+  },
+  {
+   "repo": "amachino/qubex",
+   "sha": "c7fc5606efb963f26f7ea3fb70f67494c2749489",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "develop",
+   "license": "Apache-2.0",
+   "stars": 25,
+   "size_kb": 24225
+  },
+  {
+   "repo": "amazon-braket/qiskit-braket-provider",
+   "sha": "8abfac5b6af8c468620bbe744fda8afe2f8183a4",
+   "stratum": "R1_qiskit_repos",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 84,
+   "size_kb": 4562
+  },
+  {
+   "repo": "ameliaquinn/PHY211_final_project",
+   "sha": "ddc02679d981efedd2b96e63b36901c75dab9923",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 180
+  },
+  {
+   "repo": "amerorchis/Hybrid-Quantum-GAN",
+   "sha": "de7ebb0370aeff9eab1e4506981c4873d974fbd8",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 2,
+   "size_kb": 4635
+  },
+  {
+   "repo": "amiraskari969-rgb/fdnr-qiskit-app",
+   "sha": "a18788e88073f057f6f9cee9e1f3cc585e4657ad",
+   "stratum": "F_qiskit_desc_small",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 3
+  },
+  {
+   "repo": "AmirshayanHamidin/qrc-shot-wall",
+   "sha": "407b9001f59a7867e85ea2338ed169bc5d5422b7",
+   "stratum": "M_zero_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 3957
+  },
+  {
+   "repo": "amitb-quantum/ising-bench",
+   "sha": "cf204ec13350bbaae4ed338e2e4bd29557c95817",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 55
+  },
+  {
+   "repo": "AmruthaPreethi/Project_Heart_using_Quantum",
+   "sha": "6e40b09a7a7fcb3769bd2271a767dfad0476aded",
+   "stratum": "M_zero_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 65
+  },
+  {
+   "repo": "anamariarojas123/Qiskit-Global-Summer-School-2023",
+   "sha": "7f3297e55307ec0f02363d326797d05b6000b52e",
+   "stratum": "R1_qiskit_repos",
+   "default_branch": "main",
+   "license": null,
+   "stars": 118,
+   "size_kb": 76118
+  },
+  {
+   "repo": "anandk3012/sdes-vqa",
+   "sha": "e246008f433f1a001db94c9444fada3f4f76fa22",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 3942
+  },
+  {
+   "repo": "anapaulaappel/quantum-encoding-agents",
+   "sha": "6e5cc26981d5d17231fd8846fa10a53d4ae15740",
+   "stratum": "M_zero_stars",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1126
+  },
+  {
+   "repo": "Anay2005/Time-Evolution-on-a-Quantum-Computer",
+   "sha": "07cc32e2e602308f22df058f1521260ca4964ab6",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 2091
+  },
+  {
+   "repo": "andre-gray/computational-astro-AI",
+   "sha": "a4d6f759eb7779a6b6cdc138fad10724d5936b62",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 25,
+   "size_kb": 72
+  },
+  {
+   "repo": "anedumla/quantum_linear_solvers",
+   "sha": "f144d59e1916c9071baf3f4a3d4b0a06bba24ea0",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 28,
+   "size_kb": 379
+  },
+  {
+   "repo": "angadhsingh1/DistributedQuantumFramework",
+   "sha": "edc44c4933693d82e874334c002338af0714f284",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "stars": 1,
+   "size_kb": 62
+  },
+  {
+   "repo": "AnimeshShaw/quantum-safe-auditor",
+   "sha": "7d14ab432befeb9001402a8df0099f3416b3bd83",
+   "stratum": "C_estimator_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 644
+  },
+  {
+   "repo": "AnjumAshraaf/WISER-DOM-Quantum",
+   "sha": "55228b9aac75f15af78aafb0d60039d46c915551",
+   "stratum": "J_ibm_runtime",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 9818
+  },
+  {
+   "repo": "anshumansahu-stack/Quantum_Bilinear_Interpolation",
+   "sha": "0a19cd9e645b46e1305bcc7eed3deb94049216c6",
+   "stratum": "M_zero_stars",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 16956
+  },
+  {
+   "repo": "AntaoA/Projet_long",
+   "sha": "bf3a0c53d7b227c52586463913564661014b8bc9",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 489
+  },
+  {
+   "repo": "AnthonyW2/HHL-algorithm",
+   "sha": "5f2a2488bb810e9bd75e5e3e1c16da39edfe183d",
+   "stratum": "M_zero_stars",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 42
+  },
+  {
+   "repo": "anulum/sc-neurocore",
+   "sha": "e633d1c15f8429d0538b7ab778dc7f83194d3f1d",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "AGPL-3.0",
+   "stars": 13,
+   "size_kb": 64588
+  },
+  {
+   "repo": "aocbaeta/quantum_comp",
+   "sha": "981b3638911a9b3b96a4799df559fcb2e50bf0a5",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "master",
+   "license": "BSD-3-Clause",
+   "stars": 1,
+   "size_kb": 47380
+  },
+  {
+   "repo": "apayne185/quantum_classical_VQE_algorithm",
+   "sha": "d10cf0771554631a8b202207c91211e2a7a9cb3e",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 1,
+   "size_kb": 4288
+  },
+  {
+   "repo": "Aqasch/KANQAS_code",
+   "sha": "b2da833f801d44265b395a8b7f879f8eaebfc614",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": null,
+   "stars": 20,
+   "size_kb": 588
+  },
+  {
+   "repo": "AravindB98/qemag-validation",
+   "sha": "2535296ec51b9a5e55b20c60900140332c5fb6b0",
+   "stratum": "M_zero_stars",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 39
+  },
+  {
+   "repo": "Arbitrage0/quantum-noodling",
+   "sha": "7174c1b5c215e69ca7471c804b343a95c51fa871",
+   "stratum": "K_tutorial",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 3
+  },
+  {
+   "repo": "arfendy/PyTenNet",
+   "sha": "2bc06d111dfda74431b299e1eddb978ef5cd623b",
+   "stratum": "C_topic_quantum_py",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 2979
+  },
+  {
+   "repo": "arnavdas88/FragQC",
+   "sha": "aeaaf43712a77da030087c3ebf9ee923ce21f985",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 3,
+   "size_kb": 1068
+  },
+  {
+   "repo": "arnoop88/ftl_quantum",
+   "sha": "b0f41e478cc8ccf977946642889698d0b5aeca8d",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 39
+  },
+  {
+   "repo": "artificial-brain/quantumcat",
+   "sha": "eff99cac7674b3a1b7e1f752e7ebed2b960f85b3",
+   "stratum": "D_qiskit_readme",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 27,
+   "size_kb": 6396
+  },
+  {
+   "repo": "asierarranz/QiskitVideoTutorials",
+   "sha": "9fbe277192bfac3025656b6d00c8a7497350209c",
+   "stratum": "K_tutorial",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1
+  },
+  {
+   "repo": "AsmarMuqeet/STGP",
+   "sha": "088141d9e7fc7492401400e78cea73aeb9f33170",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1421
+  },
+  {
+   "repo": "AurumAsinus/quantum_boltzmann_machine",
+   "sha": "2c761895f4d870430ea833a386f18e75c8502e10",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 76
+  },
+  {
+   "repo": "bajwa4200/grover-ibm-quantum",
+   "sha": "5e1f841b442e5d22dda36d2c4c0b4df6b0de2059",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 10
+  },
+  {
+   "repo": "bennyp85/HelloBell",
+   "sha": "655bde3c3c811a4579bf0b3dbb75684cca6ba57d",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 33
+  },
+  {
+   "repo": "BillSkarlatos/Perturbative_Kraus_Noise_Reduction",
+   "sha": "a6ca1255f897b11d251a89d034ccaedb9e5b7b63",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 912
+  },
+  {
+   "repo": "biswajitcsecu/-Quantum-Fourier-Transform-QFT-to-process-images-using-quantum-computing",
+   "sha": "551ff50565b4b2b63588b6db3cd2ad5d6e18c5b0",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 11
+  },
+  {
+   "repo": "Bkiser2000/KQuanFS",
+   "sha": "45b1ffbfd7a4769cc807c051f1c12d480e2d6769",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 6
+  },
+  {
+   "repo": "BobocAlexFlorin/Proca-Yukawa-Field-Modulations-in-Molecular-Nano-Electronics",
+   "sha": "0f87d70c3e7f7256d24562d47944483d2099b5ef",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 10
+  },
+  {
+   "repo": "Boby-Booba/FTL_Quantum",
+   "sha": "2a783886c8832857827b6a4968f730434fbb91e0",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 73
+  },
+  {
+   "repo": "BoredDam/quantum-longest-common-substring",
+   "sha": "f12a39cc7aae8756885013dac7bca3ed589e8f1c",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 5,
+   "size_kb": 4204
+  },
+  {
+   "repo": "Brandon-Acres/MMWGA",
+   "sha": "6215e6075817ad0843d99302011053363b20591f",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 1,
+   "size_kb": 4002
+  },
+  {
+   "repo": "brodriguesdemiranda/QVR4GW",
+   "sha": "23dfcbbda8dc65c7870470814b7e8bb96bf2989b",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 11528
+  },
+  {
+   "repo": "C2-Q/C2Q",
+   "sha": "42e9cb642d4300662274c859e96f131a26d0a714",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 5,
+   "size_kb": 16808
+  },
+  {
+   "repo": "captainredbleach/Quantum-miniproject",
+   "sha": "54625ecb68e7161c6f7116a343c55e4092078823",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 7
+  },
+  {
+   "repo": "CasperStaahl/QIC-Mini-Project",
+   "sha": "aa7c72b32551e9166a567e6f8c015d1de80c20b5",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 1267
+  },
+  {
+   "repo": "cccbook/py2cs",
+   "sha": "9091b7096aa69f0b25236ec779450ee1534eddba",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "stars": 27,
+   "size_kb": 240511
+  },
+  {
+   "repo": "ccicconetti/serverless_quantum_sim",
+   "sha": "d6cde2e70efca73e36d82719640afcb94edc2397",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 3176
+  },
+  {
+   "repo": "CERN-QTI/QuASK",
+   "sha": "3ac5bef5aff678e2239af4207ed9e89b8a0668b9",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 38,
+   "size_kb": 6675
+  },
+  {
+   "repo": "chaoshune/1131127",
+   "sha": "c49ddada76957a274bd8a23745d4ca8cb51754ec",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 29
+  },
+  {
+   "repo": "christopher-altman/ibmq-weakmeasurement-entanglement",
+   "sha": "d9842b531ea7e61541d3b2064aa0894db7f7e6fc",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 2,
+   "size_kb": 3113
+  },
+  {
+   "repo": "clinder2/Quantum-State-Preparation",
+   "sha": "3e7b8b0b2adaabbf21ae7a3570f4ea3bb486057c",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": null,
+   "stars": 6,
+   "size_kb": 7336
+  },
+  {
+   "repo": "cluna80/AMD-Hackathon",
+   "sha": "9fbfd16e9b676be6ce1a62bd5e424dbf85bfc5b5",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 55760
+  },
+  {
+   "repo": "cnhz95/QRNG",
+   "sha": "ce76158ace4437a7ffce8731f2b40594e327299e",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1
+  },
+  {
+   "repo": "coding-xyz/huayi-vqe",
+   "sha": "1ef7e573c71b2784aa0b6c21e2fcc564fb04faa8",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1570
+  },
+  {
+   "repo": "cogu92/qvoting",
+   "sha": "2df0a5377370874eb952713c2acf48a751aa91b6",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 71
+  },
+  {
+   "repo": "ColibrITD-SAS/mpqp",
+   "sha": "f974bca564a1601aa767a534b840055c6d5a1516",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "stars": 46,
+   "size_kb": 7766
+  },
+  {
+   "repo": "cometta/quantum_search_ansatz",
+   "sha": "361c5579ce26c96fa781fb8bb26fa533554770ac",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 1,
+   "size_kb": 37
+  },
+  {
+   "repo": "comp-physics/Quantum-HRF-Tomography",
+   "sha": "fc1788d0c5658f3ef400f3a29d621c39d1d35742",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 5,
+   "size_kb": 10862
+  },
+  {
+   "repo": "corvvs/q",
+   "sha": "fbec98d8288a9c8ea90bc46b140cfc9d33a43c31",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 5
+  },
+  {
+   "repo": "CosmoUniverso/quantum_lab",
+   "sha": "a47f944b66930028a5f21472b0701b60a884d9ff",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "AGPL-3.0",
+   "stars": 2,
+   "size_kb": 25
+  },
+  {
+   "repo": "ctminh/quantumcompfs",
+   "sha": "51904af8e3a3d72ad690d5d5cd1f20af608e0470",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "GPL-3.0",
+   "stars": 0,
+   "size_kb": 3361
+  },
+  {
+   "repo": "cumbof/hdlib",
+   "sha": "78fe8a3839e6c22ee7767c7fafb32e125acd3709",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 37,
+   "size_kb": 809
+  },
+  {
+   "repo": "Cyptopimpinainteazy/bumbott",
+   "sha": "1a379b3e449476f9d790a19f94d4c80a22d245f6",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 2001
+  },
+  {
+   "repo": "DamianKobylinski/HackYeah2023_KNML_TEAM_2_QUANTUM_ART",
+   "sha": "60363bf942bf4e20d9583cd8246c167925134c2d",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 1459
+  },
+  {
+   "repo": "danexistsmaybe/qSearch",
+   "sha": "82d5f8f76c287d4af951b788a3367f47be709979",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 40
+  },
+  {
+   "repo": "danisotosol/qobs",
+   "sha": "f7f10b95de01c43888822a7b4f9a8a85c64b35b8",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 539
+  },
+  {
+   "repo": "DEQSE-Project/deqse-vscode-extension",
+   "sha": "a8c8e0ff7d9b9603849871f59feeae3508fac870",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 3,
+   "size_kb": 167
+  },
+  {
+   "repo": "derekrex333/Q-vs.-Qiskit-eficiencia-en-la-generaci-n-del-Estado-de-Bell",
+   "sha": "56ae2198424e6c5692224e4a28c9fb631800478a",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 140
+  },
+  {
+   "repo": "dhruvin771/Quantum-Circuit",
+   "sha": "28739aa3480b41c95d81cd95bbed58eceb702a7e",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 24
+  },
+  {
+   "repo": "dipankardas011/Quantum-Coding",
+   "sha": "5c7eb587201949c61deb4e4c72e97eb670eb86d4",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 9174
+  },
+  {
+   "repo": "dnkrow/octo-quantum-lab",
+   "sha": "4393f6c7a05e5d79af0354307fa85a9df1d82753",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 197
+  },
+  {
+   "repo": "dohyun06/qiskit",
+   "sha": "b997a7d97decec93e458806577563ed446e3112e",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 3
+  },
+  {
+   "repo": "Dpbm/ghz",
+   "sha": "495fd53bb053873dbfa5325954c817859247e304",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 8343
+  },
+  {
+   "repo": "dvirmor/quantum_algo_exercises",
+   "sha": "e76fcabf7b640f98c88cc70827747b8962c44a96",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 20363
+  },
+  {
+   "repo": "eclipse-qrisp/Qrisp",
+   "sha": "29c397a3b7f35c31f7cfa939140cfd1a204a9ff0",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "EPL-2.0",
+   "stars": 284,
+   "size_kb": 59883
+  },
+  {
+   "repo": "eKidenge/IBM_Quantum_Experiment",
+   "sha": "d6b421a45d2e0957f2e388750eaf5b46407f7b19",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 733
+  },
+  {
+   "repo": "ellibrodepython/50-ejemplos-python",
+   "sha": "7f578d5b6eed7a8c5d32b6902eaf158d84b09f15",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": null,
+   "stars": 289,
+   "size_kb": 1058
+  },
+  {
+   "repo": "ellypeop/Dissertation",
+   "sha": "1a9e8559a8fb9dc9566b8df26d93f33b535230d7",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 94782
+  },
+  {
+   "repo": "emiliantolo/ensembles-quantum-classifiers",
+   "sha": "912ddd6bb84afb23d1adf498f94ff52547fc088d",
+   "stratum": "E_ibm_quantum_channel",
+   "default_branch": "main",
+   "license": "AGPL-3.0",
+   "stars": 0,
+   "size_kb": 1214
+  },
+  {
+   "repo": "emketterer/quantum",
+   "sha": "fe3910747175becdcad653b66735e8fe6eb32391",
+   "stratum": "D_runtime_estimatorv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 77
+  },
+  {
+   "repo": "eulambda/qi-playground",
+   "sha": "e5547368349bea16d7a4b28c04273d5db9994359",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "master",
+   "license": null,
+   "stars": 0,
+   "size_kb": 33
+  },
+  {
+   "repo": "EV2872/quantum-algorithms",
+   "sha": "c9e38485b3f97d67bd77baa7ab620c1cd07ee79e",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 6
+  },
+  {
+   "repo": "Even-Explizit/Kvante",
+   "sha": "17b8ea3ce8d4ccd685483eade8af7c3655724005",
+   "stratum": "B_runtime_v2",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 20
+  },
+  {
+   "repo": "EXPmaster/DAEM",
+   "sha": "c3e36a8fb1cdd5c33331c6c7ea5f5450a967983e",
+   "stratum": "F_quasi_dists",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 6,
+   "size_kb": 2979
+  },
+  {
+   "repo": "FedericoQuartieri/ETHQuantumHackaton",
+   "sha": "d1d5f7428cf42d8d0341f8352028d3407a14f4d7",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 4,
+   "size_kb": 3934
+  },
+  {
+   "repo": "fishan/Veector",
+   "sha": "56ed17fb3ba31620b0e2ecbe2b1adfbd4327569f",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 37893
+  },
+  {
+   "repo": "frankharkins/quPython",
+   "sha": "3d34a6978b0aea9f6c3789ca87e80331d2a8731e",
+   "stratum": "F_quasi_dists",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 11,
+   "size_kb": 52
+  },
+  {
+   "repo": "Galyn26/quantum-cockpit",
+   "sha": "e188e0ee41ee5e1a24e4fc59e7090324657d403e",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 24
+  },
+  {
+   "repo": "GBisi/quantum-executor",
+   "sha": "cedf111d052f4c214e37cccb67cf3f5a0ee46de6",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "AGPL-3.0",
+   "stars": 7,
+   "size_kb": 542
+  },
+  {
+   "repo": "Gokulraj0906/GQNN",
+   "sha": "9f18d2fa3a0aebdf9bb22abfe594b9e2dde2cf1e",
+   "stratum": "A_local_v2",
+   "default_branch": "master",
+   "license": "GPL-3.0",
+   "stars": 19,
+   "size_kb": 1924
+  },
+  {
+   "repo": "gtroina57/QISKIT",
+   "sha": "24a2fe276224dc1258f311484a7f80f20e79a608",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 10
+  },
+  {
+   "repo": "HAMEEMM/qiskit",
+   "sha": "91a612319281fcb887252cd63edcace8c66b874b",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 9328
+  },
+  {
+   "repo": "Herutriana44/qcnn-amr",
+   "sha": "bb81e753fa2825a9070658ebed4e094592ad7ff7",
+   "stratum": "C_estimator_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 6872
+  },
+  {
+   "repo": "hmillerbakewell/partitioned-quantum-cellular-automata",
+   "sha": "fd7b3fb2ed0394802a5b6e74f0b699269f6c454d",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 3,
+   "size_kb": 61
+  },
+  {
+   "repo": "huyenemma/qt-native-gate-optimization",
+   "sha": "3762f8044480958f7849c2b5acedd2a206cacb9c",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": null,
+   "stars": 1,
+   "size_kb": 5936
+  },
+  {
+   "repo": "IDONTEVENHAVEANAME/QasmXray",
+   "sha": "aa43d20861ecae8a5b53cc85855af75c8cd0265f",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 17
+  },
+  {
+   "repo": "iitis/PyQBench",
+   "sha": "a41e3e5b7e878013947ca9fd34be25a327c431e0",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "master",
+   "license": "Apache-2.0",
+   "stars": 4,
+   "size_kb": 859
+  },
+  {
+   "repo": "ioankolot/Ascending_CVaR",
+   "sha": "e431d06c90a173d3eef758400c5fd2102220e484",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": null,
+   "stars": 6,
+   "size_kb": 28
+  },
+  {
+   "repo": "jackhmorgan/Quantum_Game_Theory",
+   "sha": "0741c125a3454b02c64877120e5c08d7c3d89cdd",
+   "stratum": "B_runtime_samplerv2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 35
+  },
+  {
+   "repo": "jakobmina/websteria",
+   "sha": "b4afdc12d1b3ec4981aa41bccdbad26c2ee5f00d",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 225
+  },
+  {
+   "repo": "JanusQ/Choco-Q",
+   "sha": "542dd50d6301f2f09fc394bb620a0e8d0e0a98eb",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 228
+  },
+  {
+   "repo": "jeffybrailin/Quantum-VQE-Project-Hybrid-Quantum-Classical-Materials-Simulation",
+   "sha": "c18f9a66a5144a03698128c137850079e0789258",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 9
+  },
+  {
+   "repo": "JennaE23/ELEN4012_Investigation_2025_25G19",
+   "sha": "03687ed403cd6e64d17b8ac74e8122445506c67d",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 1,
+   "size_kb": 60410
+  },
+  {
+   "repo": "Jij-Inc/Qamomile",
+   "sha": "346c7947c0f04e62a0184cd88e89685763d7978a",
+   "stratum": "C_estimator_v2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 21,
+   "size_kb": 67108
+  },
+  {
+   "repo": "johngeorgea157-stack/quantum-portfolio-opt",
+   "sha": "8eccf34ace617c183bfd9d28110b5a7b21831b9a",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 5,
+   "size_kb": 2367
+  },
+  {
+   "repo": "ketayon/Quantum-Brain-Tumor-Detection",
+   "sha": "ab3342facaefb735f5a1dc8e46f0d8216d79d29a",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 5,
+   "size_kb": 7216
+  },
+  {
+   "repo": "Kolo-Naukowe-Axion/QC1_Quantum_Banknote_Classifier_on_ODRA_5",
+   "sha": "45972fdfb7d18c0066100ad3bd5332a84efdebfd",
+   "stratum": "C_estimator_v2",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 2,
+   "size_kb": 22027
+  },
+  {
+   "repo": "KOSASIH/autonomous-swarm-negotiation-engine",
+   "sha": "4c5f7e7f062465bea738b5435a48a1001d4eae1b",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 11,
+   "size_kb": 68
+  },
+  {
+   "repo": "LucaGandolfi77/Qiskit-QuantumComputing",
+   "sha": "9a8d3934f592f7b26a97f7d11f47778e9b43ad79",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 30069
+  },
+  {
+   "repo": "MagePro310/Quantum_Simulation_Scheduling_ver1",
+   "sha": "feb74b7c39675c8c04ead96b38148fa8758fa029",
+   "stratum": "B_runtime_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 27863
+  },
+  {
+   "repo": "maxg56/Ftl_quantum",
+   "sha": "99d1badc46bc46ebbb0908c20a43803cfa931245",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 332
+  },
+  {
+   "repo": "minnie1012/qc-portfolio-optimization",
+   "sha": "0ebd5d14419ded716b9258b6e8f94f31b1f24890",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 5933
+  },
+  {
+   "repo": "mit-han-lab/torchquantum",
+   "sha": "8dc3255c51477dd4c28892049571df032c77e2ff",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1656,
+   "size_kb": 107361
+  },
+  {
+   "repo": "mrossinek/demo-qiskit-c-api",
+   "sha": "9e82ca0a3c2c0d8e22805abfd3ef58f9f8c000f2",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": null,
+   "stars": 3,
+   "size_kb": 62
+  },
+  {
+   "repo": "pavlyhalim/samaQ",
+   "sha": "91b29599fe26aecbc859c700cbe4ac67de2f0196",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 0,
+   "size_kb": 19078
+  },
+  {
+   "repo": "pfaustLouKy/cse696",
+   "sha": "738c37f10c8e9199180c3a5f2eaf11595b3f2ab8",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 8494
+  },
+  {
+   "repo": "PoCInnovation/FastQuantum",
+   "sha": "e5c9c64e7f1fa4ef6ae614c0fae47f46f3a771f7",
+   "stratum": "C_estimator_v2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 2,
+   "size_kb": 12429
+  },
+  {
+   "repo": "ProvideQ/toolbox-server",
+   "sha": "92d06b0792c7b19646f7320a24c350fd544519df",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "develop",
+   "license": "MIT",
+   "stars": 5,
+   "size_kb": 51526
+  },
+  {
+   "repo": "qiskit-community/povm-toolbox",
+   "sha": "745f146ac25633313182f161e115b6903d59fa2d",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 42,
+   "size_kb": 8766
+  },
+  {
+   "repo": "Qiskit/qiskit",
+   "sha": "dded8c800684e587e449287be9b14dd8621fe7f5",
+   "stratum": "C_estimator_v2",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 7687,
+   "size_kb": 175331
+  },
+  {
+   "repo": "Qiskit/qiskit-serverless",
+   "sha": "159b87303c15640b6f422d7fc11d87d82e61c071",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "Apache-2.0",
+   "stars": 114,
+   "size_kb": 82762
+  },
+  {
+   "repo": "QMCPACK/stalk",
+   "sha": "72a9c90d5e0162ee17840545f767f858e73eebc0",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "master",
+   "license": "BSD-3-Clause",
+   "stars": 7,
+   "size_kb": 1790
+  },
+  {
+   "repo": "Qwenty228/Solving_QUBOs",
+   "sha": "f92fba63844651e191d6318e49a807241c478afc",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 4465
+  },
+  {
+   "repo": "RahatulAshakin/ibd-quantum-esm",
+   "sha": "b509870fe4ff3a3a8a1fd0ae25d50e24537644a2",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 10678
+  },
+  {
+   "repo": "Rithvik-Rajesh/classical-quantum-sketch-ml",
+   "sha": "db15e5471618c92192c4c3214c53d50fd82b38fa",
+   "stratum": "A_local_v2",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 1,
+   "size_kb": 88294
+  },
+  {
+   "repo": "runtsang/Q-Bridge",
+   "sha": "3eaccadabbd593982d89216c08ff4c30fcd2f826",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "master",
+   "license": "MIT",
+   "stars": 2,
+   "size_kb": 20837
+  },
+  {
+   "repo": "Scirelgar/FSM-QAOA",
+   "sha": "b4d11df462b1be0bb14dc99505d129395e0b94e5",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": null,
+   "stars": 0,
+   "size_kb": 216
+  },
+  {
+   "repo": "SRI-International/QC-App-Oriented-Benchmarks",
+   "sha": "feb22a900d9d94d40e81bc1d25e149bd8f3cbc18",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "master",
+   "license": "Apache-2.0",
+   "stars": 181,
+   "size_kb": 247293
+  },
+  {
+   "repo": "TharrmashasthaPV/Maximum-Independent-Set-using-VQA",
+   "sha": "7e548d3857f8de0d4b4b593ecfb2f79b732cebfc",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 1290
+  },
+  {
+   "repo": "timowhite88/Farnsworth",
+   "sha": "1d51c1a6b7d6cc0a009a114a20f6205fce5885b3",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 68,
+   "size_kb": 10691
+  },
+  {
+   "repo": "TrevorD2/RHS-Coding-Club-2024-25",
+   "sha": "062a18b8eca27e5e70b1b5e45153b3b9be5bc4a0",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "MIT",
+   "stars": 0,
+   "size_kb": 214
+  },
+  {
+   "repo": "unitarylab/quantum-skills",
+   "sha": "ff6ae873e68723fc68ed5a8fbcc1e3855fa7b572",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "master",
+   "license": "NOASSERTION",
+   "stars": 30,
+   "size_kb": 67043
+  },
+  {
+   "repo": "UTokyo-ICEPP/aqcel",
+   "sha": "6f7ff5a9dd5de7106da5d33b6a4cd0819fbd5273",
+   "stratum": "A_statevector_sampler",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 8,
+   "size_kb": 5975
+  },
+  {
+   "repo": "VedantMahadik-qc/qaoa-maxcut",
+   "sha": "fa035ddf5c9da5ab1b1810656e6f033fd0a552a0",
+   "stratum": "C_statevector_estimator",
+   "default_branch": "main",
+   "license": "NOASSERTION",
+   "stars": 0,
+   "size_kb": 4
+  }
+ ]
+}

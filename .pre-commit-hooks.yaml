@@ -1,0 +1,15 @@
+- id: qxlint
+  name: qxlint
+  description: Deterministic static checks for Qiskit Primitives V2 workflows
+  entry: qxlint
+  language: python
+  types: [python]
+  require_serial: false
+
+- id: qxlint-notebook
+  name: qxlint (notebooks)
+  description: Run qxlint on Jupyter notebooks
+  entry: qxlint
+  language: python
+  types: [jupyter]
+  require_serial: false

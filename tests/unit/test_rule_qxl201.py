@@ -1,0 +1,167 @@
+"""QXL201: the removed ibm_quantum channel, and its version gate."""
+
+from __future__ import annotations
+
+import pytest
+
+from qxlint.diagnostics import Severity
+from tests.conftest import codes, lint
+
+SOURCE = (
+    "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+    'service = QiskitRuntimeService(channel="ibm_quantum")\n'
+)
+
+
+@pytest.mark.parametrize("target", ["0.41", "0.41.0", "0.48", ">=0.41", "~=0.48.0"])
+def test_positive_when_every_allowed_version_removed_it(target: str) -> None:
+    findings = lint(SOURCE, runtime=target)
+    assert codes(findings) == ["QXL201"]
+    assert findings[0].severity is Severity.ERROR
+    assert "removed" in findings[0].message
+
+
+@pytest.mark.parametrize("target", ["0.40", "0.40.2", "==0.40.*"])
+def test_deprecation_message_below_the_removal_version(target: str) -> None:
+    findings = lint(SOURCE, runtime=target)
+    assert codes(findings) == ["QXL201"]
+    assert findings[0].severity is Severity.WARNING
+    assert "deprecated" in findings[0].message
+
+
+@pytest.mark.parametrize("target", [">=0.38,<0.43", ">=0.40", "!=0.41,>=0.38"])
+def test_silent_when_the_specifier_spans_the_removal(target: str) -> None:
+    assert codes(lint(SOURCE, runtime=target)) == []
+
+
+def test_silent_below_the_deprecation_version() -> None:
+    assert codes(lint(SOURCE, runtime="0.39")) == []
+
+
+def test_silent_without_a_target_version() -> None:
+    assert codes(lint(SOURCE)) == []
+
+
+def test_constant_propagation_through_a_variable() -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        'CHANNEL = "ibm_quantum"\n'
+        "service = QiskitRuntimeService(channel=CHANNEL)\n"
+    )
+    assert codes(lint(source, runtime="0.48")) == ["QXL201"]
+
+
+def test_negative_when_the_channel_is_omitted() -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        "service = QiskitRuntimeService(token=TOKEN)\n"
+    )
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+@pytest.mark.parametrize("channel", ["ibm_quantum_platform", "ibm_cloud", "local"])
+def test_negative_for_every_currently_valid_channel(channel: str) -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        f'service = QiskitRuntimeService(channel="{channel}")\n'
+    )
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+def test_negative_on_an_unrelated_class_with_the_same_argument() -> None:
+    source = 'client = SomeOtherService(channel="ibm_quantum")\n'
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+def test_negative_when_the_value_is_computed() -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        "service = QiskitRuntimeService(channel=pick_channel())\n"
+    )
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+def test_location_points_at_the_argument() -> None:
+    finding = lint(SOURCE, runtime="0.48")[0]
+    assert finding.location.line == 2
+    assert finding.location.column > 30
+
+
+# save_account ------------------------------------------------------------
+#
+# The constructor was the only call site checked, and save_account is the one
+# the IBM setup docs open with. Eleven of them sat unreported across the
+# external corpus. Verified on qiskit-ibm-runtime 0.48.0: save_account raises
+# InvalidAccountError for this value, so it is the same defect.
+
+SAVE = (
+    "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+    'QiskitRuntimeService.save_account(channel="ibm_quantum", token="t")\n'
+)
+
+
+def test_save_account_is_reported() -> None:
+    findings = lint(SAVE, runtime="0.48")
+    assert codes(findings) == ["QXL201"]
+    assert findings[0].location.column > 30
+
+
+def test_save_account_through_an_import_alias_is_reported() -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService as QRS\n"
+        'QRS.save_account(channel="ibm_quantum")\n'
+    )
+    assert codes(lint(source, runtime="0.48")) == ["QXL201"]
+
+
+def test_save_account_on_an_instance_is_reported() -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        "service = QiskitRuntimeService()\n"
+        'service.save_account(channel="ibm_quantum")\n'
+    )
+    assert codes(lint(source, runtime="0.48")) == ["QXL201"]
+
+
+def test_save_account_obeys_the_same_version_gate() -> None:
+    assert codes(lint(SAVE, runtime="0.40")) == ["QXL201"]
+    assert lint(SAVE, runtime="0.40")[0].severity is Severity.WARNING
+    assert codes(lint(SAVE, runtime=">=0.38,<0.43")) == []
+    assert codes(lint(SAVE)) == []
+
+
+@pytest.mark.parametrize("channel", ["ibm_quantum_platform", "ibm_cloud"])
+def test_save_account_with_a_valid_channel_is_silent(channel: str) -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        f'QiskitRuntimeService.save_account(channel="{channel}")\n'
+    )
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+def test_a_local_class_with_the_same_name_is_not_flagged() -> None:
+    source = (
+        "class QiskitRuntimeService:\n"
+        "    @staticmethod\n"
+        "    def save_account(**kwargs):\n"
+        "        pass\n"
+        'QiskitRuntimeService.save_account(channel="ibm_quantum")\n'
+        "local = QiskitRuntimeService()\n"
+        'local.save_account(channel="ibm_quantum")\n'
+    )
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+def test_save_account_on_an_unrelated_object_is_not_flagged() -> None:
+    source = 'store.save_account(channel="ibm_quantum")\n'
+    assert codes(lint(source, runtime="0.48")) == []
+
+
+@pytest.mark.parametrize("channel", ['channel="ibm_cloud"', "channel=pick()", ""])
+def test_save_account_on_an_instance_without_the_removed_value_is_silent(channel: str) -> None:
+    source = (
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        "service = QiskitRuntimeService()\n"
+        f"service.save_account({channel})\n"
+    )
+    assert codes(lint(source, runtime="0.48")) == []

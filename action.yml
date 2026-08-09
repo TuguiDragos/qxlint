@@ -1,0 +1,114 @@
+name: qxlint
+description: Deterministic static checks for Qiskit Primitives V2 workflows
+author: Tugui Dragos
+
+branding:
+  icon: check-square
+  color: purple
+
+inputs:
+  paths:
+    description: Files or directories to analyse
+    required: false
+    default: "."
+  format:
+    description: Output format, one of text, json, sarif
+    required: false
+    default: text
+  output:
+    description: Write the output to this file instead of stdout
+    required: false
+    default: ""
+  select:
+    description: Comma separated rule codes or prefixes to run
+    required: false
+    default: ""
+  ignore:
+    description: Comma separated rule codes or prefixes to skip
+    required: false
+    default: ""
+  target-qiskit:
+    description: Target Qiskit version or specifier
+    required: false
+    default: ""
+  target-runtime:
+    description: Target qiskit-ibm-runtime version or specifier
+    required: false
+    default: ""
+  version:
+    description: qxlint version specifier to install
+    required: false
+    default: ""
+  python-version:
+    description: Python version to run under
+    required: false
+    default: "3.13"
+  fail-on-findings:
+    description: Fail the step when qxlint reports findings
+    required: false
+    default: "true"
+
+outputs:
+  exit-code:
+    description: qxlint exit code, 0 clean, 1 findings, 2 could not run
+    value: ${{ steps.qxlint.outputs.exit-code }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v7
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    # Every input reaches the shell through env rather than through ${{ }}.
+    # GitHub substitutes an expression into the script text before bash parses
+    # it, so an input containing a quote or a semicolon would be read as shell
+    # syntax. An environment variable is data, whatever is in it.
+    - name: Install qxlint
+      shell: bash
+      env:
+        INPUT_VERSION: ${{ inputs.version }}
+      run: python -m pip install --disable-pip-version-check "qxlint${INPUT_VERSION}"
+
+    - name: Run qxlint
+      id: qxlint
+      shell: bash
+      env:
+        INPUT_PATHS: ${{ inputs.paths }}
+        INPUT_FORMAT: ${{ inputs.format }}
+        INPUT_OUTPUT: ${{ inputs.output }}
+        INPUT_SELECT: ${{ inputs.select }}
+        INPUT_IGNORE: ${{ inputs.ignore }}
+        INPUT_TARGET_QISKIT: ${{ inputs.target-qiskit }}
+        INPUT_TARGET_RUNTIME: ${{ inputs.target-runtime }}
+        INPUT_FAIL_ON_FINDINGS: ${{ inputs.fail-on-findings }}
+      run: |
+        # read splits on whitespace without evaluating anything, so several
+        # paths still work, on one line or on several, and none of them can run
+        # a command. -d '' makes it read past the first newline; it then returns
+        # non-zero at end of input, which is expected.
+        IFS=$' \t\n' read -ra paths -d '' <<< "$INPUT_PATHS" || true
+        args=("${paths[@]}" --format "$INPUT_FORMAT" --no-color)
+        [ -n "$INPUT_SELECT" ] && args+=(--select "$INPUT_SELECT")
+        [ -n "$INPUT_IGNORE" ] && args+=(--ignore "$INPUT_IGNORE")
+        [ -n "$INPUT_TARGET_QISKIT" ] && args+=(--target-qiskit "$INPUT_TARGET_QISKIT")
+        [ -n "$INPUT_TARGET_RUNTIME" ] && args+=(--target-runtime "$INPUT_TARGET_RUNTIME")
+
+        set +e
+        if [ -n "$INPUT_OUTPUT" ]; then
+          qxlint "${args[@]}" > "$INPUT_OUTPUT"
+        else
+          qxlint "${args[@]}"
+        fi
+        code=$?
+        set -e
+
+        echo "exit-code=$code" >> "$GITHUB_OUTPUT"
+        if [ "$code" -eq 2 ]; then
+          echo "::error::qxlint could not run"
+          exit 2
+        fi
+        if [ "$code" -eq 1 ] && [ "$INPUT_FAIL_ON_FINDINGS" = "true" ]; then
+          exit 1
+        fi
+        exit 0

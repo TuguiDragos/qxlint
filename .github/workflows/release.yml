@@ -1,0 +1,176 @@
+name: Release
+
+# One tag publishes to all three registries, in dependency order:
+#   PyPI                 -> the analyser itself, everything else launches it
+#   npm                  -> `npx qxlint`
+#   VS Code Marketplace  -> the editor extension
+#
+# Each stage waits for the one before it, so a failed PyPI publish never leaves
+# an extension in the marketplace pointing at a version that does not exist.
+
+on:
+  push:
+    tags: ["v*"]
+  # A manual run builds and validates without publishing: every publishing job
+  # is gated on the ref being a tag.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: verify the tag
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+
+      - name: Read the version and check every manifest agrees
+        id: version
+        run: |
+          version=$(uv run python -c "import tomllib;print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "python package: $version"
+
+          for manifest in npm/package.json vscode/package.json; do
+            other=$(uv run python -c "import json;print(json.load(open('$manifest'))['version'])")
+            echo "$manifest: $other"
+            if [ "$other" != "$version" ]; then
+              echo "::error::$manifest is $other but pyproject.toml is $version"
+              exit 1
+            fi
+          done
+
+          if [ "${{ github.ref_type }}" = "tag" ] && [ "${GITHUB_REF_NAME#v}" != "$version" ]; then
+            echo "::error::tag ${GITHUB_REF_NAME} does not match version $version"
+            exit 1
+          fi
+
+      - run: uv sync --extra circuit
+      - run: uv run pytest -q
+      - run: uv run ruff check src tests scripts
+      - run: uv run mypy
+
+  build-python:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: pip install build
+      - run: python -m build
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dist
+          path: dist/
+
+  build-extension:
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+      - working-directory: vscode
+        run: npm ci
+      - working-directory: vscode
+        run: npx vsce package --out qxlint-${{ needs.verify.outputs.version }}.vsix
+      - uses: actions/upload-artifact@v7
+        with:
+          name: vsix
+          path: vscode/*.vsix
+
+  testpypi:
+    needs: build-python
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    environment: testpypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+
+  pypi:
+    needs: testpypi
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    # Requires a reviewer on the environment, so production is never automatic.
+    # Trusted publishing means no token is ever stored for PyPI.
+    environment: pypi
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+      - uses: pypa/gh-action-pypi-publish@release/v1
+
+  npm:
+    needs: pypi
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          registry-url: https://registry.npmjs.org
+      # npm trusted publishing cannot perform a package's FIRST publish, so
+      # 0.1.0 goes out manually and `npm trust` is configured afterwards. From
+      # then on this step needs no token.
+      #
+      # `npm publish` refuses to publish over an existing version, and there is
+      # no --skip-duplicate for it. Every other stage of this release is
+      # re-runnable, so the check is done here instead: without it, re-running a
+      # tag, or tagging the version that was published by hand, fails the job.
+      - name: Publish to npm unless the version is already there
+        working-directory: npm
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "qxlint@$version" version > /dev/null 2>&1; then
+            echo "qxlint@$version is already published, skipping"
+            exit 0
+          fi
+          npm publish
+
+  marketplace:
+    # build-extension is what uploads the vsix this job downloads, so it has to
+    # be waited on. Without it the two are only ordered by luck of timing.
+    needs: [pypi, build-extension]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    environment: vscode-marketplace
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: vsix
+          path: vsix/
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      # vsce still requires an Azure DevOps PAT. Its --oidc trusted publishing
+      # exists only on the `next` tag, is hidden from help, and the marketplace
+      # side is not documented yet, so it is deliberately not used here.
+      # Azure DevOps global PATs retire on 2026-12-01.
+      - name: VS Code Marketplace
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+        run: npx @vscode/vsce@^3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate

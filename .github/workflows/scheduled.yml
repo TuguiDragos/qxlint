@@ -1,0 +1,44 @@
+name: Upstream drift
+
+# The API model is hardcoded so that Engine A works without Qiskit installed.
+# That is only safe if something notices when upstream moves, so this job runs
+# the suite against the latest releases and fails loudly rather than waiting for
+# a user to report it.
+
+on:
+  schedule:
+    - cron: "0 6 1,15 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  latest:
+    name: latest ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: [qiskit, qiskit-ibm-runtime, both]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9.0.0
+      - run: uv sync --extra circuit
+
+      - name: Upgrade
+        run: |
+          case "${{ matrix.package }}" in
+            qiskit)             uv pip install -U qiskit ;;
+            qiskit-ibm-runtime) uv pip install -U qiskit-ibm-runtime ;;
+            both)               uv pip install -U qiskit qiskit-ibm-runtime ;;
+          esac
+          uv run python -c "import qiskit; print('qiskit', qiskit.__version__)"
+          uv run python -c "import qiskit_ibm_runtime as r; print('runtime', r.__version__)"
+
+      - name: Tests
+        run: uv run pytest -q
+
+      - name: Re-verify the hardcoded API model against the installed packages
+        run: uv run python scripts/verify_model.py

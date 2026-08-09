@@ -1,0 +1,155 @@
+{
+  "name": "qxlint",
+  "displayName": "qxlint",
+  "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
+  "version": "0.1.0",
+  "publisher": "tuguidragos",
+  "license": "MIT",
+  "author": {
+    "name": "Tugui Dragos",
+    "url": "https://tuguidragos.com"
+  },
+  "homepage": "https://github.com/TuguiDragos/qxlint",
+  "bugs": {
+    "url": "https://github.com/TuguiDragos/qxlint/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TuguiDragos/qxlint.git",
+    "directory": "vscode"
+  },
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1b1b28",
+    "theme": "dark"
+  },
+  "categories": [
+    "Linters",
+    "Programming Languages",
+    "Data Science"
+  ],
+  "keywords": [
+    "qiskit",
+    "quantum",
+    "linter",
+    "python",
+    "jupyter"
+  ],
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "capabilities": {
+    "virtualWorkspaces": {
+      "supported": false,
+      "description": "qxlint runs a local process, so a virtual filesystem cannot be analysed."
+    },
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "qxlint runs the workspace's Python interpreter."
+    }
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onLanguage:python",
+    "onNotebook:jupyter-notebook"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "qxlint.lintWorkspace",
+        "title": "qxlint: Lint workspace"
+      },
+      {
+        "command": "qxlint.restart",
+        "title": "qxlint: Re-lint open files"
+      },
+      {
+        "command": "qxlint.showOutput",
+        "title": "qxlint: Show output"
+      }
+    ],
+    "configuration": {
+      "title": "qxlint",
+      "type": "object",
+      "properties": {
+        "qxlint.enable": {
+          "type": "boolean",
+          "default": true,
+          "scope": "resource",
+          "description": "Run qxlint on Python files and notebooks."
+        },
+        "qxlint.path": {
+          "type": "string",
+          "default": "",
+          "scope": "machine-overridable",
+          "markdownDescription": "Path to the `qxlint` executable. Empty uses the interpreter selected by the Python extension."
+        },
+        "qxlint.run": {
+          "type": "string",
+          "enum": [
+            "onSave",
+            "onType"
+          ],
+          "default": "onSave",
+          "scope": "resource",
+          "description": "When to re-run qxlint.",
+          "enumDescriptions": [
+            "Re-run when the file is saved. Diagnostics always match the file on disk.",
+            "Re-run while typing, after a short pause. The analyser reads the file from disk, so unsaved edits are not reflected until you save; this only makes the run happen sooner after a save."
+          ]
+        },
+        "qxlint.select": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Comma separated rule codes or prefixes to run."
+        },
+        "qxlint.ignore": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Comma separated rule codes or prefixes to skip."
+        },
+        "qxlint.targetQiskit": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "markdownDescription": "Target Qiskit version or specifier, for example `2.5` or `>=2.0`."
+        },
+        "qxlint.targetRuntime": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "markdownDescription": "Target `qiskit-ibm-runtime` version or specifier. Version gated rules stay silent without one."
+        },
+        "qxlint.args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "scope": "resource",
+          "description": "Extra arguments passed to qxlint."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "vscode:prepublish": "npm run typecheck && node esbuild.mjs --production",
+    "package": "vsce package --out qxlint.vsix",
+    "test": "tsc -p tsconfig.json && node --test out/core.test.js",
+    "test:e2e": "node test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.75.0",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^3.9.2",
+    "esbuild": "^0.25.0",
+    "ovsx": "^1.1.0",
+    "typescript": "^5.7.0"
+  }
+}

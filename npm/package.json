@@ -1,0 +1,38 @@
+{
+  "name": "qxlint",
+  "version": "0.1.0",
+  "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
+  "keywords": [
+    "qiskit",
+    "quantum",
+    "linter",
+    "static-analysis"
+  ],
+  "homepage": "https://github.com/TuguiDragos/qxlint",
+  "bugs": "https://github.com/TuguiDragos/qxlint/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TuguiDragos/qxlint.git",
+    "directory": "npm"
+  },
+  "license": "MIT",
+  "author": "Tugui Dragos <contact@tuguidragos.com> (https://tuguidragos.com)",
+  "type": "commonjs",
+  "bin": {
+    "qxlint": "bin/qxlint.js"
+  },
+  "files": [
+    "bin/",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  }
+}

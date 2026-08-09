@@ -1,0 +1,150 @@
+[build-system]
+requires = ["hatchling>=1.27", "hatch-fancy-pypi-readme>=25.1"]
+build-backend = "hatchling.build"
+
+[project]
+name = "qxlint"
+version = "0.1.0"
+description = "Deterministic static checks for Qiskit Primitives V2 workflows"
+dynamic = ["readme"]
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+authors = [{ name = "Tugui Dragos", email = "contact@tuguidragos.com" }]
+keywords = ["qiskit", "quantum", "linter", "static-analysis", "flake8"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Topic :: Software Development :: Quality Assurance",
+    "Typing :: Typed",
+]
+dependencies = ["packaging>=24.0"]
+
+[project.optional-dependencies]
+circuit = ["qiskit>=2.0"]
+
+[project.urls]
+Homepage = "https://github.com/TuguiDragos/qxlint"
+Repository = "https://github.com/TuguiDragos/qxlint"
+Issues = "https://github.com/TuguiDragos/qxlint/issues"
+Changelog = "https://github.com/TuguiDragos/qxlint/releases"
+
+[project.scripts]
+qxlint = "qxlint.cli:main"
+
+[project.entry-points."flake8.extension"]
+QXL = "qxlint.flake8_plugin:QxlintFlake8Plugin"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.9",
+    "mypy>=1.14",
+    "flake8>=7.1",
+    "jsonschema>=4.23",
+    # Test only. Engine B itself needs nothing beyond qiskit.
+    "qiskit-ibm-runtime>=0.40",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/qxlint"]
+
+[tool.hatch.build.targets.sdist]
+# Leading slashes anchor these at the repository root. Unanchored, README.md and
+# LICENSE match at any depth, so every one in npm/, vscode/ and corpus/ was
+# packaged too, and anything a test downloads would be as well.
+include = ["/src/qxlint", "/tests", "/README.md", "/LICENSE"]
+
+# PyPI does not resolve relative links, so they 404 on the project page. The
+# README stays relative for GitHub; only the packaged copy is rewritten.
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+# Directories first: once rewritten they start with https://, so the file rule
+# below skips them.
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\]\((?!https?://|#|mailto:)([^)]+/)\)'
+replacement = '](https://github.com/TuguiDragos/qxlint/tree/main/\1)'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\]\((?!https?://|#|mailto:)([^)]+)\)'
+replacement = '](https://github.com/TuguiDragos/qxlint/blob/main/\1)'
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests"]
+# ruff formats Python code blocks inside Markdown. The documentation needs its
+# examples exactly as written: docs/notebooks.md shows a continuation line that
+# the formatter would join into one, which is the opposite of the point, and
+# several pages align trailing comments so a reader can compare them.
+# The VS Code test fixtures are input to that suite, not project code.
+extend-exclude = ["*.md", "vscode/test/fixtures"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF", "PL", "C4", "PTH"]
+# qxlint runs over this repository too, so ruff must not strip its suppressions.
+external = ["QXL"]
+ignore = [
+    "PLR0911",
+    "PLR0912",
+    "PLR0913",
+    "PLR0915",
+    "PLR0917",
+    "PLR2004",
+    # Qiskit is optional and several imports are deliberately deferred to keep
+    # Engine A usable without it, and to avoid import cycles in the registry.
+    "PLC0415",
+    "N818",
+]
+
+[tool.ruff.lint.per-file-ignores]
+# The statement and expression handlers are dispatched by AST node class name,
+# so their names must match those classes exactly.
+"src/qxlint/semantics/analyzer.py" = ["N802"]
+"tests/**" = ["PLR2004", "N806", "RUF001"]
+"tests/fixtures/**" = ["ALL"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
+markers = ["requires_qiskit: test needs qiskit installed"]
+
+[tool.coverage.run]
+# Branch coverage, because a guard whose false side never runs is exactly where
+# a linter hides a wrong answer.
+branch = true
+source = ["src/qxlint"]
+
+[tool.coverage.report]
+# The project is at 100% on both statements and branches. This gate keeps it
+# there: a new branch without a test fails CI rather than quietly lowering the
+# number. Defensive guards that no valid input can reach carry an explicit
+# "pragma: no cover" with the reason written next to them.
+fail_under = 100
+show_missing = true
+skip_covered = true
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unreachable = true
+files = ["src/qxlint"]
+
+[[tool.mypy.overrides]]
+module = ["qiskit.*"]
+ignore_missing_imports = true

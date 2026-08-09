@@ -1,0 +1,71 @@
+{
+ "note": "Bug 5 was found by the rule's own first scan, before it shipped. The corpus is what caught it, which is the argument for scanning before releasing a rule.",
+ "not_bugs": [
+  "NUL byte in a cell, pasted output stored in a code cell, and a missing comma are genuinely unparsable; reporting QXL000 is correct."
+ ],
+ "defects": [
+  {
+   "symptom": "QXL000 'unexpected indent' on a cell whose every line carries a uniform leading indent",
+   "found_in": "LucaGandolfi77/Qiskit-QuantumComputing QISKIT/Qiskit04.ipynb cell 14 (and its backup copy)",
+   "cause": "IPython strips a uniform leading indent before executing a cell; qxlint did not.",
+   "fix": "notebook._strip_leading_indent, with the removed width added back to reported columns.",
+   "regression_test": "tests/unit/test_notebook_regressions.py::test_uniform_leading_indent_is_stripped"
+  },
+  {
+   "symptom": "QXL000 'unexpected indent' on a %pip line continued over six lines with backslashes",
+   "found_in": "Kolo-Naukowe-Axion/QC1_Quantum_Banknote_Classifier_on_ODRA_5 model_evaluation.ipynb cell 1",
+   "cause": "Only the first line of a multi-line magic was dropped, leaving the continuation as stray indented text.",
+   "fix": "notebook._neutralise_lines follows backslash continuations.",
+   "regression_test": "tests/unit/test_notebook_regressions.py::test_multiline_line_magic_with_backslash_continuation"
+  },
+  {
+   "symptom": "Python SyntaxWarning text leaked onto stderr while linting files with invalid escape sequences",
+   "found_in": "AntaoA/Projet_long, Brandon-Acres/MMWGA (8 warnings)",
+   "cause": "compile() emits SyntaxWarning for sequences such as \\e and \\k; qxlint is only reading the file.",
+   "fix": "warnings suppressed in engine.parse_module and notebook.parse_cell.",
+   "regression_test": "covered by the corpus rescan; stderr is now empty"
+  },
+  {
+   "symptom": "A magic that is the only statement of an indented block left the block empty",
+   "found_in": "not observed in this corpus; found while fixing bug 2",
+   "cause": "Dropped lines became blank, so `try:` followed by only a magic produced an IndentationError.",
+   "fix": "notebook._dropped emits `pass` at the original indentation.",
+   "regression_test": "tests/unit/test_notebook_regressions.py::test_magic_alone_in_an_indented_block_keeps_the_block_valid"
+  },
+  {
+   "symptom": "QXL104 reported 57 findings on its first corpus run; 50 were calls inside assertRaises or a guarded try block",
+   "found_in": "Qiskit/qiskit test suite, chiefly test/python/circuit/test_compose.py",
+   "cause": "A statement inside `with self.assertRaises(...)` or `try/except` is written to raise before returning, so discarding its result is deliberate, not a no-op.",
+   "fix": "analyzer tracks an exception assertion depth and does not mark calls inside one as discarded.",
+   "regression_test": "tests/unit/test_rule_qxl104.py::test_inside_assert_raises_the_discard_is_the_point and ::test_inside_a_guarded_try_block"
+  },
+  {
+   "symptom": "A notebook that is not UTF-8 ended the whole run, with no output at all",
+   "found_in": "a repository holding a notebook with a cp1252 em dash in its title",
+   "cause": "read_notebook decoded as UTF-8 and let UnicodeDecodeError escape. The .py path already handled the same error.",
+   "fix": "the notebook reader reports QXL000 for that file and the run continues.",
+   "regression_test": "tests/unit/test_notebook_regressions.py"
+  },
+  {
+   "symptom": "Findings inside loops were reported more than once",
+   "found_in": "several repositories with a primitive call inside a for body",
+   "cause": "a loop body is walked twice to reach a fixed point and rules emit on every walk.",
+   "fix": "engine deduplicates by finding identity after the walk.",
+   "regression_test": "tests/unit/test_branch_edges.py"
+  },
+  {
+   "symptom": "QXL201 checked only the constructor",
+   "found_in": "calls to QiskitRuntimeService.save_account(channel=...)",
+   "cause": "the rule matched the constructor call site and nothing else.",
+   "fix": "save_account is a call site too.",
+   "regression_test": "tests/unit/test_rule_qxl201.py"
+  },
+  {
+   "symptom": "QXL000 on notebook cells holding an ordinary IPython shell escape",
+   "found_in": "30 cells across the corpus: `! pip install x`, `!{sys.executable} -m pip install x`, `!./cloudflared ...`",
+   "cause": "the magic detector required a letter after the `!`, and a shell command is not an identifier.",
+   "fix": "notebook.SHELL_LINE_RE accepts any command, and still leaves a `!=` continuation alone.",
+   "regression_test": "tests/unit/test_notebook_policy.py::test_any_shell_command_is_dropped"
+  }
+ ]
+}
