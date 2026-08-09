@@ -7,6 +7,8 @@ name: Release
 #
 # Each stage waits for the one before it, so a failed PyPI publish never leaves
 # an extension in the marketplace pointing at a version that does not exist.
+#
+# A GitHub release is drafted once all of them succeed.
 
 on:
   push:
@@ -174,3 +176,42 @@ jobs:
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: npx @vscode/vsce@^3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate
+
+  github-release:
+    # pyproject.toml points its Changelog URL at this page, and the extension's
+    # changelog refers readers to it for the rule changes. A tag that publishes
+    # to three registries without leaving a release here leaves both pointing
+    # at an empty page.
+    #
+    # Drafted rather than published, because the changelog is written in the
+    # release itself and drafting is what leaves room to write it. Publishing it
+    # by hand is also where the Actions Marketplace listing gets ticked.
+    needs: [npm, marketplace]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: dist
+          path: dist/
+
+      # The sdist and the wheel are the exact files PyPI received, so what was
+      # published can be checked without going through PyPI.
+      #
+      # There is no checkout in this job, so gh needs to be told the repository.
+      # Re-running a tag must not fail on the release the first run drafted,
+      # which is why an existing one is updated instead of created.
+      - name: Draft the release with the files that went to PyPI
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dist/* \
+              --repo "$GITHUB_REPOSITORY" --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/* \
+              --repo "$GITHUB_REPOSITORY" \
+              --draft --title "$GITHUB_REF_NAME" --notes ""
+          fi
