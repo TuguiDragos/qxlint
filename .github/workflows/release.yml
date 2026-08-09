@@ -119,7 +119,14 @@ jobs:
         with:
           name: dist
           path: dist/
+
+      # The action fails by default on a version the index already has, which
+      # would make a tag unrecoverable: once this job has uploaded, any later
+      # job failing leaves the re-run dying here, so npm and the marketplace
+      # never get their second chance and the version has to be burnt.
       - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
 
   npm:
     needs: pypi
