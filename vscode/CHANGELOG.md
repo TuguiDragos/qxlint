@@ -7,6 +7,16 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
+## 0.1.1
+
+The extension itself is unchanged.
+
+### Added
+
+- **Published to [Open VSX](https://open-vsx.org/extension/tuguidragos/qxlint)**,
+  so it installs from VSCodium, Cursor, Windsurf, Gitpod and Theia, which cannot
+  use the Microsoft Marketplace. Same `.vsix`, same version.
+
 ## 0.1.0
 
 First release.

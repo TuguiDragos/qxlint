@@ -15,7 +15,7 @@
   <a href="https://github.com/TuguiDragos/qxlint/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/TuguiDragos/qxlint/ci.yml?branch=main&style=flat&color=161826&label=CI&logo=githubactions&logoColor=9184D9" /></a>
   <a href="https://www.python.org/"><img alt="Python 3.11 to 3.14" src="https://img.shields.io/badge/Python-3.11%20--%203.14-161826?style=flat&logo=python&logoColor=9184D9" /></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="903 tests" src="https://img.shields.io/badge/tests-903-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="909 tests" src="https://img.shields.io/badge/tests-909-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-161826?style=flat" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
 </p>
@@ -211,7 +211,7 @@ nbqa. [Details and limits](docs/notebooks.md).
 ```yaml
 repos:
   - repo: https://github.com/TuguiDragos/qxlint
-    rev: v0.1.0
+    rev: v0.1.1
     hooks:
       - id: qxlint
       - id: qxlint-notebook
@@ -231,7 +231,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: TuguiDragos/qxlint@v0.1.0
+      - uses: TuguiDragos/qxlint@v0.1.1
         with:
           paths: .
           format: sarif
@@ -384,7 +384,7 @@ Every claim on this page is backed by something that runs.
 
 | | |
 | --- | --- |
-| Tests | **903**, on Python 3.11, 3.12, 3.13 and 3.14 |
+| Tests | **909**, on Python 3.11, 3.12, 3.13 and 3.14 |
 | Qiskit matrix | 2.5.1, the declared floor 2.0.3, and a job with **no Qiskit installed at all** |
 | Coverage | **100% of statements and branches**, enforced as a CI gate, not reported as a number |
 | Types | `mypy --strict`, clean |

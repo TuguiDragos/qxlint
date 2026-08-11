@@ -26,7 +26,7 @@ Every line under "Met" is checked by something that runs, not by review.
 
 ### The suite
 
-- **903 tests**, green on Python 3.11, 3.12, 3.13 and 3.14.
+- **909 tests**, green on Python 3.11, 3.12, 3.13 and 3.14.
 - **100% coverage of statements and branches**, enforced as a CI gate rather
   than reported as a number. Branch coverage is on because a guard whose false
   side never runs is exactly where a linter hides a wrong answer.

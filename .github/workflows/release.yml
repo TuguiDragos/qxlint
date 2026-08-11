@@ -184,6 +184,31 @@ jobs:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: npx @vscode/vsce@^3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate
 
+  open-vsx:
+    # The registry VSCodium, Cursor, Windsurf and Theia use. Its own job rather
+    # than a step in `marketplace`, so a failure here cannot fail a job whose
+    # Marketplace publish already succeeded. Nothing depends on this one.
+    needs: [pypi, build-extension]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    environment: vscode-marketplace
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          name: vsix
+          path: vsix/
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+
+      # The namespace must exist before the first publish and is created by
+      # hand, not here: creating it needs the same token and doing it on every
+      # tag would be a no-op at best.
+      - name: Open VSX
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        run: npx ovsx@^1.1.0 publish --packagePath vsix/*.vsix --skip-duplicate
+
   github-release:
     # pyproject.toml points its Changelog URL at this page, and the extension's
     # changelog refers readers to it for the rule changes. A tag that publishes

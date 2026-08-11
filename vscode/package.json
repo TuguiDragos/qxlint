@@ -2,7 +2,7 @@
   "name": "qxlint",
   "displayName": "qxlint",
   "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "tuguidragos",
   "license": "MIT",
   "author": {

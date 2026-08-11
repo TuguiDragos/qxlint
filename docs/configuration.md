@@ -94,7 +94,7 @@ In this order, every time:
 4. `ignore` removes codes matching one of its prefixes
 5. `per-file-ignores` removes further codes for paths matching a glob
 
-In 0.1.0 every preview rule is a circuit rule, reached through `check_circuit`
+In 0.1.1 every preview rule is a circuit rule, reached through `check_circuit`
 rather than by linting a file, so `preview` changes nothing about a `qxlint`
 run. It is honoured by the resolution above, and takes effect the moment a
 preview rule reads source. The circuit rules take `preview=True` as an argument.
