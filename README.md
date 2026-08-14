@@ -15,7 +15,7 @@
   <a href="https://github.com/TuguiDragos/qxlint/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/TuguiDragos/qxlint/ci.yml?branch=main&style=flat&color=161826&label=CI&logo=githubactions&logoColor=9184D9" /></a>
   <a href="https://www.python.org/"><img alt="Python 3.11 to 3.14" src="https://img.shields.io/badge/Python-3.11%20--%203.14-161826?style=flat&logo=python&logoColor=9184D9" /></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="909 tests" src="https://img.shields.io/badge/tests-909-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="960 tests" src="https://img.shields.io/badge/tests-960-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-161826?style=flat" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
 </p>
@@ -89,7 +89,8 @@ all, and only the in-memory circuit checks require it installed.
 | [QXL105](docs/rules/qxl105.md) | default | a measured circuit reaches a `StatevectorEstimator` |
 | [QXL201](docs/rules/qxl201.md) | default | `channel="ibm_quantum"` on a target that removed it |
 | [QXL202](docs/rules/qxl202.md) | default | Runtime `SamplerV2` given `backend=` or `session=` instead of `mode=` |
-| [QXL301](docs/rules/qxl301.md) | default, library | a circuit uses an operation the `Target` does not support |
+| [QXL300](docs/rules/qxl300.md) | default, library | control flow nests deeper than the circuit walker descends |
+| [QXL301](docs/rules/qxl301.md) | default, library | a circuit uses an operation the `Target` does not support, control flow operations included |
 | [QXL302](docs/rules/qxl302.md) | preview, library | two adjacent identical self inverse gates cancel |
 | [QXL303](docs/rules/qxl303.md) | preview, library | a qubit is declared but never operated on |
 
@@ -231,7 +232,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: TuguiDragos/qxlint@v0.1.1
+      - uses: TuguiDragos/qxlint@v0.2.0
         with:
           paths: .
           format: sarif
@@ -240,6 +241,19 @@ jobs:
         if: always()
         with:
           sarif_file: qxlint.sarif
+```
+
+The tag pins the analyser too: `@v0.2.0` installs qxlint 0.2.0, not whatever
+PyPI holds on the day the workflow runs. Override it with the `version` input
+when you want something else.
+
+`paths` takes **one path per line**, so a name containing a space is one path:
+
+```yaml
+        with:
+          paths: |
+            src
+            quantum notebooks/demo.ipynb
 ```
 
 `security-events: write` must be granted by the calling workflow; an action
@@ -338,6 +352,22 @@ then to none. Histogram blocks fall back to ASCII when the encoding cannot carry
 them.
 </details>
 
+<details>
+<summary>Analysing a buffer instead of a file</summary>
+
+```bash
+cat unsaved.py | qxlint --stdin-filename src/unsaved.py --format json
+```
+
+The path is metadata. It selects the configuration and decides whether the text
+is Python or a notebook, and the file itself is never opened, so this works on
+something that has not been saved or does not exist. This is how the VS Code
+extension analyses what is on screen rather than what is on disk.
+
+Notebooks work the same way: send the `.ipynb` JSON and name the path
+`something.ipynb`.
+</details>
+
 **Exit codes.** `0` clean, `1` findings, `2` qxlint could not run. A file that
 does not parse is a finding (QXL000), not an internal error, so a non-zero exit
 always means "look at the output". One unreadable file never ends the run.
@@ -384,7 +414,7 @@ Every claim on this page is backed by something that runs.
 
 | | |
 | --- | --- |
-| Tests | **909**, on Python 3.11, 3.12, 3.13 and 3.14 |
+| Tests | **960**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
 | Qiskit matrix | 2.5.1, the declared floor 2.0.3, and a job with **no Qiskit installed at all** |
 | Coverage | **100% of statements and branches**, enforced as a CI gate, not reported as a number |
 | Types | `mypy --strict`, clean |
@@ -434,7 +464,11 @@ always returns, so the comment on the first line describes something that does
 not happen.
 
 Every finding was read in context and labelled, with the line it was reported
-on, in [findings.csv](corpus/findings.csv). Full write up in
+on, in [findings.csv](corpus/findings.csv). **Every one of those 342 labels was
+written by an AI reviewer, `claude-opus-5`, and none has been confirmed by a
+human yet**, which is recorded in the `reviewer` column of every row. Read the
+corpus as evidence of robustness and determinism, which it measures directly,
+and not as a measurement of precision, which it does not. Full write up in
 [corpus/](corpus/).
 
 **What a pattern matcher would have done.** The corpus contains **4,003**
@@ -478,8 +512,9 @@ under a second, which is what makes it invisible in a pre-commit hook.
   valid from 3.12, and QXL000 follows. Run the same interpreter locally and in
   CI, as you would for any other linter.
 - **No precision figure is published.** Every finding across the corpus was
-  read and labelled and none was wrong, but a single reviewer is not an
-  independent precision measurement. See the
+  read and labelled and none was wrong, but the single reviewer was an AI and
+  its labels are still unconfirmed by a human, which is not an independent
+  precision measurement. See the
   [release gate](docs/release-gate.md) for exactly what is and is not claimed.
 - **Recall is measured for one rule only.** For the removed channel, where the
   textual pattern is precise enough to build a trustworthy denominator, qxlint

@@ -31,15 +31,29 @@ jobs:
           - python: "3.11"
             qiskit: minimum
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
         with:
           enable-cache: true
+          # Without this every job in the matrix ran whatever interpreter the
+          # runner image happened to ship, so six differently named jobs all
+          # tested CPython 3.12 and the 3.11 to 3.14 claim was never checked.
+          python-version: ${{ matrix.python }}
 
       - name: Install (no Qiskit)
         if: matrix.qiskit == 'none'
-        run: uv sync
+        # `uv sync` alone still installed Qiskit: qiskit-ibm-runtime is a test
+        # dependency and depends on it. This job spent its life claiming to
+        # prove something it was not testing, so it now excludes that group and
+        # then checks that Qiskit really is absent.
+        run: |
+          uv sync --no-group runtime
+          uv run --no-sync python -c "
+          import importlib.util
+          assert importlib.util.find_spec('qiskit') is None, 'qiskit is installed here'
+          print('qiskit is absent')
+          "
 
       - name: Install (pinned Qiskit)
         if: matrix.qiskit == 'pinned'
@@ -50,6 +64,45 @@ jobs:
         run: |
           uv sync --extra circuit
           uv pip install "qiskit==2.0.*"
+
+      - name: Later steps must not undo the install above
+        # Every `uv run` re-syncs from the lockfile first, which put the pinned
+        # Qiskit back before pytest started. The minimum job was testing 2.5
+        # twice and the floor in pyproject.toml had no regression test at all.
+        run: echo "UV_NO_SYNC=1" >> "$GITHUB_ENV"
+
+      - name: The Qiskit under test is the one this job is named after
+        run: |
+          uv run python - <<'EOF'
+          import importlib.util
+          import os
+          want = os.environ["MATRIX_QISKIT"]
+          if importlib.util.find_spec("qiskit") is None:
+              found = "none"
+          else:
+              import qiskit
+              found = qiskit.__version__
+          print(f"qiskit: {found}")
+          if want == "none":
+              assert found == "none", found
+          elif want == "minimum":
+              assert found.startswith("2.0."), found
+          else:
+              assert found != "none", found
+          EOF
+        env:
+          MATRIX_QISKIT: ${{ matrix.qiskit }}
+
+      # The job name is a label. This is the interpreter.
+      - name: The interpreter is the one this job is named after
+        run: |
+          uv run python -VV
+          uv run python -c "
+          import sys
+          want = '${{ matrix.python }}'
+          got = '%d.%d' % sys.version_info[:2]
+          assert got == want, f'job says {want}, interpreter is {got}'
+          "
 
       - name: Ruff
         run: uv run ruff check src tests scripts
@@ -81,8 +134,8 @@ jobs:
     name: flake8 plugin registration
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: "3.13"
       - run: pip install . flake8
@@ -95,19 +148,21 @@ jobs:
         run: flake8 --select=QXL tests/fixtures/clean
 
   action:
-    name: composite action metadata
+    name: composite action
     runs-on: ubuntu-latest
+    # The action installs from PyPI, so it runs against the last published
+    # release rather than this commit. That still exercises everything the
+    # action itself owns: argument building, the exit code contract, the
+    # output file and paths that contain a space.
+    env:
+      PUBLISHED: "==0.1.1"
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
-        with:
-          python-version: "3.13"
-      # The action installs qxlint from PyPI, so it cannot be executed here
-      # before the first release. Validate its metadata instead.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
       - name: action.yml is well formed
         run: |
           python - <<'EOF'
-          import sys, tomllib  # noqa: F401
+          import sys
           try:
               import yaml
           except ImportError:
@@ -119,15 +174,113 @@ jobs:
           print("action.yml ok")
           EOF
 
+      - name: A clean tree passes and reports exit code zero
+        id: clean
+        uses: ./
+        with:
+          paths: tests/fixtures/clean
+          version: ${{ env.PUBLISHED }}
+      - run: test "${{ steps.clean.outputs.exit-code }}" = "0"
+
+      - name: Findings fail the step when asked to
+        id: strict
+        continue-on-error: true
+        uses: ./
+        with:
+          paths: tests/fixtures/positive
+          version: ${{ env.PUBLISHED }}
+      - run: test "${{ steps.strict.outcome }}" = "failure"
+      - run: test "${{ steps.strict.outputs.exit-code }}" = "1"
+
+      - name: Findings do not fail the step when told not to
+        id: lenient
+        uses: ./
+        with:
+          paths: tests/fixtures/positive
+          fail-on-findings: "false"
+          version: ${{ env.PUBLISHED }}
+      - run: test "${{ steps.lenient.outputs.exit-code }}" = "1"
+
+      - name: SARIF reaches the output file
+        uses: ./
+        with:
+          paths: tests/fixtures/positive
+          format: sarif
+          output: qxlint.sarif
+          fail-on-findings: "false"
+          version: ${{ env.PUBLISHED }}
+      - run: |
+          python -c "
+          import json
+          report = json.load(open('qxlint.sarif'))
+          assert report['runs'][0]['results'], 'no SARIF results'
+          print(len(report['runs'][0]['results']), 'results')
+          "
+
+      - name: A path containing a space is one path
+        run: |
+          mkdir -p "quantum notebooks"
+          cp tests/fixtures/positive/qxl103_unmeasured.py "quantum notebooks/demo one.py"
+      - id: spaced
+        continue-on-error: true
+        uses: ./
+        with:
+          paths: quantum notebooks/demo one.py
+          version: ${{ env.PUBLISHED }}
+      # Exit 1 is findings, which proves the file was found and analysed.
+      # Splitting on spaces gave exit 2, "path does not exist: quantum".
+      - run: test "${{ steps.spaced.outputs.exit-code }}" = "1"
+
+      - name: Several paths, one per line
+        id: many
+        continue-on-error: true
+        uses: ./
+        with:
+          paths: |
+            tests/fixtures/clean
+            quantum notebooks/demo one.py
+          version: ${{ env.PUBLISHED }}
+      - run: test "${{ steps.many.outputs.exit-code }}" = "1"
+
+      - name: An input that looks like shell is data, not code
+        id: hostile
+        continue-on-error: true
+        uses: ./
+        with:
+          paths: tests/fixtures/clean
+          select: QXL101; touch /tmp/pwned
+          version: ${{ env.PUBLISHED }}
+      - run: |
+          test ! -e /tmp/pwned
+          test "${{ steps.hostile.outcome }}" = "failure"
+
+      - name: The default version input pins to the VERSION file
+        run: |
+          grep -q 'ACTION_PATH/VERSION' action.yml
+          test "$(cat VERSION)" = "$(python -c "
+          import tomllib
+          print(tomllib.load(open('pyproject.toml','rb'))['project']['version'])
+          ")"
+
   npm:
-    name: npm launcher
-    runs-on: ubuntu-latest
+    name: npm launcher (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    # The launcher has a whole resolution path that only exists on Windows:
+    # PATHEXT handling, and the py launcher. Testing it on Linux alone left
+    # that code with no coverage anywhere.
+    defaults:
+      run:
+        shell: bash
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24"
-      - uses: actions/setup-python@v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: "3.13"
       - run: pip install .
@@ -167,11 +320,18 @@ jobs:
         run: npm pack --dry-run
 
   vscode:
-    name: vs code extension
-    runs-on: ubuntu-latest
+    name: vs code extension (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    defaults:
+      run:
+        shell: bash
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24"
       - working-directory: vscode
@@ -186,12 +346,17 @@ jobs:
       # core.test.ts covers the pure functions. This runs the extension inside a
       # real editor and reads the diagnostics it produces, which is the only way
       # to catch a wrong coordinate or a notebook finding placed on the file
-      # instead of the cell. xvfb is how VS Code documents running this on Linux.
-      - uses: actions/setup-python@v7
+      # instead of the cell. xvfb is how VS Code documents running this on Linux,
+      # and Linux is where it runs: a headless editor on the other two runners is
+      # a different problem from the one this test is here to catch.
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        if: runner.os == 'Linux'
         with:
           python-version: "3.13"
       - run: pip install .
+        if: runner.os == 'Linux'
       - name: Extension tests in a real editor
+        if: runner.os == 'Linux'
         working-directory: vscode
         timeout-minutes: 15
         env:

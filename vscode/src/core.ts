@@ -60,14 +60,77 @@ export function toZeroBasedRange(location: QxlintLocation): ZeroBasedRange {
   return { startLine: line, startCharacter: character, endLine, endCharacter };
 }
 
-/** Findings from a qxlint JSON payload, tolerant of an empty or absent result. */
-export function parseFindings(stdout: string): QxlintFinding[] {
+export interface QxlintPayload {
+  findings: QxlintFinding[];
+  toolVersion?: string;
+}
+
+/**
+ * A qxlint JSON payload, or undefined when the text is not one.
+ *
+ * Undefined is the important case. `python -m qxlint` exits 1 with an empty
+ * stdout when the module is not installed, and treating that as a payload with
+ * no findings told the user their project was clean when nothing had run.
+ */
+export function parsePayload(stdout: string): QxlintPayload | undefined {
   const trimmed = stdout.trim();
   if (!trimmed) {
-    return [];
+    return undefined;
   }
-  const parsed = JSON.parse(trimmed) as { findings?: QxlintFinding[] };
-  return parsed.findings ?? [];
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(trimmed);
+  } catch {
+    return undefined;
+  }
+  if (typeof parsed !== "object" || parsed === null) {
+    return undefined;
+  }
+  const payload = parsed as Record<string, unknown>;
+  if (typeof payload.schemaVersion !== "string") {
+    return undefined;
+  }
+  return {
+    findings: Array.isArray(payload.findings) ? (payload.findings as QxlintFinding[]) : [],
+    toolVersion: typeof payload.toolVersion === "string" ? payload.toolVersion : undefined,
+  };
+}
+
+export type RunOutcome =
+  | { kind: "ok"; findings: QxlintFinding[]; toolVersion?: string }
+  | { kind: "failed"; message: string; engineMissing: boolean };
+
+/** Python's own words when the interpreter has no qxlint in it. */
+const ENGINE_MISSING = /No module named qxlint/;
+
+/** True when the engine rejected the flag, so an older qxlint is installed. */
+export function lacksStdinSupport(stderr: string): boolean {
+  return /unrecognized arguments:.*--stdin-filename/.test(stderr);
+}
+
+/**
+ * What a finished qxlint process actually said.
+ *
+ * A valid payload is the only evidence that the analyser ran. Exit 0 and exit 1
+ * both carry one, exit 1 with nothing on stdout carries none, and the exit code
+ * alone cannot tell those apart.
+ */
+export function interpretRun(code: number | null, stdout: string, stderr: string): RunOutcome {
+  const payload = parsePayload(stdout);
+  if (payload) {
+    return { kind: "ok", findings: payload.findings, toolVersion: payload.toolVersion };
+  }
+  if (ENGINE_MISSING.test(stderr)) {
+    return {
+      kind: "failed",
+      message:
+        "qxlint is not installed in the selected Python environment. " +
+        "Install it with: pip install qxlint",
+      engineMissing: true,
+    };
+  }
+  const reason = stderr.trim() || `qxlint exited with code ${code ?? "unknown"} and produced no output`;
+  return { kind: "failed", message: reason, engineMissing: false };
 }
 
 /** Findings that can be placed in a document. Circuit findings have no file. */
@@ -94,7 +157,37 @@ export function codeCellPosition(cellIndex: number | undefined, codeCellCount: n
   return index >= 0 && index < codeCellCount ? index : -1;
 }
 
-/** Exit 1 means findings, which is normal. Exit 2 means qxlint could not run. */
-export function isFailure(exitCode: number | null): boolean {
-  return exitCode === 2;
+/**
+ * Environment for the analyser process.
+ *
+ * The working directory is the user's project, so `python -m qxlint` would
+ * import a qxlint package sitting in it and run that instead. PYTHONSAFEPATH
+ * keeps the working directory off sys.path, which is what makes "qxlint never
+ * executes your code" true. It is read from Python 3.11 on, which is the floor
+ * the engine already requires, and an older interpreter ignores a variable it
+ * does not know rather than failing on it.
+ */
+export function childEnvironment(base: Record<string, string | undefined>): Record<
+  string,
+  string | undefined
+> {
+  return { ...base, PYTHONSAFEPATH: "1" };
+}
+
+/** A notebook as qxlint reads it: cell kinds and sources, nothing else. */
+export function notebookPayload(
+  cells: { code: boolean; text: string }[],
+): string {
+  return JSON.stringify({
+    cells: cells.map((cell) => ({
+      cell_type: cell.code ? "code" : "markdown",
+      source: cell.text,
+      metadata: {},
+      outputs: [],
+      execution_count: null,
+    })),
+    metadata: {},
+    nbformat: 4,
+    nbformat_minor: 5,
+  });
 }

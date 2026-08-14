@@ -7,6 +7,33 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
+## 0.2.0
+
+### Fixed
+
+- **The analyser can no longer be shadowed by the workspace.** The extension
+  runs `<interpreter> -m qxlint` with the project as the working directory, and
+  a `qxlint` package sitting in that project was imported and executed instead
+  of the installed one. The child process now runs with `PYTHONSAFEPATH=1`, so
+  the working directory never reaches `sys.path`. `-I` would also have fixed it
+  and was rejected: it disables user site-packages too, which would break a
+  `pip install --user qxlint`.
+- **A missing analyser no longer looks like a clean project.** `python -m
+  qxlint` exits 1 with nothing on stdout when the module is not installed, and
+  only exit 2 was treated as a failure, so an empty result was read as no
+  findings. A run now counts only when it produced a qxlint payload.
+- **Diagnostics follow the buffer, not the file on disk.** `onType` re-ran the
+  analyser on the saved file, so unsaved edits were never reflected. The buffer
+  is sent to the analyser instead, notebooks included. An analyser older than
+  0.2.0 does not accept it; the extension notices and falls back to the file.
+
+### Added
+
+- **A status bar item** showing the engine version that produced the current
+  diagnostics, or that no engine was found.
+- The display name is now **qxlint - Qiskit Linter**, so the listing says what
+  the extension is.
+
 ## 0.1.1
 
 The extension itself is unchanged.

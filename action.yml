@@ -8,7 +8,7 @@ branding:
 
 inputs:
   paths:
-    description: Files or directories to analyse
+    description: Files or directories to analyse, one per line
     required: false
     default: "."
   format:
@@ -36,7 +36,9 @@ inputs:
     required: false
     default: ""
   version:
-    description: qxlint version specifier to install
+    description: >-
+      qxlint version specifier to install, for example ==0.2.0 or >=0.2.
+      Empty installs the version this action was checked out at.
     required: false
     default: ""
   python-version:
@@ -56,7 +58,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - uses: actions/setup-python@v7
+    - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
       with:
         python-version: ${{ inputs.python-version }}
 
@@ -68,7 +70,18 @@ runs:
       shell: bash
       env:
         INPUT_VERSION: ${{ inputs.version }}
-      run: python -m pip install --disable-pip-version-check "qxlint${INPUT_VERSION}"
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        # An empty version input pins to the ref this action was checked out
+        # at, so `uses: TuguiDragos/qxlint@v0.2.0` really runs qxlint 0.2.0.
+        # It used to install whatever PyPI had that day, which meant the tag
+        # chose the action and something else chose the analyser.
+        spec="$INPUT_VERSION"
+        if [ -z "$spec" ]; then
+          spec="==$(tr -d '[:space:]' < "$ACTION_PATH/VERSION")"
+        fi
+        python -m pip install --disable-pip-version-check "qxlint${spec}"
+        qxlint --version
 
     - name: Run qxlint
       id: qxlint
@@ -83,11 +96,19 @@ runs:
         INPUT_TARGET_RUNTIME: ${{ inputs.target-runtime }}
         INPUT_FAIL_ON_FINDINGS: ${{ inputs.fail-on-findings }}
       run: |
-        # read splits on whitespace without evaluating anything, so several
-        # paths still work, on one line or on several, and none of them can run
-        # a command. -d '' makes it read past the first newline; it then returns
-        # non-zero at end of input, which is expected.
-        IFS=$' \t\n' read -ra paths -d '' <<< "$INPUT_PATHS" || true
+        # One path per line. Splitting on whitespace made `notebooks/my demo`
+        # two paths, and nothing in the input can say which spaces separate and
+        # which belong to a name. `read` without -d takes one line at a time and
+        # trims the ends of it, so an indented YAML block still works, and it
+        # never evaluates what it reads.
+        paths=()
+        while read -r line || [ -n "$line" ]; do
+          # A CRLF checkout on a Windows runner leaves the carriage return
+          # attached to the name, and no such file exists.
+          line="${line%$'\r'}"
+          [ -n "$line" ] && paths+=("$line")
+        done <<< "$INPUT_PATHS"
+        [ ${#paths[@]} -eq 0 ] && paths=(.)
         args=("${paths[@]}" --format "$INPUT_FORMAT" --no-color)
         [ -n "$INPUT_SELECT" ] && args+=(--select "$INPUT_SELECT")
         [ -n "$INPUT_IGNORE" ] && args+=(--ignore "$INPUT_IGNORE")

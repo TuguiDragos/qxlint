@@ -8,7 +8,12 @@
 //   1. QXLINT_PYTHON, if set
 //   2. an already installed `qxlint` on PATH
 //   3. a Python interpreter that can import qxlint
-//   4. `uvx qxlint`, then `pipx run qxlint`
+//   4. `uvx qxlint==<this version>`, then `pipx run --spec qxlint==<this version>`
+//
+// Steps 1 to 3 run whatever the user installed, which is the point of them.
+// Step 4 installs, so it pins: `npx @tuguidragos/qxlint@0.2.0` that fetched
+// whatever PyPI had that day meant the version in the command line said
+// nothing about the analyser that ran.
 //
 // Exit codes are propagated unchanged, which is what makes this usable in CI.
 
@@ -45,6 +50,20 @@ function probe(command, args) {
 
 function candidatePythons() {
   return IS_WINDOWS ? ["python", "py", "python3"] : ["python3", "python"];
+}
+
+/**
+ * The pip requirement a runner should install: the exact version this launcher
+ * was published with. Falls back to the bare name if the manifest is somehow
+ * unreadable, since an unpinned run beats no run at all.
+ */
+function requirement() {
+  try {
+    const { version } = require("../package.json");
+    return typeof version === "string" && version ? `qxlint==${version}` : "qxlint";
+  } catch {
+    return "qxlint";
+  }
 }
 
 let selfPath = null;
@@ -132,9 +151,10 @@ function launch() {
     }
   }
 
+  const spec = requirement();
   for (const [runner, runnerArgs] of [
-    ["uvx", ["qxlint"]],
-    ["pipx", ["run", "qxlint"]],
+    ["uvx", [spec]],
+    ["pipx", ["run", "--spec", spec, "qxlint"]],
   ]) {
     if (probe(runner, ["--version"])) {
       return run(runner, [...runnerArgs, ...ARGS]);

@@ -46,6 +46,17 @@ def _require_target(target: Any) -> None:
         )
 
 
+def _analysis_depth(circuit: Any) -> list[Finding]:
+    """QXL300, which every circuit entry point reports.
+
+    The walker stops at a fixed nesting depth. A caller reading an empty list as
+    "compatible" has to be told when part of the circuit was never visited.
+    """
+    from qxlint.circuit.qxl300_analysis_depth import IncompleteCircuitAnalysis
+
+    return list(IncompleteCircuitAnalysis().check(circuit))
+
+
 def check_target(circuit: Any, target: Any) -> list[Finding]:
     """Check a circuit against a Qiskit ``Target``.
 
@@ -56,7 +67,7 @@ def check_target(circuit: Any, target: Any) -> list[Finding]:
     _require_target(target)
     from qxlint.circuit.qxl301_target import TargetCompatibility
 
-    findings = list(TargetCompatibility().check(circuit, target))
+    findings = [*_analysis_depth(circuit), *TargetCompatibility().check(circuit, target)]
     findings.sort(key=Finding.sort_key)
     return findings
 
@@ -73,6 +84,8 @@ def check_circuit(
     """
     require_qiskit()
     findings: list[Finding] = []
+    if target is not None or preview:
+        findings.extend(_analysis_depth(circuit))
 
     if target is not None:
         _require_target(target)

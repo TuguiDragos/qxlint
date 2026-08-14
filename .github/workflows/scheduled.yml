@@ -23,8 +23,8 @@ jobs:
       matrix:
         package: [qiskit, qiskit-ibm-runtime, both]
     steps:
-      - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
       - run: uv sync --extra circuit
 
       - name: Upgrade
@@ -34,8 +34,23 @@ jobs:
             qiskit-ibm-runtime) uv pip install -U qiskit-ibm-runtime ;;
             both)               uv pip install -U qiskit qiskit-ibm-runtime ;;
           esac
-          uv run python -c "import qiskit; print('qiskit', qiskit.__version__)"
-          uv run python -c "import qiskit_ibm_runtime as r; print('runtime', r.__version__)"
+          # Every `uv run` re-syncs from the lockfile first, which put the
+          # pinned versions straight back. This job existed to catch an
+          # upstream change and was quietly testing the pinned versions.
+          echo "UV_NO_SYNC=1" >> "$GITHUB_ENV"
+
+      - name: The versions under test really are the latest
+        run: |
+          uv run python - <<'EOF'
+          import subprocess
+          import qiskit
+          import qiskit_ibm_runtime
+          print("qiskit", qiskit.__version__, "| runtime", qiskit_ibm_runtime.__version__)
+          frozen = subprocess.run(
+              ["uv", "pip", "list", "--format=freeze"], capture_output=True, text=True
+          ).stdout
+          print(frozen)
+          EOF
 
       - name: Tests
         run: uv run pytest -q

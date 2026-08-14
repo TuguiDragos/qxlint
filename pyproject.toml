@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "qxlint"
-version = "0.1.1"
+version = "0.2.0"
 description = "Deterministic static checks for Qiskit Primitives V2 workflows"
 dynamic = ["readme"]
 license = "MIT"
@@ -54,9 +54,18 @@ dev = [
     "mypy>=1.14",
     "flake8>=7.1",
     "jsonschema>=4.23",
-    # Test only. Engine B itself needs nothing beyond qiskit.
-    "qiskit-ibm-runtime>=0.40",
 ]
+
+# Test only. Engine B itself needs nothing beyond qiskit.
+#
+# Kept out of dev because it depends on qiskit, so `uv sync` installed Qiskit
+# even when asked for no extras. The CI job that exists to prove Engine A works
+# without Qiskit was therefore running with Qiskit installed, and proving
+# nothing. `uv sync --no-group runtime` is a real Qiskit free environment.
+runtime = ["qiskit-ibm-runtime>=0.40"]
+
+[tool.uv]
+default-groups = ["dev", "runtime"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/qxlint"]

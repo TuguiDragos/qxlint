@@ -38,10 +38,22 @@ def clbit_index_map(circuit: Any) -> dict[Any, int]:
     return {bit: index for index, bit in enumerate(circuit.clbits)}
 
 
+MAX_DEPTH = 12
+
+
 def walk(
-    circuit: Any, *, recurse: bool = True, max_depth: int = 12
+    circuit: Any,
+    *,
+    recurse: bool = True,
+    max_depth: int = MAX_DEPTH,
+    truncated: list[tuple[InstructionStep, ...]] | None = None,
 ) -> Iterator[VisitedInstruction]:
-    """Yield every instruction, descending into control flow blocks."""
+    """Yield every instruction, descending into control flow blocks.
+
+    A block nested deeper than ``max_depth`` is not entered. Its path is
+    appended to ``truncated`` when a list is given, so a caller can report an
+    incomplete analysis rather than a circuit that merely looks clean.
+    """
     yield from _walk(
         circuit,
         qubit_map=bit_index_map(circuit),
@@ -50,6 +62,7 @@ def walk(
         depth=0,
         recurse=recurse,
         max_depth=max_depth,
+        truncated=truncated,
     )
 
 
@@ -62,6 +75,7 @@ def _walk(
     depth: int,
     recurse: bool,
     max_depth: int,
+    truncated: list[tuple[InstructionStep, ...]] | None,
 ) -> Iterator[VisitedInstruction]:
     for index, instruction in enumerate(circuit.data):
         qubits = tuple(qubit_map.get(bit, -1) for bit in instruction.qubits)
@@ -75,7 +89,11 @@ def _walk(
             depth=depth,
         )
 
-        if not recurse or depth >= max_depth or not _is_control_flow(instruction):
+        if not recurse or not _is_control_flow(instruction):
+            continue
+        if depth >= max_depth:
+            if truncated is not None:
+                truncated.append(path)
             continue
 
         operation = instruction.operation
@@ -96,6 +114,7 @@ def _walk(
                 depth=depth + 1,
                 recurse=recurse,
                 max_depth=max_depth,
+                truncated=truncated,
             )
 
 

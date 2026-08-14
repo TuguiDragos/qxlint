@@ -187,13 +187,18 @@ def read_notebook(path: Path) -> Notebook:
         raise NotebookError(f"cannot read notebook: {exc}") from exc
     except UnicodeDecodeError as exc:
         raise NotebookError(f"notebook is not valid UTF-8: {exc}") from exc
+    return parse_notebook_text(str(path), raw)
+
+
+def parse_notebook_text(path: str, raw: str) -> Notebook:
+    """Same as read_notebook for a notebook already in memory, such as a buffer."""
     try:
         document = json.loads(raw)
     except json.JSONDecodeError as exc:
         raise NotebookError(f"invalid notebook JSON: {exc}") from exc
     except RecursionError as exc:
         raise NotebookError(f"notebook JSON nests too deeply to parse: {exc}") from exc
-    return parse_notebook(str(path), document)
+    return parse_notebook(path, document)
 
 
 def parse_notebook(path: str, document: object) -> Notebook:

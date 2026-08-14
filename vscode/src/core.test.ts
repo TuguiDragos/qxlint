@@ -5,10 +5,13 @@ import {
   SEVERITY_ERROR,
   SEVERITY_INFORMATION,
   SEVERITY_WARNING,
+  childEnvironment,
   codeCellPosition,
-  isFailure,
+  interpretRun,
+  lacksStdinSupport,
   messageWithFix,
-  parseFindings,
+  notebookPayload,
+  parsePayload,
   placeable,
   ruleDocumentationUrl,
   severityOf,
@@ -116,19 +119,36 @@ test("an unknown severity degrades to a warning rather than throwing", () => {
 });
 
 // Parsing ---------------------------------------------------------------
+// An engine that never ran produces no payload, and the extension must not
+// read that as a project with no findings.
 
-test("empty output is not an error", () => {
-  assert.deepEqual(parseFindings(""), []);
-  assert.deepEqual(parseFindings("   \n"), []);
+test("empty output is not a payload", () => {
+  assert.equal(parsePayload(""), undefined);
+  assert.equal(parsePayload("   \n"), undefined);
 });
 
-test("a payload without findings is not an error", () => {
-  assert.deepEqual(parseFindings('{"schemaVersion":"1"}'), []);
+test("malformed json is not a payload", () => {
+  assert.equal(parsePayload("not json"), undefined);
 });
 
-test("findings are read out of the payload", () => {
-  const findings = parseFindings(
+test("json that is not a qxlint payload is rejected", () => {
+  assert.equal(parsePayload("[1, 2]"), undefined);
+  assert.equal(parsePayload("null"), undefined);
+  assert.equal(parsePayload('{"findings": []}'), undefined);
+});
+
+test("a payload without findings is a payload with no findings", () => {
+  assert.deepEqual(parsePayload('{"schemaVersion":"1"}'), {
+    findings: [],
+    toolVersion: undefined,
+  });
+});
+
+test("findings and the engine version are read out of the payload", () => {
+  const payload = parsePayload(
     JSON.stringify({
+      schemaVersion: "1",
+      toolVersion: "9.9.9",
       findings: [
         {
           rule: "QXL101",
@@ -139,12 +159,73 @@ test("findings are read out of the payload", () => {
       ],
     }),
   );
-  assert.equal(findings.length, 1);
-  assert.equal(findings[0].rule, "QXL101");
+  assert.equal(payload?.findings.length, 1);
+  assert.equal(payload?.findings[0].rule, "QXL101");
+  assert.equal(payload?.toolVersion, "9.9.9");
 });
 
-test("malformed json throws so the caller can log it", () => {
-  assert.throws(() => parseFindings("not json"));
+// Outcomes --------------------------------------------------------------
+
+test("exit one with a payload is a normal result, not a failure", () => {
+  const outcome = interpretRun(1, '{"schemaVersion":"1","findings":[]}', "");
+  assert.equal(outcome.kind, "ok");
+});
+
+test("exit one with no payload is a failure, not a clean project", () => {
+  // python -m qxlint exits 1 with an empty stdout when the module is missing.
+  const outcome = interpretRun(1, "", "/usr/bin/python: No module named qxlint\n");
+  assert.equal(outcome.kind, "failed");
+  assert.equal(outcome.kind === "failed" && outcome.engineMissing, true);
+  assert.match(outcome.kind === "failed" ? outcome.message : "", /not installed/);
+});
+
+test("a failure with no output at all still names the exit code", () => {
+  const outcome = interpretRun(2, "", "");
+  assert.equal(outcome.kind, "failed");
+  assert.match(outcome.kind === "failed" ? outcome.message : "", /exited with code 2/);
+});
+
+test("a failure that is not a missing engine reports what was on stderr", () => {
+  const outcome = interpretRun(2, "", "qxlint: --select: no rule matches 'QXL999'");
+  assert.equal(outcome.kind, "failed");
+  assert.equal(outcome.kind === "failed" && outcome.engineMissing, false);
+  assert.match(outcome.kind === "failed" ? outcome.message : "", /no rule matches/);
+});
+
+test("an engine that predates the stdin flag is recognised", () => {
+  assert.equal(
+    lacksStdinSupport("usage: qxlint\nqxlint: error: unrecognized arguments: --stdin-filename a.py"),
+    true,
+  );
+  assert.equal(lacksStdinSupport("qxlint: path does not exist: a.py"), false);
+});
+
+// Child environment ----------------------------------------------------
+
+test("the analyser never sees its working directory on sys.path", () => {
+  // Without this a qxlint package in the workspace shadows the installed one
+  // and gets executed, which is exactly what the extension promises not to do.
+  assert.equal(childEnvironment({}).PYTHONSAFEPATH, "1");
+  assert.equal(childEnvironment({ PATH: "/usr/bin" }).PATH, "/usr/bin");
+  assert.equal(childEnvironment({ PYTHONSAFEPATH: "0" }).PYTHONSAFEPATH, "1");
+});
+
+// Notebook payloads -----------------------------------------------------
+
+test("a notebook buffer is serialised the way qxlint reads notebooks", () => {
+  const raw = notebookPayload([
+    { code: false, text: "# title" },
+    { code: true, text: "qc = QuantumCircuit(1)" },
+  ]);
+  const document = JSON.parse(raw);
+  assert.equal(document.nbformat, 4);
+  assert.deepEqual(
+    document.cells.map((cell: { cell_type: string }) => cell.cell_type),
+    ["markdown", "code"],
+  );
+  // qxlint numbers code cells from one and skips markdown, so the markdown
+  // cell has to be present for the second cell to be code cell one.
+  assert.equal(document.cells[1].source, "qc = QuantumCircuit(1)");
 });
 
 // Placement -------------------------------------------------------------
@@ -218,10 +299,18 @@ test("a missing cell index falls back to the first cell", () => {
 });
 
 // Exit codes ------------------------------------------------------------
+//
+// The exit code alone never decides the outcome. Exit 1 is findings when a
+// payload came with it and a dead engine when none did.
 
-test("findings are not a failure but exit two is", () => {
-  assert.equal(isFailure(0), false);
-  assert.equal(isFailure(1), false);
-  assert.equal(isFailure(2), true);
-  assert.equal(isFailure(null), false);
+test("every exit code that carries a payload is a result", () => {
+  for (const code of [0, 1, null]) {
+    assert.equal(interpretRun(code, '{"schemaVersion":"1","findings":[]}', "").kind, "ok");
+  }
+});
+
+test("no exit code rescues a run that produced no payload", () => {
+  for (const code of [0, 1, 2, null]) {
+    assert.equal(interpretRun(code, "", "").kind, "failed");
+  }
 });

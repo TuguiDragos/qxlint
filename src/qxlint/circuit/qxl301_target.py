@@ -7,7 +7,10 @@ structure of the client side check in qiskit-ibm-runtime 0.48.0
 
 * qubit count is compared with ``>``, exactly as upstream does, so a narrower
   circuit passes;
-* every instruction is checked with ``Target.instruction_supported(name, qargs)``;
+* every instruction is checked with ``Target.instruction_supported(name, qargs)``,
+  the control flow operation itself included. Upstream checks it before it
+  recurses, so a target without ``if_else`` rejects the circuit even when every
+  instruction inside the block is supported;
 * control flow blocks are recursed into with qubit indices remapped;
 * ``barrier`` and ``store`` are excepted. Upstream added ``store`` to that set in
   0.47.0, so a project on 0.46 or earlier can still be rejected for it;
@@ -94,8 +97,6 @@ class TargetCompatibility(Rule):
             operation = visited.name
             if operation in EXEMPT_OPERATIONS:
                 continue
-            if _is_control_flow_instruction(visited.instruction):
-                continue
             if -1 in visited.qubits:
                 continue
             if target.instruction_supported(operation, visited.qubits):
@@ -118,8 +119,3 @@ class TargetCompatibility(Rule):
                 fix_hint="transpile against this backend before submitting",
                 context={"operation": operation},
             )
-
-
-def _is_control_flow_instruction(instruction: Any) -> bool:
-    checker = getattr(instruction, "is_control_flow", None)
-    return bool(checker()) if callable(checker) else False

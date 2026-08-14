@@ -27,8 +27,8 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v7
-      - uses: astral-sh/setup-uv@v9.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
 
       - name: Read the version and check every manifest agrees
         id: version
@@ -59,14 +59,31 @@ jobs:
   build-python:
     needs: verify
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Sigstore signing, and the store the attestation lands in. A job level
+      # permissions block replaces the workflow default, so contents is
+      # restated above rather than inherited.
+      id-token: write
+      attestations: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-python@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: "3.13"
       - run: pip install build
       - run: python -m build
-      - uses: actions/upload-artifact@v7
+
+      # PyPI gets its own PEP 740 attestation from the publish action, which
+      # says only that a trusted publisher uploaded the file. This one carries
+      # the commit, the workflow and the runner, and it is what
+      # `gh attestation verify <file> --repo TuguiDragos/qxlint` reads. The two
+      # live in different stores and do not collide.
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: dist/*
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: dist
           path: dist/
@@ -74,16 +91,29 @@ jobs:
   build-extension:
     needs: verify
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24"
       - working-directory: vscode
         run: npm ci
       - working-directory: vscode
         run: npx vsce package --out qxlint-${{ needs.verify.outputs.version }}.vsix
-      - uses: actions/upload-artifact@v7
+
+      # Neither the Marketplace nor Open VSX lets a publisher sign a VSIX, but
+      # both serve the SHA-256 of the file they hold, and both match this
+      # build byte for byte. Attesting it here is what turns that into a chain
+      # a user can follow from the installed extension back to this commit.
+      - uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: vscode/*.vsix
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: vsix
           path: vscode/*.vsix
@@ -96,11 +126,11 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
@@ -115,7 +145,7 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
           path: dist/
@@ -124,7 +154,7 @@ jobs:
       # would make a tag unrecoverable: once this job has uploaded, any later
       # job failing leaves the re-run dying here, so npm and the marketplace
       # never get their second chance and the version has to be burnt.
-      - uses: pypa/gh-action-pypi-publish@release/v1
+      - uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
         with:
           skip-existing: true
 
@@ -136,8 +166,8 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24"
           registry-url: https://registry.npmjs.org
@@ -167,11 +197,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: vscode-marketplace
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: vsix
           path: vsix/
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24"
 
@@ -193,11 +223,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: vscode-marketplace
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: vsix
           path: vsix/
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "24"
 
@@ -224,9 +254,17 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: dist
+          path: dist/
+
+      # The VSIX too. Neither extension registry lets a publisher sign, so the
+      # only way to check an installed extension against this build is to have
+      # the file it was built from somewhere public.
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: vsix
           path: dist/
 
       # The sdist and the wheel are the exact files PyPI received, so what was
@@ -247,3 +285,12 @@ jobs:
               --repo "$GITHUB_REPOSITORY" \
               --draft --title "$GITHUB_REF_NAME" --notes ""
           fi
+
+      # A draft is invisible to everyone but the maintainer, and the Changelog
+      # URL on PyPI points straight at this page. Both 0.1.0 and 0.1.1 sat
+      # drafted and unnoticed, so the last step says so out loud.
+      - name: Say that the release still has to be published
+        run: |
+          echo "::notice title=Release drafted::Write the notes and publish \
+          $GITHUB_REF_NAME at https://github.com/$GITHUB_REPOSITORY/releases. \
+          Until then the Changelog link on PyPI shows an empty page."

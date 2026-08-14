@@ -14,7 +14,7 @@ from pathlib import Path
 from qxlint.config import Config
 from qxlint.diagnostics import Finding, NotebookLocation, Severity, SourceLocation, Tier
 from qxlint.noqa import NoqaMap, parse_noqa
-from qxlint.notebook import NotebookError, read_notebook
+from qxlint.notebook import Notebook, NotebookError, read_notebook
 from qxlint.paths import exists_but_is_not_regular, is_directory
 from qxlint.profile import SemanticProfile
 from qxlint.registry import build_ruleset
@@ -51,6 +51,13 @@ def parse_module(text: str, filename: str) -> ast.Module:
             raise too_deep_to_parse(filename) from exc
 
 
+def _active_codes(config: Config, enabled: frozenset[str], shown: str) -> frozenset[str]:
+    ignored = config.ignored_for_path(shown)
+    return frozenset(
+        code for code in enabled if not any(code.startswith(prefix) for prefix in ignored)
+    )
+
+
 def analyse_path(
     path: Path,
     *,
@@ -61,10 +68,7 @@ def analyse_path(
 ) -> list[Finding]:
     """Analyse one file and return the findings that survive filtering."""
     shown = display_path if display_path is not None else str(path)
-    ignored = config.ignored_for_path(shown)
-    active = frozenset(
-        code for code in enabled if not any(code.startswith(prefix) for prefix in ignored)
-    )
+    active = _active_codes(config, enabled, shown)
 
     if exists_but_is_not_regular(path):
         location = SourceLocation(shown, 1, 1)
@@ -75,6 +79,32 @@ def analyse_path(
         return _filter(findings, active, noqa_by_cell)
 
     findings, noqa = _analyse_python(path, shown, profile, active)
+    return _filter(findings, active, {None: noqa})
+
+
+def analyse_source(
+    text: str,
+    path: Path,
+    *,
+    config: Config,
+    profile: SemanticProfile,
+    enabled: frozenset[str],
+    display_path: str | None = None,
+) -> list[Finding]:
+    """Analyse source held in memory, as if it had been read from ``path``.
+
+    An editor buffer is what the user is looking at, and it is not what is on
+    disk until they save. ``path`` decides the suffix and the configuration, the
+    text decides everything else.
+    """
+    shown = display_path if display_path is not None else str(path)
+    active = _active_codes(config, enabled, shown)
+
+    if path.suffix == NOTEBOOK_SUFFIX:
+        findings, noqa_by_cell = _notebook_from_text(text, shown, profile, active)
+        return _filter(findings, active, noqa_by_cell)
+
+    findings, noqa = _python_from_text(text, shown, profile, active)
     return _filter(findings, active, {None: noqa})
 
 
@@ -104,7 +134,12 @@ def _analyse_python(
     except (OSError, SyntaxError, UnicodeDecodeError) as exc:
         location = SourceLocation(shown, 1, 1)
         return [_unparsable(f"cannot read file: {exc}", location)], NoqaMap({})
+    return _python_from_text(text, shown, profile, enabled)
 
+
+def _python_from_text(
+    text: str, shown: str, profile: SemanticProfile, enabled: frozenset[str]
+) -> tuple[list[Finding], NoqaMap]:
     source = SourceFile(path=shown, text=text)
     try:
         tree = parse_module(text, shown)
@@ -119,13 +154,31 @@ def _analyse_python(
 def _analyse_notebook(
     path: Path, shown: str, profile: SemanticProfile, enabled: frozenset[str]
 ) -> tuple[list[Finding], dict[int | None, NoqaMap]]:
-    from qxlint.notebook import parse_cell
-
     try:
         notebook = read_notebook(path)
     except NotebookError as exc:
         location = SourceLocation(shown, 1, 1)
         return [_unparsable(str(exc), location)], {}
+    return _notebook_findings(notebook, shown, profile, enabled)
+
+
+def _notebook_from_text(
+    text: str, shown: str, profile: SemanticProfile, enabled: frozenset[str]
+) -> tuple[list[Finding], dict[int | None, NoqaMap]]:
+    from qxlint.notebook import parse_notebook_text
+
+    try:
+        notebook = parse_notebook_text(shown, text)
+    except NotebookError as exc:
+        location = SourceLocation(shown, 1, 1)
+        return [_unparsable(str(exc), location)], {}
+    return _notebook_findings(notebook, shown, profile, enabled)
+
+
+def _notebook_findings(
+    notebook: Notebook, shown: str, profile: SemanticProfile, enabled: frozenset[str]
+) -> tuple[list[Finding], dict[int | None, NoqaMap]]:
+    from qxlint.notebook import parse_cell
 
     findings: list[Finding] = []
     noqa_by_cell: dict[int | None, NoqaMap] = {}

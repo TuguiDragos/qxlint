@@ -1,8 +1,8 @@
 {
   "name": "qxlint",
-  "displayName": "qxlint",
+  "displayName": "qxlint - Qiskit Linter",
   "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "publisher": "tuguidragos",
   "license": "MIT",
   "author": {
@@ -94,8 +94,8 @@
           "scope": "resource",
           "description": "When to re-run qxlint.",
           "enumDescriptions": [
-            "Re-run when the file is saved. Diagnostics always match the file on disk.",
-            "Re-run while typing, after a short pause. The analyser reads the file from disk, so unsaved edits are not reflected until you save; this only makes the run happen sooner after a save."
+            "Re-run when the file is saved.",
+            "Re-run while typing, after a short pause. The buffer is analysed as it is on screen, so unsaved edits are reflected."
           ]
         },
         "qxlint.select": {

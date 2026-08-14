@@ -240,3 +240,80 @@ test("the launcher is executable", { skip: IS_WINDOWS }, () => {
   // the shim is not a candidate at all and they would pass on any launcher.
   assert.ok((fs.statSync(LAUNCHER).mode & 0o111) !== 0, "npm/bin/qxlint.js must be mode 755");
 });
+
+// Pinning --------------------------------------------------------------
+//
+// Steps 1 to 3 run what the user installed. Step 4 installs, so it has to ask
+// for this exact version: `npx @tuguidragos/qxlint@0.1.1` that fetched
+// whatever PyPI had that day made the version in the command line meaningless.
+
+/** A stand-in runner that records every argument list it is called with. */
+function recorder(directory, name) {
+  const record = path.join(directory, `${name}.log`);
+  const target = path.join(directory, name);
+  fs.writeFileSync(target, `#!/bin/sh\necho "$@" >> "${record}"\nexit 0\n`);
+  fs.chmodSync(target, 0o755);
+  return record;
+}
+
+function declaredVersion() {
+  return JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8")).version;
+}
+
+test("the uvx fallback asks for this exact version", { skip: IS_WINDOWS }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "qxlint-uvx-"));
+  const record = recorder(dir, "uvx");
+
+  const result = run(["--version"], { PATH: dir, QXLINT_PYTHON: "" });
+  assert.equal(result.status, 0);
+
+  const calls = fs.readFileSync(record, "utf8").trim().split("\n");
+  assert.deepEqual(calls[0].split(" "), ["--version"], "the runner is probed first");
+  assert.deepEqual(calls[1].split(" "), [`qxlint==${declaredVersion()}`, "--version"]);
+});
+
+test("the pipx fallback pins with --spec, which is its documented form", { skip: IS_WINDOWS }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "qxlint-pipx-"));
+  const record = recorder(dir, "pipx");
+
+  const result = run(["--version"], { PATH: dir, QXLINT_PYTHON: "" });
+  assert.equal(result.status, 0);
+
+  const calls = fs.readFileSync(record, "utf8").trim().split("\n");
+  assert.deepEqual(calls[1].split(" "), [
+    "run",
+    "--spec",
+    `qxlint==${declaredVersion()}`,
+    "qxlint",
+    "--version",
+  ]);
+});
+
+test("uvx is preferred over pipx", { skip: IS_WINDOWS }, () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), "qxlint-both-"));
+  const uvx = recorder(dir, "uvx");
+  const pipx = recorder(dir, "pipx");
+
+  assert.equal(run(["--version"], { PATH: dir, QXLINT_PYTHON: "" }).status, 0);
+  assert.ok(fs.existsSync(uvx), "uvx was never called");
+  assert.ok(!fs.existsSync(pipx), "pipx was called even though uvx worked");
+});
+
+// Packaging ------------------------------------------------------------
+
+test("the package ships the licence it declares", () => {
+  const root = path.join(__dirname, "..", "..");
+  const shipped = path.join(__dirname, "..", "LICENSE");
+  assert.ok(fs.existsSync(shipped), "npm/LICENSE is missing but package.json says MIT");
+  assert.equal(
+    fs.readFileSync(shipped, "utf8"),
+    fs.readFileSync(path.join(root, "LICENSE"), "utf8"),
+    "npm/LICENSE has drifted from the repository LICENSE",
+  );
+
+  const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "package.json"), "utf8"));
+  assert.ok(
+    manifest.files.includes("LICENSE"),
+    "LICENSE is not in the files allowlist, so npm would leave it out of the tarball",
+  );
+});

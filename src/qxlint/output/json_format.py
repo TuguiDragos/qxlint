@@ -10,6 +10,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from qxlint import __version__
 from qxlint.diagnostics import (
     CircuitLocation,
     Finding,
@@ -24,6 +25,9 @@ def render_json(findings: list[Finding], *, colour: bool = False) -> str:
     del colour
     payload = {
         "schemaVersion": SCHEMA_VERSION,
+        # Which qxlint produced this. An editor reads it to show the engine it
+        # is actually talking to, which is not always the one it expects.
+        "toolVersion": __version__,
         "coordinates": {"lineBase": 1, "columnBase": 1, "endColumnExclusive": True},
         "findings": [_finding_to_dict(finding) for finding in findings],
     }

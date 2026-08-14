@@ -23,6 +23,22 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | --- | --- |
 | [manifest.json](manifest.json) | the selection: every stratum with its query and the pool it drew from, every repository pinned to a SHA with its licence |
 | [findings.csv](findings.csv) | one row per finding, with the line it was reported on and a reviewer's label |
+
+## Who labelled these
+
+All 342 labels were written by an AI reviewer, `claude-opus-5`, and **none has
+been confirmed by a human**. Every row says so in its `reviewer` column, and no
+row claims otherwise.
+
+What that does and does not support:
+
+- **Supported.** Robustness and determinism. 244 repositories were read twice
+  with zero crashes, zero timeouts and zero differing results, and none of that
+  depends on a label being right.
+- **Not supported.** Precision. A precision figure needs a reviewer independent
+  of the tool, and one AI reviewer whose work nobody has checked is not that.
+  No precision figure is published anywhere in this project, and none should be
+  quoted from this directory until the labels have been reviewed by hand.
 | [scan.json](scan.json) | the machine output of the current run, per repository |
 | [bugs-found.json](bugs-found.json) | the nine defects this corpus exposed in qxlint, each with its regression test |
 | [candidates.json](candidates.json) | the pool each stratum drew from, so the selection rule can be checked |

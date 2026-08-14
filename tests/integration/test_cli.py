@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import io
 import json
 import os
 import subprocess
@@ -517,3 +518,145 @@ def test_nested_same_quotes_in_an_fstring_are_unparsable_on_311(
     path = write(tmp_path, "fstring.py", 'd = {"k": 1}\nprint(f"{d["k"]}")\n')
     assert main([str(path)]) == EXIT_FINDINGS
     assert "QXL000" in capsys.readouterr().out
+
+
+# Buffers on stdin -------------------------------------------------------
+#
+# An editor has to be able to check what the user is looking at, which is not
+# what is on disk until they save.
+
+
+def feed(monkeypatch: pytest.MonkeyPatch, text: str | bytes) -> None:
+    raw = text.encode("utf-8") if isinstance(text, str) else text
+    monkeypatch.setattr(sys, "stdin", io.TextIOWrapper(io.BytesIO(raw), encoding="utf-8"))
+
+
+def test_stdin_reports_findings_for_a_path_that_does_not_exist(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # The point of the flag: nothing is read from disk, so an unsaved file works.
+    feed(monkeypatch, BAD)
+    assert main(["--stdin-filename", "/nowhere/unsaved.py", "--no-color"]) == EXIT_FINDINGS
+    out = capsys.readouterr().out
+    assert "QXL103" in out
+    assert "/nowhere/unsaved.py" in out
+
+
+def test_stdin_on_a_clean_buffer_exits_zero(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    feed(monkeypatch, GOOD)
+    assert main(["--stdin-filename", "buffer.py"]) == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+
+
+def test_stdin_ignores_what_is_on_disk(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    saved = write(tmp_path, "edited.py", BAD)
+    feed(monkeypatch, GOOD)
+    assert main(["--stdin-filename", str(saved)]) == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+
+
+def test_stdin_accepts_a_notebook(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    notebook = {
+        "cells": [{"cell_type": "code", "source": BAD.splitlines(keepends=True), "metadata": {}}],
+        "metadata": {},
+        "nbformat": 4,
+        "nbformat_minor": 5,
+    }
+    feed(monkeypatch, json.dumps(notebook))
+    assert main(["--stdin-filename", "buffer.ipynb", "--no-color"]) == EXIT_FINDINGS
+    assert "QXL103" in capsys.readouterr().out
+
+
+def test_stdin_reports_a_notebook_that_is_not_json(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    feed(monkeypatch, "not a notebook")
+    assert main(["--stdin-filename", "buffer.ipynb", "--no-color"]) == EXIT_FINDINGS
+    assert "QXL000" in capsys.readouterr().out
+
+
+def test_stdin_refuses_positional_paths(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main([".", "--stdin-filename", "buffer.py"]) == EXIT_ERROR
+    assert "no paths may be given" in capsys.readouterr().err
+
+
+def test_stdin_refuses_a_suffix_it_cannot_analyse(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["--stdin-filename", "buffer.txt"]) == EXIT_ERROR
+    assert "expected a .py or a .ipynb path" in capsys.readouterr().err
+
+
+def test_stdin_refuses_input_that_is_not_utf8(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    feed(monkeypatch, b"\xff\xfe not utf-8")
+    assert main(["--stdin-filename", "buffer.py"]) == EXIT_ERROR
+    assert "not valid UTF-8" in capsys.readouterr().err
+
+
+def test_stdin_honours_a_config_file(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    config = write(tmp_path, "pyproject.toml", '[tool.qxlint]\nignore = ["QXL103"]\n')
+    feed(monkeypatch, BAD)
+    assert main(["--stdin-filename", "buffer.py", "--config", str(config)]) == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+
+
+def test_stdin_honours_select(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    feed(monkeypatch, BAD)
+    assert main(["--stdin-filename", "buffer.py", "--select", "QXL101"]) == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+
+
+def test_stdin_rejects_a_select_that_matches_nothing(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["--stdin-filename", "buffer.py", "--select", "QXL999"]) == EXIT_ERROR
+    assert "no rule matches" in capsys.readouterr().err
+
+
+def test_stdin_supports_statistics(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    feed(monkeypatch, BAD)
+    assert main(["--stdin-filename", "buffer.py", "--statistics", "--no-color"]) == EXIT_FINDINGS
+    assert "QXL103" in capsys.readouterr().out
+
+
+def test_stdin_rejects_sarif_statistics(capsys: pytest.CaptureFixture[str]) -> None:
+    code = main(["--stdin-filename", "b.py", "--statistics", "--format", "sarif"])
+    assert code == EXIT_ERROR
+    assert "no SARIF form" in capsys.readouterr().err
+
+
+def test_stdin_can_show_the_profile(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    feed(monkeypatch, BAD)
+    assert main(["--stdin-filename", "buffer.py", "--show-profile"]) == EXIT_OK
+    assert "qiskit:" in capsys.readouterr().out
+
+
+def test_stdin_warns_about_a_stale_root_config(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    config = write(tmp_path, "pyproject.toml", '[tool.qxlint]\nignore = ["QXL777"]\n')
+    feed(monkeypatch, GOOD)
+    assert main(["--stdin-filename", "buffer.py", "--config", str(config)]) == EXIT_OK
+    assert "no rule matches" in capsys.readouterr().err
+
+
+def test_the_json_payload_names_the_engine_version(
+    monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    from qxlint import __version__
+
+    feed(monkeypatch, GOOD)
+    assert main(["--stdin-filename", "buffer.py", "--format", "json"]) == EXIT_OK
+    assert json.loads(capsys.readouterr().out)["toolVersion"] == __version__

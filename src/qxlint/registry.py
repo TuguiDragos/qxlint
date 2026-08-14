@@ -25,6 +25,7 @@ def register(rule_class: type[Rule]) -> type[Rule]:
 def _load() -> None:
     """Import rule modules for their registration side effect."""
     from qxlint.circuit import (  # noqa: F401
+        qxl300_analysis_depth,
         qxl301_target,
         qxl302_self_inverse,
         qxl303_unused_qubit,

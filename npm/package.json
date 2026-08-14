@@ -1,6 +1,6 @@
 {
   "name": "@tuguidragos/qxlint",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
   "keywords": [
     "qiskit",
@@ -23,6 +23,7 @@
   },
   "files": [
     "bin/",
+    "LICENSE",
     "README.md"
   ],
   "engines": {

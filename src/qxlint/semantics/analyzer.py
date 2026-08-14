@@ -21,6 +21,7 @@ mutable fact, because that call can reach module level objects.
 from __future__ import annotations
 
 import ast
+from dataclasses import dataclass, field
 
 from qxlint.rules.base import (
     AttributeEvent,
@@ -47,6 +48,7 @@ from qxlint.semantics.values import (
     AbstractValue,
     ConstBool,
     ConstInt,
+    ConstNone,
     ConstStr,
     ImportedSymbol,
     ObjectRef,
@@ -64,6 +66,12 @@ UNKNOWN_NAME = "__qxlint_unknown__"
 
 LOOP_PASSES = 2
 MAX_DEPTH = 60
+
+# Two passes per loop level cost 2^depth walks of the innermost body, which is
+# seconds rather than milliseconds once loops nest deeply. Below this depth a
+# single pass is used. That only costs precision: the zero iteration join
+# already leaves every body fact MAYBE, and a rule stays silent on MAYBE.
+NESTED_LOOP_PASS_DEPTH = 3
 
 # Builtins that cannot retain or mutate what they are given. Passing a circuit to
 # one of these must not cost the facts about it, since `print(qc)` is common.
@@ -114,6 +122,19 @@ NAMESPACE_MUTATING_MAGICS = frozenset(
 )
 
 
+@dataclass
+class _LoopFrame:
+    """Paths that leave a loop body early.
+
+    ``break`` and ``continue`` end a path, but the facts that path established
+    are real and have to survive. Dropping them made a circuit measured under a
+    ``break`` look unmeasured to the rule that runs after the loop.
+    """
+
+    breaks: list[State] = field(default_factory=list)
+    continues: list[State] = field(default_factory=list)
+
+
 class Analyzer:
     """Walks one module or one notebook cell, emitting events to the rules."""
 
@@ -124,6 +145,10 @@ class Analyzer:
         self.local_callables: set[str] = set()
         self._depth = 0
         self._seq_token = 0
+        # Innermost loop last. A nested scope pushes an empty stack of its own,
+        # so a break inside it cannot reach the loop around that scope.
+        self._loops: list[_LoopFrame] = []
+        self._loop_depth = 0
         # The call currently being evaluated as a bare statement, so a rule can
         # spot a no-op. This holds the node itself rather than its id(): an id is
         # a memory address, it is reused once the node is collected, and a stale
@@ -239,10 +264,16 @@ class Analyzer:
 
     def _stmt_Break(self, node: ast.Break, state: State) -> None:
         del node
+        # ast.parse accepts a break outside a loop, only compile() rejects it,
+        # so a file qxlint reads can still get here with no loop to leave.
+        if self._loops:
+            self._loops[-1].breaks.append(state.copy())
         state.reachable = False
 
     def _stmt_Continue(self, node: ast.Continue, state: State) -> None:
         del node
+        if self._loops:
+            self._loops[-1].continues.append(state.copy())
         state.reachable = False
 
     def _stmt_Global(self, node: ast.Global, state: State) -> None:
@@ -279,6 +310,11 @@ class Analyzer:
         The body is walked twice so a fact created on the first pass is visible
         on the second, which is enough to reach a fixed point for the facts this
         analyser tracks.
+
+        A pass ends on the state that fell out of the body plus every state that
+        reached a ``continue``. The loop as a whole ends on that join plus every
+        state that reached a ``break``. ``else`` runs only when no break did, so
+        it runs before the breaks are joined in.
         """
         iter_value = self._eval(iterable, state) if iterable is not None else UNKNOWN
         target = getattr(node, "target", None)
@@ -288,14 +324,26 @@ class Analyzer:
         body = getattr(node, "body", [])
         orelse = getattr(node, "orelse", [])
 
-        accumulated = state.copy()
-        for _ in range(LOOP_PASSES):
-            pass_state = accumulated.copy()
-            pass_state.reachable = True
-            self._exec_body(body, pass_state)
-            accumulated = merge_states([accumulated, pass_state])
+        frame = _LoopFrame()
+        self._loops.append(frame)
+        self._loop_depth += 1
+        try:
+            passes = LOOP_PASSES if self._loop_depth <= NESTED_LOOP_PASS_DEPTH else 1
+            accumulated = state.copy()
+            for _ in range(passes):
+                pass_state = accumulated.copy()
+                pass_state.reachable = True
+                seen_continues = len(frame.continues)
+                self._exec_body(body, pass_state)
+                accumulated = merge_states(
+                    [accumulated, pass_state, *frame.continues[seen_continues:]]
+                )
+        finally:
+            self._loop_depth -= 1
+            self._loops.pop()
+
         self._exec_body(orelse, accumulated)
-        self._replace(state, accumulated)
+        self._replace(state, merge_states([accumulated, *frame.breaks]))
 
     def _stmt_Try(self, node: ast.Try, state: State) -> None:
         self._try(node, state)
@@ -396,7 +444,7 @@ class Analyzer:
         inner = State(env=import_only_env(state.env))
         for arg in self._arg_names(node.args):
             inner.bind(arg, UNKNOWN)
-        self._exec_body(node.body, inner)
+        self._nested_body(node.body, inner)
 
         state.bind(node.name, UNKNOWN)
         self.local_callables.add(node.name)
@@ -407,9 +455,23 @@ class Analyzer:
         for base in node.bases:
             self._eval(base, state)
         inner = State(env=import_only_env(state.env))
-        self._exec_body(node.body, inner)
+        self._nested_body(node.body, inner)
         state.bind(node.name, UNKNOWN)
         self.local_callables.add(node.name)
+
+    def _nested_body(self, body: list[ast.stmt], state: State) -> None:
+        """Run a nested scope with its own loop stack.
+
+        CPython rejects a break that crosses a function or class boundary, but
+        ast.parse accepts it, so the enclosing loop is hidden rather than
+        trusted to be unreachable.
+        """
+        outer = self._loops
+        self._loops = []
+        try:
+            self._exec_body(body, state)
+        finally:
+            self._loops = outer
 
     @staticmethod
     def _arg_names(args: ast.arguments) -> list[str]:
@@ -557,14 +619,39 @@ class Analyzer:
         return value
 
     def _expr_IfExp(self, node: ast.IfExp, state: State) -> AbstractValue:
-        self._eval(node.test, state)
-        return join(self._eval(node.body, state), self._eval(node.orelse, state))
+        """Exactly one arm runs. A constant test says which one."""
+        decided = _truthiness(self._eval(node.test, state))
+        if decided is True:
+            return self._eval(node.body, state)
+        if decided is False:
+            return self._eval(node.orelse, state)
+        body_state = state.copy()
+        else_state = state.copy()
+        value = join(self._eval(node.body, body_state), self._eval(node.orelse, else_state))
+        self._replace(state, merge_states([body_state, else_state]))
+        return value
 
     def _expr_BoolOp(self, node: ast.BoolOp, state: State) -> AbstractValue:
-        values = [self._eval(value, state) for value in node.values]
-        merged = values[0]
-        for value in values[1:]:
-            merged = join(merged, value)
+        """``and`` and ``or`` stop at the operand that decides the result.
+
+        Evaluating every operand in one state made ``False and qc.measure_all()``
+        mark the circuit measured, which is a measurement Python never performs.
+        An operand whose predecessor decides the result is skipped, one whose
+        predecessor cannot decide runs on a branch state that is joined back.
+        """
+        current = self._eval(node.values[0], state)
+        merged = current
+        for value in node.values[1:]:
+            stops = _stops_before(node.op, current)
+            if stops is True:
+                break
+            if stops is False:
+                current = self._eval(value, state)
+            else:
+                taken = state.copy()
+                current = self._eval(value, taken)
+                self._replace(state, merge_states([state, taken]))
+            merged = join(merged, current)
         return merged
 
     def _expr_Await(self, node: ast.Await, state: State) -> AbstractValue:
@@ -598,13 +685,30 @@ class Analyzer:
         *,
         sequence: bool,
     ) -> AbstractValue:
-        for generator in generators:
-            iter_value = self._eval(generator.iter, state)
-            self._assign(generator.target, self._element_of(iter_value), state)
+        """A comprehension body may run zero times, and its targets are its own.
+
+        The body runs on a branch state that is joined back, so an effect in it
+        is MAYBE. The loop targets are then restored, because a comprehension
+        has its own scope and does not leak them into the enclosing one.
+        """
+        outermost = self._eval(generators[0].iter, state)
+        inner = state.copy()
+        bound: list[str] = []
+        for index, generator in enumerate(generators):
+            # Python evaluates only the outermost iterable in the enclosing
+            # scope. The rest belongs to the comprehension.
+            iter_value = outermost if index == 0 else self._eval(generator.iter, inner)
+            self._assign(generator.target, self._element_of(iter_value), inner)
+            bound.extend(_target_names(generator.target))
             for condition in generator.ifs:
-                self._eval(condition, state)
+                self._eval(condition, inner)
         for element in elements:
-            self._eval(element, state)
+            self._eval(element, inner)
+
+        merged = merge_states([state, inner])
+        for name in bound:
+            _restore_binding(merged, state, name)
+        self._replace(state, merged)
         return Sequence(None, local=True) if sequence else UNKNOWN
 
     def _expr_Subscript(self, node: ast.Subscript, state: State) -> AbstractValue:
@@ -1291,6 +1395,45 @@ class Analyzer:
     @staticmethod
     def _invalidate_everything(state: State) -> None:
         state.widen_all()
+
+
+def _truthiness(value: AbstractValue) -> bool | None:
+    """Known truthy, known falsy, or neither."""
+    if isinstance(value, ConstBool):
+        return value.value
+    if isinstance(value, ConstInt):
+        return value.value != 0
+    if isinstance(value, ConstStr):
+        return value.value != ""
+    if isinstance(value, ConstNone):
+        return False
+    return None
+
+
+def _stops_before(op: ast.boolop, value: AbstractValue) -> bool | None:
+    """Whether the operand after this value runs.
+
+    True when it never runs, False when it always runs, None when only some
+    executions reach it.
+    """
+    known = _truthiness(value)
+    if known is None:
+        return None
+    return not known if isinstance(op, ast.And) else known
+
+
+def _target_names(target: ast.expr) -> list[str]:
+    """Every name a comprehension target binds, tuple unpacking included."""
+    return [node.id for node in ast.walk(target) if isinstance(node, ast.Name)]
+
+
+def _restore_binding(target: State, source: State, name: str) -> None:
+    """Put a name back the way it was before a scope that does not leak it."""
+    previous = source.env.get(name)
+    if previous is None:
+        target.env.pop(name, None)
+    else:
+        target.env[name] = previous
 
 
 def _is_raises_context(expr: ast.expr) -> bool:

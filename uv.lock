@@ -1460,7 +1460,7 @@ wheels = [
 
 [[package]]
 name = "qxlint"
-version = "0.1.1"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "packaging" },
@@ -1478,8 +1478,10 @@ dev = [
     { name = "mypy" },
     { name = "pytest" },
     { name = "pytest-cov" },
-    { name = "qiskit-ibm-runtime" },
     { name = "ruff" },
+]
+runtime = [
+    { name = "qiskit-ibm-runtime" },
 ]
 
 [package.metadata]
@@ -1496,9 +1498,9 @@ dev = [
     { name = "mypy", specifier = ">=1.14" },
     { name = "pytest", specifier = ">=8.3" },
     { name = "pytest-cov", specifier = ">=6.0" },
-    { name = "qiskit-ibm-runtime", specifier = ">=0.40" },
     { name = "ruff", specifier = ">=0.9" },
 ]
+runtime = [{ name = "qiskit-ibm-runtime", specifier = ">=0.40" }]
 
 [[package]]
 name = "referencing"

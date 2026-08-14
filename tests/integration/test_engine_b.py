@@ -225,3 +225,89 @@ def test_engine_b_findings_have_no_file_location(target: object) -> None:
     for finding in qxlint.check_target(bell(), target):
         assert isinstance(finding.location, CircuitLocation)
         assert finding.engine == "B"
+
+
+# Control flow operations ------------------------------------------------
+#
+# qiskit-ibm-runtime checks every instruction against the target before it
+# recurses, the control flow operation included. Skipping it reported a circuit
+# as compatible that the service rejects.
+
+
+def toy_target(*, control_flow: bool) -> object:
+    from qiskit.circuit import Measure
+    from qiskit.circuit.controlflow import IfElseOp
+    from qiskit.circuit.library import CXGate, HGate, XGate
+    from qiskit.transpiler import Target
+
+    target = Target(num_qubits=2)
+    target.add_instruction(HGate(), {(0,): None, (1,): None})
+    target.add_instruction(XGate(), {(0,): None, (1,): None})
+    target.add_instruction(CXGate(), {(0, 1): None})
+    target.add_instruction(Measure(), {(0,): None, (1,): None})
+    if control_flow:
+        target.add_instruction(IfElseOp, name="if_else")
+    return target
+
+
+def conditional_x() -> object:
+    """One if_else whose body holds nothing the target could object to."""
+    from qiskit import QuantumCircuit
+    from qiskit.circuit.controlflow import IfElseOp
+
+    qc = QuantumCircuit(2, 1)
+    body = QuantumCircuit(1, 1)
+    body.x(0)
+    qc.append(IfElseOp((qc.clbits[0], 1), body), [0], [0])
+    return qc
+
+
+def nested_conditionals(depth: int) -> object:
+    from qiskit import QuantumCircuit
+    from qiskit.circuit.controlflow import IfElseOp
+
+    block = QuantumCircuit(1, 1)
+    block.x(0)
+    for _ in range(depth):
+        outer = QuantumCircuit(1, 1)
+        outer.append(IfElseOp((outer.clbits[0], 1), block), [0], [0])
+        block = outer
+    return block
+
+
+def test_a_control_flow_operation_the_target_lacks_is_reported() -> None:
+    findings = qxlint.check_target(conditional_x(), toy_target(control_flow=False))
+    assert [f.context.get("operation") for f in findings] == ["if_else"]
+
+
+def test_a_control_flow_operation_the_target_supports_is_not_reported() -> None:
+    assert qxlint.check_target(conditional_x(), toy_target(control_flow=True)) == []
+
+
+@pytest.mark.parametrize("control_flow", [False, True])
+def test_the_verdict_matches_qiskit_ibm_runtime(control_flow: bool) -> None:
+    # The rule claims to mirror is_isa_circuit. This is that claim as a test.
+    runtime = pytest.importorskip("qiskit_ibm_runtime.utils.utils")
+    target = toy_target(control_flow=control_flow)
+    circuit = conditional_x()
+    rejected_by_upstream = bool(runtime.is_isa_circuit(circuit, target))
+    assert bool(qxlint.check_target(circuit, target)) is rejected_by_upstream
+
+
+# Analysis depth ---------------------------------------------------------
+
+
+def test_nesting_past_the_walk_depth_is_reported_as_incomplete() -> None:
+    findings = qxlint.check_target(nested_conditionals(13), toy_target(control_flow=True))
+    assert [f.rule for f in findings] == ["QXL300"]
+    assert "incomplete" in findings[0].message
+
+
+def test_a_circuit_within_the_walk_depth_reports_nothing_incomplete() -> None:
+    findings = qxlint.check_target(nested_conditionals(5), toy_target(control_flow=True))
+    assert [f.rule for f in findings] == []
+
+
+def test_preview_checks_also_report_an_incomplete_analysis() -> None:
+    findings = qxlint.check_circuit(nested_conditionals(13), preview=True)
+    assert "QXL300" in {f.rule for f in findings}

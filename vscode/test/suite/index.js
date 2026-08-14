@@ -133,6 +133,34 @@ async function run() {
   const back = await waitFor(() => (ours(badUri).length === 1 ? true : null), 30_000);
   assert.ok(back, "qxlint.restart did not re-report the finding");
 
+  // An unsaved buffer is what gets analysed ---------------------------------
+  // The whole point of onType: the file on disk still has the defect, so a
+  // cleared diagnostic can only come from the buffer reaching the analyser.
+  await configure({ run: "onType" });
+  const editor = await vscode.window.showTextDocument(badDoc);
+  const original = badDoc.getText();
+  const whole = new vscode.Range(badDoc.positionAt(0), badDoc.positionAt(original.length));
+
+  await editor.edit((builder) => builder.replace(whole, "value = 1\n"));
+  assert.ok(badDoc.isDirty, "the edit reached disk, so this proves nothing about buffers");
+  assert.match(
+    fs.readFileSync(badUri.fsPath, "utf8"),
+    /get_counts/,
+    "the file on disk lost the defect, so this proves nothing about buffers",
+  );
+  const clearedFromBuffer = await waitFor(() => (ours(badUri).length === 0 ? true : null), 30_000);
+  assert.ok(clearedFromBuffer, "the unsaved buffer was not analysed; the saved file was");
+
+  const edited = badDoc.getText();
+  await editor.edit((builder) =>
+    builder.replace(new vscode.Range(badDoc.positionAt(0), badDoc.positionAt(edited.length)), original),
+  );
+  const backFromBuffer = await waitFor(() => (ours(badUri).length === 1 ? true : null), 30_000);
+  assert.ok(backFromBuffer, "putting the defect back in the buffer did not report it again");
+
+  await vscode.commands.executeCommand("workbench.action.files.revert");
+  await configure({ run: "onSave" });
+
   fs.writeFileSync(path.join(WORKSPACE, "..", "e2e-passed"), "ok\n");
 }
 

@@ -24,7 +24,7 @@ from pathlib import Path
 from qxlint import __version__
 from qxlint.config import Config, ConfigCache, ConfigError, apply_cli_overrides, resolve_profile
 from qxlint.diagnostics import Finding
-from qxlint.engine import analyse_path, discover
+from qxlint.engine import SUFFIXES, analyse_path, analyse_source, discover
 from qxlint.output import FORMATS
 from qxlint.output.palette import Depth, detect_depth
 from qxlint.output.statistics import render_statistics, render_statistics_json
@@ -43,7 +43,9 @@ def build_parser() -> argparse.ArgumentParser:
         prog="qxlint",
         description="Deterministic static checks for Qiskit Primitives V2 workflows.",
     )
-    parser.add_argument("paths", nargs="*", default=["."], help="files or directories")
+    # No default here on purpose: an empty list has to stay distinguishable
+    # from an explicit ".", so --stdin-filename can reject paths it cannot use.
+    parser.add_argument("paths", nargs="*", help="files or directories, default '.'")
     parser.add_argument("--version", action="version", version=f"qxlint {__version__}")
     parser.add_argument("--select", help="comma separated rule codes or prefixes to run")
     parser.add_argument("--ignore", help="comma separated rule codes or prefixes to skip")
@@ -58,6 +60,14 @@ def build_parser() -> argparse.ArgumentParser:
         help="target qiskit-ibm-runtime version or specifier",
     )
     parser.add_argument("--config", type=Path, help="path to a pyproject.toml to use")
+    parser.add_argument(
+        "--stdin-filename",
+        metavar="PATH",
+        help=(
+            "read the source from stdin and report it as PATH; the file itself "
+            "is never opened, so an editor can check a buffer it has not saved"
+        ),
+    )
     parser.add_argument(
         "--format", dest="fmt", choices=sorted(FORMATS), default="text", help="output format"
     )
@@ -92,6 +102,9 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _run(args: argparse.Namespace) -> int:
+    if args.stdin_filename is not None:
+        return _run_stdin(args)
+
     paths = [Path(entry) for entry in (args.paths or ["."])]
     for path in paths:
         if not path_exists(path):
@@ -140,11 +153,17 @@ def _run(args: argparse.Namespace) -> int:
             )
             failed = True
 
+    return _report(findings, args, total_files=len(targets), failed=failed)
+
+
+def _report(
+    findings: list[Finding], args: argparse.Namespace, *, total_files: int, failed: bool
+) -> int:
     findings.sort(key=Finding.sort_key)
     depth = detect_depth(sys.stdout, no_color=args.no_color)
 
     if args.statistics:
-        rendered = _render_statistics(findings, args.fmt, depth, len(targets))
+        rendered = _render_statistics(findings, args.fmt, depth, total_files)
     else:
         rendered = FORMATS[args.fmt](findings, colour=depth is not Depth.NONE)
 
@@ -153,6 +172,66 @@ def _run(args: argparse.Namespace) -> int:
     if failed:
         return EXIT_ERROR
     return EXIT_FINDINGS if findings else EXIT_OK
+
+
+def _run_stdin(args: argparse.Namespace) -> int:
+    """Analyse a buffer handed over on stdin.
+
+    The path is metadata: it selects the configuration and decides whether the
+    text is Python or a notebook. Nothing on disk is read, so this works on a
+    file that has never been saved.
+    """
+    if args.paths:
+        print(
+            "qxlint: --stdin-filename reads the source from stdin, so no paths may be given",
+            file=sys.stderr,
+        )
+        return EXIT_ERROR
+
+    shown = args.stdin_filename
+    path = Path(shown)
+    if path.suffix not in SUFFIXES:
+        print(
+            f"qxlint: --stdin-filename: expected a {' or a '.join(SUFFIXES)} path, got {shown}",
+            file=sys.stderr,
+        )
+        return EXIT_ERROR
+
+    cache = ConfigCache()
+    if args.config is not None:
+        from qxlint.config import load_config
+
+        cache.override = load_config(args.config)
+
+    _check_flags(args)
+    directory = path.parent if str(path.parent) else Path()
+    # The file's own config, not the effective one: a stale entry has to be
+    # blamed on the file it is in, and a bad CLI flag is already reported by
+    # _check_flags.
+    _warn_about_the_root_config(cache.for_path(directory))
+    config = _effective(cache.for_path(directory), args)
+
+    if args.show_profile:
+        return _print_profile([directory], cache, args)
+    if args.statistics and args.fmt == "sarif":
+        print(
+            "qxlint: --statistics has no SARIF form; use --format text or json",
+            file=sys.stderr,
+        )
+        return EXIT_ERROR
+
+    # Decoded here rather than through sys.stdin, whose encoding follows the
+    # locale. An editor buffer arrives as UTF-8 whatever the locale says.
+    try:
+        text = sys.stdin.buffer.read().decode("utf-8")
+    except UnicodeDecodeError as exc:
+        print(f"qxlint: --stdin-filename: input is not valid UTF-8: {exc}", file=sys.stderr)
+        return EXIT_ERROR
+
+    profile = resolve_profile(config)
+    enabled = config.enabled_codes(tiers())
+    findings = analyse_source(text, path, config=config, profile=profile, enabled=enabled)
+    return _report(findings, args, total_files=1, failed=False)
 
 
 def _render_statistics(findings: list[Finding], fmt: str, depth: Depth, total_files: int) -> str:

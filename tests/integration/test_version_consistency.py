@@ -44,6 +44,17 @@ def test_the_lockfile_root_package_agrees() -> None:
     assert lock["packages"][""]["version"] == declared()
 
 
+def test_the_version_file_agrees() -> None:
+    # The composite action reads this to pin the analyser it installs, so a
+    # stale copy would make `uses: ...@vX` install something else.
+    assert (ROOT / "VERSION").read_text(encoding="utf-8").strip() == declared()
+
+
+def test_the_action_installs_the_version_file() -> None:
+    action = (ROOT / "action.yml").read_text(encoding="utf-8")
+    assert "$ACTION_PATH/VERSION" in action
+
+
 def test_the_citation_file_agrees() -> None:
     # Not YAML-parsed: pyyaml is not a dependency, and the field is one line.
     lines = (ROOT / "CITATION.cff").read_text(encoding="utf-8").splitlines()

@@ -13,15 +13,18 @@ import * as path from "node:path";
 import * as vscode from "vscode";
 
 import {
+  childEnvironment,
   codeCellPosition,
-  isFailure,
+  interpretRun,
+  lacksStdinSupport,
   messageWithFix,
-  parseFindings,
+  notebookPayload,
   ruleDocumentationUrl,
   severityOf,
   toZeroBasedRange,
   type QxlintFinding,
   type QxlintLocation,
+  type RunOutcome,
 } from "./core.js";
 
 const SECTION = "qxlint";
@@ -33,13 +36,19 @@ const MAX_OUTPUT_BYTES = 64 * 1024 * 1024;
 
 let diagnostics: vscode.DiagnosticCollection;
 let log: vscode.LogOutputChannel;
+let status: vscode.StatusBarItem;
 const timers = new Map<string, NodeJS.Timeout>();
 const inflight = new Map<string, AbortController>();
+// Undefined until a run proves it either way. An engine older than 0.2.0
+// rejects --stdin-filename, and the buffer is then sent as a path instead.
+let stdinSupported: boolean | undefined;
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   diagnostics = vscode.languages.createDiagnosticCollection(SECTION);
   log = vscode.window.createOutputChannel("qxlint", { log: true });
-  context.subscriptions.push(diagnostics, log);
+  status = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 0);
+  status.command = "qxlint.showOutput";
+  context.subscriptions.push(diagnostics, log, status);
 
   context.subscriptions.push(
     vscode.workspace.onDidOpenTextDocument((document) => schedule(document.uri)),
@@ -142,6 +151,9 @@ function forgetNotebook(notebook: vscode.NotebookDocument): void {
 }
 
 function refresh(): void {
+  // A different interpreter may hold a different qxlint, so what the last one
+  // could do says nothing about this one.
+  stdinSupported = undefined;
   diagnostics.clear();
   for (const document of vscode.workspace.textDocuments) {
     schedule(document.uri);
@@ -185,9 +197,9 @@ async function lint(target: vscode.Uri, folderOverride?: vscode.Uri): Promise<vo
   const folder = folderOverride ?? vscode.workspace.getWorkspaceFolder(target)?.uri;
   const cwd = folder?.fsPath ?? path.dirname(target.fsPath);
 
-  const args = [
-    ...command.args,
-    target.fsPath,
+  // What the user is looking at, which is not what is on disk until they save.
+  const buffer = folderOverride ? undefined : bufferFor(target);
+  const options = [
     "--format",
     "json",
     "--no-color",
@@ -198,35 +210,131 @@ async function lint(target: vscode.Uri, folderOverride?: vscode.Uri): Promise<vo
     ...config.get<string[]>("args", []),
   ];
 
-  log.debug(`${command.executable} ${args.join(" ")}`);
-
-  let stdout: string;
   try {
-    stdout = await execute(command.executable, args, cwd, controller.signal);
-  } catch (error) {
-    if ((error as Error).name !== "AbortError") {
-      log.error(String(error));
+    let outcome = await attempt(command, options, cwd, controller.signal, buffer);
+    if (outcome === undefined) {
+      return;
     }
-    return;
+    if (outcome.kind === "failed" && lacksStdinSupport(outcome.message)) {
+      // Engine older than 0.2.0. Fall back to the file on disk, and stop
+      // offering the buffer until the interpreter changes.
+      log.info("the installed qxlint predates --stdin-filename; analysing the saved file");
+      stdinSupported = false;
+      outcome = await attempt(command, options, cwd, controller.signal, undefined);
+      if (outcome === undefined) {
+        return;
+      }
+    }
+
+    if (outcome.kind === "failed") {
+      report(outcome.message, outcome.engineMissing);
+      return;
+    }
+    ready(outcome.toolVersion);
+    apply(target, outcome.findings, cwd);
   } finally {
     if (inflight.get(key) === controller) {
       inflight.delete(key);
     }
   }
+}
 
-  let findings: QxlintFinding[];
+/** One qxlint process. Undefined when it was aborted or could not start. */
+async function attempt(
+  command: Command,
+  options: string[],
+  cwd: string,
+  signal: AbortSignal,
+  buffer: string | undefined,
+): Promise<RunOutcome | undefined> {
+  const target = command.target;
+  const useStdin = buffer !== undefined && stdinSupported !== false;
+  const args = [
+    ...command.args,
+    ...(useStdin ? ["--stdin-filename", target] : [target]),
+    ...options,
+  ];
+  log.debug(`${command.executable} ${args.join(" ")}${useStdin ? " < buffer" : ""}`);
+
   try {
-    findings = parseFindings(stdout);
-  } catch {
-    log.error(`could not parse qxlint output: ${stdout.slice(0, 400)}`);
-    return;
+    const result = await execute(
+      command.executable,
+      args,
+      cwd,
+      signal,
+      useStdin ? buffer : undefined,
+    );
+    if (result.stderr.trim()) {
+      log.warn(result.stderr.trim());
+    }
+    const outcome = interpretRun(result.code, result.stdout, result.stderr);
+    // Only a run that actually sent a buffer says anything about the engine
+    // accepting one. Setting this after the fallback succeeded would clear the
+    // very fact the fallback established, and every lint would pay for two
+    // processes forever.
+    if (useStdin && outcome.kind === "ok") {
+      stdinSupported = true;
+    }
+    return outcome;
+  } catch (error) {
+    if ((error as Error).name !== "AbortError") {
+      log.error(String(error));
+      return { kind: "failed", message: String(error), engineMissing: false };
+    }
+    return undefined;
   }
+}
 
-  apply(target, findings, cwd);
+/** The text VS Code holds for a file, or undefined when it holds none. */
+function bufferFor(uri: vscode.Uri): string | undefined {
+  if (path.extname(uri.fsPath).toLowerCase() === ".ipynb") {
+    const notebook = vscode.workspace.notebookDocuments.find(
+      (entry) => entry.uri.fsPath === uri.fsPath,
+    );
+    if (!notebook) {
+      return undefined;
+    }
+    return notebookPayload(
+      notebook.getCells().map((cell) => ({
+        code: cell.kind === vscode.NotebookCellKind.Code,
+        text: cell.document.getText(),
+      })),
+    );
+  }
+  // Scheme matters: a notebook cell shares the notebook's fsPath.
+  const document = vscode.workspace.textDocuments.find(
+    (entry) => entry.uri.scheme === "file" && entry.uri.fsPath === uri.fsPath,
+  );
+  return document?.getText();
+}
+
+// Engine state --------------------------------------------------------------
+
+function ready(version: string | undefined): void {
+  status.text = version ? `qxlint ${version}` : "qxlint";
+  status.tooltip = version
+    ? `qxlint engine ${version} is running these diagnostics`
+    : "qxlint is running";
+  status.backgroundColor = undefined;
+  status.show();
+}
+
+function report(message: string, engineMissing: boolean): void {
+  log.error(message);
+  status.text = engineMissing ? "qxlint: not installed" : "qxlint: failed";
+  status.tooltip = message;
+  status.backgroundColor = new vscode.ThemeColor("statusBarItem.warningBackground");
+  status.show();
 }
 
 function flag(name: string, value: string | undefined): string[] {
   return value && value.trim() ? [name, value.trim()] : [];
+}
+
+interface Completed {
+  code: number | null;
+  stdout: string;
+  stderr: string;
 }
 
 function execute(
@@ -234,11 +342,18 @@ function execute(
   args: string[],
   cwd: string,
   signal: AbortSignal,
-): Promise<string> {
+  input: string | undefined,
+): Promise<Completed> {
   return new Promise((resolve, reject) => {
     // spawn, not execFile: execFile truncates at a 1 MB buffer and kills the
     // child, which would look like malformed qxlint output on a large project.
-    const child = spawn(executable, args, { cwd, signal, windowsHide: true, shell: false });
+    const child = spawn(executable, args, {
+      cwd,
+      signal,
+      windowsHide: true,
+      shell: false,
+      env: childEnvironment(process.env),
+    });
     const out: Buffer[] = [];
     const err: Buffer[] = [];
     let size = 0;
@@ -252,38 +367,42 @@ function execute(
     child.stderr.on("data", (chunk: Buffer) => err.push(chunk));
     child.on("error", reject);
     child.on("close", (code) => {
-      const stderr = Buffer.concat(err).toString().trim();
-      if (stderr) {
-        log.warn(stderr);
-      }
-      // Exit 1 means findings, which is a normal result. Exit 2 means qxlint
-      // could not run, and the reason is on stderr.
-      if (isFailure(code)) {
-        reject(new Error(stderr || "qxlint could not run"));
-        return;
-      }
-      resolve(Buffer.concat(out).toString());
+      resolve({
+        code,
+        stdout: Buffer.concat(out).toString(),
+        stderr: Buffer.concat(err).toString(),
+      });
     });
+
+    if (input !== undefined) {
+      // A process that rejects the flag exits before reading, so the pipe can
+      // break under a write that is no longer anyone's problem.
+      child.stdin.on("error", () => undefined);
+      child.stdin.end(input);
+    }
   });
 }
 
 interface Command {
   executable: string;
   args: string[];
+  /** The path qxlint reports findings under. */
+  target: string;
 }
 
 async function resolveCommand(resource: vscode.Uri): Promise<Command> {
+  const target = resource.fsPath;
   const configured = settings(resource).get<string>("path");
   if (configured && configured.trim()) {
-    return { executable: configured.trim(), args: [] };
+    return { executable: configured.trim(), args: [], target };
   }
   const interpreter = await interpreterFor(resource);
   if (interpreter) {
     // `<interpreter> -m qxlint` also sidesteps the Windows .cmd shim problem
     // that spawning a bare `qxlint` would hit.
-    return { executable: interpreter, args: ["-m", "qxlint"] };
+    return { executable: interpreter, args: ["-m", "qxlint"], target };
   }
-  return { executable: "qxlint", args: [] };
+  return { executable: "qxlint", args: [], target };
 }
 
 async function interpreterFor(resource: vscode.Uri): Promise<string | undefined> {
