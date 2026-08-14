@@ -61,8 +61,13 @@ jobs:
 
       - name: Install (minimum Qiskit)
         if: matrix.qiskit == 'minimum'
+        # qiskit-ibm-runtime is left out. Its current release imports
+        # qiskit.circuit.Annotation, which Qiskit 2.0 does not have, so keeping
+        # it would make this job test that incompatibility instead of the floor
+        # qxlint declares. The tests that need it skip themselves. This only
+        # became visible once the job stopped having its downgrade undone.
         run: |
-          uv sync --extra circuit
+          uv sync --extra circuit --no-group runtime
           uv pip install "qiskit==2.0.*"
 
       - name: Later steps must not undo the install above

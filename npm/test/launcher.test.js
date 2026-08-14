@@ -86,7 +86,11 @@ test("QXLINT_PYTHON beats a qxlint already on PATH", { skip: !hasVenv }, () => {
   assert.doesNotMatch(result.stdout, /decoy/);
 });
 
-test("a qxlint on PATH is used when QXLINT_PYTHON is not set", () => {
+// Skipped on Windows: the decoy is a shell script with no extension, and the
+// launcher deliberately accepts only .EXE and .COM there, because a .CMD named
+// qxlint is a shim rather than the analyser and cannot be spawned without a
+// shell. There is no way to fabricate something Windows would accept.
+test("a qxlint on PATH is used when QXLINT_PYTHON is not set", { skip: IS_WINDOWS }, () => {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), "qxlint-decoy-"));
   const decoy = path.join(dir, "qxlint");
   fs.writeFileSync(decoy, '#!/bin/sh\necho "qxlint 99.99.99-decoy"\nexit 0\n');
