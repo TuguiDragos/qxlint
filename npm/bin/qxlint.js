@@ -11,7 +11,7 @@
 //   4. `uvx qxlint==<this version>`, then `pipx run --spec qxlint==<this version>`
 //
 // Steps 1 to 3 run whatever the user installed, which is the point of them.
-// Step 4 installs, so it pins: `npx @tuguidragos/qxlint@0.2.0` that fetched
+// Step 4 installs, so it pins: `npx @tuguidragos/qxlint@0.3.0` that fetched
 // whatever PyPI had that day meant the version in the command line said
 // nothing about the analyser that ran.
 //

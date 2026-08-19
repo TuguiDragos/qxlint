@@ -134,8 +134,34 @@ def test_global_declaration_escapes() -> None:
     )
 
 
-def test_dict_value_escapes() -> None:
-    assert not fires('qc = QuantumCircuit(1)\nstore = {"a": qc}\nStatevectorSampler().run([qc])\n')
+def test_a_local_dict_is_not_an_escape() -> None:
+    # The same rule a local list gets: nothing outside can be holding it.
+    assert fires('qc = QuantumCircuit(1)\nstore = {"a": qc}\nStatevectorSampler().run([qc])\n')
+
+
+def test_a_dict_handed_to_unmodelled_code_escapes_its_values() -> None:
+    assert not fires(
+        'qc = QuantumCircuit(1)\nstore = {"a": qc}\nsend(store)\nStatevectorSampler().run([qc])\n'
+    )
+
+
+def test_a_dict_method_escapes_its_values() -> None:
+    assert not fires(
+        'qc = QuantumCircuit(1)\nstore = {"a": qc}\n'
+        "store.update(other)\nStatevectorSampler().run([qc])\n"
+    )
+
+
+def test_a_dict_spread_into_a_call_escapes_its_values() -> None:
+    assert not fires(
+        'qc = QuantumCircuit(1)\nstore = {"a": qc}\nsend(**store)\nStatevectorSampler().run([qc])\n'
+    )
+
+
+def test_a_value_read_back_out_of_a_local_dict_is_still_tracked() -> None:
+    assert fires(
+        'qc = QuantumCircuit(1)\nstore = {"a": qc}\nStatevectorSampler().run([store["a"]])\n'
+    )
 
 
 def test_unmodelled_method_on_the_circuit_invalidates_but_keeps_the_kind() -> None:

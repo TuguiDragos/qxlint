@@ -114,7 +114,7 @@ RUNTIME_SERVICE      OPAQUE
 ```
 
 Sampler and Estimator pub results are separate kinds because their data bins
-hold different things. Verified against Qiskit 2.5.1: a Sampler pub result's
+hold different things. Verified against Qiskit 2.5.2: a Sampler pub result's
 data bin has one field per classical register holding a `BitArray`, while a
 `StatevectorEstimator` pub result's data bin holds `evs` and `stds`.
 
@@ -222,7 +222,7 @@ touch a circuit. The rules are scoped.
 | Unmodelled call that cannot reach the object | nothing |
 | Known pure builtin (`print`, `len`, `str`, ...) receiving it | nothing |
 | Unmodelled method on the object itself | invalidate its mutable facts, keep the kind |
-| Stored into an attribute, a dict, a set, or returned | escape |
+| Stored into an attribute, a set, or returned | escape |
 | Passed to a **modelled** consumer such as `SamplerV2.run` | nothing, it is consumed not retained |
 | `global` or `nonlocal` on the name | escape |
 | Calling a function defined in this module | invalidate every fact, since it can reach module level objects |
@@ -244,7 +244,15 @@ sampler.run(pubs)           # QXL103 still sees qc
 circuits = []
 circuits.append(qc)         # tracked
 sampler.run(circuits)       # still sees qc
+
+store = {"first": qc}       # tracked, local
+sampler.run([store["first"]])   # still sees qc
 ```
+
+A dict literal is a `Mapping`, which keeps only its values. Iterating a dict
+yields its keys, so a `Mapping` is never read as a sequence, and no dict method
+is modelled: calling one escapes the values. A subscript answers with the join
+of every value, since any key can reach any of them.
 
 A `Sequence` carries a `token` identifying the literal it came from, so
 `append` updates only the container it was called on. Two lists holding equal
@@ -253,8 +261,22 @@ token, and the container stops being updatable, which loses a later element
 rather than inventing one.
 
 A container handed to unmodelled code escapes everything reachable inside it.
+A literal that cannot record its own contents, because a spread brought in
+something unknown or because it is larger than the tracking limit, escapes the
+values it did name: they are about to become unreachable, and nothing can escape
+them afterwards.
 
 ### PUB extraction
+
+A `run` replaced by `mock.patch.object(Sampler, "run")` or
+`mock.patch("module.Sampler.run")` is not a primitive call: the circuits reach
+the mock and no result is produced, so the pub rules stay silent inside that
+block. The mock records what it was handed and cannot mutate it, so the circuits
+are still analysable after the block ends.
+
+The rules that read pubs report once per `run` call, not once per pub. The
+finding is anchored on the call, so a second defective pub in the same call would
+repeat the same diagnostic at the same line and column.
 
 A pub is a circuit, or a tuple whose first element is a circuit. A pub list whose
 contents cannot be resolved yields no pubs and sets a completeness flag to false,
@@ -274,7 +296,7 @@ implementations agree.
 | `match` | join every case, plus the implicit no-match path unless a wildcard case exists |
 | `with` | the body runs unconditionally; `with qc.if_test(...)` therefore records a control flow op |
 | conditional expression, `and` / `or` | join both sides |
-| comprehension | iterables and element expressions are evaluated; the result is a local sequence with unknown contents |
+| comprehension | iterables and element expressions are evaluated; a list or generator comprehension yields a local sequence carrying its element, a set or dict comprehension yields nothing tracked |
 | `return`, `raise`, `break`, `continue` | the path becomes unreachable and contributes nothing to a join |
 | `global`, `nonlocal` | escape and rebind to `Unknown` |
 | function and class bodies | analysed in their own scope; only import bindings are inherited, since call order is unknown |

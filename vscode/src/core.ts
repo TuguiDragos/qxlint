@@ -60,6 +60,39 @@ export function toZeroBasedRange(location: QxlintLocation): ZeroBasedRange {
   return { startLine: line, startCharacter: character, endLine, endCharacter };
 }
 
+/**
+ * A code point offset turned into the UTF-16 offset vscode.Position counts.
+ *
+ * qxlint counts characters, so an emoji is one column. VS Code counts UTF-16
+ * code units, where the same emoji is two. Without this the squiggle slides one
+ * unit left per astral character earlier on the line.
+ */
+export function utf16Offset(lineText: string, codePointOffset: number): number {
+  let offset = 0;
+  let seen = 0;
+  while (seen < codePointOffset && offset < lineText.length) {
+    offset += (lineText.codePointAt(offset) ?? 0) > 0xffff ? 2 : 1;
+    seen += 1;
+  }
+  return offset + Math.max(codePointOffset - seen, 0);
+}
+
+/** The same range, with both ends measured the way the editor measures them. */
+export function toUtf16Range(
+  box: ZeroBasedRange,
+  lineText: (line: number) => string | undefined,
+): ZeroBasedRange {
+  const start = lineText(box.startLine);
+  const end = lineText(box.endLine);
+  return {
+    startLine: box.startLine,
+    startCharacter:
+      start === undefined ? box.startCharacter : utf16Offset(start, box.startCharacter),
+    endLine: box.endLine,
+    endCharacter: end === undefined ? box.endCharacter : utf16Offset(end, box.endCharacter),
+  };
+}
+
 export interface QxlintPayload {
   findings: QxlintFinding[];
   toolVersion?: string;

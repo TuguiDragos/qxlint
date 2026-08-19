@@ -210,3 +210,50 @@ def test_non_object_root_is_rejected() -> None:
 def test_missing_cells_array_is_rejected() -> None:
     with pytest.raises(NotebookError):
         parse_notebook("n.ipynb", {"nbformat": 4})
+
+
+# Automagic ----------------------------------------------------------------
+#
+# IPython rewrites `pip install qiskit` to `%pip install qiskit` when automagic
+# is on, which it is by default. The cell runs, so reporting it as unparsable
+# was wrong. Only lines that are not valid Python are read this way.
+
+
+@pytest.mark.parametrize(
+    "source", ["pip install qiskit\n", "conda install -c conda-forge qiskit\n"]
+)
+def test_a_bare_installer_magic_is_dropped(source: str) -> None:
+    text = prepare(source)
+    assert text.splitlines()[0] == ""
+    assert BARRIER_CALL not in text
+
+
+def test_code_after_a_bare_installer_magic_is_still_analysed() -> None:
+    text = prepare("pip install qiskit\nqc = build()\n")
+    assert text.splitlines()[1] == "qc = build()"
+    assert line_count(text) == 2
+
+
+def test_a_bare_installer_magic_inside_a_block_keeps_the_block_valid() -> None:
+    text = prepare("if flag:\n    pip install qiskit\n")
+    assert text.splitlines()[1].strip() == "pass"
+
+
+def test_a_bare_time_magic_unwraps_to_the_statement() -> None:
+    assert prepare("time y = f(x)\n").strip() == "y = f(x)"
+
+
+@pytest.mark.parametrize("source", ["ls\n", "cd /tmp\n", "pwd\n"])
+def test_a_bare_magic_that_is_valid_python_is_left_alone(source: str) -> None:
+    # Indistinguishable from an expression, so it stays what it reads as.
+    assert prepare_cell_source(source)[0] == source
+
+
+def test_a_line_that_names_no_known_magic_stays_a_syntax_error() -> None:
+    with pytest.raises(SyntaxError):
+        parse_cell(prepare_cell_source("frobnicate the thing\n")[0])
+
+
+def test_a_single_word_line_is_not_read_as_a_magic() -> None:
+    with pytest.raises(SyntaxError):
+        parse_cell(prepare_cell_source("qc = QuantumCircuit(2\npip\n")[0])

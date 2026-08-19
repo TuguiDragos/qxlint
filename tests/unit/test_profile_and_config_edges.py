@@ -287,3 +287,74 @@ def test_the_config_cache_resolves_each_project_root_separately(tmp_path: Path) 
     assert cache.for_path(tmp_path / "right" / "b.py").ignore == ("QXL103",)
     # A second file under the same root reuses the loaded config.
     assert cache.for_path(tmp_path / "left" / "c.py") is first
+
+
+# Profile discovery is cached per root ---------------------------------------
+#
+# Discovery parses pyproject.toml and uv.lock. It used to run once per analysed
+# file, so a project with a large lock file spent most of a scan re-reading it.
+
+
+def _count_discoveries(monkeypatch: pytest.MonkeyPatch) -> list[Path]:
+    import qxlint.config as config_module
+
+    seen: list[Path] = []
+    real = config_module.discover_profile
+
+    def counting(root: Path) -> SemanticProfile:
+        seen.append(root)
+        return real(root)
+
+    monkeypatch.setattr(config_module, "discover_profile", counting)
+    return seen
+
+
+def test_profile_discovery_runs_once_per_root(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "pyproject.toml").write_text('[project]\ndependencies = ["qiskit>=2.0"]\n')
+    seen = _count_discoveries(monkeypatch)
+
+    cache = ConfigCache()
+    first = cache.profile_for(cache.for_path(tmp_path / "a.py"))
+    second = cache.profile_for(cache.for_path(tmp_path / "b.py"))
+
+    assert first is second
+    assert seen == [tmp_path]
+    assert first.qiskit.known
+
+
+def test_each_root_in_a_monorepo_is_discovered_separately(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    for name, pin in (("left", "qiskit>=2.0"), ("right", "qiskit-ibm-runtime>=0.48")):
+        (tmp_path / name).mkdir()
+        (tmp_path / name / "pyproject.toml").write_text(f'[project]\ndependencies = ["{pin}"]\n')
+    seen = _count_discoveries(monkeypatch)
+
+    cache = ConfigCache()
+    left = cache.profile_for(cache.for_path(tmp_path / "left" / "a.py"))
+    right = cache.profile_for(cache.for_path(tmp_path / "right" / "b.py"))
+
+    assert sorted(seen) == sorted([tmp_path / "left", tmp_path / "right"])
+    assert left.qiskit.known and not left.qiskit_ibm_runtime.known
+    assert right.qiskit_ibm_runtime.known and not right.qiskit.known
+
+
+def test_a_different_cli_target_is_not_served_from_the_cache(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    (tmp_path / "pyproject.toml").write_text('[project]\ndependencies = ["qiskit>=2.0"]\n')
+    _count_discoveries(monkeypatch)
+
+    cache = ConfigCache()
+    plain = cache.profile_for(Config(root=tmp_path))
+    overridden = cache.profile_for(Config(root=tmp_path, target_qiskit="2.1"))
+
+    assert plain.qiskit.describe() != overridden.qiskit.describe()
+    assert overridden.qiskit.source is ProfileSource.CLI_FLAG
+
+
+def test_the_cache_agrees_with_resolve_profile_outside_a_project(tmp_path: Path) -> None:
+    config = Config(target_runtime="0.48")
+    assert ConfigCache().profile_for(config) == resolve_profile(config)

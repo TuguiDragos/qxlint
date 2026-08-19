@@ -23,7 +23,7 @@ class MeasuredCircuitToStatevectorEstimator(Rule):
         rationale=(
             "An Estimator computes expectation values from the statevector and "
             "has no use for classical bits. StatevectorEstimator refuses them "
-            "outright: verified on Qiskit 2.5.1, it raises "
+            "outright: verified on Qiskit 2.5.2, it raises "
             "QiskitError('Cannot apply instruction with classical bits: "
             "measure'). This usually appears when a circuit written for a "
             "Sampler is reused for an Estimator without removing the "
@@ -82,4 +82,6 @@ class MeasuredCircuitToStatevectorEstimator(Rule):
                     context={"estimator": STATEVECTOR_ESTIMATOR},
                 )
             )
+            # One finding per run call. The location is the call, so a second
+            # defective pub would repeat the same diagnostic at the same place.
             return

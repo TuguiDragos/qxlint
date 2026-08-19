@@ -7,7 +7,7 @@ from qxlint.registry import register
 from qxlint.rules.base import CallEvent, Rule, RuleContext, RuleMeta
 from qxlint.semantics.model import canonical
 
-# Verified against qiskit-ibm-runtime 0.48.0: both raise TypeError.
+# Verified against qiskit-ibm-runtime 0.49.0: both raise TypeError.
 RUNTIME_PRIMITIVES = frozenset({"qiskit_ibm_runtime.SamplerV2", "qiskit_ibm_runtime.EstimatorV2"})
 REMOVED_ARGUMENTS = ("backend", "session")
 
@@ -24,7 +24,7 @@ class RuntimePrimitiveTakesMode(Rule):
             "The V1 Runtime primitives took `backend=` and `session=`. The V2 "
             "primitives replaced both with a single `mode=`, which accepts a "
             "backend, a Session or a Batch. Passing the old name raises "
-            "TypeError immediately: verified on qiskit-ibm-runtime 0.48.0, "
+            "TypeError immediately: verified on qiskit-ibm-runtime 0.49.0, "
             "`SamplerV2(backend=...)` fails with `unexpected keyword argument "
             "'backend'`. This is one of the most common leftovers of a V1 to V2 "
             "migration, because the call still reads as if it should work."
@@ -34,7 +34,12 @@ class RuntimePrimitiveTakesMode(Rule):
             "`Session` and `Batch`, which really do take `backend=`, and this "
             "rule never looks at those. It also stays silent unless the "
             "constructor is proven to be a Runtime SamplerV2 or EstimatorV2, so "
-            "a local class of the same name is not flagged."
+            "a local class of the same name is not flagged. The bare names "
+            "`Sampler` and `Estimator` were the V1 classes until "
+            "qiskit-ibm-runtime 0.28, so on a target proven to predate that "
+            "release they take `backend=` and `session=` correctly and are not "
+            "flagged. With no target declared the current package is assumed, "
+            "where both names are the V2 classes."
         ),
         bad_example=(
             "from qiskit_ibm_runtime import QiskitRuntimeService, SamplerV2\n\n"

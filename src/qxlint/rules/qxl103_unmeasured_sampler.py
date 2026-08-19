@@ -20,7 +20,7 @@ class UnmeasuredCircuitToSampler(Rule):
         rationale=(
             "A Sampler reports classical bits. A circuit with no measurement "
             "instruction produces nothing useful, and the failure is quiet. With "
-            "no classical register, Qiskit 2.5.1 emits only a UserWarning and "
+            "no classical register, Qiskit 2.5.2 emits only a UserWarning and "
             "returns an empty data bin. With a classical register but no measure "
             "instruction, there is no warning at all and every shot reads as "
             "zeros, which looks like a physics result rather than a mistake."
@@ -77,4 +77,6 @@ class UnmeasuredCircuitToSampler(Rule):
                     context={"primitiveKind": event.primitive_facts.kind.value},
                 )
             )
+            # One finding per run call. The location is the call, so a second
+            # defective pub would repeat the same diagnostic at the same place.
             return

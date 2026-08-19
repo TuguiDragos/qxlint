@@ -1,21 +1,21 @@
 {
- "scanned_on": "2026-08-09",
- "qxlint_version": "qxlint 0.1.0",
+ "scanned_on": "2026-08-19",
+ "qxlint_version": "qxlint 0.3.0",
  "target_runtime": "0.48",
  "repositories": 244,
- "python_files": 50389,
+ "python_files": 50385,
  "notebooks": 1326,
  "exit_code_2": 0,
  "totals": {
   "QXL201": 79,
-  "QXL000": 138,
+  "QXL000": 135,
   "QXL202": 21,
   "QXL104": 47,
   "QXL103": 9,
   "QXL102": 11,
   "QXL101": 7
  },
- "findings": 312,
+ "findings": 309,
  "records": [
   {
    "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
@@ -82,6 +82,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "benchmark.py",
@@ -89,12 +91,19 @@
       "column": 40,
       "endLine": 72,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "benchmark_baseline.py",
@@ -102,12 +111,19 @@
       "column": 40,
       "endLine": 57,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "benchmark_poisson.py",
@@ -115,12 +131,19 @@
       "column": 40,
       "endLine": 60,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/get_calibration.py",
@@ -128,12 +151,19 @@
       "column": 44,
       "endLine": 43,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/get_job_time.py",
@@ -141,12 +171,19 @@
       "column": 40,
       "endLine": 26,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/get_result.py",
@@ -154,12 +191,19 @@
       "column": 40,
       "endLine": 21,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/get_result_baseline.py",
@@ -167,12 +211,19 @@
       "column": 40,
       "endLine": 31,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/get_result_poisson.py",
@@ -180,12 +231,19 @@
       "column": 40,
       "endLine": 21,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/throughput_utilization.py",
@@ -193,12 +251,19 @@
       "column": 41,
       "endLine": 32,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/throughput_utilization.py",
@@ -206,12 +271,19 @@
       "column": 41,
       "endLine": 34,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/throughput_utilization_poisson.py",
@@ -219,12 +291,19 @@
       "column": 41,
       "endLine": 31,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "getdata/throughput_utilization_poisson.py",
@@ -232,6 +311,11 @@
       "column": 41,
       "endLine": 33,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -271,6 +355,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "qiskit_basics.ipynb",
@@ -301,6 +387,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "run.py",
@@ -347,6 +435,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated triple-quoted string literal (detected at line 155)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "WISER_PINN.ipynb",
@@ -380,13 +470,15 @@
    "notebooks": 48,
    "exit": 1,
    "counts": {
-    "QXL000": 6
+    "QXL000": 5
    },
    "findings": [
     {
      "rule": "QXL000",
      "message": "cannot parse: unterminated f-string literal (detected at line 2)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "ibm-qiskit/Day1/Constants.ipynb",
@@ -404,6 +496,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "ibm-qiskit/Day1/Python_Suite.ipynb",
@@ -421,6 +515,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated string literal (detected at line 4)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "ibm-qiskit/Day1/Variables.ipynb",
@@ -438,6 +534,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u201c' (U+201C)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "ibm-qiskit/Day1/Variables.ipynb",
@@ -453,25 +551,10 @@
     },
     {
      "rule": "QXL000",
-     "message": "cannot parse: invalid syntax",
-     "severity": "error",
-     "location": {
-      "kind": "notebook",
-      "path": "ibm-qiskit/Day4/Import.ipynb",
-      "cellIndex": 1,
-      "cellIndexBase": 1,
-      "cellKind": "code",
-      "line": 1,
-      "column": 3,
-      "endLine": null,
-      "endColumn": null,
-      "physicalLine": null
-     }
-    },
-    {
-     "rule": "QXL000",
      "message": "cannot parse: f-string: expecting '=', or '!', or ':', or '}'",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "openqasm/run_qasm.py",
@@ -598,6 +681,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/03_Quantum-Arithmetic-Circuits-with-Qiskit.ipynb",
@@ -615,6 +700,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u2192' (U+2192)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/05_Deutsch_Algorithm.ipynb",
@@ -632,6 +719,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u27e9' (U+27E9)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/05_Deutsch_Algorithm.ipynb",
@@ -649,6 +738,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/05_Deutsch_Algorithm.ipynb",
@@ -666,6 +757,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/06_Deutsch_Jozsa_Algorithm.ipynb",
@@ -683,6 +776,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u27e9' (U+27E9)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/06_Deutsch_Jozsa_Algorithm.ipynb",
@@ -700,6 +795,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/06_Deutsch_Jozsa_Algorithm.ipynb",
@@ -717,6 +814,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u00b7' (U+00B7)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/07_Bernstein_Vazirani_Algorithm.ipynb",
@@ -734,6 +833,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u27e9' (U+27E9)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/07_Bernstein_Vazirani_Algorithm.ipynb",
@@ -751,6 +852,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/07_Bernstein_Vazirani_Algorithm.ipynb",
@@ -768,6 +871,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated string literal (detected at line 5)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/08_Grover_Search_Algorithm.ipynb",
@@ -785,6 +890,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u221a' (U+221A)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/08_Grover_Search_Algorithm.ipynb",
@@ -802,6 +909,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated string literal (detected at line 3)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/08_Grover_Search_Algorithm.ipynb",
@@ -902,6 +1011,8 @@
      "rule": "QXL000",
      "message": "cannot parse: expected an indented block after function definition on line 46",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "guide/submission_template.py",
@@ -928,6 +1039,8 @@
      "rule": "QXL000",
      "message": "cannot parse: '(' was never closed",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/01_data_exploration.ipynb",
@@ -951,14 +1064,15 @@
    "notebooks": 1,
    "exit": 1,
    "counts": {
-    "QXL201": 2,
-    "QXL000": 1
+    "QXL201": 2
    },
    "findings": [
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "quantum.ipynb",
@@ -970,12 +1084,19 @@
       "endLine": 3,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "quantum.ipynb",
@@ -987,23 +1108,11 @@
       "endLine": 4,
       "endColumn": 56,
       "physicalLine": null
-     }
-    },
-    {
-     "rule": "QXL000",
-     "message": "cannot parse: invalid syntax",
-     "severity": "error",
-     "location": {
-      "kind": "notebook",
-      "path": "quantum.ipynb",
-      "cellIndex": 17,
-      "cellIndexBase": 1,
-      "cellKind": "code",
-      "line": 1,
-      "column": 3,
-      "endLine": null,
-      "endColumn": null,
-      "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -1023,6 +1132,8 @@
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/examples/run_qaoa_maxcut_runtime.py",
@@ -1030,6 +1141,10 @@
       "column": 41,
       "endLine": 30,
       "endColumn": 48
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     }
    ]
@@ -1072,30 +1187,15 @@
    "notebooks": 9,
    "exit": 1,
    "counts": {
-    "QXL000": 2
+    "QXL000": 1
    },
    "findings": [
     {
      "rule": "QXL000",
-     "message": "cannot parse: invalid syntax",
-     "severity": "error",
-     "location": {
-      "kind": "notebook",
-      "path": "lab00/lab0.ipynb",
-      "cellIndex": 24,
-      "cellIndexBase": 1,
-      "cellKind": "code",
-      "line": 1,
-      "column": 3,
-      "endLine": null,
-      "endColumn": null,
-      "physicalLine": null
-     }
-    },
-    {
-     "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "lab02/lab2.ipynb",
@@ -1126,6 +1226,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "rand_generator.py",
@@ -1133,6 +1235,11 @@
       "column": 13,
       "endLine": 13,
       "endColumn": 26
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -1162,6 +1269,8 @@
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "vqemulti/simulators/ibm_hardware.py",
@@ -1169,6 +1278,10 @@
       "column": 45,
       "endLine": 120,
       "endColumn": 58
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     }
    ]
@@ -1208,6 +1321,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qndb/core/engine/hardware/ibm_backend.py",
@@ -1215,6 +1330,11 @@
       "column": 25,
       "endLine": 91,
       "endColumn": 38
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -1285,6 +1405,8 @@
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/algorithms/vqc_classifier.py",
@@ -1292,12 +1414,18 @@
       "column": 31,
       "endLine": 83,
       "endColumn": 38
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/core/ibmcloud.py",
@@ -1305,6 +1433,11 @@
       "column": 17,
       "endLine": 26,
       "endColumn": 30
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -1324,6 +1457,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "CHSH_Experiment.py",
@@ -1331,12 +1466,19 @@
       "column": 12,
       "endLine": 22,
       "endColumn": 25
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "CHSH_Experiment.py",
@@ -1344,6 +1486,11 @@
       "column": 40,
       "endLine": 27,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -1463,6 +1610,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated f-string literal (detected at line 481)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ext/ext21.py",
@@ -1476,6 +1625,8 @@
      "rule": "QXL000",
      "message": "cannot parse: expected '('",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ext/ext6.py",
@@ -1552,6 +1703,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
@@ -1569,6 +1722,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid decimal literal",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
@@ -1586,6 +1741,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid decimal literal",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
@@ -1603,6 +1760,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "assets/notebooks/AQCA_Full_Catalogue.ipynb",
@@ -1634,6 +1793,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/backend/quantum/hardware.py",
@@ -1641,12 +1802,19 @@
       "column": 29,
       "endLine": 67,
       "endColumn": 42
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/backend/quantum/hardware.py",
@@ -1654,6 +1822,10 @@
       "column": 43,
       "endLine": 102,
       "endColumn": 50
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     }
    ]
@@ -1763,6 +1935,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "submit_parity.py",
@@ -1776,6 +1950,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "submit_population.py",
@@ -1932,6 +2108,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "entanglement.py",
@@ -1939,12 +2117,19 @@
       "column": 59,
       "endLine": 18,
       "endColumn": 72
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "entanglement.py",
@@ -1952,6 +2137,11 @@
       "column": 40,
       "endLine": 21,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2012,6 +2202,8 @@
      "rule": "QXL104",
      "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/circuit/test_circuit_load_from_qpy.py",
@@ -2019,12 +2211,18 @@
       "column": 9,
       "endLine": 312,
       "endColumn": 29
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "assign_parameters"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: inverse() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/circuit/test_instructions.py",
@@ -2032,12 +2230,18 @@
       "column": 9,
       "endLine": 266,
       "endColumn": 21
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "inverse"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_backend_sampler_v2.py",
@@ -2045,12 +2249,18 @@
       "column": 22,
       "endLine": 762,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_statevector_sampler.py",
@@ -2058,12 +2268,18 @@
       "column": 21,
       "endLine": 303,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_statevector_sampler.py",
@@ -2071,12 +2287,18 @@
       "column": 22,
       "endLine": 624,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/transpiler/test_sabre_swap.py",
@@ -2084,6 +2306,10 @@
       "column": 9,
       "endLine": 228,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     }
    ]
@@ -2113,6 +2339,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "statistics.py",
@@ -2229,6 +2457,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/custom_layers.py",
@@ -2236,12 +2466,19 @@
       "column": 21,
       "endLine": 87,
       "endColumn": 34
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/custom_layers.py",
@@ -2249,6 +2486,11 @@
       "column": 48,
       "endLine": 89,
       "endColumn": 61
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2278,6 +2520,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "audits/audit_mnist_pca_qda_run.py",
@@ -2334,6 +2578,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/visualization_testing.ipynb",
@@ -2384,6 +2630,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated triple-quoted string literal (detected at line 18)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "part_2_algorithms/ch07_sph/cubic_spline_kernel.py",
@@ -2397,6 +2645,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "part_3_frontier/ch15_ethics/carbon_calculator.py",
@@ -2433,6 +2683,8 @@
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "MultipleVMSimple/VQE.py",
@@ -2440,12 +2692,18 @@
       "column": 39,
       "endLine": 87,
       "endColumn": 46
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "MultithreadingUsingDask/VQEMultithreadingUsingDask.py",
@@ -2453,12 +2711,18 @@
       "column": 39,
       "endLine": 101,
       "endColumn": 46
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "VQEHamiltonianDistribution-VHD/VHDUsingForLoops.py",
@@ -2466,12 +2730,18 @@
       "column": 39,
       "endLine": 38,
       "endColumn": 46
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "VQEHamiltonianDistribution-VHD/VHDWorker.py",
@@ -2479,12 +2749,18 @@
       "column": 39,
       "endLine": 48,
       "endColumn": 46
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "VQESeparateParameter-VSP/VSPUsingForLoops.py",
@@ -2492,12 +2768,18 @@
       "column": 39,
       "endLine": 131,
       "endColumn": 46
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not session=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "VQESeparateParameter-VSP/VSPWorker.py",
@@ -2505,6 +2787,10 @@
       "column": 39,
       "endLine": 26,
       "endColumn": 46
+     },
+     "fixHint": "rename session= to mode=",
+     "context": {
+      "argument": "session"
      }
     }
    ]
@@ -2574,6 +2860,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated f-string literal (detected at line 7)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/05_nir_bridge.ipynb",
@@ -2591,6 +2879,8 @@
      "rule": "QXL000",
      "message": "notebook is not valid UTF-8: 'utf-8' codec can't decode byte 0x97 in position 326: invalid start byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "notebooks/quickstart_colab.ipynb",
@@ -2657,6 +2947,8 @@
      "rule": "QXL000",
      "message": "cannot parse: '(' was never closed",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "QuantumDice.py",
@@ -2693,6 +2985,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "example2.py",
@@ -2700,12 +2994,19 @@
       "column": 44,
       "endLine": 92,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "run_bench_1.py",
@@ -2713,12 +3014,19 @@
       "column": 44,
       "endLine": 27,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "run_bench_2.py",
@@ -2726,12 +3034,19 @@
       "column": 44,
       "endLine": 42,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "run_bench_3.py",
@@ -2739,6 +3054,11 @@
       "column": 44,
       "endLine": 34,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2758,6 +3078,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "save_token.py",
@@ -2765,6 +3087,11 @@
       "column": 43,
       "endLine": 4,
       "endColumn": 56
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2804,6 +3131,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "GP.py",
@@ -2811,12 +3140,19 @@
       "column": 44,
       "endLine": 134,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "RP.py",
@@ -2824,12 +3160,19 @@
       "column": 44,
       "endLine": 48,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "Run Real.py",
@@ -2837,6 +3180,11 @@
       "column": 40,
       "endLine": 10,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2866,6 +3214,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "grover/ibm_backend.py",
@@ -2873,6 +3223,11 @@
       "column": 44,
       "endLine": 49,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2902,6 +3257,8 @@
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "real.py",
@@ -2909,12 +3266,18 @@
       "column": 15,
       "endLine": 76,
       "endColumn": 38
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "real.py",
@@ -2922,6 +3285,10 @@
       "column": 20,
       "endLine": 85,
       "endColumn": 42
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     }
    ]
@@ -2941,6 +3308,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "QFT.py",
@@ -2948,6 +3317,11 @@
       "column": 69,
       "endLine": 61,
       "endColumn": 82
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -2967,6 +3341,8 @@
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "execute.py",
@@ -2974,12 +3350,18 @@
       "column": 33,
       "endLine": 14,
       "endColumn": 40
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "execute.py",
@@ -2987,12 +3369,18 @@
       "column": 33,
       "endLine": 24,
       "endColumn": 40
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "execute.py",
@@ -3000,6 +3388,10 @@
       "column": 33,
       "endLine": 36,
       "endColumn": 40
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     }
    ]
@@ -3019,6 +3411,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "Proca-Yukawa Field Modulations in Molecular Nano-Electronics.ipynb",
@@ -3030,12 +3424,19 @@
       "endLine": 2,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "proca_experiment.py",
@@ -3043,6 +3444,11 @@
       "column": 40,
       "endLine": 16,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -3062,6 +3468,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "setup/setup.py",
@@ -3069,6 +3477,11 @@
       "column": 43,
       "endLine": 7,
       "endColumn": 56
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -3109,6 +3522,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "circuits.py",
@@ -3116,12 +3531,19 @@
       "column": 40,
       "endLine": 117,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "circuits.py",
@@ -3129,12 +3551,19 @@
       "column": 40,
       "endLine": 150,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "fisher.py",
@@ -3148,6 +3577,8 @@
      "rule": "QXL000",
      "message": "cannot parse: expected ':'",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "utils.py",
@@ -3174,6 +3605,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "src/tests/tests.ipynb",
@@ -3185,6 +3618,11 @@
       "endLine": 6,
       "endColumn": 26,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -3214,6 +3652,8 @@
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "main.py",
@@ -3221,6 +3661,10 @@
       "column": 9,
       "endLine": 170,
       "endColumn": 24
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     }
    ]
@@ -3229,7 +3673,7 @@
    "repo": "cccbook/py2cs",
    "sha": "9091b7096aa69f0b25236ec779450ee1534eddba",
    "stratum": "A_statevector_sampler",
-   "py_files": 5876,
+   "py_files": 5874,
    "notebooks": 102,
    "exit": 1,
    "counts": {
@@ -3241,6 +3685,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/_more/_code/04-scipy/anovaTest1.py",
@@ -3254,6 +3700,8 @@
      "rule": "QXL000",
      "message": "cannot parse: expected an indented block after function definition on line 38",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/02-\u4ee3\u6578/_code/06a-\u5411\u91cf\u904b\u7b97/vector.py",
@@ -3267,6 +3715,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/04-\u5fae\u7a4d\u5206/_code/_more/calculus/partial.py",
@@ -3280,6 +3730,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/04-\u5fae\u7a4d\u5206/_code/_more/partial.py",
@@ -3293,6 +3745,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/05-\u6a5f\u7387\u7d71\u8a08/_code/05-\u6a5f\u7387\u7d71\u8a08/03-scipy/anovaTest1.py",
@@ -3306,6 +3760,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u66f8\u7c4d/_\u820a\u7248/07-\u8a08\u7b97\u7406\u8ad6/code/_bak/02-\u6b4c\u5fb7\u723e\u7684\u5b9a\u7406/01-\u7f85\u7d20\u6096\u8ad6/ressellSet2.py",
@@ -3319,6 +3775,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected character after line continuation character",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "01-\u7a0b\u5f0f\u8207\u6578\u5b78/\u7fd2\u984c/11-\u5fae\u5206\u5e7e\u4f55/_code/04-diff_manifolds/4.4-geodesic.py",
@@ -3332,6 +3790,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/_more/_code/\u03bb.py",
@@ -3345,6 +3805,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/_more/\u03bb.py",
@@ -3358,6 +3820,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/code/08-combinator/BCKW.py",
@@ -3371,6 +3835,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "02-\u6f14\u7b97\u6cd5/04-\u7406\u8ad6/02-\u03bbCalculus/code/09-lambda/\u03bb.py",
@@ -3384,6 +3850,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "02-\u6f14\u7b97\u6cd5/_book/\u91cf\u5b50\u96fb\u8166\u66f8/_code/01-hello/grover1_fail.ipynb",
@@ -3395,12 +3863,19 @@
       "endLine": 2,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "02-\u6f14\u7b97\u6cd5/_book/\u91cf\u5b50\u96fb\u8166\u66f8/_code/04-grover-need-account/grover1need_account.ipynb",
@@ -3412,12 +3887,19 @@
       "endLine": 2,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/03-scipy/anovaTest1.py",
@@ -3431,6 +3913,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/aiTest.ipynb",
@@ -3444,6 +3928,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/aiTest2.ipynb",
@@ -3457,6 +3943,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/scatter1.py",
@@ -3470,6 +3958,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/Untitled.ipynb",
@@ -3483,6 +3973,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/aiTest.ipynb",
@@ -3496,6 +3988,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/aiTest2.ipynb",
@@ -3509,6 +4003,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/scatter1.py",
@@ -3522,6 +4018,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/ttest1.py",
@@ -3535,6 +4033,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/statistics/ttest2.py",
@@ -3548,6 +4048,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/ttest1b.py",
@@ -3561,6 +4063,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/00-statistics/_more/ttest2b.py",
@@ -3574,6 +4078,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/00-\u6578\u5b78\u57fa\u790e/02-\u73fe\u4ee3\u6df1\u5ea6\u5b78\u7fd2/04-\u6a5f\u7387\u7d71\u8a08/\u53d7\u9650\u6ce2\u8332\u66fc\u6a5f/iorbm.py",
@@ -3587,6 +4093,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\uff0c' (U+FF0C)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/03-scipy/anovaTest1.py",
@@ -3600,6 +4108,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/aiTest.ipynb",
@@ -3613,6 +4123,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/aiTest2.ipynb",
@@ -3626,6 +4138,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/scatter1.py",
@@ -3639,6 +4153,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/ttest1b.py",
@@ -3652,6 +4168,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/03-\u6a5f\u5668\u5b78\u7fd2/01-\u50b3\u7d71\u6a5f\u5668\u5b78\u7fd2/03-ccc\u7684\u5be6\u4f5c/00-statistics/_more/ttest2b.py",
@@ -3665,6 +4183,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/07-\u96fb\u8166\u4e0b\u68cb/_more/01-chess/gomoku4.py",
@@ -3678,6 +4198,8 @@
      "rule": "QXL000",
      "message": "cannot parse: expected an indented block after 'if' statement on line 42",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/08-\u8a9e\u8a00\u4ea4\u8ac7/01-\u50b3\u7d71NLP/01-\u8a9e\u8a00\u8655\u7406/04-\u6b04\u4f4d\u586b\u5145/slot_notfinished.py",
@@ -3691,6 +4213,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/08-\u8a9e\u8a00\u4ea4\u8ac7/02-\u73fe\u4ee3LLM/03-LLM\u6539\u826f/04a-\u5fae\u8abf/loratrain1.py",
@@ -3704,6 +4228,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/08-\u8a9e\u8a00\u4ea4\u8ac7/02-\u73fe\u4ee3LLM/C1-mychat/system2/system2/scheduler/background/memgpt/memgpt1.py",
@@ -3717,6 +4243,8 @@
      "rule": "QXL000",
      "message": "cannot parse: '(' was never closed",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "03-\u6a5f\u5668\u5b78\u7fd2/_book/02-\u6df1\u5ea6\u5b78\u7fd2\u66f8/_codeMlxBook/03.4/autoDiff2.py",
@@ -3730,6 +4258,8 @@
      "rule": "QXL000",
      "message": "cannot parse: expected an indented block after 'case' statement on line 14",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/05-\u7a0b\u5f0f\u8a9e\u8a00/code/10-py0\u8a9e\u8a00/version/v1.1/genpy.py",
@@ -3743,6 +4273,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/05-\u7a0b\u5f0f\u8a9e\u8a00/code/10-py0\u8a9e\u8a00/version/v1.3half/parser0.py",
@@ -3756,6 +4288,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/06-\u8edf\u9ad4\u5de5\u7a0b/code/python/publish/ai6/solution_scheduling.py",
@@ -3769,6 +4303,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/08-\u61c9\u7528\u7a0b\u5f0f/code/05-chatgpt/_chat/01-chess/gomoku4.py",
@@ -3782,6 +4318,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/00e-python/10-gui/kivy/3d/objloader.py",
@@ -3795,6 +4333,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/00e-python/98-exercise/poly1.py",
@@ -3808,6 +4348,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/00e-python/publish/ai6/solution_scheduling.py",
@@ -3821,6 +4363,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/10-gui/kivy/3d/objloader.py",
@@ -3834,6 +4378,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/98-exercise/poly1.py",
@@ -3847,6 +4393,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/A0-Python/01-\u7a0b\u5f0f\u57fa\u790e/publish/ai6/solution_scheduling.py",
@@ -3860,6 +4408,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/_bak/04a-\u8a08\u7b97\u7406\u8ad6/code/03-\u4e18\u5947\u7684\u51fd\u6578/code/\u03bb.py",
@@ -3873,6 +4423,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/_bak/04b-LambdaCalculus/08/BCKW.py",
@@ -3886,6 +4438,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/_bak/04b-LambdaCalculus/09/\u03bb.py",
@@ -3899,6 +4453,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/_bak/04b-LambdaCalculus/_code/\u03bb.py",
@@ -3912,6 +4468,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "_more/_bak/04b-LambdaCalculus/_more/\u03bb.py",
@@ -3927,7 +4485,7 @@
    "repo": "ccicconetti/serverless_quantum_sim",
    "sha": "d6cde2e70efca73e36d82719640afcb94edc2397",
    "stratum": "B_runtime_samplerv2",
-   "py_files": 21,
+   "py_files": 19,
    "notebooks": 0,
    "exit": 1,
    "counts": {
@@ -3938,6 +4496,8 @@
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qiskit/function/vqe.py",
@@ -3945,12 +4505,18 @@
       "column": 39,
       "endLine": 165,
       "endColumn": 46
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qiskit/function/vqe.py",
@@ -3958,12 +4524,18 @@
       "column": 35,
       "endLine": 194,
       "endColumn": 42
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qiskit/ibm_job_estimate.py",
@@ -3971,6 +4543,10 @@
       "column": 27,
       "endLine": 48,
       "endColumn": 34
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     }
    ]
@@ -3990,6 +4566,8 @@
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/quask/core_implementation/qiskit_kernel.py",
@@ -3997,12 +4575,18 @@
       "column": 39,
       "endLine": 100,
       "endColumn": 51
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/quask/core_implementation/qiskit_kernel.py",
@@ -4010,6 +4594,10 @@
       "column": 41,
       "endLine": 107,
       "endColumn": 53
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     }
    ]
@@ -4039,6 +4627,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "scripts/run_ibm_matrix.py",
@@ -4046,12 +4636,19 @@
       "column": 45,
       "endLine": 114,
       "endColumn": 58
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/ibm_backend.py",
@@ -4059,12 +4656,19 @@
       "column": 45,
       "endLine": 21,
       "endColumn": 58
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/ibm_backend.py",
@@ -4072,6 +4676,11 @@
       "column": 41,
       "endLine": 22,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4103,6 +4712,8 @@
      "rule": "QXL000",
      "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 1073: invalid continuation byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "compound_ranking_analysis.py",
@@ -4116,6 +4727,8 @@
      "rule": "QXL000",
      "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 2411: invalid continuation byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "convert_100.py",
@@ -4129,6 +4742,8 @@
      "rule": "QXL000",
      "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 976: invalid continuation byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "docking_example.py",
@@ -4142,6 +4757,8 @@
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "first_quantum_job.py",
@@ -4149,12 +4766,18 @@
       "column": 38,
       "endLine": 47,
       "endColumn": 56
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "first_quantum_job.py",
@@ -4162,12 +4785,18 @@
       "column": 10,
       "endLine": 50,
       "endColumn": 28
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL000",
      "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 1149: invalid continuation byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "novelty_check.py",
@@ -4181,6 +4810,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_search.py",
@@ -4188,12 +4819,19 @@
       "column": 56,
       "endLine": 74,
       "endColumn": 69
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL000",
      "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 193: invalid continuation byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test_docking.py",
@@ -4207,6 +4845,8 @@
      "rule": "QXL000",
      "message": "cannot read file: 'utf-8' codec can't decode byte 0xed in position 1185: invalid continuation byte",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "visualize_analogs.py",
@@ -4233,6 +4873,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qrng.py",
@@ -4240,6 +4882,11 @@
       "column": 40,
       "endLine": 7,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4299,6 +4946,8 @@
      "rule": "QXL000",
      "message": "invalid notebook JSON: Expecting value: line 1 column 1 (char 0)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test.ipynb",
@@ -4325,6 +4974,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "Token.py",
@@ -4332,12 +4983,19 @@
       "column": 41,
       "endLine": 6,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "lt/Q.py",
@@ -4345,6 +5003,11 @@
       "column": 42,
       "endLine": 188,
       "endColumn": 55
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4397,6 +5060,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebook.ipynb",
@@ -4414,6 +5079,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_orchestrator.py",
@@ -4421,12 +5088,19 @@
       "column": 62,
       "endLine": 81,
       "endColumn": 75
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_orchestrator.py",
@@ -4434,12 +5108,18 @@
       "column": 47,
       "endLine": 157,
       "endColumn": 54
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_orchestrator.py",
@@ -4447,12 +5127,18 @@
       "column": 47,
       "endLine": 159,
       "endColumn": 54
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_trader.py",
@@ -4460,12 +5146,19 @@
       "column": 44,
       "endLine": 17,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL202",
      "message": "SamplerV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_trader.py",
@@ -4473,12 +5166,18 @@
       "column": 31,
       "endLine": 52,
       "endColumn": 38
+     },
+     "fixHint": "rename backend= to mode=",
+     "context": {
+      "argument": "backend"
      }
     },
     {
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_trader.py",
@@ -4486,12 +5185,18 @@
       "column": 27,
       "endLine": 68,
       "endColumn": 45
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "verify_connections.py",
@@ -4499,6 +5204,11 @@
       "column": 52,
       "endLine": 36,
       "endColumn": 65
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4518,6 +5228,8 @@
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/quantum_made_easy.py",
@@ -4525,6 +5237,10 @@
       "column": 17,
       "endLine": 54,
       "endColumn": 35
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     }
    ]
@@ -4544,6 +5260,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "Testing/test.py",
@@ -4551,12 +5269,19 @@
       "column": 40,
       "endLine": 32,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "demo1.ipynb",
@@ -4568,6 +5293,11 @@
       "endLine": 2,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4627,6 +5357,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "aer-package.ipynb",
@@ -4638,12 +5370,19 @@
       "endLine": 6,
       "endColumn": 54,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "error-mitigation.ipynb",
@@ -4655,12 +5394,19 @@
       "endLine": 10,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ibmq/__init__.py",
@@ -4668,12 +5414,19 @@
       "column": 45,
       "endLine": 14,
       "endColumn": 58
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "noise-models.ipynb",
@@ -4685,12 +5438,19 @@
       "endLine": 9,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "pulse-schedules.ipynb",
@@ -4702,12 +5462,19 @@
       "endLine": 6,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qiskit_runtime.py",
@@ -4715,12 +5482,19 @@
       "column": 41,
       "endLine": 11,
       "endColumn": 54
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "run_real.ipynb",
@@ -4732,12 +5506,19 @@
       "endLine": 5,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "transpiler_circuit_optimization.ipynb",
@@ -4749,6 +5530,11 @@
       "endLine": 7,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4788,6 +5574,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "backend.py",
@@ -4795,6 +5583,11 @@
       "column": 43,
       "endLine": 8,
       "endColumn": 56
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4814,6 +5607,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/HWs/HW1.py",
@@ -4821,12 +5616,19 @@
       "column": 44,
       "endLine": 25,
       "endColumn": 57
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "src/HWs/HW1.py",
@@ -4834,6 +5636,11 @@
       "column": 17,
       "endLine": 44,
       "endColumn": 30
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4853,6 +5660,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "src/qrisp/examples/jasp_demo.ipynb",
@@ -4883,6 +5692,8 @@
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "experiments/fixed_circuit.py",
@@ -4890,12 +5701,18 @@
       "column": 14,
       "endLine": 36,
       "endColumn": 32
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "experiments/simple_test.py",
@@ -4903,12 +5720,18 @@
       "column": 27,
       "endLine": 24,
       "endColumn": 45
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "first_circuit.py",
@@ -4916,6 +5739,10 @@
       "column": 14,
       "endLine": 43,
       "endColumn": 32
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     }
    ]
@@ -4935,6 +5762,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ejemplos/05_computacion_cuantica.py",
@@ -4942,6 +5771,11 @@
       "column": 40,
       "endLine": 21,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -4961,6 +5795,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "Code/vqe.ipynb",
@@ -4972,12 +5808,19 @@
       "endLine": 5,
       "endColumn": 56,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "Code/vqe.ipynb",
@@ -4989,12 +5832,19 @@
       "endLine": 6,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "Code/vqe.py",
@@ -5002,6 +5852,11 @@
       "column": 40,
       "endLine": 21,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -5021,6 +5876,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "simulation/backend.py",
@@ -5028,12 +5885,19 @@
       "column": 48,
       "endLine": 19,
       "endColumn": 61
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "simulation/save_account.py",
@@ -5041,12 +5905,19 @@
       "column": 43,
       "endLine": 8,
       "endColumn": 56
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "simulation/save_account.py",
@@ -5054,6 +5925,11 @@
       "column": 40,
       "endLine": 9,
       "endColumn": 53
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -5133,6 +6009,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "!refs/buffer.py",
@@ -5146,6 +6024,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "!refs/google_colab_model_to_blocks.py",
@@ -5223,6 +6103,8 @@
      "rule": "QXL104",
      "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/circuit/test_circuit_load_from_qpy.py",
@@ -5230,12 +6112,18 @@
       "column": 9,
       "endLine": 325,
       "endColumn": 29
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "assign_parameters"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: inverse() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/circuit/test_instructions.py",
@@ -5243,12 +6131,18 @@
       "column": 9,
       "endLine": 276,
       "endColumn": 21
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "inverse"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_backend_sampler_v2.py",
@@ -5256,12 +6150,18 @@
       "column": 22,
       "endLine": 1400,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_statevector_sampler.py",
@@ -5269,12 +6169,18 @@
       "column": 21,
       "endLine": 309,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_statevector_sampler.py",
@@ -5282,12 +6188,18 @@
       "column": 22,
       "endLine": 633,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/transpiler/test_sabre_swap.py",
@@ -5295,6 +6207,10 @@
       "column": 9,
       "endLine": 228,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     }
    ]
@@ -5334,6 +6250,8 @@
      "rule": "QXL000",
      "message": "cannot parse: '(' was never closed",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "recycle.py",
@@ -5370,6 +6288,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "qbench/common_models.py",
@@ -5377,6 +6297,11 @@
       "column": 21,
       "endLine": 151,
       "endColumn": 34
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -5416,6 +6341,8 @@
      "rule": "QXL000",
      "message": "cannot parse: closing parenthesis ')' does not match opening parenthesis '['",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "attention.ipynb",
@@ -5433,6 +6360,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid decimal literal",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "notebooks/attention.ipynb",
@@ -5450,6 +6379,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "souldierAI/PRN/policy.py",
@@ -5463,6 +6394,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "souldierAI/logic/evaluator.py",
@@ -5476,6 +6409,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "static/ibm-q/open/main/instance.py",
@@ -5502,6 +6437,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "chocoq/solvers/qiskit/provider/cloud_provider/cloud_service.py",
@@ -5509,6 +6446,11 @@
       "column": 52,
       "endLine": 20,
       "endColumn": 65
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -5568,6 +6510,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_classification/quantum_async_jobs.py",
@@ -5575,12 +6519,19 @@
       "column": 13,
       "endLine": 16,
       "endColumn": 26
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "quantum_classification/quantum_estimation.py",
@@ -5588,12 +6539,19 @@
       "column": 13,
       "endLine": 17,
       "endColumn": 26
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "workflow/workflow_manager.py",
@@ -5601,6 +6559,11 @@
       "column": 13,
       "endLine": 28,
       "endColumn": 26
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -5640,6 +6603,8 @@
      "rule": "QXL000",
      "message": "cannot parse: source code string cannot contain null bytes",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "1603/admm_solver.ipynb",
@@ -5657,6 +6622,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "QISKIT/Qiskit85.ipynb",
@@ -5674,6 +6641,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "backup_QISKIT/Qiskit85.ipynb",
@@ -5724,6 +6693,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "results/classical-algos/medium_0040.py",
@@ -5737,6 +6708,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid character '\u25c6' (U+25C6)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "results/classical-algos/small_0024.py",
@@ -5750,6 +6723,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unexpected indent",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "results/classical-algos/tiny_0000.py",
@@ -5806,6 +6781,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "MLtutorial.ipynb",
@@ -5823,6 +6800,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "MLtutorial.ipynb",
@@ -5840,6 +6819,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "phase_estimation.ipynb",
@@ -5901,6 +6882,8 @@
      "rule": "QXL104",
      "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/circuit/test_circuit_load_from_qpy.py",
@@ -5908,12 +6891,18 @@
       "column": 9,
       "endLine": 331,
       "endColumn": 29
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "assign_parameters"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: inverse() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/circuit/test_instructions.py",
@@ -5921,12 +6910,18 @@
       "column": 9,
       "endLine": 265,
       "endColumn": 21
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "inverse"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_backend_sampler_v2.py",
@@ -5934,12 +6929,18 @@
       "column": 22,
       "endLine": 803,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_statevector_sampler.py",
@@ -5947,12 +6948,18 @@
       "column": 21,
       "endLine": 307,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL103",
      "message": "circuit has no measurement instructions but is passed to a SamplerV2; the result carries no counts",
      "severity": "warning",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/primitives/test_statevector_sampler.py",
@@ -5960,12 +6967,18 @@
       "column": 22,
       "endLine": 629,
       "endColumn": 39
+     },
+     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "context": {
+      "primitiveKind": "sampler_v2"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "test/python/transpiler/test_sabre_swap.py",
@@ -5973,6 +6986,10 @@
       "column": 9,
       "endLine": 292,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     }
    ]
@@ -5992,6 +7009,8 @@
      "rule": "QXL000",
      "message": "cannot parse: unterminated f-string literal (detected at line 2)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "docs/function_features/basic/02_arguments_and_results.ipynb",
@@ -6009,6 +7028,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "gateway/templates/fleet_custom_job_wrapper.py",
@@ -6022,6 +7043,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "gateway/templates/fleet_provider_job_wrapper.py",
@@ -6048,6 +7071,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "examples/nexus/pyscf_pes.py",
@@ -6061,6 +7086,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "examples/nexus/pyscf_relax.py",
@@ -6088,6 +7115,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "Maxcut/quantum-approximate-optimization-algorithm.ipynb",
@@ -6099,12 +7128,19 @@
       "endLine": 6,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     },
     {
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax. Perhaps you forgot a comma?",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "TSP/local.ipynb",
@@ -6122,6 +7158,8 @@
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "TSP/qpu.ipynb",
@@ -6133,6 +7171,11 @@
       "endLine": 6,
       "endColumn": 53,
       "physicalLine": null
+     },
+     "fixHint": "drop channel=, or use channel='ibm_quantum_platform'",
+     "context": {
+      "targetRuntime": "0.48",
+      "applicability": "always"
      }
     }
    ]
@@ -6174,6 +7217,8 @@
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/3600.py",
@@ -6181,12 +7226,18 @@
       "column": 30,
       "endLine": 323,
       "endColumn": 48
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/4001.py",
@@ -6194,12 +7245,18 @@
       "column": 9,
       "endLine": 90,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/4001.py",
@@ -6207,12 +7264,18 @@
       "column": 9,
       "endLine": 91,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/4001.py",
@@ -6220,12 +7283,18 @@
       "column": 9,
       "endLine": 92,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/4001.py",
@@ -6233,12 +7302,18 @@
       "column": 9,
       "endLine": 93,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/4001.py",
@@ -6246,12 +7321,18 @@
       "column": 9,
       "endLine": 94,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/ML/4001.py",
@@ -6259,12 +7340,18 @@
       "column": 9,
       "endLine": 95,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/1921.py",
@@ -6272,12 +7359,18 @@
       "column": 5,
       "endLine": 52,
       "endColumn": 24
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/2624.py",
@@ -6285,12 +7378,18 @@
       "column": 5,
       "endLine": 130,
       "endColumn": 26
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "assign_parameters"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/2727.py",
@@ -6298,12 +7397,18 @@
       "column": 5,
       "endLine": 74,
       "endColumn": 26
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/2731.py",
@@ -6311,12 +7416,18 @@
       "column": 21,
       "endLine": 75,
       "endColumn": 41
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/2731.py",
@@ -6324,12 +7435,18 @@
       "column": 22,
       "endLine": 122,
       "endColumn": 39
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL104",
-     "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
+     "message": "this statement raises TypeError: decompose() has no inplace argument",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3510.py",
@@ -6337,12 +7454,18 @@
       "column": 5,
       "endLine": 72,
       "endColumn": 22
+     },
+     "fixHint": "drop the inplace argument and assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3557.py",
@@ -6350,12 +7473,18 @@
       "column": 9,
       "endLine": 65,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3557.py",
@@ -6363,12 +7492,18 @@
       "column": 9,
       "endLine": 69,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3557.py",
@@ -6376,12 +7511,18 @@
       "column": 9,
       "endLine": 96,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL102",
      "message": "quasi_dists does not exist on a V2 PrimitiveResult; read result[i].data.<register>.get_counts() instead",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3600.py",
@@ -6389,12 +7530,18 @@
       "column": 25,
       "endLine": 138,
       "endColumn": 43
+     },
+     "fixHint": "result[0].data.<register>.get_counts()",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3794.py",
@@ -6402,12 +7549,18 @@
       "column": 5,
       "endLine": 25,
       "endColumn": 26
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/3930.py",
@@ -6415,12 +7568,18 @@
       "column": 5,
       "endLine": 71,
       "endColumn": 26
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6428,12 +7587,18 @@
       "column": 5,
       "endLine": 66,
       "endColumn": 26
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6441,12 +7606,18 @@
       "column": 5,
       "endLine": 70,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6454,12 +7625,18 @@
       "column": 5,
       "endLine": 71,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6467,12 +7644,18 @@
       "column": 5,
       "endLine": 72,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6480,12 +7663,18 @@
       "column": 5,
       "endLine": 73,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6493,12 +7682,18 @@
       "column": 5,
       "endLine": 74,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4001.py",
@@ -6506,12 +7701,18 @@
       "column": 5,
       "endLine": 75,
       "endColumn": 19
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4056.py",
@@ -6519,12 +7720,18 @@
       "column": 5,
       "endLine": 103,
       "endColumn": 26
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4614.py",
@@ -6532,12 +7739,18 @@
       "column": 13,
       "endLine": 75,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4614.py",
@@ -6545,12 +7758,18 @@
       "column": 13,
       "endLine": 79,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4614.py",
@@ -6558,12 +7777,18 @@
       "column": 13,
       "endLine": 102,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4693.py",
@@ -6571,12 +7796,18 @@
       "column": 18,
       "endLine": 93,
       "endColumn": 50
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4693.py",
@@ -6584,12 +7815,18 @@
       "column": 18,
       "endLine": 103,
       "endColumn": 50
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4693.py",
@@ -6597,12 +7834,18 @@
       "column": 33,
       "endLine": 132,
       "endColumn": 67
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/4841.py",
@@ -6610,12 +7853,18 @@
       "column": 33,
       "endLine": 92,
       "endColumn": 84
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL101",
      "message": "get_counts() on a PrimitiveResult; counts live on the BitArray in PrimitiveResult -> PubResult -> .data (DataBin) -> <classical register> (BitArray)",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5443.py",
@@ -6623,12 +7872,18 @@
       "column": 18,
       "endLine": 95,
       "endColumn": 35
+     },
+     "fixHint": "index a pub first, then read the register: result[0].data.<register>",
+     "context": {
+      "receiverKind": "primitive_result_v2"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5494.py",
@@ -6636,12 +7891,18 @@
       "column": 13,
       "endLine": 89,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5494.py",
@@ -6649,12 +7910,18 @@
       "column": 13,
       "endLine": 93,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5494.py",
@@ -6662,12 +7929,18 @@
       "column": 13,
       "endLine": 114,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5510.py",
@@ -6675,12 +7948,18 @@
       "column": 13,
       "endLine": 82,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5510.py",
@@ -6688,12 +7967,18 @@
       "column": 13,
       "endLine": 86,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5510.py",
@@ -6701,12 +7986,18 @@
       "column": 13,
       "endLine": 109,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5514.py",
@@ -6714,12 +8005,18 @@
       "column": 13,
       "endLine": 73,
       "endColumn": 36
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "assign_parameters"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: assign_parameters() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5514.py",
@@ -6727,12 +8024,18 @@
       "column": 13,
       "endLine": 82,
       "endColumn": 36
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "assign_parameters"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5515.py",
@@ -6740,12 +8043,18 @@
       "column": 13,
       "endLine": 74,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5515.py",
@@ -6753,12 +8062,18 @@
       "column": 13,
       "endLine": 75,
       "endColumn": 23
+     },
+     "fixHint": "assign the result, or pass inplace=True",
+     "context": {
+      "method": "compose"
      }
     },
     {
      "rule": "QXL104",
      "message": "this statement does nothing: decompose() always returns a new circuit and the result is discarded",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "ML-2-QML/QML/5902.py",
@@ -6766,6 +8081,10 @@
       "column": 5,
       "endLine": 106,
       "endColumn": 26
+     },
+     "fixHint": "assign the result",
+     "context": {
+      "method": "decompose"
      }
     }
    ]
@@ -6795,6 +8114,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "notebook",
       "path": "qedcbench/quantum-volume-qiskit.ipynb",
@@ -6835,6 +8156,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_112719_32_20260202_112719/kimi_ui.py",
@@ -6848,6 +8171,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid decimal literal",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_112719_32_20260202_112719/phi_ui.py",
@@ -6861,6 +8186,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_120933_34_20260202_120933/deepseek_farnsworth_ui_notifications.py",
@@ -6874,6 +8201,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_120933_34_20260202_120933/kimi_farnsworth_ui_notifications.py",
@@ -6887,6 +8216,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_120933_34_20260202_120933/phi_farnsworth_ui_notifications.py",
@@ -6900,6 +8231,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid decimal literal",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_141534_45_20260202_141534/deepseek_farnsworth_web_ui_features.py",
@@ -6913,6 +8246,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_141534_45_20260202_141534/kimi_ui_features.py",
@@ -6926,6 +8261,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid decimal literal",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_141534_45_20260202_141534/phi_farnsworth_web_templates_community_highlights.html.jinja2.py",
@@ -6939,6 +8276,8 @@
      "rule": "QXL000",
      "message": "cannot parse: invalid syntax",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_204650_8_20260204_204652/deepseek_farnsworth_ui_greeting.py",
@@ -6952,6 +8291,8 @@
      "rule": "QXL000",
      "message": "cannot parse: var-keyword argument cannot have default value",
      "severity": "error",
+     "tier": "default",
+     "engine": "A",
      "location": {
       "kind": "source",
       "path": "staging_review/auto_231243_1_20260131_231243/deepseek_farnsworthDynamicUI.py",

@@ -7,7 +7,7 @@ from qxlint.registry import register
 from qxlint.rules.base import MethodCallEvent, Rule, RuleContext, RuleMeta
 from qxlint.semantics.objects import ObjectKind
 
-# Receivers where get_counts() does not exist. Verified on Qiskit 2.5.1: each of
+# Receivers where get_counts() does not exist. Verified on Qiskit 2.5.2: each of
 # these raises AttributeError.
 WRONG_RECEIVERS = frozenset(
     {

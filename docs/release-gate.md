@@ -26,7 +26,7 @@ Every line under "Met" is checked by something that runs, not by review.
 
 ### The suite
 
-- **909 tests**, green on Python 3.11, 3.12, 3.13 and 3.14.
+- **1052 tests**, green on Python 3.11, 3.12, 3.13 and 3.14.
 - **100% coverage of statements and branches**, enforced as a CI gate rather
   than reported as a number. Branch coverage is on because a guard whose false
   side never runs is exactly where a linter hides a wrong answer.
@@ -58,16 +58,16 @@ was run on any of them. See [../corpus/](../corpus/).
 | | |
 | --- | --- |
 | Repositories | 244, from 243 owners |
-| Files read | 51,715: 50,389 `.py` and 1,326 `.ipynb` |
+| Files read | 51,711: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | 0 |
 | Non deterministic results | 0 |
 | Findings, read and labelled | 342 |
-| False positives, all one defect, since fixed | 30 |
-| Findings the current tree reports | 312 |
+| False positives, two defects, both since fixed | 33 |
+| Findings the current tree reports | 309 |
 | Defects the corpus found in qxlint | 9 |
 
 Every finding is labelled in a versioned CSV carrying the line it was reported
-on, so a row can be checked without cloning anything. The 30 false positives are
+on, so a row can be checked without cloning anything. The 33 false positives are
 kept in that file, relabelled with the reason, because a corpus that only
 records what the linter currently gets right is not evidence.
 
@@ -130,8 +130,8 @@ ships as preview.
 | --- | --- | --- |
 | Python | 3.11, 3.12, 3.13, 3.14 | 3.11 to 3.14 |
 | Qiskit, Engine A | not required, and a job proves it | any, including absent |
-| Qiskit, Engine B | 2.0.3 and 2.5.1 | 2.0 and later |
-| qiskit-ibm-runtime | 0.48.0 | rules are version gated, not import gated |
+| Qiskit, Engine B | 2.0.3 and 2.5.2 | 2.0 and later |
+| qiskit-ibm-runtime | 0.49.0 | rules are version gated, not import gated |
 
 Engine A never imports Qiskit, so its rules apply to any target version the
 profile can establish, including projects still on Qiskit 1.x. The floor above

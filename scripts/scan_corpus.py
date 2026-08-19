@@ -15,6 +15,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import datetime
 import io
 import json
 import subprocess
@@ -56,11 +57,29 @@ def download(repo: str, sha: str, dest: Path) -> str | None:
     return None
 
 
+def seal(workdir: Path) -> None:
+    """Stop project discovery at the cache directory.
+
+    The cache sits inside this repository, so a scanned project with no
+    pyproject.toml of its own walked up and found qxlint's, and was analysed
+    against qxlint's own dependency floors. An empty marker ends the walk here,
+    so a repository that declares nothing resolves to nothing.
+    """
+    workdir.mkdir(parents=True, exist_ok=True)
+    marker = workdir / "pyproject.toml"
+    if not marker.exists():
+        marker.write_text("# Ends project discovery for the scan. See scan_corpus.py.\n")
+
+
 def scan(target: Path, extra: list[str]) -> tuple[int, list[dict[str, object]], float, str]:
     start = time.time()
     try:
+        # Run inside the repository so reported paths are relative to it. An
+        # absolute path would put the machine that ran the scan into the
+        # committed artifact.
         result = subprocess.run(
-            [sys.executable, "-m", "qxlint", str(target), "--format", "json", "--no-color", *extra],
+            [sys.executable, "-m", "qxlint", ".", "--format", "json", "--no-color", *extra],
+            cwd=target,
             capture_output=True,
             text=True,
             timeout=TIMEOUT_SECONDS,
@@ -93,6 +112,7 @@ def main() -> int:
     if args.target_qiskit:
         extra += ["--target-qiskit", args.target_qiskit]
 
+    seal(args.workdir)
     totals: collections.Counter[str] = collections.Counter()
     records: list[dict[str, object]] = []
     failures = 0
@@ -111,27 +131,53 @@ def main() -> int:
         totals.update(counts)
         if code in (2, -1):
             failures += 1
+        py_files = len(list(dest.rglob("*.py")))
+        notebooks = len(list(dest.rglob("*.ipynb")))
         records.append(
             {
-                **entry,
+                "repo": repo,
+                "sha": sha,
+                "stratum": entry.get("stratum"),
+                "py_files": py_files,
+                "notebooks": notebooks,
                 "exit": code,
-                "seconds": elapsed,
                 "counts": dict(counts),
-                "stderr": stderr,
                 "findings": findings,
             }
         )
+        if stderr:
+            print(f"{repo:58s} stderr: {stderr[:160]}")
         summary = " ".join(f"{k}={v}" for k, v in sorted(counts.items())) or "clean"
         print(
-            f"{repo:58s} py={len(list(dest.rglob('*.py'))):5d} "
-            f"nb={len(list(dest.rglob('*.ipynb'))):4d} exit={code} {elapsed:6.2f}s {summary}"
+            f"{repo:58s} py={py_files:5d} nb={notebooks:4d} exit={code} {elapsed:6.2f}s {summary}"
         )
 
     print(f"\nrepositories: {len(records)}  failures: {failures}")
     print("findings:", dict(totals) or "none")
 
     if args.out:
-        args.out.write_text(json.dumps(records, indent=1))
+        # The same envelope corpus/scan.json carries, so the committed artifact
+        # is something this script can reproduce rather than something assembled
+        # beside it.
+        from qxlint import __version__
+
+        args.out.write_text(
+            json.dumps(
+                {
+                    "scanned_on": datetime.date.today().isoformat(),
+                    "qxlint_version": f"qxlint {__version__}",
+                    "target_runtime": args.target_runtime or "",
+                    "repositories": len(records),
+                    "python_files": sum(int(r["py_files"]) for r in records),
+                    "notebooks": sum(int(r["notebooks"]) for r in records),
+                    "exit_code_2": sum(1 for r in records if r["exit"] == 2),
+                    "totals": dict(totals),
+                    "findings": sum(totals.values()),
+                    "records": records,
+                },
+                indent=1,
+            )
+        )
         print(f"wrote {args.out}")
 
     # A crash or a timeout is a scan failure. Findings are not.

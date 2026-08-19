@@ -23,6 +23,7 @@ from __future__ import annotations
 import ast
 from dataclasses import dataclass, field
 
+from qxlint.profile import Applicability
 from qxlint.rules.base import (
     AttributeEvent,
     CallEvent,
@@ -51,6 +52,7 @@ from qxlint.semantics.values import (
     ConstNone,
     ConstStr,
     ImportedSymbol,
+    Mapping,
     ObjectRef,
     Sequence,
     Unbound,
@@ -142,6 +144,12 @@ class Analyzer:
         self.source = source
         self.ruleset = ruleset
         self.ctx = ctx
+        # False only when every version the target allows predates the release
+        # that rebound `qiskit_ibm_runtime.Sampler` and `.Estimator` to V2.
+        self._bare_runtime_is_v2 = (
+            ctx.profile.runtime_at_least(model.BARE_RUNTIME_PRIMITIVES_BECAME_V2)
+            is not Applicability.NEVER
+        )
         self.local_callables: set[str] = set()
         self._depth = 0
         self._seq_token = 0
@@ -156,6 +164,9 @@ class Analyzer:
         self._discarded_call: ast.Call | None = None
         # Depth inside an exception assertion, where discarding is the point.
         self._raises_depth = 0
+        # Method names replaced by a mock for the block being walked. A call to
+        # one of them reaches the mock, not the implementation.
+        self._patched: dict[str, int] = {}
 
     # Statements ---------------------------------------------------------
 
@@ -202,11 +213,14 @@ class Analyzer:
     def _stmt_Pass(self, node: ast.Pass, state: State) -> None:
         del node, state
 
+    def _canonical(self, qualified_name: str) -> str:
+        return model.canonical(qualified_name, bare_runtime_is_v2=self._bare_runtime_is_v2)
+
     def _stmt_Import(self, node: ast.Import, state: State) -> None:
         for alias in node.names:
             bound = alias.asname or alias.name.split(".")[0]
             target = alias.name if alias.asname else alias.name.split(".")[0]
-            state.bind(bound, ImportedSymbol(model.canonical(target)))
+            state.bind(bound, ImportedSymbol(self._canonical(target)))
 
     def _stmt_ImportFrom(self, node: ast.ImportFrom, state: State) -> None:
         if node.level:
@@ -216,7 +230,7 @@ class Analyzer:
         module = node.module or ""
         for alias in node.names:
             qualified = f"{module}.{alias.name}" if module else alias.name
-            state.bind(alias.asname or alias.name, ImportedSymbol(model.canonical(qualified)))
+            state.bind(alias.asname or alias.name, ImportedSymbol(self._canonical(qualified)))
 
     def _stmt_Assign(self, node: ast.Assign, state: State) -> None:
         value = self._eval(node.value, state)
@@ -319,7 +333,7 @@ class Analyzer:
         iter_value = self._eval(iterable, state) if iterable is not None else UNKNOWN
         target = getattr(node, "target", None)
         if target is not None:
-            self._assign(target, self._element_of(iter_value), state)
+            self._assign(target, self._element_of(iter_value, state), state)
 
         body = getattr(node, "body", [])
         orelse = getattr(node, "orelse", [])
@@ -393,17 +407,24 @@ class Analyzer:
 
     def _with(self, node: ast.With | ast.AsyncWith, state: State) -> None:
         asserts_raise = any(_is_raises_context(item.context_expr) for item in node.items)
+        patched = [name for item in node.items if (name := _patched_method(item.context_expr))]
         for item in node.items:
             value = self._eval(item.context_expr, state)
             if item.optional_vars is not None:
                 self._assign(item.optional_vars, value, state)
         if asserts_raise:
             self._raises_depth += 1
+        for name in patched:
+            self._patched[name] = self._patched.get(name, 0) + 1
         try:
             self._exec_body(node.body, state)
         finally:
             if asserts_raise:
                 self._raises_depth -= 1
+            for name in patched:
+                self._patched[name] -= 1
+                if not self._patched[name]:
+                    del self._patched[name]
 
     def _stmt_Match(self, node: ast.Match, state: State) -> None:
         self._eval(node.subject, state)
@@ -490,7 +511,7 @@ class Analyzer:
             state.bind(target.id, value)
             return
         if isinstance(target, ast.Tuple | ast.List):
-            element = self._element_of(value)
+            element = self._element_of(value, state)
             for item in target.elts:
                 if isinstance(item, ast.Starred):
                     self._assign(item.value, Sequence(None, local=False), state)
@@ -516,9 +537,12 @@ class Analyzer:
         self._eval(target, state)  # pragma: no cover
         state.escape_reachable(value)  # pragma: no cover
 
-    @staticmethod
-    def _element_of(value: AbstractValue) -> AbstractValue:
-        """Value obtained by iterating or unpacking a container."""
+    def _element_of(self, value: AbstractValue, state: State) -> AbstractValue:
+        """Value obtained by iterating or unpacking a container.
+
+        A PrimitiveResult is iterable, and walking its pubs is how V2 code is
+        written, so it yields what indexing it yields.
+        """
         if isinstance(value, Sequence):
             if value.elements is None:
                 return UNKNOWN
@@ -528,7 +552,7 @@ class Analyzer:
             for element in value.elements[1:]:
                 merged = join(merged, element)
             return merged
-        return UNKNOWN
+        return self._index_object(value, state)
 
     @staticmethod
     def _replace(state: State, merged: State) -> None:
@@ -538,9 +562,7 @@ class Analyzer:
 
     # Expressions --------------------------------------------------------
 
-    def _eval(self, node: ast.expr | None, state: State) -> AbstractValue:
-        if node is None:
-            return UNKNOWN
+    def _eval(self, node: ast.expr, state: State) -> AbstractValue:
         if self._depth > MAX_DEPTH:
             return UNKNOWN
         self._depth += 1
@@ -584,11 +606,22 @@ class Analyzer:
         return UNKNOWN
 
     def _expr_Dict(self, node: ast.Dict, state: State) -> AbstractValue:
-        for key in node.keys:
+        values: list[AbstractValue] = []
+        complete = True
+        for key, value in zip(node.keys, node.values, strict=True):
+            if key is None:
+                # `**other` brings in contents this literal does not name.
+                state.escape_reachable(self._eval(value, state))
+                complete = False
+                continue
             self._eval(key, state)
-        for value in node.values:
-            state.escape_reachable(self._eval(value, state))
-        return UNKNOWN
+            values.append(self._eval(value, state))
+        self._seq_token += 1
+        if not complete or len(values) > 64:
+            for tracked in values:
+                state.escape_reachable(tracked)
+            return Mapping(None, local=True, token=self._seq_token)
+        return Mapping(tuple(values), local=True, token=self._seq_token)
 
     def _sequence_literal(
         self, elements: list[ast.expr], state: State, *, mutable: bool
@@ -607,6 +640,11 @@ class Analyzer:
         self._seq_token += 1
         token = self._seq_token
         if not complete or len(values) > 64:
+            # The contents are about to be forgotten, so nothing can escape them
+            # later. Handing this list to unmodelled code would then leave the
+            # circuits inside it looking untouched.
+            for value in values:
+                state.escape_reachable(value)
             return Sequence(None, local=True, mutable=mutable, token=token)
         return Sequence(tuple(values), local=True, mutable=mutable, token=token)
 
@@ -698,18 +736,23 @@ class Analyzer:
             # Python evaluates only the outermost iterable in the enclosing
             # scope. The rest belongs to the comprehension.
             iter_value = outermost if index == 0 else self._eval(generator.iter, inner)
-            self._assign(generator.target, self._element_of(iter_value), inner)
+            self._assign(generator.target, self._element_of(iter_value, inner), inner)
             bound.extend(_target_names(generator.target))
             for condition in generator.ifs:
                 self._eval(condition, inner)
-        for element in elements:
-            self._eval(element, inner)
+        produced = [self._eval(element, inner) for element in elements]
 
         merged = merge_states([state, inner])
         for name in bound:
             _restore_binding(merged, state, name)
         self._replace(state, merged)
-        return Sequence(None, local=True) if sequence else UNKNOWN
+        if not sequence:
+            return UNKNOWN
+        # Every iteration builds the same kind of thing, so one element stands
+        # for all of them and an index past it lands on the same value. Without
+        # this a list built by a comprehension was as opaque as a return value.
+        self._seq_token += 1
+        return Sequence(tuple(produced), local=True, token=self._seq_token)
 
     def _expr_Subscript(self, node: ast.Subscript, state: State) -> AbstractValue:
         container = self._eval(node.value, state)
@@ -724,7 +767,18 @@ class Analyzer:
                 container.elements
             ):
                 return container.elements[index.value]
-            return self._element_of(container)
+            return self._element_of(container, state)
+
+        if isinstance(container, Mapping):
+            # Any key reaches any value, so the answer is what they have in
+            # common. Iterating a dict yields keys, which _element_of leaves
+            # unknown, so this is only ever reached through a subscript.
+            if not container.values:
+                return UNKNOWN
+            merged = container.values[0]
+            for value in container.values[1:]:
+                merged = join(merged, value)
+            return merged
 
         results = [self._index_object(option, state) for option in iter_options(container)]
         merged = results[0]
@@ -756,7 +810,7 @@ class Analyzer:
         receiver = self._eval(node.value, state)
 
         if isinstance(receiver, ImportedSymbol):
-            return ImportedSymbol(model.canonical(f"{receiver.qualified_name}.{node.attr}"))
+            return ImportedSymbol(self._canonical(f"{receiver.qualified_name}.{node.attr}"))
 
         facts = state.facts(receiver)
         self._emit_attribute(node, receiver, facts, state)
@@ -836,6 +890,8 @@ class Analyzer:
         for keyword in node.keywords:
             value = self._eval(keyword.value, state)
             if keyword.arg is None:
+                # `**mapping` hands the values on without naming them.
+                state.escape_reachable(value)
                 complete = False
                 continue
             kwargs[keyword.arg] = value
@@ -866,7 +922,7 @@ class Analyzer:
         elif isinstance(func, ast.Attribute):
             base = self._eval(func.value, state)
             if isinstance(base, ImportedSymbol):
-                callee = ImportedSymbol(model.canonical(f"{base.qualified_name}.{func.attr}"))
+                callee = ImportedSymbol(self._canonical(f"{base.qualified_name}.{func.attr}"))
             else:
                 receiver = base
         else:
@@ -1008,6 +1064,13 @@ class Analyzer:
         if isinstance(receiver, Sequence):
             return self._container_method(receiver, method, args, node, state)
 
+        if isinstance(receiver, Mapping):
+            # No dict method is modelled, so the contents may be handed on.
+            state.escape_reachable(receiver)
+            for value in [*args, *kwargs.values()]:
+                state.escape_reachable(value)
+            return UNKNOWN
+
         if facts is None:
             for value in [*args, *kwargs.values()]:
                 state.escape_reachable(value)
@@ -1096,6 +1159,12 @@ class Analyzer:
             return self._circuit_method(receiver, facts, method, args, kwargs, complete, state)
 
         if model.is_primitive_kind(kind) and method == "run":
+            # A patched `run` is a mock: the circuits never reach the primitive,
+            # so the rules that read pubs have nothing true to say about them.
+            # The mock records what it was handed and cannot mutate it, so the
+            # circuits stay analysable for the statements after the block.
+            if method in self._patched:
+                return UNKNOWN
             return self._primitive_run(node, facts, args, state)
 
         if kind is ObjectKind.PRIMITIVE_JOB_V2 and method in ("result", "block_until_ready"):
@@ -1447,6 +1516,30 @@ def _is_raises_context(expr: ast.expr) -> bool:
     func = expr.func
     name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
     return name.startswith("assertRaises") or name == "raises"
+
+
+def _patched_method(expr: ast.expr) -> str | None:
+    """The method name a ``mock.patch`` context replaces, if it names one.
+
+    ``patch.object(SamplerV2, "run")`` and ``patch("module.SamplerV2.run")`` both
+    put a mock in place of ``run``, so a call to it inside the block reaches the
+    mock. Anything else returns None and changes nothing.
+    """
+    if not isinstance(expr, ast.Call) or not expr.args:
+        return None
+    func = expr.func
+    if isinstance(func, ast.Attribute) and func.attr == "object":
+        target = expr.args[1] if len(expr.args) > 1 else None
+        if isinstance(target, ast.Constant) and isinstance(target.value, str):
+            return target.value
+        return None
+    name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
+    if name != "patch":
+        return None
+    target = expr.args[0]
+    if isinstance(target, ast.Constant) and isinstance(target.value, str):
+        return target.value.rsplit(".", 1)[-1] or None
+    return None
 
 
 def _ipython_magic(node: ast.Call) -> tuple[str, str] | None:

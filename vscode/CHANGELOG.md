@@ -7,6 +7,17 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
+## 0.3.0
+
+### Fixed
+
+- **A squiggle no longer slides left on a line containing emoji.** qxlint counts
+  characters and `vscode.Position` counts UTF-16 code units, which agree until a
+  character outside the Basic Multilingual Plane appears earlier on the same line.
+  The extension now converts the columns against the document text, so the
+  highlight covers the call rather than starting two units before it. Notebook
+  cells take the same path and are fixed with it.
+
 ## 0.2.0
 
 ### Fixed

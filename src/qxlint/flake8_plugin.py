@@ -19,13 +19,17 @@ from pathlib import Path
 from typing import Any
 
 from qxlint import __version__
-from qxlint.config import ConfigCache, ConfigError, resolve_profile
+from qxlint.config import ConfigCache, ConfigError
 from qxlint.diagnostics import Finding, SourceLocation
 from qxlint.engine import analyse_text
 from qxlint.registry import tiers
 from qxlint.source import byte_offset_to_column
 
 NAME = "qxlint"
+
+# flake8 builds one plugin instance per file, so a cache held here is what
+# keeps pyproject.toml and uv.lock from being read once per file.
+_CACHE = ConfigCache()
 
 
 class QxlintFlake8Plugin:
@@ -45,12 +49,11 @@ class QxlintFlake8Plugin:
             return
 
         path = Path(self._filename)
-        cache = ConfigCache()
         try:
-            config = cache.for_path(path)
+            config = _CACHE.for_path(path)
         except ConfigError:
             return
-        profile = resolve_profile(config)
+        profile = _CACHE.profile_for(config)
         enabled = config.enabled_codes(tiers())
 
         for finding in analyse_text(

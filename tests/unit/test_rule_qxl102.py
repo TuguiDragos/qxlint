@@ -41,3 +41,18 @@ def test_negative_on_a_pub_result() -> None:
 
 def test_attribute_store_is_not_a_read() -> None:
     assert codes(lint(HEADER + "result.quasi_dists = 1\n")) == []
+
+
+def test_negative_on_a_runtime_v1_result_when_the_target_predates_the_rebinding() -> None:
+    # `Sampler` is SamplerV1 before 0.28, and quasi_dists is the correct V1
+    # spelling on the result it returns.
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit_ibm_runtime import Sampler\n"
+        "qc = QuantumCircuit(1)\n"
+        "qc.measure_all()\n"
+        "result = Sampler().run(circuits=qc).result()\n"
+        "dists = result.quasi_dists\n"
+    )
+    assert codes(lint(source, runtime="0.27")) == []
+    assert codes(lint(source, runtime="0.28")) == ["QXL102"]

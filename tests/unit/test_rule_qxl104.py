@@ -133,3 +133,43 @@ def test_nesting_restores_reporting_after_the_block() -> None:
         HEADER + "with self.assertRaises(CircuitError):\n    qc.compose(other)\nqc.tensor(other)\n"
     )
     assert codes(lint(source)) == ["QXL104"]
+
+
+# An inplace argument these methods do not have ---------------------------
+#
+# None of the always copying methods takes `inplace`. Verified on Qiskit 2.5.2:
+# all eight raise TypeError on the unexpected keyword. Saying the statement does
+# nothing would describe an outcome the call never reaches.
+
+
+@pytest.mark.parametrize(
+    "method", ["copy", "copy_empty_like", "decompose", "inverse", "reverse_ops", "reverse_bits"]
+)
+def test_an_inplace_argument_these_methods_lack_is_reported_as_a_raise(method: str) -> None:
+    source = (
+        f"from qiskit import QuantumCircuit\nqc = QuantumCircuit(2)\nqc.{method}(inplace=True)\n"
+    )
+    findings = lint(source)
+    assert codes(findings) == ["QXL104"]
+    assert (
+        findings[0].message
+        == f"this statement raises TypeError: {method}() has no inplace argument"
+    )
+    assert findings[0].fix_hint == "drop the inplace argument and assign the result"
+
+
+def test_without_that_argument_the_message_is_still_the_no_op_one() -> None:
+    source = "from qiskit import QuantumCircuit\nqc = QuantumCircuit(2)\nqc.decompose()\n"
+    findings = lint(source)
+    assert codes(findings) == ["QXL104"]
+    assert "does nothing" in findings[0].message
+
+
+def test_a_method_that_really_takes_inplace_is_still_silent() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "qc = QuantumCircuit(2)\n"
+        "other = QuantumCircuit(2)\n"
+        "qc.compose(other, inplace=True)\n"
+    )
+    assert codes(lint(source)) == []

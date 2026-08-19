@@ -204,16 +204,15 @@ def test_a_lambda_body_cannot_change_an_outer_circuit() -> None:
 # Comprehensions ---------------------------------------------------------
 
 
-@pytest.mark.parametrize(
-    "expression",
-    [
-        "[p for p in pubs]",
-        "(p for p in pubs)",
-        "{p for p in pubs}",
-        "{i: p for i, p in enumerate(pubs)}",
-    ],
-)
-def test_a_comprehension_result_is_not_a_tracked_pub_list(expression: str) -> None:
+@pytest.mark.parametrize("expression", ["[p for p in pubs]", "(p for p in pubs)"])
+def test_a_list_or_generator_comprehension_carries_its_element(expression: str) -> None:
+    # Every iteration builds the same kind of thing, so the element stands for
+    # the whole sequence and the circuit inside it stays reachable.
+    assert fires(f"qc = QuantumCircuit(1)\npubs = [qc]\nStatevectorSampler().run({expression})\n")
+
+
+@pytest.mark.parametrize("expression", ["{p for p in pubs}", "{i: p for i, p in enumerate(pubs)}"])
+def test_a_set_or_dict_comprehension_is_not_a_tracked_pub_list(expression: str) -> None:
     assert not fires(
         f"qc = QuantumCircuit(1)\npubs = [qc]\nStatevectorSampler().run({expression})\n"
     )
@@ -311,3 +310,89 @@ def test_an_attribute_chain_reports_the_receiver_kind_it_resolved() -> None:
         "counts = bin_.get_counts()\n"
     )
     assert [finding.context["receiverKind"] for finding in lint(source)] == ["data_bin"]
+
+
+# Containers that used to lose what they held ------------------------------
+
+
+def test_a_comprehension_built_list_can_be_indexed() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(1)\n"
+        "qc.measure_all()\n"
+        "sampler = StatevectorSampler()\n"
+        "results = [sampler.run([qc]).result() for _ in range(3)]\n"
+        "counts = results[0].get_counts()\n"
+    )
+    assert codes(lint(source)) == ["QXL101"]
+
+
+def test_iterating_a_primitive_result_yields_pub_results() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(1)\n"
+        "qc.measure_all()\n"
+        "result = StatevectorSampler().run([qc]).result()\n"
+        "for pub in result:\n"
+        "    pub.get_counts()\n"
+    )
+    findings = lint(source)
+    assert codes(findings) == ["QXL101"]
+    assert "PubResult" in findings[0].message
+
+
+def test_unpacking_a_primitive_result_yields_pub_results() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(1)\n"
+        "qc.measure_all()\n"
+        "result = StatevectorSampler().run([qc]).result()\n"
+        "only, = result\n"
+        "counts = only.get_counts()\n"
+    )
+    assert codes(lint(source)) == ["QXL101"]
+
+
+def test_a_value_read_out_of_a_dict_literal_is_tracked() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(1)\n"
+        "qc.measure_all()\n"
+        'results = {"first": StatevectorSampler().run([qc]).result()}\n'
+        'counts = results["first"].get_counts()\n'
+    )
+    assert codes(lint(source)) == ["QXL101"]
+
+
+def test_a_list_literal_with_a_spread_escapes_what_it_names() -> None:
+    # The contents are forgotten at that point, so the circuit has to escape
+    # with them; otherwise handing the list on leaves it looking untouched.
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(1)\n"
+        "pubs = [qc, *other]\n"
+        "send(pubs)\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_subscripting_an_empty_dict_literal_is_unknown() -> None:
+    assert not fires('qc = QuantumCircuit(1)\nStatevectorSampler().run([{}["missing"]])\n')
+
+
+def test_subscripting_a_dict_joins_every_value_it_holds() -> None:
+    # Any key can reach any value, so a dict holding one measured and one
+    # unmeasured circuit answers MAYBE and the rule stays silent.
+    assert not fires(
+        "qc = QuantumCircuit(1)\n"
+        "other = QuantumCircuit(1)\n"
+        "other.measure_all()\n"
+        'store = {"a": qc, "b": other}\n'
+        'StatevectorSampler().run([store["a"]])\n'
+    )

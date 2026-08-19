@@ -23,7 +23,10 @@ class QuasiDistsOnV2Result(Rule):
         ),
         when_legitimate=(
             "Reading quasi_dists from a V1 `qiskit.primitives.SamplerResult` is "
-            "still valid, and this rule does not fire there. It also stays silent "
+            "still valid, and this rule does not fire there. The same holds for "
+            "a Runtime V1 result: `qiskit_ibm_runtime.Sampler` was SamplerV1 "
+            "until 0.28, so on a target proven to predate that release its "
+            "result is not a V2 one and nothing is reported. It also stays silent "
             "on any object whose type cannot be proven, so a helper that returns "
             "an unannotated result is never flagged on the strength of the "
             "attribute name alone."

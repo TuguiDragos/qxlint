@@ -15,7 +15,7 @@
   <a href="https://github.com/TuguiDragos/qxlint/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/TuguiDragos/qxlint/ci.yml?branch=main&style=flat&color=161826&label=CI&logo=githubactions&logoColor=9184D9" /></a>
   <a href="https://www.python.org/"><img alt="Python 3.11 to 3.14" src="https://img.shields.io/badge/Python-3.11%20--%203.14-161826?style=flat&logo=python&logoColor=9184D9" /></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="960 tests" src="https://img.shields.io/badge/tests-960-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1052 tests" src="https://img.shields.io/badge/tests-1052-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-161826?style=flat" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
 </p>
@@ -51,7 +51,7 @@ Two things fail quietly in Primitives V2 code.
 one level too high raises `AttributeError`, but only after the job has run.
 
 **An unmeasured circuit does not fail at all.** With no classical register,
-Qiskit 2.5.1 emits a `UserWarning` and returns an empty data bin. With a
+Qiskit 2.5.2 emits a `UserWarning` and returns an empty data bin. With a
 classical register but no `measure` instruction there is no warning whatsoever,
 and every shot reads as zeros, which looks like a physics result rather than a
 bug. This is the case qxlint was built for.
@@ -232,7 +232,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: TuguiDragos/qxlint@v0.2.0
+      - uses: TuguiDragos/qxlint@v0.3.0
         with:
           paths: .
           format: sarif
@@ -243,7 +243,7 @@ jobs:
           sarif_file: qxlint.sarif
 ```
 
-The tag pins the analyser too: `@v0.2.0` installs qxlint 0.2.0, not whatever
+The tag pins the analyser too: `@v0.3.0` installs qxlint 0.3.0, not whatever
 PyPI holds on the day the workflow runs. Override it with the `version` input
 when you want something else.
 
@@ -414,8 +414,8 @@ Every claim on this page is backed by something that runs.
 
 | | |
 | --- | --- |
-| Tests | **960**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
-| Qiskit matrix | 2.5.1, the declared floor 2.0.3, and a job with **no Qiskit installed at all** |
+| Tests | **1052**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
+| Qiskit matrix | 2.5.2, the declared floor 2.0.3, and a job with **no Qiskit installed at all** |
 | Coverage | **100% of statements and branches**, enforced as a CI gate, not reported as a number |
 | Types | `mypy --strict`, clean |
 | Style | `ruff check` and `ruff format --check`, clean |
@@ -434,21 +434,26 @@ linter was run on any of them.
 | | |
 | --- | --- |
 | Repositories | **244**, from 243 distinct owners |
-| Files read | **51,715**: 50,389 `.py` and 1,326 `.ipynb` |
+| Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
 | Findings, every one read and labelled | 342 |
 | of which workflow defects rather than unparsable files | **174** |
-| False positives, all one defect, since fixed | **30** |
-| Findings the current tree reports | **312** |
+| False positives, two defects, both since fixed | **33** |
+| Findings the current tree reports | **309** |
 | Defects the corpus found in qxlint, and fixed | **9** |
 
-The 30 were one defect: the notebook magic detector required a letter after the
-`!`, so `! pip install x`, `!{sys.executable} -m pip install x` and `!./run.sh`
-stayed in the cell and it was reported as unparsable. Handing the cell to
-CPython, which is how QXL000 was checked, cannot catch that: a cell with a shell
-escape is not valid Python either way. The question for a notebook cell is what
-IPython accepts, and the scan never asked it.
+The 33 are two defects, both in the same place. The first, 30 rows: the notebook
+magic detector required a letter after the `!`, so `! pip install x`,
+`!{sys.executable} -m pip install x` and `!./run.sh` stayed in the cell and it
+was reported as unparsable. The second, 3 rows: a cell holding a bare
+`pip install x` or `pip list` was read as unparsable, but IPython automagic
+rewrites such a line and the cell runs.
+
+Both have the same root. Handing the cell to CPython, which is how QXL000 was
+checked, cannot catch either: neither a shell escape nor a bare magic is valid
+Python. The question for a notebook cell is what IPython accepts, and the scan
+never asked it.
 
 Three of the QXL104 findings are in Qiskit's own test suite, where a circuit
 method that returns a new circuit is called as a bare statement:
@@ -488,9 +493,10 @@ or costs the findings in the rest of the tree.
 
 ### Speed
 
-The whole corpus, 51,715 files across 244 repositories, is **115.7 seconds** in
-one process on one laptop core, peaking at 270 MB. A single repository is well
-under a second, which is what makes it invisible in a pre-commit hook.
+The whole corpus, 51,711 files across 244 repositories, is **77 seconds** in one
+process on one laptop core. The largest repository in it, 5,874 files, takes 5.6
+seconds and peaks at 98 MB. A typical repository is well under a second, which is
+what makes it invisible in a pre-commit hook.
 
 ---
 
@@ -521,9 +527,11 @@ under a second, which is what makes it invisible in a pre-commit hook.
   reports 79 of the 81 live call sites in the corpus. The two it misses are
   behind an import that is commented out, or one whose `except ImportError`
   branch rebinds the name, where silence is the designed behaviour.
-- **Notebook automagic** (a bare `ls`) is indistinguishable from Python and is
-  not detected. Out-of-order interactive execution cannot be reconstructed;
-  analysis assumes cells run top to bottom.
+- **Notebook automagic** is read only where it is decidable. `pip install qiskit`
+  is not valid Python, so a line naming a known magic that does not parse is read
+  as the magic IPython would run. A bare `ls` is valid Python and is left alone.
+  Out-of-order interactive execution cannot be reconstructed; analysis assumes
+  cells run top to bottom.
 - **SARIF physical source locations** are guaranteed for `.py` files. Notebook
   findings carry logical cell locations, so inline pull request annotations are
   not guaranteed for them. Circuit findings have no file at all.

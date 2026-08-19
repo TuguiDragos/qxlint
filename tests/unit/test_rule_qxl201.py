@@ -165,3 +165,65 @@ def test_save_account_on_an_instance_without_the_removed_value_is_silent(channel
         f"service.save_account({channel})\n"
     )
     assert codes(lint(source, runtime="0.48")) == []
+
+
+# The renamed service class ------------------------------------------------
+#
+# qiskit-ibm-runtime 0.49 exports QiskitRuntimeService a second time as
+# IBMQuantumComputeService. It is the same class object and takes the same
+# channel, so every call site the rule already knows about has a second
+# spelling that must be read the same way.
+
+RENAMED = (
+    "from qiskit_ibm_runtime import IBMQuantumComputeService\n"
+    'service = IBMQuantumComputeService(channel="ibm_quantum")\n'
+)
+
+
+def test_renamed_service_class_is_reported() -> None:
+    findings = lint(RENAMED, runtime="0.49")
+    assert codes(findings) == ["QXL201"]
+    assert findings[0].severity is Severity.ERROR
+
+
+def test_renamed_service_class_save_account_is_reported() -> None:
+    source = (
+        "from qiskit_ibm_runtime import IBMQuantumComputeService\n"
+        'IBMQuantumComputeService.save_account(channel="ibm_quantum", token="t")\n'
+    )
+    assert codes(lint(source, runtime="0.49")) == ["QXL201"]
+
+
+def test_renamed_service_class_on_an_instance_is_reported() -> None:
+    source = (
+        "from qiskit_ibm_runtime import IBMQuantumComputeService\n"
+        "service = IBMQuantumComputeService()\n"
+        'service.save_account(channel="ibm_quantum")\n'
+    )
+    assert codes(lint(source, runtime="0.49")) == ["QXL201"]
+
+
+def test_renamed_service_class_obeys_the_version_gate() -> None:
+    assert codes(lint(RENAMED)) == []
+    assert codes(lint(RENAMED, runtime="0.39")) == []
+
+
+def test_renamed_service_class_with_a_valid_channel_is_silent() -> None:
+    source = (
+        "from qiskit_ibm_runtime import IBMQuantumComputeService\n"
+        'service = IBMQuantumComputeService(channel="ibm_cloud")\n'
+    )
+    assert codes(lint(source, runtime="0.49")) == []
+
+
+def test_a_local_class_with_the_renamed_spelling_is_not_flagged() -> None:
+    source = (
+        "class IBMQuantumComputeService:\n"
+        "    @staticmethod\n"
+        "    def save_account(**kwargs):\n"
+        "        pass\n"
+        'IBMQuantumComputeService.save_account(channel="ibm_quantum")\n'
+        "local = IBMQuantumComputeService()\n"
+        'local.save_account(channel="ibm_quantum")\n'
+    )
+    assert codes(lint(source, runtime="0.49")) == []

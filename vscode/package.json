@@ -2,7 +2,7 @@
   "name": "qxlint",
   "displayName": "qxlint - Qiskit Linter",
   "description": "Deterministic static checks for Qiskit Primitives V2 workflows",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "tuguidragos",
   "license": "MIT",
   "author": {
@@ -145,11 +145,11 @@
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
-    "@types/vscode": "^1.75.0",
+    "@types/vscode": "~1.75.0",
     "@vscode/test-electron": "^3.1.0",
     "@vscode/vsce": "^3.9.2",
     "esbuild": "^0.28.2",
     "ovsx": "^1.1.1",
-    "typescript": "^5.7.0"
+    "typescript": "^7.0.2"
   }
 }

@@ -57,6 +57,7 @@ from qxlint.semantics.values import (
     AbstractValue,
     ConstInt,
     ImportedSymbol,
+    Mapping,
     ObjectRef,
     Sequence,
     Union,
@@ -79,6 +80,8 @@ from qxlint.source import SourceFile
         (ImportedSymbol("qiskit.QuantumCircuit"), "Sym(qiskit.QuantumCircuit)"),
         (Sequence(None), "Seq[?]"),
         (Sequence((ObjectRef(1), NONE)), "Seq[Obj(1), None]"),
+        (Mapping(None), "Map[?]"),
+        (Mapping((ObjectRef(1), NONE)), "Map[Obj(1), None]"),
     ],
 )
 def test_an_abstract_value_reprs_as_its_lattice_notation(

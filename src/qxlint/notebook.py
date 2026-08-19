@@ -19,10 +19,13 @@ unknown value.
 Every replacement preserves the line count, so a reported line always matches
 the line the user sees in the cell.
 
-Known limits, shared with nbqa and documented for users: automagic (a bare
-``ls``) is indistinguishable from Python and is not detected, and out of order
-interactive execution cannot be reconstructed. Analysis assumes cells run top to
-bottom in textual order.
+Automagic is handled only where it is decidable. ``pip install qiskit`` is not
+valid Python, so a line naming a known magic that does not parse is read as the
+magic IPython would run. A bare ``ls``, or ``cd /tmp``, is valid Python and is
+left alone, which is the documented limit shared with nbqa.
+
+Out of order interactive execution cannot be reconstructed. Analysis assumes
+cells run top to bottom in textual order.
 """
 
 from __future__ import annotations
@@ -138,6 +141,13 @@ SAFE_LINE_MAGICS = frozenset(
 
 # Line magics that unwrap to a plain Python statement.
 UNWRAP_LINE_MAGICS = frozenset({"time"})
+
+# IPython rewrites `pip install qiskit` to `%pip install qiskit` when automagic
+# is on, which it is by default. Only these two policies are recognised without
+# the marker: both drop the line, so reading an ordinary syntax error as one of
+# them cannot invent a fact. A line that parses as Python is never touched.
+AUTOMAGIC_LINE_RE = re.compile(r"^(?P<indent>[ \t]*)(?P<name>[A-Za-z_]\w*)(?P<rest>[ \t]+\S.*)$")
+AUTOMAGIC_NAMES = SAFE_LINE_MAGICS | UNWRAP_LINE_MAGICS
 
 
 LEADING_INDENT_RE = re.compile(r"^[ \t]+")
@@ -383,7 +393,7 @@ def _neutralise_line(line: str) -> str:
 
     match = MAGIC_LINE_RE.match(line)
     if match is None:
-        return line
+        return _neutralise_automagic(line)
 
     indent = match.group("indent")
     marker = match.group("marker")
@@ -397,6 +407,19 @@ def _neutralise_line(line: str) -> str:
     if name in SAFE_LINE_MAGICS:
         return _dropped(indent)
     return f"{indent}{BARRIER_CALL}"
+
+
+def _neutralise_automagic(line: str) -> str:
+    automagic = AUTOMAGIC_LINE_RE.match(line)
+    if automagic is None:
+        return line
+    name = automagic.group("name").lower()
+    if name not in AUTOMAGIC_NAMES or _parses(line):
+        return line
+    indent = automagic.group("indent")
+    if name in UNWRAP_LINE_MAGICS:
+        return f"{indent}{automagic.group('rest').strip()}"
+    return _dropped(indent)
 
 
 def _dropped(indent: str) -> str:

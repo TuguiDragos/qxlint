@@ -1,7 +1,7 @@
 """The Qiskit API model.
 
-Every table here was checked against an installed Qiskit 2.5.1 and
-qiskit-ibm-runtime 0.48.0 by introspection, not from documentation prose. The
+Every table here was checked against an installed Qiskit 2.5.2 and
+qiskit-ibm-runtime 0.49.0 by introspection, not from documentation prose. The
 tables are hardcoded on purpose: Engine A must analyse a project that targets a
 different Qiskit version than the one the linter runs under, and must work with
 no Qiskit installed at all.
@@ -39,7 +39,8 @@ SYMBOL_ALIASES: dict[str, str] = {
     "qiskit.primitives.backend_estimator_v2.BackendEstimatorV2": (
         "qiskit.primitives.BackendEstimatorV2"
     ),
-    # `qiskit_ibm_runtime.Sampler` is SamplerV2, verified with an identity check.
+    # `qiskit_ibm_runtime.Sampler` is SamplerV2 here, verified with an identity
+    # check, but only from 0.28. See VERSION_DEPENDENT_ALIASES below.
     # `qiskit_ibm_runtime.sampler.Sampler` is NOT: the submodule name is an empty
     # version 0 marker base class, so it is deliberately not aliased here.
     "qiskit_ibm_runtime.Sampler": "qiskit_ibm_runtime.SamplerV2",
@@ -49,6 +50,10 @@ SYMBOL_ALIASES: dict[str, str] = {
     "qiskit_ibm_runtime.qiskit_runtime_service.QiskitRuntimeService": (
         "qiskit_ibm_runtime.QiskitRuntimeService"
     ),
+    # qiskit-ibm-runtime 0.49 exports the service under a second name. It is the
+    # same class object, verified with an identity check, and it is exported from
+    # the package only, not from the submodule.
+    "qiskit_ibm_runtime.IBMQuantumComputeService": "qiskit_ibm_runtime.QiskitRuntimeService",
 }
 
 
@@ -100,7 +105,7 @@ CONSTRUCTORS: dict[str, ConstructorSpec] = {
 # map is an unknown object, so no rule can reach it: 11.8% of all circuit
 # construction across a 113 repository corpus was invisible for that reason.
 #
-# Each entry was constructed and read on Qiskit 2.5.1 rather than assumed. All
+# Each entry was constructed and read on Qiskit 2.5.2 rather than assumed. All
 # of them return a QuantumCircuit with no measure instruction and no control
 # flow. scripts/verify_model.py rechecks that on every run, so an upstream
 # change that starts adding a measurement is a failure rather than a silent
@@ -159,7 +164,7 @@ SAMPLER_KINDS = frozenset({ObjectKind.SAMPLER_V2})
 ESTIMATOR_KINDS = frozenset({ObjectKind.ESTIMATOR_V2})
 
 # QuantumCircuit methods that append operations without adding a measurement.
-# Taken from the methods returning InstructionSet on QuantumCircuit 2.5.1, minus
+# Taken from the methods returning InstructionSet on QuantumCircuit 2.5.2, minus
 # `measure`, and minus `append` which needs its operand inspected.
 GATE_METHODS = frozenset(
     {
@@ -361,8 +366,30 @@ SELF_INVERSE_GATES: dict[str, str] = {
 }
 
 
-def canonical(qualified_name: str) -> str:
-    """Normalise an import path to the public path the tables use."""
+# The bare names were the V1 classes until 0.28, the release that removed V1 and
+# rebound them. Read from the published wheels rather than from a release note:
+# 0.27.1 imports `SamplerV1 as Sampler`, 0.28.0 imports `SamplerV2 as Sampler`.
+BARE_RUNTIME_PRIMITIVES_BECAME_V2 = "0.28"
+
+# Resolving to the V1 spelling rather than leaving the name alone is what makes
+# the decision stick: every later lookup sees a name no table claims is V2.
+VERSION_DEPENDENT_ALIASES: dict[str, str] = {
+    "qiskit_ibm_runtime.Sampler": "qiskit_ibm_runtime.SamplerV1",
+    "qiskit_ibm_runtime.Estimator": "qiskit_ibm_runtime.EstimatorV1",
+}
+
+
+def canonical(qualified_name: str, *, bare_runtime_is_v2: bool = True) -> str:
+    """Normalise an import path to the public path the tables use.
+
+    ``bare_runtime_is_v2`` is false only when the target version is proven to
+    predate 0.28, where these two names are the V1 classes and none of the V2
+    rules apply to them.
+    """
+    if not bare_runtime_is_v2:
+        legacy = VERSION_DEPENDENT_ALIASES.get(qualified_name)
+        if legacy is not None:
+            return legacy
     return SYMBOL_ALIASES.get(qualified_name, qualified_name)
 
 

@@ -2,7 +2,7 @@
 
 Contract, stated because the two are not the same thing: this checks **generic
 compatibility with a Qiskit Target**, not IBM Runtime acceptance. It mirrors the
-structure of the client side check in qiskit-ibm-runtime 0.48.0
+structure of the client side check in qiskit-ibm-runtime 0.49.0
 (``utils/utils.py::is_isa_circuit``) but deliberately stops there:
 
 * qubit count is compared with ``>``, exactly as upstream does, so a narrower

@@ -8,7 +8,7 @@ mutation through either one updates the same facts.
 Lattice shape, from bottom to top::
 
     Unbound
-    ObjectRef | ImportedSymbol | Const* | Sequence
+    ObjectRef | ImportedSymbol | Const* | Sequence | Mapping
     Union
     Unknown
 
@@ -114,6 +114,24 @@ class Sequence(AbstractValue):
 
 
 @dataclass(frozen=True, slots=True)
+class Mapping(AbstractValue):
+    """A dict literal whose values may be tracked.
+
+    Only the values are kept. Iterating a dict yields its keys, so this is
+    never treated as a sequence, and every method on it is unmodelled, so it
+    escapes rather than being reasoned about.
+    """
+
+    values: tuple[AbstractValue, ...] | None
+    local: bool = True
+    token: int | None = None
+
+    def __repr__(self) -> str:
+        inner = "?" if self.values is None else ", ".join(repr(v) for v in self.values)
+        return f"Map[{inner}]"
+
+
+@dataclass(frozen=True, slots=True)
 class Union(AbstractValue):
     """Two or more alternatives that a branch join could not reconcile."""
 
@@ -162,7 +180,7 @@ def join(left: AbstractValue, right: AbstractValue) -> AbstractValue:
         else:
             options.add(value)
 
-    merged = _merge_sequences(options)
+    merged = _merge_mappings(_merge_sequences(options))
     if len(merged) == 1:
         return next(iter(merged))
     if len(merged) > MAX_UNION_WIDTH:
@@ -195,6 +213,30 @@ def _join_sequence(left: Sequence, right: Sequence) -> Sequence:
     return Sequence(elements, local, mutable, token)
 
 
+def _merge_mappings(options: set[AbstractValue]) -> set[AbstractValue]:
+    """Collapse mappings the same way sequences are collapsed."""
+    maps = [o for o in options if isinstance(o, Mapping)]
+    if len(maps) < 2:
+        return options
+    rest = {o for o in options if not isinstance(o, Mapping)}
+    acc = maps[0]
+    for other in maps[1:]:
+        acc = _join_mapping(acc, other)
+    rest.add(acc)
+    return rest
+
+
+def _join_mapping(left: Mapping, right: Mapping) -> Mapping:
+    local = left.local and right.local
+    token = left.token if left.token == right.token else None
+    if left.values is None or right.values is None:
+        return Mapping(None, local, token)
+    if len(left.values) != len(right.values):
+        return Mapping(None, local, token)
+    values = tuple(join(a, b) for a, b in zip(left.values, right.values, strict=True))
+    return Mapping(values, local, token)
+
+
 def iter_options(value: AbstractValue) -> tuple[AbstractValue, ...]:
     """Flatten a value into the alternatives it may take."""
     if isinstance(value, Union):
@@ -220,6 +262,9 @@ def _collect_refs(value: AbstractValue, out: list[ObjectRef], depth: int) -> Non
             _collect_refs(option, out, depth + 1)
     elif isinstance(value, Sequence) and value.elements is not None:
         for element in value.elements:
+            _collect_refs(element, out, depth + 1)
+    elif isinstance(value, Mapping) and value.values is not None:
+        for element in value.values:
             _collect_refs(element, out, depth + 1)
 
 

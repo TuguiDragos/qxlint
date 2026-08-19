@@ -180,10 +180,21 @@ def test_an_unmodelled_list_method_escapes_only_the_arguments_it_receives(
     assert codes(lint(source)) == expected
 
 
-def test_appending_to_a_list_whose_contents_are_unknown_escapes_the_circuit() -> None:
-    assert not fires(
+def test_appending_to_a_fresh_local_list_does_not_escape_the_circuit() -> None:
+    # A comprehension always builds a new list, whatever it iterated over, so
+    # nothing outside can be holding it and the append cannot leak the circuit.
+    assert fires(
         "qc = QuantumCircuit(1)\n"
         "circuits = [item for item in existing]\n"
+        "circuits.append(qc)\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+
+
+def test_appending_to_a_container_from_unmodelled_code_escapes_the_circuit() -> None:
+    assert not fires(
+        "qc = QuantumCircuit(1)\n"
+        "circuits = make_them()\n"
         "circuits.append(qc)\n"
         "StatevectorSampler().run([qc])\n"
     )
@@ -342,3 +353,12 @@ def test_a_magic_that_cannot_rebind_a_name_keeps_the_facts(call: str) -> None:
 )
 def test_only_the_get_ipython_receiver_makes_a_magic_call(call: str) -> None:
     assert fires(f"qc = QuantumCircuit(1)\n{call}\nStatevectorSampler().run([qc])\n")
+
+
+def test_appending_to_a_list_that_forgot_its_contents_escapes_the_circuit() -> None:
+    assert not fires(
+        "qc = QuantumCircuit(1)\n"
+        "circuits = [*load()]\n"
+        "circuits.append(qc)\n"
+        "StatevectorSampler().run([qc])\n"
+    )

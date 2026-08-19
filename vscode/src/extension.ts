@@ -21,6 +21,7 @@ import {
   notebookPayload,
   ruleDocumentationUrl,
   severityOf,
+  toUtf16Range,
   toZeroBasedRange,
   type QxlintFinding,
   type QxlintLocation,
@@ -530,7 +531,15 @@ function codeCell(fsPath: string, cellIndex: number): vscode.NotebookCell | unde
 }
 
 function toRange(location: QxlintLocation, document?: vscode.TextDocument): vscode.Range {
-  const box = toZeroBasedRange(location);
+  const zeroBased = toZeroBasedRange(location);
+  // Columns arrive as characters and vscode.Position counts UTF-16 units, so
+  // the line text is what settles the difference. A file that is not open has
+  // no text to consult; opening it re-lints it.
+  const box = document
+    ? toUtf16Range(zeroBased, (line) =>
+        line < document.lineCount ? document.lineAt(line).text : undefined,
+      )
+    : zeroBased;
   const range = new vscode.Range(
     box.startLine,
     box.startCharacter,

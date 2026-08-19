@@ -233,3 +233,98 @@ def test_only_one_finding_per_run_call() -> None:
         HEADER + "a = QuantumCircuit(1)\nb = QuantumCircuit(1)\nStatevectorSampler().run([a, b])\n"
     )
     assert codes(lint(source)) == ["QXL103"]
+
+
+def test_several_unmeasured_pubs_in_one_call_report_once() -> None:
+    # The finding is anchored on the run call, so a second defective pub would
+    # repeat the same diagnostic at the same line and column.
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "first = QuantumCircuit(2, 2)\n"
+        "second = QuantumCircuit(2, 2)\n"
+        "StatevectorSampler().run([first, second])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+# A patched run is a mock, not a primitive ---------------------------------
+#
+# `with mock.patch.object(SamplerV2, "run")` replaces the method, so the
+# circuits never reach a sampler and no result is produced. Saying the result
+# carries no counts would describe something the call never does.
+
+PATCHED = (
+    "from unittest import mock\n"
+    "from qiskit import QuantumCircuit\n"
+    "from qiskit.primitives import StatevectorSampler\n"
+    "qc = QuantumCircuit(2, 2)\n"
+    "sampler = StatevectorSampler()\n"
+)
+
+
+def test_a_patched_run_is_not_a_primitive_call() -> None:
+    source = PATCHED + (
+        'with mock.patch.object(StatevectorSampler, "run") as mock_run:\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_patch_named_by_string_counts_too() -> None:
+    source = PATCHED + (
+        'with mock.patch("qiskit.primitives.StatevectorSampler.run"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == []
+
+
+def test_patching_another_method_leaves_run_alone() -> None:
+    source = PATCHED + (
+        'with mock.patch.object(StatevectorSampler, "something_else"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_the_patch_ends_with_its_block() -> None:
+    source = PATCHED + (
+        'with mock.patch.object(StatevectorSampler, "run"):\n    pass\nsampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_patch_context_without_a_name_changes_nothing() -> None:
+    source = (
+        PATCHED + "with mock.patch.object(StatevectorSampler, attribute):\n    sampler.run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_an_estimator_run_is_patched_the_same_way() -> None:
+    source = (
+        "from unittest import mock\n"
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorEstimator\n"
+        "from qiskit.quantum_info import SparsePauliOp\n"
+        "qc = QuantumCircuit(2)\n"
+        "qc.measure_all()\n"
+        "estimator = StatevectorEstimator()\n"
+        'with mock.patch.object(StatevectorEstimator, "run"):\n'
+        "    estimator.run([(qc, SparsePauliOp('ZZ'))])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_nested_patches_of_the_same_method_unwind_one_at_a_time() -> None:
+    source = PATCHED + (
+        'with mock.patch.object(StatevectorSampler, "run"):\n'
+        '    with mock.patch.object(StatevectorSampler, "run"):\n'
+        "        sampler.run([qc])\n"
+        "    sampler.run([qc])\n"
+        "sampler.run([qc])\n"
+    )
+    # Silent inside both blocks, reported once the outer one ends.
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_patch_target_that_is_not_a_literal_changes_nothing() -> None:
+    source = PATCHED + "with mock.patch(target):\n    sampler.run([qc])\n"
+    assert codes(lint(source)) == ["QXL103"]

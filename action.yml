@@ -37,7 +37,7 @@ inputs:
     default: ""
   version:
     description: >-
-      qxlint version specifier to install, for example ==0.2.0 or >=0.2.
+      qxlint version specifier to install, for example ==0.3.0 or >=0.3.
       Empty installs the version this action was checked out at.
     required: false
     default: ""
@@ -73,7 +73,7 @@ runs:
         ACTION_PATH: ${{ github.action_path }}
       run: |
         # An empty version input pins to the ref this action was checked out
-        # at, so `uses: TuguiDragos/qxlint@v0.2.0` really runs qxlint 0.2.0.
+        # at, so `uses: TuguiDragos/qxlint@v0.3.0` really runs qxlint 0.3.0.
         # It used to install whatever PyPI had that day, which meant the tag
         # chose the action and something else chose the analyser.
         spec="$INPUT_VERSION"

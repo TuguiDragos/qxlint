@@ -137,7 +137,7 @@ def _run(args: argparse.Namespace) -> int:
 
     for path in targets:
         config = _effective(cache.for_path(path), args)
-        profile = resolve_profile(config)
+        profile = cache.profile_for(config)
         enabled = config.enabled_codes(registered)
         try:
             findings.extend(analyse_path(path, config=config, profile=profile, enabled=enabled))

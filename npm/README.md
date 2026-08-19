@@ -15,7 +15,7 @@
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
   <a href="https://jupyter.org/"><img alt="Jupyter notebooks" src="https://img.shields.io/badge/Jupyter-notebooks-161826?style=flat&logo=jupyter&logoColor=9184D9" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="960 tests" src="https://img.shields.io/badge/tests-960-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1052 tests" src="https://img.shields.io/badge/tests-1052-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
 </p>
 
 ---
@@ -64,14 +64,14 @@ The launcher tries, in order:
 If none of them works it prints the install options and exits 2.
 
 Steps 1 to 3 run whatever you installed, which is the point of them. Step 4
-installs, so it pins: running `npx @tuguidragos/qxlint@0.2.0` and getting some
+installs, so it pins: running `npx @tuguidragos/qxlint@0.3.0` and getting some
 other analyser would make the version in the command line meaningless.
 
 Exit codes pass through unchanged: `0` clean, `1` findings, `2` qxlint could not
 run. That is what makes it usable as a CI gate:
 
 ```yaml
-- run: npx @tuguidragos/qxlint@0.2.0 src
+- run: npx @tuguidragos/qxlint@0.3.0 src
 ```
 
 ## What it checks

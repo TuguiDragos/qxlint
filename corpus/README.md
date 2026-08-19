@@ -8,14 +8,14 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | | |
 | --- | --- |
 | Repositories | **244**, from 243 distinct owners |
-| Files read | **51,715**: 50,389 `.py` and 1,326 `.ipynb` |
+| Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
 | Findings, every one read and labelled | **342** |
-| of which false positives, all one defect, since fixed | **30** |
-| Findings the current tree reports | **312** |
+| of which false positives, two defects, both since fixed | **33** |
+| Findings the current tree reports | **309** |
 | Defects the corpus found in qxlint, all fixed | **9** |
-| Wall clock | 115.7 s for all 244 in one process, 270 MB peak |
+| Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
 
 ## Files
 
@@ -74,7 +74,7 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 
 | Rule | Labelled | Reported today | True positive | False positive |
 | --- | --- | --- | --- | --- |
-| QXL000 | 168 | 138 | 138 | 30 |
+| QXL000 | 168 | 135 | 135 | 33 |
 | QXL101 | 7 | 7 | 7 | 0 |
 | QXL102 | 11 | 11 | 11 | 0 |
 | QXL103 | 9 | 9 | 9 | 0 |
@@ -84,7 +84,14 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 
 QXL201 needs a declared target version, so the scan supplies
 `--target-runtime 0.48`. Without it that rule is silent by design and the total
-is 233.
+is 230.
+
+Three QXL000 rows were relabelled from `true-positive-unparsable` to
+`false-positive` on 19 August 2026. Each is a notebook cell holding a bare
+`pip install` or `pip list`. The original rationale read them as accepted by
+neither CPython nor IPython; only the first half of that is true, because
+IPython automagic rewrites such a line and the cell runs. They are no longer
+reported.
 
 Labels are `true-positive` for a real defect, `true-positive-intentional` where
 the code is deliberate and the finding is still correct,

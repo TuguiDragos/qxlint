@@ -9,7 +9,7 @@ from qxlint.semantics.objects import ObjectKind
 from qxlint.semantics.values import ConstBool
 
 # Methods that return a new circuit unless told otherwise. The default for each
-# was read from the signature on Qiskit 2.5.1 and the no-op confirmed by running
+# was read from the signature on Qiskit 2.5.2 and the no-op confirmed by running
 # it: `qc.compose(other)` as a statement leaves qc with zero instructions.
 DEFAULT_COPYING = {
     "compose": "inplace",
@@ -52,7 +52,7 @@ class DiscardedCircuitResult(Rule):
             "mutating the receiver, and `compose`, `tensor` and "
             "`assign_parameters` default to `inplace=False`. Written as a bare "
             "statement the call does nothing at all, and nothing reports it: "
-            "verified on Qiskit 2.5.1, `qc.compose(other)` as a statement leaves "
+            "verified on Qiskit 2.5.2, `qc.compose(other)` as a statement leaves "
             "`qc` with zero instructions, and `qc.assign_parameters({t: 1.0})` "
             "leaves the parameter unbound. The circuit then runs, and the result "
             "is wrong rather than missing."
@@ -91,9 +91,17 @@ class DiscardedCircuitResult(Rule):
 
         method = event.method
         reason: str | None = None
+        raises = False
 
         if method in ALWAYS_COPYING:
-            reason = f"{method}() always returns a new circuit"
+            if "inplace" in event.kwargs:
+                # None of these eight takes an inplace argument, so the call
+                # raises before it can quietly do nothing. Verified on Qiskit
+                # 2.5.2: all eight raise TypeError on an unexpected keyword.
+                reason = f"{method}() has no inplace argument"
+                raises = True
+            else:
+                reason = f"{method}() always returns a new circuit"
         elif method in DEFAULT_COPYING:
             inplace = event.kwargs.get(DEFAULT_COPYING[method])
             if not (isinstance(inplace, ConstBool) and inplace.value is True):
@@ -106,15 +114,20 @@ class DiscardedCircuitResult(Rule):
         if reason is None:
             return
 
-        fix = (
-            "assign the result, or pass inplace=True"
-            if method in DEFAULT_COPYING
-            else "assign the result"
-        )
+        if raises:
+            fix = "drop the inplace argument and assign the result"
+            message = f"this statement raises TypeError: {reason}"
+        else:
+            fix = (
+                "assign the result, or pass inplace=True"
+                if method in DEFAULT_COPYING
+                else "assign the result"
+            )
+            message = f"this statement does nothing: {reason} and the result is discarded"
         ctx.emit(
             Finding(
                 rule=self.meta.code,
-                message=f"this statement does nothing: {reason} and the result is discarded",
+                message=message,
                 location=ctx.source.location(event.attribute_node),
                 severity=self.meta.severity,
                 tier=self.meta.tier,

@@ -89,3 +89,19 @@ def test_only_the_first_measured_circuit_in_a_run_is_reported() -> None:
         "StatevectorEstimator().run([(a, obs), (b, obs)])\n"
     )
     assert codes(lint(source)) == ["QXL105"]
+
+
+def test_several_measured_pubs_in_one_call_report_once() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorEstimator\n"
+        "from qiskit.quantum_info import SparsePauliOp\n"
+        "first = QuantumCircuit(2)\n"
+        "first.measure_all()\n"
+        "second = QuantumCircuit(2)\n"
+        "second.measure_all()\n"
+        "StatevectorEstimator().run(\n"
+        "    [(first, SparsePauliOp('ZZ')), (second, SparsePauliOp('XX'))]\n"
+        ")\n"
+    )
+    assert codes(lint(source)) == ["QXL105"]

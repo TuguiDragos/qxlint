@@ -15,7 +15,9 @@ import {
   placeable,
   ruleDocumentationUrl,
   severityOf,
+  toUtf16Range,
   toZeroBasedRange,
+  utf16Offset,
   type QxlintFinding,
 } from "./core.js";
 
@@ -313,4 +315,53 @@ test("no exit code rescues a run that produced no payload", () => {
   for (const code of [0, 1, 2, null]) {
     assert.equal(interpretRun(code, "", "").kind, "failed");
   }
+});
+
+// Astral characters -----------------------------------------------------
+// qxlint counts characters and vscode.Position counts UTF-16 code units. They
+// agree until a character outside the Basic Multilingual Plane appears earlier
+// on the line, and then every column after it is off by one per character.
+
+test("an ASCII line needs no adjustment", () => {
+  assert.equal(utf16Offset("counts = result.get_counts()", 9), 9);
+});
+
+test("a BMP character is one unit, like the character it is", () => {
+  assert.equal(utf16Offset('psi = "\u03c8\u03c8\u03c8"; counts = x', 22), 22);
+});
+
+test("an astral character is two units", () => {
+  // One emoji before the offset, so the UTF-16 offset is one further along.
+  assert.equal(utf16Offset('label = "\u{1F3B2}"; x', 12), 13);
+});
+
+test("two astral characters shift by two", () => {
+  assert.equal(utf16Offset('label = "\u{1F3B2}\u{1F3B2}"; counts = result', 23), 25);
+});
+
+test("an offset past the end of the line is kept, not clamped", () => {
+  assert.equal(utf16Offset("ab", 5), 5);
+});
+
+test("an offset of zero is the start of the line", () => {
+  assert.equal(utf16Offset("\u{1F3B2}abc", 0), 0);
+});
+
+test("a range is converted at both ends", () => {
+  const line = 'label = "\u{1F3B2}\u{1F3B2}"; counts = result.get_counts()';
+  const box = toZeroBasedRange({
+    kind: "source",
+    line: 1,
+    column: 24,
+    endLine: 1,
+    endColumn: 41,
+  });
+  const converted = toUtf16Range(box, () => line);
+  assert.equal(line.slice(converted.startCharacter, converted.endCharacter), "result.get_counts");
+});
+
+test("a line the document does not have leaves the range alone", () => {
+  const box = toZeroBasedRange({ kind: "source", line: 9, column: 4 });
+  const converted = toUtf16Range(box, () => undefined);
+  assert.deepEqual(converted, box);
 });

@@ -194,6 +194,7 @@ class ConfigCache:
     """Per directory config lookup, so a monorepo resolves each file correctly."""
 
     _by_root: dict[Path, Config] = field(default_factory=dict)
+    _profiles: dict[tuple[Path, str, str], SemanticProfile] = field(default_factory=dict)
     override: Config | None = None
 
     def for_path(self, path: Path) -> Config:
@@ -205,6 +206,22 @@ class ConfigCache:
         if root not in self._by_root:
             self._by_root[root] = load_config(root / "pyproject.toml")
         return self._by_root[root]
+
+    def profile_for(self, config: Config) -> SemanticProfile:
+        """The same answer as resolve_profile, discovered once per root.
+
+        Discovery parses pyproject.toml and uv.lock. Doing it per file made a
+        scan of a project with a large lock file spend most of its time there.
+        The result depends on nothing but these three values.
+        """
+        if config.root is None:
+            return resolve_profile(config)
+        key = (config.root, config.target_qiskit or "", config.target_runtime or "")
+        cached = self._profiles.get(key)
+        if cached is None:
+            cached = resolve_profile(config)
+            self._profiles[key] = cached
+        return cached
 
 
 # Rule codes are matched case insensitively, so they are normalised on the way

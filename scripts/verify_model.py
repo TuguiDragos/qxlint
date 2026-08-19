@@ -76,6 +76,43 @@ def verify_symbols() -> None:
             check(resolve(qualified) is not None, f"operation class missing: {qualified}")
 
 
+def verify_no_unmodelled_aliases() -> None:
+    """A second name for a modelled class silences every rule keyed on it.
+
+    qiskit-ibm-runtime 0.49 exported QiskitRuntimeService a second time as
+    IBMQuantumComputeService, and QXL201 went quiet for anyone who adopted the
+    new spelling. Nothing in the tables could notice, so this looks for it: any
+    public name bound to the same object as a modelled constructor has to be in
+    the tables too.
+    """
+    for qualified in sorted(model.CONSTRUCTORS):
+        module_name, _, attribute = qualified.rpartition(".")
+        # The library circuit table is generated from one list of names, so a
+        # re-export there cannot silence a rule the way a primitive alias does.
+        if module_name.startswith("qiskit.circuit.library"):
+            continue
+        if not installed(qualified):
+            SKIPPED.append(qualified)
+            continue
+        target = resolve(qualified)
+        if target is None:
+            continue
+        try:
+            module = importlib.import_module(module_name)
+        except ImportError:
+            continue
+        for name in dir(module):
+            if name.startswith("_") or name == attribute:
+                continue
+            if getattr(module, name, None) is not target:
+                continue
+            found = f"{module_name}.{name}"
+            check(
+                found in model.SYMBOL_ALIASES or found in model.CONSTRUCTORS,
+                f"'{found}' is the same object as '{qualified}' but is not in the tables",
+            )
+
+
 def verify_circuit_methods() -> None:
     from qiskit import QuantumCircuit
 
@@ -340,6 +377,7 @@ def main() -> int:
 
     for step in (
         verify_symbols,
+        verify_no_unmodelled_aliases,
         verify_circuit_methods,
         verify_no_gate_method_measures,
         verify_library_circuits_have_no_measurement,

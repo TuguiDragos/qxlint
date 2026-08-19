@@ -26,6 +26,7 @@ from qxlint.semantics.values import (
     ConstInt,
     ConstStr,
     ImportedSymbol,
+    Mapping,
     ObjectRef,
     Sequence,
     Union,
@@ -238,3 +239,37 @@ def test_random_circuit_asserts_only_its_kind() -> None:
     assert spec.kind is ObjectKind.CIRCUIT
     assert spec.measurement is TriState.UNKNOWN
     assert spec.control_flow is TriState.UNKNOWN
+
+
+# Mappings ---------------------------------------------------------------
+
+
+def test_joining_two_mappings_joins_them_valuewise() -> None:
+    merged = join(Mapping((ObjectRef(1),), token=1), Mapping((ObjectRef(2),), token=1))
+    assert isinstance(merged, Mapping)
+    assert merged.values == (Union(frozenset({ObjectRef(1), ObjectRef(2)})),)
+    assert merged.token == 1
+
+
+def test_joining_mappings_of_different_length_forgets_the_values() -> None:
+    merged = join(Mapping((ObjectRef(1),)), Mapping((ObjectRef(1), ObjectRef(2))))
+    assert isinstance(merged, Mapping)
+    assert merged.values is None
+
+
+def test_joining_with_a_mapping_of_unknown_values_forgets_the_values() -> None:
+    merged = join(Mapping(None, local=False), Mapping((ObjectRef(1),)))
+    assert isinstance(merged, Mapping)
+    assert merged.values is None
+    assert merged.local is False
+
+
+def test_joining_mappings_from_different_literals_drops_the_token() -> None:
+    merged = join(Mapping((), token=1), Mapping((), token=2))
+    assert isinstance(merged, Mapping)
+    assert merged.token is None
+
+
+def test_object_refs_reach_through_a_mapping() -> None:
+    value = Mapping((ObjectRef(1), Union(frozenset({ObjectRef(2), ConstInt(3)}))))
+    assert set(object_refs(value)) == {ObjectRef(1), ObjectRef(2)}

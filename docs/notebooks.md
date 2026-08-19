@@ -63,8 +63,11 @@ split across two lines is far more likely there than a shell command named `=`.
 
 ## Limits, stated plainly
 
-- **Automagic is not detected.** A bare `ls` is valid Python syntax and
-  indistinguishable from a variable reference. nbqa has the same limitation.
+- **Automagic is read only where it is decidable.** `pip install qiskit` is not
+  valid Python, so a line naming a known magic that does not parse is read as the
+  magic IPython would run, and the rest of the cell is analysed. A bare `ls` is
+  valid Python syntax and indistinguishable from a variable reference, so it is
+  left alone. nbqa has the same limitation on that half.
 - **Out-of-order execution cannot be reconstructed.** Analysis assumes cells run
   top to bottom. `execution_count` is not used to reorder them.
 - **SARIF has no region for notebook findings.** The `.ipynb` artifact is JSON,

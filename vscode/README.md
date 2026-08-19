@@ -15,7 +15,7 @@
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
   <a href="https://jupyter.org/"><img alt="Jupyter notebooks" src="https://img.shields.io/badge/Jupyter-notebooks-161826?style=flat&logo=jupyter&logoColor=9184D9" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="909 tests" src="https://img.shields.io/badge/tests-909-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1052 tests" src="https://img.shields.io/badge/tests-1052-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
 </p>
 
 ---
@@ -58,7 +58,7 @@ looks like a physics result rather than a mistake.
 each object actually is, tracks aliases and lists, and stays silent whenever it
 cannot prove the answer.
 
-Measured on 244 external repositories, 51,715 files: the corpus holds 4,003
+Measured on 244 external repositories, 51,711 files: the corpus holds 4,003
 `.get_counts(` calls and 286 `quasi_dists` occurrences, so a linter matching
 those textually would have reported 4,289 findings. qxlint reports 18, each on a
 V2 result object; the rest are correct legacy code.

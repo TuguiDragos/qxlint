@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "qxlint"
-version = "0.2.0"
+version = "0.3.0"
 description = "Deterministic static checks for Qiskit Primitives V2 workflows"
 dynamic = ["readme"]
 license = "MIT"
@@ -47,13 +47,15 @@ qxlint = "qxlint.cli:main"
 QXL = "qxlint.flake8_plugin:QxlintFlake8Plugin"
 
 [dependency-groups]
+# Floors match the series CI resolves. ruff and mypy matter most: the formatter
+# changes between minor versions, so an older one reformats the tree CI checks.
 dev = [
-    "pytest>=8.3",
-    "pytest-cov>=6.0",
-    "ruff>=0.9",
-    "mypy>=1.14",
-    "flake8>=7.1",
-    "jsonschema>=4.23",
+    "pytest>=9.1",
+    "pytest-cov>=7.1",
+    "ruff>=0.16",
+    "mypy>=2.3",
+    "flake8>=7.3",
+    "jsonschema>=4.26",
 ]
 
 # Test only. Engine B itself needs nothing beyond qiskit.
