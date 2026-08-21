@@ -12,6 +12,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from qxlint.semantics.objects import ObjectKind, Provenance, TriState
+from qxlint.semantics.values import AbstractValue
 
 QISKIT_CIRCUIT = "qiskit.QuantumCircuit"
 TRANSPILE = "qiskit.transpile"
@@ -21,6 +22,8 @@ MEASURE_OP = "qiskit.circuit.Measure"
 # Import paths that name the same object. Resolution normalises to the right side.
 SYMBOL_ALIASES: dict[str, str] = {
     "qiskit.circuit.QuantumCircuit": QISKIT_CIRCUIT,
+    "qiskit.circuit.barrier.Barrier": "qiskit.circuit.Barrier",
+    "qiskit.circuit.library.Barrier": "qiskit.circuit.Barrier",
     "qiskit.circuit.quantumcircuit.QuantumCircuit": QISKIT_CIRCUIT,
     "qiskit.compiler.transpile": TRANSPILE,
     "qiskit.compiler.transpiler.transpile": TRANSPILE,
@@ -277,6 +280,55 @@ CIRCUIT_DERIVING_METHODS = frozenset(
         "assign_parameters",
     }
 )
+
+# Deriving methods that keep the instruction order, so a measurement that was
+# last stays last. Verified on Qiskit 2.5.2: reverse_ops, repeat, power and
+# inverse all move or wrap it, so they are deliberately absent.
+ORDER_PRESERVING_DERIVING_METHODS = frozenset(
+    {"copy", "decompose", "assign_parameters", "reverse_bits"}
+)
+
+# Positional index of `inplace`, read from the signatures on Qiskit 2.5.2.
+# `qc.measure_all(False)` passes it by position, which a keyword lookup misses.
+INPLACE_POSITION: dict[str, int] = {
+    "measure_all": 0,
+    "measure_active": 0,
+    "remove_final_measurements": 0,
+    "assign_parameters": 1,
+    "tensor": 1,
+    "compose": 4,
+}
+
+
+def inplace_argument(
+    method: str,
+    args: tuple[AbstractValue, ...],
+    kwargs: dict[str, AbstractValue],
+    complete: bool = True,
+) -> AbstractValue | None:
+    """The `inplace` argument, passed either way. None when it was not passed.
+
+    A dropped argument shifts every later one left, so positions are read only
+    when the tuple is known to be whole.
+    """
+    if "inplace" in kwargs:
+        return kwargs["inplace"]
+    if not complete:
+        return None
+    index = INPLACE_POSITION.get(method)
+    if index is not None and index < len(args):
+        return args[index]
+    return None
+
+
+# `remove_final_measurements` strips trailing barriers along with the
+# measurements, so a barrier leaves a measurement final. Verified on Qiskit
+# 2.5.2: a delay does not, and neither does any other gate.
+FINALITY_TRANSPARENT_METHODS = frozenset({"barrier"})
+FINALITY_TRANSPARENT_OPERATIONS = frozenset(
+    {"qiskit.circuit.Barrier", "qiskit.circuit.library.Barrier"}
+)
+
 
 # Standard operation classes that never introduce a measurement, used to keep
 # `QuantumCircuit.append` from destroying facts for ordinary gate appends.

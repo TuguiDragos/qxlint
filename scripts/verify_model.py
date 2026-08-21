@@ -364,6 +364,83 @@ def verify_target_api() -> None:
     check(hasattr(Target, "num_qubits"), "Target.num_qubits is gone")
 
 
+def verify_inplace_positions() -> None:
+    """The table claims a positional index; read it back from the signature."""
+    import inspect
+
+    from qiskit import QuantumCircuit
+
+    def positional(method: object) -> list[str]:
+        params = list(inspect.signature(method).parameters.items())[1:]
+        return [
+            name
+            for name, spec in params
+            if spec.kind in (spec.POSITIONAL_ONLY, spec.POSITIONAL_OR_KEYWORD)
+        ]
+
+    for name, index in sorted(model.INPLACE_POSITION.items()):
+        method = getattr(QuantumCircuit, name, None)
+        check(method is not None, f"INPLACE_POSITION: QuantumCircuit has no '{name}'")
+        if method is None:
+            continue
+        names = positional(method)
+        actual = names.index("inplace") if "inplace" in names else None
+        check(actual == index, f"INPLACE_POSITION: {name} has inplace at {actual}, not {index}")
+
+    for name in dir(QuantumCircuit):
+        if name.startswith("_"):
+            continue
+        member = getattr(QuantumCircuit, name, None)
+        if not callable(member):
+            continue
+        try:
+            params = inspect.signature(member).parameters
+        except (TypeError, ValueError):
+            continue
+        if "inplace" in params:
+            check(name in model.INPLACE_POSITION, f"INPLACE_POSITION is missing '{name}'")
+
+
+def verify_measurement_finality() -> None:
+    """`remove_final_measurements` clears exactly the measurements still last."""
+    from qiskit import QuantumCircuit
+
+    def measures_left(build: object) -> int:
+        qc = QuantumCircuit(2, 2)
+        build(qc)  # type: ignore[operator]
+        qc.remove_final_measurements()
+        return sum(1 for item in qc.data if item.operation.name == "measure")
+
+    check(measures_left(lambda q: q.measure(0, 0)) == 0, "a final measurement should be removed")
+    check(
+        measures_left(lambda q: (q.measure(0, 0), q.h(0))) == 1,
+        "a measurement followed by a gate should survive removal",
+    )
+    for name in sorted(model.FINALITY_TRANSPARENT_METHODS):
+        check(
+            measures_left(lambda q, n=name: (q.measure_all(), getattr(q, n)())) == 0,
+            f"FINALITY_TRANSPARENT_METHODS: '{name}' does not leave the measurement final",
+        )
+
+    from qiskit.circuit import Parameter
+
+    angle = Parameter("t")
+    for name in sorted(model.ORDER_PRESERVING_DERIVING_METHODS):
+        qc = QuantumCircuit(1, 1)
+        qc.rx(angle, 0)
+        qc.measure(0, 0)
+        derived = (
+            qc.assign_parameters({angle: 1.0})
+            if name == "assign_parameters"
+            else getattr(qc.assign_parameters({angle: 1.0}), name)()
+        )
+        derived.remove_final_measurements()
+        check(
+            not any(item.operation.name == "measure" for item in derived.data),
+            f"ORDER_PRESERVING_DERIVING_METHODS: '{name}' moves the measurement",
+        )
+
+
 def main() -> int:
     import qiskit
 
@@ -379,6 +456,8 @@ def main() -> int:
         verify_symbols,
         verify_no_unmodelled_aliases,
         verify_circuit_methods,
+        verify_inplace_positions,
+        verify_measurement_finality,
         verify_no_gate_method_measures,
         verify_library_circuits_have_no_measurement,
         verify_register_names,

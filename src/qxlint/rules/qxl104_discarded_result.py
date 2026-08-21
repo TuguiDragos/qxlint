@@ -5,24 +5,17 @@ from __future__ import annotations
 from qxlint.diagnostics import Finding, Severity, Tier
 from qxlint.registry import register
 from qxlint.rules.base import MethodCallEvent, Rule, RuleContext, RuleMeta
+from qxlint.semantics import model
 from qxlint.semantics.objects import ObjectKind
 from qxlint.semantics.values import ConstBool
 
 # Methods that return a new circuit unless told otherwise. The default for each
 # was read from the signature on Qiskit 2.5.2 and the no-op confirmed by running
 # it: `qc.compose(other)` as a statement leaves qc with zero instructions.
-DEFAULT_COPYING = {
-    "compose": "inplace",
-    "tensor": "inplace",
-    "assign_parameters": "inplace",
-}
+DEFAULT_COPYING = frozenset({"compose", "tensor", "assign_parameters"})
 
 # Methods that mutate by default, so only an explicit inplace=False is a no-op.
-DEFAULT_INPLACE = {
-    "measure_all": "inplace",
-    "measure_active": "inplace",
-    "remove_final_measurements": "inplace",
-}
+DEFAULT_INPLACE = frozenset({"measure_all", "measure_active", "remove_final_measurements"})
 
 # Methods that always return a new circuit and never mutate.
 ALWAYS_COPYING = frozenset(
@@ -90,6 +83,11 @@ class DiscardedCircuitResult(Rule):
             return
 
         method = event.method
+        if not event.args_complete and method in model.INPLACE_POSITION:
+            # An argument was dropped, so `inplace` may be sitting in the
+            # positions that shifted and neither reading can be trusted.
+            return
+
         reason: str | None = None
         raises = False
 
@@ -103,11 +101,14 @@ class DiscardedCircuitResult(Rule):
             else:
                 reason = f"{method}() always returns a new circuit"
         elif method in DEFAULT_COPYING:
-            inplace = event.kwargs.get(DEFAULT_COPYING[method])
+            inplace = model.inplace_argument(method, event.args, event.kwargs, event.args_complete)
+            if inplace is not None and not isinstance(inplace, ConstBool):
+                # That value decides whether the call mutates, and it is unknown.
+                return
             if not (isinstance(inplace, ConstBool) and inplace.value is True):
                 reason = f"{method}() defaults to inplace=False"
         elif method in DEFAULT_INPLACE:
-            inplace = event.kwargs.get(DEFAULT_INPLACE[method])
+            inplace = model.inplace_argument(method, event.args, event.kwargs, event.args_complete)
             if isinstance(inplace, ConstBool) and inplace.value is False:
                 reason = f"{method}(inplace=False) returns a new circuit"
 

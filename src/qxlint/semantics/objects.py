@@ -106,6 +106,9 @@ class ObjectFacts:
 
     kind: ObjectKind
     measurement: TriState = TriState.UNKNOWN
+    # PRESENT only while every measurement recorded is still the last thing on
+    # its qubits. `remove_final_measurements` clears exactly those.
+    measurement_final: TriState = TriState.UNKNOWN
     control_flow: TriState = TriState.UNKNOWN
     escape: Escape = Escape.LOCAL
     provenance: Provenance = Provenance.UNKNOWN
@@ -117,6 +120,7 @@ class ObjectFacts:
         return replace(
             self,
             measurement=TriState.UNKNOWN,
+            measurement_final=TriState.UNKNOWN,
             control_flow=TriState.UNKNOWN,
             registers=None,
         )
@@ -129,6 +133,11 @@ class ObjectFacts:
         if self.escape is Escape.ESCAPED:
             return TriState.UNKNOWN
         return self.measurement
+
+    def read_measurement_final(self) -> TriState:
+        if self.escape is Escape.ESCAPED:
+            return TriState.UNKNOWN
+        return self.measurement_final
 
     def read_control_flow(self) -> TriState:
         if self.escape is Escape.ESCAPED:
@@ -146,6 +155,7 @@ def merge_facts(left: ObjectFacts, right: ObjectFacts) -> ObjectFacts:
     return ObjectFacts(
         kind=kind,
         measurement=merge_tristate(left.measurement, right.measurement),
+        measurement_final=merge_tristate(left.measurement_final, right.measurement_final),
         control_flow=merge_tristate(left.control_flow, right.control_flow),
         escape=merge_escape(left.escape, right.escape),
         provenance=merge_provenance(left.provenance, right.provenance),

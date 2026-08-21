@@ -164,9 +164,9 @@ class Analyzer:
         self._discarded_call: ast.Call | None = None
         # Depth inside an exception assertion, where discarding is the point.
         self._raises_depth = 0
-        # Method names replaced by a mock for the block being walked. A call to
-        # one of them reaches the mock, not the implementation.
-        self._patched: dict[str, int] = {}
+        # Methods replaced by a mock for the block being walked, each with the
+        # owners patched. None means the owner could not be resolved.
+        self._patched: dict[str, list[str | None]] = {}
 
     # Statements ---------------------------------------------------------
 
@@ -407,24 +407,25 @@ class Analyzer:
 
     def _with(self, node: ast.With | ast.AsyncWith, state: State) -> None:
         asserts_raise = any(_is_raises_context(item.context_expr) for item in node.items)
-        patched = [name for item in node.items if (name := _patched_method(item.context_expr))]
+        patched = [found for item in node.items if (found := _patched_method(item.context_expr))]
         for item in node.items:
             value = self._eval(item.context_expr, state)
             if item.optional_vars is not None:
                 self._assign(item.optional_vars, value, state)
         if asserts_raise:
             self._raises_depth += 1
-        for name in patched:
-            self._patched[name] = self._patched.get(name, 0) + 1
+        resolved = [(self._patch_owner(owner, state), method) for owner, method in patched]
+        for owner, method in resolved:
+            self._patched.setdefault(method, []).append(owner)
         try:
             self._exec_body(node.body, state)
         finally:
             if asserts_raise:
                 self._raises_depth -= 1
-            for name in patched:
-                self._patched[name] -= 1
-                if not self._patched[name]:
-                    del self._patched[name]
+            for _owner, method in resolved:
+                self._patched[method].pop()
+                if not self._patched[method]:
+                    del self._patched[method]
 
     def _stmt_Match(self, node: ast.Match, state: State) -> None:
         self._eval(node.subject, state)
@@ -941,7 +942,7 @@ class Analyzer:
         if isinstance(func, ast.Name):
             if func.id in self.local_callables:
                 self._invalidate_everything(state)
-                for value in args:
+                for value in [*args, *kwargs.values()]:
                     state.escape_reachable(value)
                 return UNKNOWN
             if func.id in PURE_BUILTINS and isinstance(state.lookup(func.id), Unbound):
@@ -1029,6 +1030,7 @@ class Analyzer:
             ObjectFacts(
                 kind=ObjectKind.CIRCUIT,
                 measurement=facts.read_measurement(),
+                measurement_final=facts.read_measurement_final(),
                 control_flow=facts.read_control_flow(),
                 provenance=facts.provenance,
                 registers=facts.registers,
@@ -1057,6 +1059,7 @@ class Analyzer:
             kwargs=kwargs,
             state=state,
             result_discarded=node is self._discarded_call,
+            args_complete=complete,
         )
         for rule in self.ruleset.for_hook("on_method_call"):
             rule.on_method_call(event, self.ctx)
@@ -1163,7 +1166,7 @@ class Analyzer:
             # so the rules that read pubs have nothing true to say about them.
             # The mock records what it was handed and cannot mutate it, so the
             # circuits stay analysable for the statements after the block.
-            if method in self._patched:
+            if self._patch_hides(method, facts):
                 return UNKNOWN
             return self._primitive_run(node, facts, args, state)
 
@@ -1228,14 +1231,25 @@ class Analyzer:
         state: State,
     ) -> AbstractValue | None:
         ref = receiver if isinstance(receiver, ObjectRef) else None
-        inplace = kwargs.get("inplace")
+        inplace = model.inplace_argument(method, args, kwargs, complete)
+        if inplace is not None and not isinstance(inplace, ConstBool):
+            # Which of the two behaviours runs is not decidable here, so keep neither.
+            state.invalidate_reachable(receiver)
+            for value in [*args, *kwargs.values()]:
+                state.escape_reachable(value)
+            return UNKNOWN
         wants_copy = isinstance(inplace, ConstBool) and inplace.value is False
 
         if method in model.CIRCUIT_READ_METHODS:
             return UNKNOWN
 
         if method == "measure":
-            self._update(ref, state, measurement=TriState.DEFINITELY_PRESENT)
+            self._update(
+                ref,
+                state,
+                measurement=TriState.DEFINITELY_PRESENT,
+                measurement_final=self._finality_after_measuring(facts),
+            )
             return UNKNOWN
 
         if method in ("measure_all", "measure_active"):
@@ -1245,6 +1259,7 @@ class Analyzer:
                     ObjectFacts(
                         kind=ObjectKind.CIRCUIT,
                         measurement=TriState.DEFINITELY_PRESENT,
+                        measurement_final=self._finality_after_measuring(facts),
                         control_flow=facts.read_control_flow(),
                         registers=registers,
                     )
@@ -1253,21 +1268,31 @@ class Analyzer:
                 ref,
                 state,
                 measurement=TriState.DEFINITELY_PRESENT,
+                measurement_final=self._finality_after_measuring(facts),
                 registers=registers,
             )
             return NONE
 
         if method == "remove_final_measurements":
+            # Only measurements still last on their qubits are removed, so
+            # absence is provable only when nothing was appended after them.
+            measured = facts.read_measurement()
+            final = facts.read_measurement_final()
+            if measured is TriState.DEFINITELY_ABSENT or final is TriState.DEFINITELY_PRESENT:
+                remaining = TriState.DEFINITELY_ABSENT
+            else:
+                remaining = TriState.UNKNOWN
             if wants_copy:
                 return state.allocate(
                     ObjectFacts(
                         kind=ObjectKind.CIRCUIT,
-                        measurement=TriState.DEFINITELY_ABSENT,
+                        measurement=remaining,
+                        measurement_final=final,
                         control_flow=facts.read_control_flow(),
                         registers=facts.registers,
                     )
                 )
-            self._update(ref, state, measurement=TriState.DEFINITELY_ABSENT)
+            self._update(ref, state, measurement=remaining)
             return NONE
 
         if method == "clear":
@@ -1275,17 +1300,25 @@ class Analyzer:
                 ref,
                 state,
                 measurement=TriState.DEFINITELY_ABSENT,
+                measurement_final=TriState.DEFINITELY_PRESENT,
                 control_flow=TriState.DEFINITELY_ABSENT,
             )
             return NONE
 
         if method in model.GATE_METHODS:
+            if method not in model.FINALITY_TRANSPARENT_METHODS:
+                self._update(ref, state, measurement_final=self._finality_after_gate(facts))
             for value in args:
                 state.escape_reachable(value)
             return UNKNOWN
 
         if method in model.CONTROL_FLOW_BUILDERS:
-            self._update(ref, state, control_flow=TriState.DEFINITELY_PRESENT)
+            self._update(
+                ref,
+                state,
+                control_flow=TriState.DEFINITELY_PRESENT,
+                measurement_final=self._finality_after_gate(facts),
+            )
             return UNKNOWN
 
         if method == "append":
@@ -1302,10 +1335,17 @@ class Analyzer:
                 if method == "copy_empty_like"
                 else facts.read_control_flow()
             )
+            if method == "copy_empty_like":
+                final = TriState.DEFINITELY_PRESENT
+            elif method in model.ORDER_PRESERVING_DERIVING_METHODS:
+                final = facts.read_measurement_final()
+            else:
+                final = TriState.UNKNOWN
             return state.allocate(
                 ObjectFacts(
                     kind=ObjectKind.CIRCUIT,
                     measurement=measurement,
+                    measurement_final=final,
                     control_flow=control_flow,
                     registers=facts.registers,
                 )
@@ -1315,7 +1355,8 @@ class Analyzer:
             other = state.facts(args[0]) if args else None
             other_measurement = other.read_measurement() if other is not None else TriState.UNKNOWN
             combined = self._combine_measurement(facts.read_measurement(), other_measurement)
-            if wants_copy or (method == "compose" and inplace is None):
+            # Both default to inplace=False, so an absent argument means a copy.
+            if wants_copy or inplace is None:
                 return state.allocate(
                     ObjectFacts(
                         kind=ObjectKind.CIRCUIT,
@@ -1328,6 +1369,7 @@ class Analyzer:
                 ref,
                 state,
                 measurement=combined,
+                measurement_final=TriState.UNKNOWN,
                 control_flow=TriState.UNKNOWN,
                 registers=None,
             )
@@ -1343,6 +1385,22 @@ class Analyzer:
         if left is TriState.DEFINITELY_ABSENT and right is TriState.DEFINITELY_ABSENT:
             return TriState.DEFINITELY_ABSENT
         return TriState.UNKNOWN
+
+    @staticmethod
+    def _finality_after_measuring(facts: ObjectFacts) -> TriState:
+        """The new measurement is last, but an earlier stranded one stays stranded."""
+        if facts.read_measurement() is TriState.DEFINITELY_ABSENT:
+            return TriState.DEFINITELY_PRESENT
+        if facts.read_measurement_final() is TriState.DEFINITELY_PRESENT:
+            return TriState.DEFINITELY_PRESENT
+        return facts.read_measurement_final()
+
+    @staticmethod
+    def _finality_after_gate(facts: ObjectFacts) -> TriState:
+        """An instruction after a measurement strands it. With none, nothing changes."""
+        if facts.read_measurement() is TriState.DEFINITELY_ABSENT:
+            return facts.read_measurement_final()
+        return TriState.DEFINITELY_ABSENT
 
     def _circuit_append(
         self,
@@ -1360,13 +1418,31 @@ class Analyzer:
             facts = state.facts(operand) if operand is not None else None
             origin = facts.origin if facts is not None else None
 
+        current = state.store.get(ref.id) if ref is not None else None
         if origin in model.MEASURING_OPERATIONS:
-            self._update(ref, state, measurement=TriState.DEFINITELY_PRESENT)
+            self._update(
+                ref,
+                state,
+                measurement=TriState.DEFINITELY_PRESENT,
+                measurement_final=(
+                    self._finality_after_measuring(current)
+                    if current is not None
+                    else TriState.DEFINITELY_PRESENT
+                ),
+            )
             return UNKNOWN
         if origin in model.NON_MEASURING_OPERATIONS:
+            if origin not in model.FINALITY_TRANSPARENT_OPERATIONS and current is not None:
+                self._update(ref, state, measurement_final=self._finality_after_gate(current))
             return UNKNOWN
 
-        self._update(ref, state, measurement=TriState.UNKNOWN, control_flow=TriState.UNKNOWN)
+        self._update(
+            ref,
+            state,
+            measurement=TriState.UNKNOWN,
+            measurement_final=TriState.UNKNOWN,
+            control_flow=TriState.UNKNOWN,
+        )
         for value in args:
             state.escape_reachable(value)
         return UNKNOWN
@@ -1389,6 +1465,35 @@ class Analyzer:
         if current is None or current.escape is Escape.ESCAPED:
             return
         state.store.update(ref.id, **changes)
+
+    def _patch_owner(self, owner: ast.expr | str | None, state: State) -> str | None:
+        """The class a patch names, as a bare name. None when it is not decidable.
+
+        A name is resolved through the environment so an aliased import still
+        matches the class the receiver was built from.
+        """
+        if isinstance(owner, str):
+            return self._canonical(owner).rsplit(".", 1)[-1]
+        if isinstance(owner, ast.Attribute):
+            return owner.attr
+        if isinstance(owner, ast.Name):
+            bound = state.lookup(owner.id)
+            if isinstance(bound, ImportedSymbol):
+                return self._canonical(bound.qualified_name).rsplit(".", 1)[-1]
+            if owner.id in self.local_callables:
+                # Defined in this module, so not the imported primitive class.
+                return owner.id
+        return None
+
+    def _patch_hides(self, method: str, facts: ObjectFacts) -> bool:
+        """Did a surrounding patch replace this method on this receiver's class?"""
+        owners = self._patched.get(method)
+        if owners is None:
+            return False
+        if facts.origin is None:
+            return True
+        actual = facts.origin.rsplit(".", 1)[-1]
+        return any(owner is None or owner == actual for owner in owners)
 
     def _primitive_run(
         self,
@@ -1518,12 +1623,13 @@ def _is_raises_context(expr: ast.expr) -> bool:
     return name.startswith("assertRaises") or name == "raises"
 
 
-def _patched_method(expr: ast.expr) -> str | None:
-    """The method name a ``mock.patch`` context replaces, if it names one.
+def _patched_method(expr: ast.expr) -> tuple[ast.expr | str | None, str] | None:
+    """What a ``mock.patch`` context replaces: the owner it names, and the method.
 
     ``patch.object(SamplerV2, "run")`` and ``patch("module.SamplerV2.run")`` both
-    put a mock in place of ``run``, so a call to it inside the block reaches the
-    mock. Anything else returns None and changes nothing.
+    put a mock in place of ``run``. The owner is carried so that patching some
+    other class's ``run`` does not silence a real primitive call. Anything else
+    returns None and changes nothing.
     """
     if not isinstance(expr, ast.Call) or not expr.args:
         return None
@@ -1531,14 +1637,17 @@ def _patched_method(expr: ast.expr) -> str | None:
     if isinstance(func, ast.Attribute) and func.attr == "object":
         target = expr.args[1] if len(expr.args) > 1 else None
         if isinstance(target, ast.Constant) and isinstance(target.value, str):
-            return target.value
+            return expr.args[0], target.value
         return None
     name = func.attr if isinstance(func, ast.Attribute) else getattr(func, "id", "")
     if name != "patch":
         return None
     target = expr.args[0]
     if isinstance(target, ast.Constant) and isinstance(target.value, str):
-        return target.value.rsplit(".", 1)[-1] or None
+        owner, _, method = target.value.rpartition(".")
+        if not method:
+            return None
+        return (owner or None), method
     return None
 
 

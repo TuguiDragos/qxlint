@@ -12,9 +12,9 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
 | Findings, every one read and labelled | **342** |
-| of which false positives, two defects, both since fixed | **33** |
-| Findings the current tree reports | **309** |
-| Defects the corpus found in qxlint, all fixed | **9** |
+| of which false positives, three defects, all since fixed | **35** |
+| Findings the current tree reports | **307** |
+| Defects the corpus found in qxlint, all fixed | **10** |
 | Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
 
 ## Files
@@ -84,7 +84,14 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 
 QXL201 needs a declared target version, so the scan supplies
 `--target-runtime 0.48`. Without it that rule is silent by design and the total
-is 230.
+is 228.
+
+Two QXL104 rows were relabelled from `true-positive` to `false-positive` on
+20 August 2026, both in `ML-2-QML/QML/5514.py`. Each is
+`block.assign_parameters(params, [0, 1])`, where the second positional argument
+is `inplace`. A non empty list is truthy, so Qiskit mutates the receiver and
+returns None, verified by running that exact call shape. The original rationale
+read the method default, which this call overrides. They are no longer reported.
 
 Three QXL000 rows were relabelled from `true-positive-unparsable` to
 `false-positive` on 19 August 2026. Each is a notebook cell holding a bare

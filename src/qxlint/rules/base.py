@@ -82,6 +82,9 @@ class MethodCallEvent:
     kwargs: dict[str, AbstractValue]
     state: State
     result_discarded: bool = False
+    # False when an argument could not be resolved and was dropped, which
+    # shifts every later position and makes positional reads unsafe.
+    args_complete: bool = True
 
 
 @dataclass(frozen=True, slots=True)

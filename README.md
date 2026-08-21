@@ -438,12 +438,12 @@ linter was run on any of them.
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
 | Findings, every one read and labelled | 342 |
-| of which workflow defects rather than unparsable files | **174** |
-| False positives, two defects, both since fixed | **33** |
-| Findings the current tree reports | **309** |
-| Defects the corpus found in qxlint, and fixed | **9** |
+| of which workflow defects rather than unparsable files | **172** |
+| False positives, three defects, all since fixed | **35** |
+| Findings the current tree reports | **307** |
+| Defects the corpus found in qxlint, and fixed | **10** |
 
-The 33 are two defects, both in the same place. The first, 30 rows: the notebook
+The 35 are three defects. The first two are in the same place. The first, 30 rows: the notebook
 magic detector required a letter after the `!`, so `! pip install x`,
 `!{sys.executable} -m pip install x` and `!./run.sh` stayed in the cell and it
 was reported as unparsable. The second, 3 rows: a cell holding a bare
@@ -454,6 +454,11 @@ Both have the same root. Handing the cell to CPython, which is how QXL000 was
 checked, cannot catch either: neither a shell escape nor a bare magic is valid
 Python. The question for a notebook cell is what IPython accepts, and the scan
 never asked it.
+
+The third, 2 rows: `assign_parameters` was read for a keyword `inplace` only, so
+`block.assign_parameters(params, [0, 1])` looked like a discarded result. The
+second positional argument is `inplace`, and a non empty list is truthy, so the
+call mutates the receiver.
 
 Three of the QXL104 findings are in Qiskit's own test suite, where a circuit
 method that returns a new circuit is called as a bare statement:

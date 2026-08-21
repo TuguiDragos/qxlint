@@ -75,21 +75,63 @@ def test_a_shadowed_pure_builtin_is_no_longer_trusted() -> None:
 
 @pytest.mark.parametrize(
     ("signature", "call", "expected"),
-    [("circuit", "build(qc)", []), ("", "build()", ["QXL103"])],
+    [
+        ("circuit", "build(qc)", []),
+        # A keyword argument reaches the callee exactly as a positional one does.
+        ("circuit", "build(circuit=qc)", []),
+        ("", "build()", ["QXL103"]),
+    ],
 )
 def test_a_locally_defined_function_escapes_only_the_arguments_it_receives(
     signature: str, call: str, expected: list[str]
 ) -> None:
     # Both forms invalidate every fact, but only the escaped circuit refuses the
-    # later modelled mutation, so only it stays unprovable.
+    # later modelled mutation, so only it stays unprovable. `clear` is the
+    # vehicle because it empties the circuit whatever it held before.
     source = (
         SAMPLER + "qc = QuantumCircuit(1)\n"
         f"def build({signature}):\n    pass\n"
         f"{call}\n"
-        "qc.remove_final_measurements()\n"
+        "qc.clear()\n"
         "StatevectorSampler().run([qc])\n"
     )
     assert codes(lint(source)) == expected
+
+
+def test_remove_final_measurements_after_an_unknown_effect_proves_nothing() -> None:
+    # It clears only measurements still last on their qubits, so once the
+    # contents are unknown the absence of every measurement is not provable.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(1)\n"
+        "def build():\n    pass\n"
+        "build()\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_measurement_that_is_not_final_survives_removal() -> None:
+    # Verified on Qiskit 2.5.2: `measure(0, 0); h(0); remove_final_measurements()`
+    # leaves ['measure', 'h'], so the circuit still carries counts.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(1, 1)\n"
+        "qc.measure(0, 0)\n"
+        "qc.h(0)\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_measurements_still_final_are_provably_removed() -> None:
+    source = (
+        SAMPLER + "qc = QuantumCircuit(1)\n"
+        "qc.measure_all()\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
 
 
 # Constructing a circuit -------------------------------------------------
@@ -362,3 +404,227 @@ def test_appending_to_a_list_that_forgot_its_contents_escapes_the_circuit() -> N
         "circuits.append(qc)\n"
         "StatevectorSampler().run([qc])\n"
     )
+
+
+def test_inplace_passed_by_position_is_read() -> None:
+    # Verified on Qiskit 2.5.2: `measure_all(False)` leaves the circuit empty,
+    # so the receiver never gains a measurement.
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorEstimator\n"
+        "from qiskit.quantum_info import SparsePauliOp\n"
+        "qc = QuantumCircuit(2)\n"
+        "result = qc.measure_all(False)\n"
+        "StatevectorEstimator().run([(qc, SparsePauliOp('ZZ'))])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_an_inplace_that_is_not_a_constant_decides_nothing() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorEstimator\n"
+        "from qiskit.quantum_info import SparsePauliOp\n"
+        "qc = QuantumCircuit(2)\n"
+        "qc.measure_all(flag)\n"
+        "StatevectorEstimator().run([(qc, SparsePauliOp('ZZ'))])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_tensor_defaults_to_returning_a_new_circuit() -> None:
+    # Verified on Qiskit 2.5.2: `a.tensor(b)` leaves `a` untouched.
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorEstimator\n"
+        "from qiskit.quantum_info import SparsePauliOp\n"
+        "a = QuantumCircuit(1)\n"
+        "b = QuantumCircuit(1)\n"
+        "b.measure_active()\n"
+        "combined = a.tensor(b)\n"
+        "StatevectorEstimator().run([(a, SparsePauliOp('Z'))])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_an_escaped_circuit_reports_no_finality() -> None:
+    source = (
+        SAMPLER + "qc = QuantumCircuit(1)\n"
+        "def build(c):\n    pass\n"
+        "build(qc)\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_barrier_leaves_a_measurement_final() -> None:
+    # Verified on Qiskit 2.5.2: `measure_all(); barrier(); remove_final_measurements()`
+    # leaves the circuit empty, because trailing barriers are stripped too.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure_all()\n"
+        "qc.barrier()\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_delay_stops_a_measurement_from_being_final() -> None:
+    # Verified on Qiskit 2.5.2: the same shape with a delay keeps the measure.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure_all()\n"
+        "qc.delay(100, 0)\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_composing_in_place_ends_the_finality_of_a_measurement() -> None:
+    # Verified on Qiskit 2.5.2: the composed gates land after the measure, so
+    # removal leaves ['measure', 'h'] and the circuit still carries counts.
+    source = (
+        SAMPLER + "a = QuantumCircuit(1, 1)\n"
+        "a.measure(0, 0)\n"
+        "b = QuantumCircuit(1)\n"
+        "b.h(0)\n"
+        "a.compose(b, inplace=True)\n"
+        "a.remove_final_measurements()\n"
+        "StatevectorSampler().run([a])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_transpile_keeps_measurements_where_they_were() -> None:
+    # Verified on Qiskit 2.5.2 at every optimization level, and for a preset
+    # pass manager: removal after transpilation still empties the circuit.
+    source = (
+        "from qiskit import QuantumCircuit, transpile\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(2)\n"
+        "qc.h(0)\n"
+        "qc.measure_all()\n"
+        "t = transpile(qc)\n"
+        "t.remove_final_measurements()\n"
+        "StatevectorSampler().run([t])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_appending_a_barrier_leaves_a_measurement_final() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.circuit import Barrier\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure_all()\n"
+        "qc.append(Barrier(2), [0, 1])\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_later_measurement_does_not_rescue_a_stranded_one() -> None:
+    # Verified on Qiskit 2.5.2: `measure(0,0); h(0); measure(1,1); remove` leaves
+    # ['measure', 'h'], because only the second measurement was still final.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure(0, 0)\n"
+        "qc.h(0)\n"
+        "qc.measure(1, 1)\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_gate_before_any_measurement_strands_nothing() -> None:
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2, 2)\n"
+        "qc.h(0)\n"
+        "qc.measure_all()\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_reversing_the_operations_moves_the_measurement() -> None:
+    # Verified on Qiskit 2.5.2: reverse_ops puts the measure first, so removal
+    # leaves ['measure', 'h'] and the circuit still carries counts.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(1, 1)\n"
+        "qc.h(0)\n"
+        "qc.measure(0, 0)\n"
+        "r = qc.reverse_ops()\n"
+        "r.remove_final_measurements()\n"
+        "StatevectorSampler().run([r])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_deriving_method_that_keeps_the_order_keeps_the_proof() -> None:
+    source = (
+        SAMPLER + "qc = QuantumCircuit(1, 1)\n"
+        "qc.h(0)\n"
+        "qc.measure(0, 0)\n"
+        "r = qc.copy()\n"
+        "r.remove_final_measurements()\n"
+        "StatevectorSampler().run([r])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_the_barrier_class_is_the_same_by_either_import_path() -> None:
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.circuit.barrier import Barrier\n"
+        "from qiskit.primitives import StatevectorSampler\n"
+        "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure_all()\n"
+        "qc.append(Barrier(2), [0, 1])\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_dropped_argument_stops_a_positional_inplace_being_read() -> None:
+    # The star unpack cannot be resolved, so every later position shifts and
+    # nothing at a fixed index can be trusted to be `inplace`.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure_all()\n"
+        "qc.compose(other, *rest, True)\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == []
+
+
+def test_measurements_added_back_to_back_stay_final() -> None:
+    # Nothing sits between them, so both are still last and both are removed.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2, 2)\n"
+        "qc.measure(0, 0)\n"
+        "qc.measure(1, 1)\n"
+        "qc.remove_final_measurements()\n"
+        "StatevectorSampler().run([qc])\n"
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_an_undecidable_inplace_still_lets_the_arguments_escape() -> None:
+    # Neither behaviour is provable, so the call is unmodelled and whatever it
+    # was handed must be treated as reachable by code the analyser cannot see.
+    source = (
+        SAMPLER + "qc = QuantumCircuit(2)\n"
+        "other = QuantumCircuit(2)\n"
+        "qc.compose(other, inplace=flag)\n"
+        "other.clear()\n"
+        "StatevectorSampler().run([other])\n"
+    )
+    assert codes(lint(source)) == []

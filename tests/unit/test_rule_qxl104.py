@@ -173,3 +173,15 @@ def test_a_method_that_really_takes_inplace_is_still_silent() -> None:
         "qc.compose(other, inplace=True)\n"
     )
     assert codes(lint(source)) == []
+
+
+def test_an_undecidable_inplace_is_not_called_a_no_op() -> None:
+    # The analyser treats a non constant `inplace` as undecidable, and the rule
+    # has to agree: with `flag` true the statement really does mutate.
+    source = (
+        "from qiskit import QuantumCircuit\n"
+        "qc = QuantumCircuit(2)\n"
+        "other = QuantumCircuit(2)\n"
+        "qc.compose(other, inplace=flag)\n"
+    )
+    assert codes(lint(source)) == []

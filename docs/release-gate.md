@@ -62,12 +62,12 @@ was run on any of them. See [../corpus/](../corpus/).
 | Crashes, timeouts, exit code 2 | 0 |
 | Non deterministic results | 0 |
 | Findings, read and labelled | 342 |
-| False positives, two defects, both since fixed | 33 |
-| Findings the current tree reports | 309 |
-| Defects the corpus found in qxlint | 9 |
+| False positives, three defects, all since fixed | 35 |
+| Findings the current tree reports | 307 |
+| Defects the corpus found in qxlint | 10 |
 
 Every finding is labelled in a versioned CSV carrying the line it was reported
-on, so a row can be checked without cloning anything. The 33 false positives are
+on, so a row can be checked without cloning anything. The 35 false positives are
 kept in that file, relabelled with the reason, because a corpus that only
 records what the linter currently gets right is not evidence.
 

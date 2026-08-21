@@ -328,3 +328,88 @@ def test_nested_patches_of_the_same_method_unwind_one_at_a_time() -> None:
 def test_a_patch_target_that_is_not_a_literal_changes_nothing() -> None:
     source = PATCHED + "with mock.patch(target):\n    sampler.run([qc])\n"
     assert codes(lint(source)) == ["QXL103"]
+
+
+def test_patching_run_on_another_class_leaves_the_primitive_alone() -> None:
+    # The owner is part of what a patch replaces, so `run` on something else
+    # must not silence a real primitive call in the same block.
+    source = PATCHED + ('with mock.patch("totally.unrelated.thing.run"):\n    sampler.run([qc])\n')
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_patching_run_on_a_locally_defined_class_leaves_the_primitive_alone() -> None:
+    source = PATCHED + (
+        "class Unrelated:\n    def run(self):\n        pass\n"
+        'with mock.patch.object(Unrelated, "run"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_patch_on_an_aliased_import_still_matches() -> None:
+    source = (
+        "from unittest import mock\n"
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler as Sampler\n"
+        "qc = QuantumCircuit(2, 2)\n"
+        "sampler = Sampler()\n"
+        'with mock.patch.object(Sampler, "run"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == []
+
+
+def test_an_unresolvable_owner_still_suppresses() -> None:
+    # The class behind the name is unknown, so the patch may well be the one
+    # that matters and staying silent is the safe reading.
+    source = PATCHED + 'with mock.patch.object(owner, "run"):\n    sampler.run([qc])\n'
+    assert codes(lint(source)) == []
+
+
+def test_a_patch_owner_written_as_an_attribute_is_read() -> None:
+    source = (
+        "from unittest import mock\n"
+        "from qiskit import QuantumCircuit\n"
+        "import qiskit.primitives as prim\n"
+        "qc = QuantumCircuit(2, 2)\n"
+        "sampler = prim.StatevectorSampler()\n"
+        'with mock.patch.object(prim.StatevectorSampler, "run"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_patch_owner_that_is_not_a_name_suppresses() -> None:
+    source = PATCHED + 'with mock.patch.object(owners[0], "run"):\n    sampler.run([qc])\n'
+    assert codes(lint(source)) == []
+
+
+def test_a_patch_target_with_no_method_changes_nothing() -> None:
+    source = PATCHED + 'with mock.patch(""):\n    sampler.run([qc])\n'
+    assert codes(lint(source)) == ["QXL103"]
+
+
+def test_a_receiver_whose_class_is_undecided_is_left_to_the_patch() -> None:
+    # The branches build different samplers, so the origin does not survive the
+    # join and the patch cannot be ruled out.
+    source = (
+        "from unittest import mock\n"
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit.primitives import StatevectorSampler, BackendSamplerV2\n"
+        "qc = QuantumCircuit(2, 2)\n"
+        "if flag:\n    sampler = StatevectorSampler()\n"
+        "else:\n    sampler = BackendSamplerV2(backend)\n"
+        'with mock.patch.object(StatevectorSampler, "run"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == []
+
+
+def test_a_patch_on_the_runtime_alias_matches_the_class_it_names() -> None:
+    # `qiskit_ibm_runtime.Sampler` IS SamplerV2, so patching it by that name
+    # really does replace the method the call reaches.
+    source = (
+        "from unittest import mock\n"
+        "from qiskit import QuantumCircuit\n"
+        "from qiskit_ibm_runtime import SamplerV2\n"
+        "qc = QuantumCircuit(2)\n"
+        "sampler = SamplerV2(mode=backend)\n"
+        'with mock.patch("qiskit_ibm_runtime.Sampler.run"):\n    sampler.run([qc])\n'
+    )
+    assert codes(lint(source)) == []
