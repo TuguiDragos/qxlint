@@ -441,6 +441,61 @@ def verify_measurement_finality() -> None:
         )
 
 
+def verify_removed_symbols() -> None:
+    """Every name QXL205 calls removed really is gone, and the kept ones remain."""
+    import importlib
+
+    from qiskit import QuantumCircuit
+
+    from qxlint.rules.qxl205_removed_symbol import (
+        FAKE_PROVIDER,
+        FAKE_PROVIDER_KEPT,
+        FAKE_PROVIDER_UNTIL_TWO,
+        REMOVED,
+        REMOVED_METHODS,
+    )
+
+    for name in sorted(REMOVED):
+        module, _, leaf = name.rpartition(".")
+        gone = False
+        try:
+            target = importlib.import_module(name)
+        except ModuleNotFoundError:
+            gone = True
+            target = None
+        if target is None and not gone:
+            gone = True
+        if not gone:
+            try:
+                importlib.import_module(module)
+            except ModuleNotFoundError:
+                gone = True
+            else:
+                gone = not hasattr(importlib.import_module(module), leaf)
+        check(gone, f"REMOVED lists '{name}', which the installed Qiskit still has")
+
+    provider = importlib.import_module(FAKE_PROVIDER)
+    for kept in sorted(FAKE_PROVIDER_KEPT):
+        check(hasattr(provider, kept), f"{FAKE_PROVIDER} no longer exports '{kept}'")
+    for name in sorted(FAKE_PROVIDER_UNTIL_TWO):
+        check(
+            not hasattr(provider, name),
+            f"{FAKE_PROVIDER} still exports '{name}', which QXL205 calls removed",
+        )
+    exported = {n for n in dir(provider) if not n.startswith("_") and n[0].isupper()}
+    check(
+        exported <= set(FAKE_PROVIDER_KEPT),
+        f"{FAKE_PROVIDER} exports {sorted(exported - set(FAKE_PROVIDER_KEPT))}, "
+        "which QXL205 would report as removed",
+    )
+
+    for method in sorted(REMOVED_METHODS):
+        check(
+            not hasattr(QuantumCircuit, method),
+            f"REMOVED_METHODS lists '{method}', which QuantumCircuit still has",
+        )
+
+
 def main() -> int:
     import qiskit
 
@@ -458,6 +513,7 @@ def main() -> int:
         verify_circuit_methods,
         verify_inplace_positions,
         verify_measurement_finality,
+        verify_removed_symbols,
         verify_no_gate_method_measures,
         verify_library_circuits_have_no_measurement,
         verify_register_names,

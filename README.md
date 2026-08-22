@@ -444,11 +444,11 @@ linter was run on any of them.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings read and labelled individually | 379 |
-| QXL205 findings, counted in aggregate, 24 sampled and read | 5,845 |
-| of which workflow defects rather than unparsable files | **209** |
+| Findings read and labelled individually | 407 |
+| QXL205 findings, counted in aggregate, 52 sampled and read | 5,963 |
+| of which workflow defects rather than unparsable files | **237** |
 | False positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **6,165**, of which 320 outside QXL205 |
+| Findings the current tree reports | **6,283**, of which 320 outside QXL205 |
 | Defects the corpus found in qxlint, and fixed | **10** |
 
 The 35 are three defects. The first two are in the same place. The first, 30 rows: the notebook
@@ -482,7 +482,7 @@ always returns, so the comment on the first line describes something that does
 not happen.
 
 Every finding was read in context and labelled, with the line it was reported
-on, in [findings.csv](corpus/findings.csv). **Every one of those 379 labels was
+on, in [findings.csv](corpus/findings.csv). **Every one of those 407 labels was
 written by an AI reviewer, `claude-opus-5`, and none has been confirmed by a
 human yet**, which is recorded in the `reviewer` column of every row. Read the
 corpus as evidence of robustness and determinism, which it measures directly,

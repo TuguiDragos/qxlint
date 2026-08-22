@@ -5,7 +5,8 @@ from __future__ import annotations
 from qxlint.diagnostics import Finding, Severity, Tier
 from qxlint.profile import Applicability
 from qxlint.registry import register
-from qxlint.rules.base import ImportEvent, Rule, RuleContext, RuleMeta
+from qxlint.rules.base import ImportEvent, MethodCallEvent, Rule, RuleContext, RuleMeta
+from qxlint.semantics.objects import ObjectKind
 
 # Every entry read from the published wheels, not from a changelog, and the
 # absence confirmed on the installed Qiskit 2.5.2. The value is the release that
@@ -23,10 +24,37 @@ REMOVED = {
     "qiskit.primitives.Estimator": ("2.0", "use StatevectorEstimator or BackendEstimatorV2"),
     "qiskit.primitives.BackendSampler": ("2.0", "use BackendSamplerV2"),
     "qiskit.primitives.BackendEstimator": ("2.0", "use BackendEstimatorV2"),
+    "qiskit.extensions": ("1.0", "use the gate classes in qiskit.circuit.library"),
+}
+
+# `qiskit.providers.fake_provider` still exists and still exports exactly these,
+# checked against the installed Qiskit. Anything else imported from it is gone.
+FAKE_PROVIDER = "qiskit.providers.fake_provider"
+FAKE_PROVIDER_KEPT = frozenset({"GenericBackendV2", "generic_backend_v2"})
+
+# What 1.0 still exported, read from that wheel, so a name it had is reported as
+# a 2.0 removal and a name it had already lost is reported as a 1.0 one.
+FAKE_PROVIDER_UNTIL_TWO = frozenset(
+    {
+        "Fake1Q",
+        "Fake5QV1",
+        "FakeBackend",
+        "FakeOpenPulse2Q",
+        "FakeOpenPulse3Q",
+        "FakePulseBackend",
+        "FakeQasmBackend",
+    }
+)
+
+# QuantumCircuit methods Qiskit removed. Verified on 2.5.2: both raise
+# AttributeError, and neither is declared in the 1.0.0 wheel either.
+REMOVED_METHODS = {
+    "bind_parameters": ("1.0", "use assign_parameters"),
+    "qasm": ("1.0", "use qiskit.qasm2.dumps or qiskit.qasm3.dumps"),
 }
 
 # A removed module takes everything under it with it.
-MODULES = ("qiskit.opflow", "qiskit.algorithms", "qiskit.providers.aer")
+MODULES = ("qiskit.opflow", "qiskit.algorithms", "qiskit.providers.aer", "qiskit.extensions")
 
 
 def _entry(qualified: str) -> tuple[str, str, str] | None:
@@ -34,6 +62,14 @@ def _entry(qualified: str) -> tuple[str, str, str] | None:
     exact = REMOVED.get(qualified)
     if exact is not None:
         return qualified, exact[0], exact[1]
+    if qualified.startswith(f"{FAKE_PROVIDER}."):
+        leaf = qualified[len(FAKE_PROVIDER) + 1 :]
+        # `import *` names nothing in particular. Verified on Qiskit 2.5.2 that
+        # it succeeds, binding whatever the module still has.
+        if leaf and leaf != "*" and leaf not in FAKE_PROVIDER_KEPT:
+            removed_in = "2.0" if leaf in FAKE_PROVIDER_UNTIL_TWO else "1.0"
+            return qualified, removed_in, "use GenericBackendV2, or the fakes in qiskit_ibm_runtime"
+        return None
     for module in MODULES:
         if qualified.startswith(f"{module}."):
             removed_in, replacement = REMOVED[module]
@@ -72,6 +108,25 @@ class RemovedQiskitSymbol(Rule):
         references=("https://quantum.cloud.ibm.com/docs/migration-guides/qiskit-1.0-features",),
     )
 
+    def on_method_call(self, event: MethodCallEvent, ctx: RuleContext) -> None:
+        entry = REMOVED_METHODS.get(event.method)
+        if entry is None:
+            return
+        facts = event.receiver_facts
+        if facts is None or facts.kind is not ObjectKind.CIRCUIT:
+            return
+        removed_in, replacement = entry
+        if ctx.profile.qiskit_at_least(removed_in) is Applicability.NEVER:
+            return
+        self._report(
+            ctx,
+            node=event.node,
+            name=f"QuantumCircuit.{event.method}",
+            removed_in=removed_in,
+            replacement=replacement,
+            detail="calling it raises AttributeError",
+        )
+
     def on_import(self, event: ImportEvent, ctx: RuleContext) -> None:
         found = _entry(event.qualified_name)
         if found is None:
@@ -81,14 +136,30 @@ class RemovedQiskitSymbol(Rule):
         # undeclared target reads as current, matching QXL202 and QXL203.
         if ctx.profile.qiskit_at_least(removed_in) is Applicability.NEVER:
             return
+        self._report(
+            ctx,
+            node=event.node,
+            name=name,
+            removed_in=removed_in,
+            replacement=replacement,
+            detail="this import raises before anything else runs",
+        )
+
+    def _report(
+        self,
+        ctx: RuleContext,
+        *,
+        node: object,
+        name: str,
+        removed_in: str,
+        replacement: str,
+        detail: str,
+    ) -> None:
         ctx.emit(
             Finding(
                 rule=self.meta.code,
-                message=(
-                    f"{name} was removed in Qiskit {removed_in}; "
-                    "this import raises before anything else runs"
-                ),
-                location=ctx.source.location(event.node),
+                message=f"{name} was removed in Qiskit {removed_in}; {detail}",
+                location=ctx.source.location(node),  # type: ignore[arg-type]
                 severity=self.meta.severity,
                 tier=self.meta.tier,
                 fix_hint=replacement,

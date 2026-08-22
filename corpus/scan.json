@@ -8,7 +8,7 @@
  "exit_code_2": 0,
  "totals": {
   "QXL201": 79,
-  "QXL205": 5845,
+  "QXL205": 5963,
   "QXL000": 135,
   "QXL202": 21,
   "QXL203": 4,
@@ -18,7 +18,7 @@
   "QXL102": 12,
   "QXL101": 7
  },
- "findings": 6165,
+ "findings": 6283,
  "records": [
   {
    "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
@@ -6513,7 +6513,7 @@
    "notebooks": 5,
    "exit": 1,
    "counts": {
-    "QXL205": 15,
+    "QXL205": 16,
     "QXL000": 1
    },
    "findings": [
@@ -6889,6 +6889,31 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.execute",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "Challenge-3/challenge-3.ipynb",
+      "cellIndex": 11,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 2,
+      "column": 18,
+      "endLine": 2,
+      "endColumn": 61,
+      "physicalLine": 498
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -7524,7 +7549,7 @@
    "notebooks": 7,
    "exit": 1,
    "counts": {
-    "QXL205": 21
+    "QXL205": 28
    },
    "findings": [
     {
@@ -7604,6 +7629,31 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "final-program.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 30
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -7674,6 +7724,31 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "pot-dif/final-program-pd.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 22
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
       "targetQiskit": "unknown"
      }
     },
@@ -7754,6 +7829,31 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "rd/final-program-real-device.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 30
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -7824,6 +7924,31 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "wvf-even-10/final-program-even-10.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 22
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
       "targetQiskit": "unknown"
      }
     },
@@ -7904,6 +8029,31 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "wvf-even-25/final-program-even-25.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 22
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -7979,6 +8129,31 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "wvf-odd-10/final-program-odd-10.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 22
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -8049,6 +8224,31 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "wvf-odd-25/final-program-odd-25.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 42,
+      "physicalLine": 22
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
       "targetQiskit": "unknown"
      }
     }
@@ -10233,7 +10433,7 @@
    "notebooks": 0,
    "exit": 1,
    "counts": {
-    "QXL205": 10,
+    "QXL205": 28,
     "QXL201": 4
    },
    "findings": [
@@ -10427,6 +10627,195 @@
      }
     },
     {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.qasm was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "circ_gen.py",
+      "line": 43,
+      "column": 16,
+      "endLine": 43,
+      "endColumn": 42
+     },
+     "fixHint": "use qiskit.qasm2.dumps or qiskit.qasm3.dumps",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.qasm",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeManila was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "config.py",
+      "line": 3,
+      "column": 1,
+      "endLine": 3,
+      "endColumn": 122
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeManila",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeNairobi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "config.py",
+      "line": 3,
+      "column": 1,
+      "endLine": 3,
+      "endColumn": 122
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeNairobi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeHanoi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "config.py",
+      "line": 3,
+      "column": 1,
+      "endLine": 3,
+      "endColumn": 122
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeHanoi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeKolkata was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "config.py",
+      "line": 3,
+      "column": 1,
+      "endLine": 3,
+      "endColumn": 122
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeKolkata",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeSherbrooke was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "config.py",
+      "line": 3,
+      "column": 1,
+      "endLine": 3,
+      "endColumn": 122
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeSherbrooke",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeGuadalupe was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "config.py",
+      "line": 3,
+      "column": 1,
+      "endLine": 3,
+      "endColumn": 122
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeGuadalupe",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeManila was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "example2.py",
+      "line": 14,
+      "column": 1,
+      "endLine": 14,
+      "endColumn": 67
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeManila",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeNairobi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "example2.py",
+      "line": 14,
+      "column": 1,
+      "endLine": 14,
+      "endColumn": 67
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeNairobi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
@@ -10444,6 +10833,69 @@
      "context": {
       "targetRuntime": "0.48",
       "applicability": "always"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeManila was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeManila",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeNairobi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeNairobi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeHanoi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeHanoi",
+      "targetQiskit": "unknown"
      }
     },
     {
@@ -10467,6 +10919,69 @@
      }
     },
     {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeManila was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_2.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeManila",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeNairobi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_2.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeNairobi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeHanoi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_2.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeHanoi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
      "rule": "QXL201",
      "message": "channel=\"ibm_quantum\" was removed in qiskit-ibm-runtime 0.41; omit the channel argument",
      "severity": "error",
@@ -10484,6 +10999,69 @@
      "context": {
       "targetRuntime": "0.48",
       "applicability": "always"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeManila was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_3.py",
+      "line": 19,
+      "column": 1,
+      "endLine": 19,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeManila",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeNairobi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_3.py",
+      "line": 19,
+      "column": 1,
+      "endLine": 19,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeNairobi",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeHanoi was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "run_bench_3.py",
+      "line": 19,
+      "column": 1,
+      "endLine": 19,
+      "endColumn": 78
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeHanoi",
+      "targetQiskit": "unknown"
      }
     },
     {
@@ -14041,7 +14619,7 @@
    "notebooks": 2,
    "exit": 1,
    "counts": {
-    "QXL205": 1
+    "QXL205": 2
    },
    "findings": [
     {
@@ -14066,6 +14644,31 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeMontreal was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "VQE_study.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 4,
+      "column": 1,
+      "endLine": 4,
+      "endColumn": 56,
+      "physicalLine": 83
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeMontreal",
       "targetQiskit": "unknown"
      }
     }
@@ -14200,7 +14803,7 @@
    "notebooks": 5,
    "exit": 1,
    "counts": {
-    "QXL205": 6
+    "QXL205": 7
    },
    "findings": [
     {
@@ -14296,6 +14899,31 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "code/ghz.ipynb",
+      "cellIndex": 1,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 10,
+      "column": 1,
+      "endLine": 10,
+      "endColumn": 53,
+      "physicalLine": 18
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
       "targetQiskit": "unknown"
      }
     },
@@ -15022,7 +15650,7 @@
    "exit": 1,
    "counts": {
     "QXL201": 8,
-    "QXL205": 1
+    "QXL205": 2
    },
    "findings": [
     {
@@ -15047,6 +15675,31 @@
      "context": {
       "targetRuntime": "0.48",
       "applicability": "always"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "aer-package.ipynb",
+      "cellIndex": 37,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 1,
+      "column": 1,
+      "endLine": 1,
+      "endColumn": 59,
+      "physicalLine": 898
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
      }
     },
     {
@@ -15893,9 +16546,30 @@
    "notebooks": 0,
    "exit": 1,
    "counts": {
-    "QXL205": 51
+    "QXL205": 52
    },
    "findings": [
+    {
+     "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "src/TensornetSimulator/mpo_utils.py",
+      "line": 10,
+      "column": 1,
+      "endLine": 10,
+      "endColumn": 42
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
+      "targetQiskit": "unknown"
+     }
+    },
     {
      "rule": "QXL205",
      "message": "qiskit.providers.aer was removed in Qiskit 1.0; this import raises before anything else runs",
@@ -17144,7 +17818,7 @@
    "notebooks": 1,
    "exit": 1,
    "counts": {
-    "QXL205": 7,
+    "QXL205": 62,
     "QXL104": 3,
     "QXL103": 3,
     "QXL204": 1
@@ -17168,6 +17842,174 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.opflow",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.fake_pulse_backend was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/providers/fake_provider/backends_v1/fake_127q_pulse/fake_127q_pulse_v1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 62
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.fake_pulse_backend",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.fake_qasm_backend was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/providers/fake_provider/backends_v1/fake_20q/fake_20q.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 61
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.fake_qasm_backend",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.fake_pulse_backend was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/providers/fake_provider/backends_v1/fake_27q_pulse/fake_27q_pulse_v1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 62
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.fake_pulse_backend",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.fake_qasm_backend was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/providers/fake_provider/backends_v1/fake_5q/fake_5q_v1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 61
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.fake_qasm_backend",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.fake_pulse_backend was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/providers/fake_provider/backends_v1/fake_7q_pulse/fake_7q_pulse_v1.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 62
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.fake_pulse_backend",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/benchmarks/mapping_passes.py",
+      "line": 20,
+      "column": 1,
+      "endLine": 20,
+      "endColumn": 53
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/benchmarks/transpiler_levels.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 53
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/benchmarks/transpiler_qualitative.py",
+      "line": 20,
+      "column": 1,
+      "endLine": 20,
+      "endColumn": 58
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
       "targetQiskit": "unknown"
      }
     },
@@ -17211,6 +18053,90 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_parameters.py",
+      "line": 34,
+      "column": 1,
+      "endLine": 34,
+      "endColumn": 70
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/circuit/test_scheduled_circuit.py",
+      "line": 22,
+      "column": 1,
+      "endLine": 22,
+      "endColumn": 76
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/compiler/test_transpiler.py",
+      "line": 78,
+      "column": 1,
+      "endLine": 78,
+      "endColumn": 87
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/compiler/test_transpiler.py",
+      "line": 78,
+      "column": 1,
+      "endLine": 78,
+      "endColumn": 87
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.primitives.BackendEstimator was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -17232,6 +18158,48 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_estimator.py",
+      "line": 24,
+      "column": 1,
+      "endLine": 24,
+      "endColumn": 75
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_estimator_v2.py",
+      "line": 32,
+      "column": 1,
+      "endLine": 32,
+      "endColumn": 75
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.primitives.BackendSampler was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -17248,6 +18216,48 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.BackendSampler",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_sampler.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 27,
+      "endColumn": 75
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/primitives/test_backend_sampler_v2.py",
+      "line": 35,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 75
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
       "targetQiskit": "unknown"
      }
     },
@@ -17372,6 +18382,405 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/faulty_backends.py",
+      "line": 16,
+      "column": 1,
+      "endLine": 16,
+      "endColumn": 57
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_backendconfiguration.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 92
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse3Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_backendconfiguration.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 92
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse3Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_backendconfiguration.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 92
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_backendproperties.py",
+      "line": 17,
+      "column": 1,
+      "endLine": 17,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_backendstatus.py",
+      "line": 16,
+      "column": 1,
+      "endLine": 16,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_fake_backends.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_fake_backends.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_fake_backends.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_fake_backends.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake127QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_fake_backends.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake127QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/providers/test_fake_backends.py",
+      "line": 27,
+      "column": 1,
+      "endLine": 35,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_block.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 59
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_builder.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 76
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake127QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_builder.py",
+      "line": 21,
+      "column": 1,
+      "endLine": 21,
+      "endColumn": 76
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake127QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_instruction_schedule_map.py",
+      "line": 36,
+      "column": 1,
+      "endLine": 36,
+      "endColumn": 74
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_instruction_schedule_map.py",
+      "line": 36,
+      "column": 1,
+      "endLine": 36,
+      "endColumn": 74
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_schedule.py",
+      "line": 48,
+      "column": 1,
+      "endLine": 48,
+      "endColumn": 59
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeOpenPulse2Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/pulse/test_transforms.py",
+      "line": 40,
+      "column": 1,
+      "endLine": 40,
+      "endColumn": 59
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.FakeOpenPulse2Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.primitives.BackendEstimator was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -17413,6 +18822,153 @@
      }
     },
     {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/result/test_mitigators.py",
+      "line": 36,
+      "column": 1,
+      "endLine": 36,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake1Q was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_1q.py",
+      "line": 19,
+      "column": 1,
+      "endLine": 19,
+      "endColumn": 68
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake1Q",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_instruction_durations.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 58
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_passmanager_config.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 87
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_passmanager_config.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 18,
+      "endColumn": 87
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_preset_passmanagers.py",
+      "line": 40,
+      "column": 1,
+      "endLine": 40,
+      "endColumn": 81
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_preset_passmanagers.py",
+      "line": 40,
+      "column": 1,
+      "endLine": 40,
+      "endColumn": 81
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
      "rule": "QXL104",
      "message": "this statement does nothing: compose() defaults to inplace=False and the result is discarded",
      "severity": "error",
@@ -17429,6 +18985,279 @@
      "fixHint": "assign the result, or pass inplace=True",
      "context": {
       "method": "compose"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_target.py",
+      "line": 45,
+      "column": 1,
+      "endLine": 49,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_target.py",
+      "line": 45,
+      "column": 1,
+      "endLine": 49,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_vf2_layout.py",
+      "line": 30,
+      "column": 1,
+      "endLine": 30,
+      "endColumn": 87
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake127QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_vf2_layout.py",
+      "line": 30,
+      "column": 1,
+      "endLine": 30,
+      "endColumn": 87
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake127QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/transpiler/test_vf2_post_layout.py",
+      "line": 23,
+      "column": 1,
+      "endLine": 23,
+      "endColumn": 70
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/visualization/test_gate_map.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 23,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/visualization/test_gate_map.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 23,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/python/visualization/test_gate_map.py",
+      "line": 18,
+      "column": 1,
+      "endLine": 23,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake5QV1 was removed in Qiskit 2.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/randomized/test_transpiler_equivalence.py",
+      "line": 65,
+      "column": 1,
+      "endLine": 71,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "2.0",
+      "symbol": "qiskit.providers.fake_provider.Fake5QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake20QV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/randomized/test_transpiler_equivalence.py",
+      "line": 65,
+      "column": 1,
+      "endLine": 71,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake20QV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake7QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/randomized/test_transpiler_equivalence.py",
+      "line": 65,
+      "column": 1,
+      "endLine": 71,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake7QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake27QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/randomized/test_transpiler_equivalence.py",
+      "line": 65,
+      "column": 1,
+      "endLine": 71,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake27QPulseV1",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.Fake127QPulseV1 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "test/randomized/test_transpiler_equivalence.py",
+      "line": 65,
+      "column": 1,
+      "endLine": 71,
+      "endColumn": 2
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.Fake127QPulseV1",
+      "targetQiskit": "unknown"
      }
     }
    ]
@@ -52576,7 +54405,7 @@
    "notebooks": 23,
    "exit": 1,
    "counts": {
-    "QXL205": 20
+    "QXL205": 24
    },
    "findings": [
     {
@@ -52927,6 +54756,48 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeJakarta was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "old_examples/quest/utils/circ_dag_converter.py",
+      "line": 34,
+      "column": 1,
+      "endLine": 34,
+      "endColumn": 65
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeJakarta",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeLima was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "old_examples/quest/utils/circ_dag_converter.py",
+      "line": 34,
+      "column": 1,
+      "endLine": 34,
+      "endColumn": 65
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeLima",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -53048,6 +54919,48 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeJakarta was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "old_examples/quest/utils/run_simulator.py",
+      "line": 34,
+      "column": 1,
+      "endLine": 34,
+      "endColumn": 65
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeJakarta",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeLima was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "old_examples/quest/utils/run_simulator.py",
+      "line": 34,
+      "column": 1,
+      "endLine": 34,
+      "endColumn": 65
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeLima",
       "targetQiskit": "unknown"
      }
     }
@@ -53849,7 +55762,7 @@
    "notebooks": 2,
    "exit": 1,
    "counts": {
-    "QXL205": 3867,
+    "QXL205": 3896,
     "QXL204": 2,
     "QXL102": 2,
     "QXL104": 35,
@@ -53937,6 +55850,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/1140.py",
+      "line": 35,
+      "column": 20,
+      "endLine": 35,
+      "endColumn": 44
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -54462,6 +56396,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.execute",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/2444.py",
+      "line": 167,
+      "column": 20,
+      "endLine": 167,
+      "endColumn": 50
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -55965,6 +57920,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/4067.py",
+      "line": 121,
+      "column": 10,
+      "endLine": 121,
+      "endColumn": 40
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.assemble was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -57199,6 +59175,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeProvider was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/ML/5725.py",
+      "line": 99,
+      "column": 13,
+      "endLine": 99,
+      "endColumn": 68
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeProvider",
       "targetQiskit": "unknown"
      }
     },
@@ -59472,6 +61469,48 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/1168.py",
+      "line": 22,
+      "column": 1,
+      "endLine": 22,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/1168.py",
+      "line": 41,
+      "column": 13,
+      "endLine": 41,
+      "endColumn": 64
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -60076,6 +62115,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Sampler",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.qasm was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/1207.py",
+      "line": 133,
+      "column": 9,
+      "endLine": 133,
+      "endColumn": 36
+     },
+     "fixHint": "use qiskit.qasm2.dumps or qiskit.qasm3.dumps",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.qasm",
       "targetQiskit": "unknown"
      }
     },
@@ -62832,6 +64892,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/1509.py",
+      "line": 11,
+      "column": 1,
+      "endLine": 11,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.primitives.Estimator was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -63058,6 +65139,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/152.py",
+      "line": 10,
+      "column": 1,
+      "endLine": 10,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
       "targetQiskit": "unknown"
      }
     },
@@ -63457,6 +65559,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/1566.py",
+      "line": 83,
+      "column": 19,
+      "endLine": 83,
+      "endColumn": 58
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -68117,6 +70240,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.providers.aer",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.extensions was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2027.py",
+      "line": 19,
+      "column": 1,
+      "endLine": 19,
+      "endColumn": 49
+     },
+     "fixHint": "use the gate classes in qiskit.circuit.library",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.extensions",
       "targetQiskit": "unknown"
      }
     },
@@ -75973,6 +78117,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2673.py",
+      "line": 91,
+      "column": 24,
+      "endLine": 91,
+      "endColumn": 64
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -79511,6 +81676,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.assemble",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeAerSimulator was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2909.py",
+      "line": 8,
+      "column": 1,
+      "endLine": 8,
+      "endColumn": 60
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeAerSimulator",
       "targetQiskit": "unknown"
      }
     },
@@ -85144,6 +87330,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3408.py",
+      "line": 24,
+      "column": 1,
+      "endLine": 24,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.Aer was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -86696,6 +88903,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeLocalBristol was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/353.py",
+      "line": 12,
+      "column": 1,
+      "endLine": 12,
+      "endColumn": 60
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeLocalBristol",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.opflow was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -86712,6 +88940,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.opflow",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/353.py",
+      "line": 64,
+      "column": 19,
+      "endLine": 64,
+      "endColumn": 80
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -87210,6 +89459,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.assemble",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/3564.py",
+      "line": 17,
+      "column": 1,
+      "endLine": 17,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
       "targetQiskit": "unknown"
      }
     },
@@ -93200,6 +95470,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeBackendV2 was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4070.py",
+      "line": 15,
+      "column": 1,
+      "endLine": 15,
+      "endColumn": 57
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeBackendV2",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.utils.QuantumInstance was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -95589,6 +97880,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.assemble",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeProvider was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4218.py",
+      "line": 11,
+      "column": 1,
+      "endLine": 11,
+      "endColumn": 56
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeProvider",
       "targetQiskit": "unknown"
      }
     },
@@ -102329,6 +104641,48 @@
     },
     {
      "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4629.py",
+      "line": 28,
+      "column": 20,
+      "endLine": 28,
+      "endColumn": 59
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4629.py",
+      "line": 93,
+      "column": 14,
+      "endLine": 93,
+      "endColumn": 75
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.execute was removed in Qiskit 1.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -103206,6 +105560,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.execute",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeProvider was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4682.py",
+      "line": 9,
+      "column": 1,
+      "endLine": 9,
+      "endColumn": 56
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeProvider",
       "targetQiskit": "unknown"
      }
     },
@@ -106810,6 +109185,27 @@
      "context": {
       "removedIn": "1.0",
       "symbol": "qiskit.utils.QuantumInstance",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeStatevectorSimulator was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/4922.py",
+      "line": 22,
+      "column": 1,
+      "endLine": 22,
+      "endColumn": 68
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeStatevectorSimulator",
       "targetQiskit": "unknown"
      }
     },
@@ -115843,6 +118239,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5450.py",
+      "line": 133,
+      "column": 14,
+      "endLine": 133,
+      "endColumn": 43
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.assemble was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -117885,6 +120302,27 @@
     },
     {
      "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/556.py",
+      "line": 20,
+      "column": 1,
+      "endLine": 20,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
      "message": "qiskit.assemble was removed in Qiskit 2.0; this import raises before anything else runs",
      "severity": "error",
      "tier": "default",
@@ -119371,6 +121809,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.assemble",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5646.py",
+      "line": 13,
+      "column": 1,
+      "endLine": 13,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
       "targetQiskit": "unknown"
      }
     },
@@ -122479,6 +124938,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/5894.py",
+      "line": 115,
+      "column": 17,
+      "endLine": 115,
+      "endColumn": 52
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -126551,6 +129031,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "QuantumCircuit.bind_parameters was removed in Qiskit 1.0; calling it raises AttributeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/6219.py",
+      "line": 35,
+      "column": 9,
+      "endLine": 35,
+      "endColumn": 95
+     },
+     "fixHint": "use assign_parameters",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "QuantumCircuit.bind_parameters",
       "targetQiskit": "unknown"
      }
     },
@@ -134279,6 +136780,27 @@
      "context": {
       "removedIn": "2.0",
       "symbol": "qiskit.primitives.Estimator",
+      "targetQiskit": "unknown"
+     }
+    },
+    {
+     "rule": "QXL205",
+     "message": "qiskit.providers.fake_provider.FakeVigo was removed in Qiskit 1.0; this import raises before anything else runs",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/807.py",
+      "line": 8,
+      "column": 1,
+      "endLine": 8,
+      "endColumn": 52
+     },
+     "fixHint": "use GenericBackendV2, or the fakes in qiskit_ibm_runtime",
+     "context": {
+      "removedIn": "1.0",
+      "symbol": "qiskit.providers.fake_provider.FakeVigo",
       "targetQiskit": "unknown"
      }
     },
