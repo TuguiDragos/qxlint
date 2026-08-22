@@ -7,6 +7,7 @@ import json
 import os
 import subprocess
 import sys
+from contextlib import redirect_stdout
 from pathlib import Path
 
 import pytest
@@ -734,3 +735,74 @@ def test_a_clean_run_over_several_files_counts_them(
     write(tmp_path, "b.py", GOOD)
     assert main([str(tmp_path), "--statistics"]) == EXIT_OK
     assert "No findings in 2 files." in capsys.readouterr().out
+
+
+# Output order is part of the contract ------------------------------------
+#
+# "Deterministic" is a headline claim and the output feeds SARIF result arrays,
+# so the order has to be pinned rather than inherited from directory walk order.
+
+
+BAD_TWO = (
+    "from qiskit import QuantumCircuit\n"
+    "from qiskit.primitives import StatevectorSampler\n"
+    "qc = QuantumCircuit(2)\n"
+    "StatevectorSampler().run([qc])\n"
+    "StatevectorSampler().run([qc])\n"
+)
+
+
+def test_findings_are_ordered_by_path_then_line(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "zeta.py", BAD_TWO)
+    write(tmp_path, "alpha.py", BAD_TWO)
+    (tmp_path / "sub").mkdir()
+    write(tmp_path / "sub", "mid.py", BAD_TWO)
+    main([str(tmp_path)])
+    lines = [line for line in capsys.readouterr().out.splitlines() if line.strip()]
+    assert lines == sorted(lines), lines
+    positions = [line.split(":")[0] for line in lines]
+    assert positions == sorted(positions)
+    # Two findings per file, and the second is on the later line.
+    for first, second in zip(lines[::2], lines[1::2], strict=True):
+        assert int(first.split(":")[1]) < int(second.split(":")[1])
+
+
+def test_the_same_tree_reports_the_same_order_twice(tmp_path: Path) -> None:
+    write(tmp_path, "b.py", BAD_TWO)
+    write(tmp_path, "a.py", BAD_TWO)
+    runs = []
+    for _ in range(2):
+        buffer = io.StringIO()
+        with redirect_stdout(buffer):
+            main([str(tmp_path)])
+        runs.append(buffer.getvalue())
+    assert runs[0] == runs[1]
+
+
+def test_json_findings_carry_the_same_order(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "zeta.py", BAD_TWO)
+    write(tmp_path, "alpha.py", BAD_TWO)
+    main([str(tmp_path), "--format", "json"])
+    payload = json.loads(capsys.readouterr().out)
+    keys = [
+        (f["location"]["path"], f["location"]["line"], f["location"]["column"], f["rule"])
+        for f in payload["findings"]
+    ]
+    assert keys == sorted(keys), keys
+
+
+def test_explicit_paths_are_reported_in_sorted_order(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # Directory discovery is already sorted, so this is the case that proves the
+    # command line layer sorts too: two paths named in reverse.
+    zeta = write(tmp_path, "zeta.py", BAD_TWO)
+    alpha = write(tmp_path, "alpha.py", BAD_TWO)
+    main([str(zeta), str(alpha)])
+    lines = [line for line in capsys.readouterr().out.splitlines() if line.strip()]
+    assert lines == sorted(lines), lines
+    assert "alpha.py" in lines[0]
