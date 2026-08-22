@@ -18,6 +18,7 @@ import {
   toUtf16Range,
   toZeroBasedRange,
   utf16Offset,
+  looksLikeStatistics,
   type QxlintFinding,
 } from "./core.js";
 
@@ -139,11 +140,32 @@ test("json that is not a qxlint payload is rejected", () => {
   assert.equal(parsePayload('{"findings": []}'), undefined);
 });
 
-test("a payload without findings is a payload with no findings", () => {
-  assert.deepEqual(parsePayload('{"schemaVersion":"1"}'), {
-    findings: [],
-    toolVersion: undefined,
-  });
+test("a payload without findings is not a lint payload", () => {
+  // Treating it as zero findings is what made --statistics in qxlint.args read
+  // every file clean. The summary payload carries schemaVersion and a rule
+  // histogram and no findings key at all.
+  assert.equal(parsePayload('{"schemaVersion":"1"}'), undefined);
+  assert.equal(
+    parsePayload('{"schemaVersion":"1","totalFindings":3,"rules":[],"filesScanned":2}'),
+    undefined,
+  );
+});
+
+test("a summary payload is reported rather than read as clean", () => {
+  const summary =
+    '{"schemaVersion":"1","totalFindings":3,"rules":[{"rule":"QXL103"}],"filesScanned":2}';
+  assert.equal(looksLikeStatistics(summary), true);
+  const outcome = interpretRun(0, summary, "");
+  assert.equal(outcome.kind, "failed");
+  if (outcome.kind === "failed") {
+    assert.match(outcome.message, /--statistics/);
+    assert.equal(outcome.engineMissing, false);
+  }
+});
+
+test("an ordinary payload is not mistaken for a summary", () => {
+  assert.equal(looksLikeStatistics('{"schemaVersion":"1","findings":[]}'), false);
+  assert.equal(looksLikeStatistics("not json"), false);
 });
 
 test("findings and the engine version are read out of the payload", () => {

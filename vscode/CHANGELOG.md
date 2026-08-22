@@ -7,6 +7,17 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
+## Unreleased
+
+### Fixed
+
+- **`--statistics` in `qxlint.args` no longer makes every file read clean.** That
+  flag emits a summary payload that carries `schemaVersion` and a rule histogram
+  and no `findings` key at all. The parser treated a missing `findings` key as
+  zero findings, so the file came back clean and nothing said otherwise. A
+  payload without `findings` is no longer a lint payload, and a summary payload
+  is reported with the reason and the flag to remove.
+
 ## 0.3.0
 
 ### Fixed

@@ -123,8 +123,15 @@ export function parsePayload(stdout: string): QxlintPayload | undefined {
   if (typeof payload.schemaVersion !== "string") {
     return undefined;
   }
+  // A payload without `findings` is not a lint payload. `--statistics` emits one
+  // that carries schemaVersion and a rule histogram instead, and treating it as
+  // zero findings made every file read clean for anyone who put that flag in
+  // qxlint.args.
+  if (!Array.isArray(payload.findings)) {
+    return undefined;
+  }
   return {
-    findings: Array.isArray(payload.findings) ? (payload.findings as QxlintFinding[]) : [],
+    findings: payload.findings as QxlintFinding[],
     toolVersion: typeof payload.toolVersion === "string" ? payload.toolVersion : undefined,
   };
 }
@@ -135,6 +142,22 @@ export type RunOutcome =
 
 /** Python's own words when the interpreter has no qxlint in it. */
 const ENGINE_MISSING = /No module named qxlint/;
+
+/** A summary payload, which carries no findings and must not read as clean. */
+export function looksLikeStatistics(stdout: string): boolean {
+  try {
+    const parsed = JSON.parse(stdout.trim()) as Record<string, unknown>;
+    return (
+      typeof parsed === "object" &&
+      parsed !== null &&
+      typeof parsed.schemaVersion === "string" &&
+      !Array.isArray(parsed.findings) &&
+      Array.isArray(parsed.rules)
+    );
+  } catch {
+    return false;
+  }
+}
 
 /** True when the engine rejected the flag, so an older qxlint is installed. */
 export function lacksStdinSupport(stderr: string): boolean {
@@ -152,6 +175,15 @@ export function interpretRun(code: number | null, stdout: string, stderr: string
   const payload = parsePayload(stdout);
   if (payload) {
     return { kind: "ok", findings: payload.findings, toolVersion: payload.toolVersion };
+  }
+  if (looksLikeStatistics(stdout)) {
+    return {
+      kind: "failed",
+      message:
+        "qxlint returned a summary rather than findings. Remove --statistics " +
+        "from qxlint.args: it reports counts, and the extension needs the findings.",
+      engineMissing: false,
+    };
   }
   if (ENGINE_MISSING.test(stderr)) {
     return {
