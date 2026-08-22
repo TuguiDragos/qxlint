@@ -358,3 +358,94 @@ def test_a_different_cli_target_is_not_served_from_the_cache(
 def test_the_cache_agrees_with_resolve_profile_outside_a_project(tmp_path: Path) -> None:
     config = Config(target_runtime="0.48")
     assert ConfigCache().profile_for(config) == resolve_profile(config)
+
+
+# Version discovery from a requirements file -----------------------------
+
+
+def test_a_requirements_file_supplies_a_target(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text("qiskit-ibm-runtime>=0.45\n")
+    profile = discover_profile(tmp_path)
+    assert str(profile.qiskit_ibm_runtime.specifier) == ">=0.45"
+
+
+def test_a_requirements_file_anchors_a_root_when_there_is_no_pyproject(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text("qiskit==2.0\n")
+    (tmp_path / "sub").mkdir()
+    assert find_project_root(tmp_path / "sub" / "app.py") == tmp_path
+
+
+def test_a_pyproject_still_wins_over_a_requirements_file(tmp_path: Path) -> None:
+    (tmp_path / "pyproject.toml").write_text(
+        '[project]\nname="x"\nversion="0"\ndependencies=["qiskit-ibm-runtime==0.30"]\n'
+    )
+    (tmp_path / "requirements.txt").write_text("qiskit-ibm-runtime==0.49\n")
+    (tmp_path / "sub").mkdir()
+    assert find_project_root(tmp_path / "sub" / "app.py") == tmp_path
+    assert str(discover_profile(tmp_path).qiskit_ibm_runtime.specifier) == "==0.30"
+
+
+def test_a_requirements_include_is_followed(tmp_path: Path) -> None:
+    (tmp_path / "reqs").mkdir()
+    (tmp_path / "requirements.txt").write_text("-r reqs/base.txt\n")
+    (tmp_path / "reqs" / "base.txt").write_text("qiskit-ibm-runtime==0.45.0  # pinned\n")
+    assert str(discover_profile(tmp_path).qiskit_ibm_runtime.specifier) == "==0.45.0"
+
+
+def test_a_requirements_include_cycle_terminates(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text("-r other.txt\nqiskit==2.0\n")
+    (tmp_path / "other.txt").write_text("-r requirements.txt\n")
+    assert str(discover_profile(tmp_path).qiskit.specifier) == "==2.0"
+
+
+def test_option_lines_and_comments_in_a_requirements_file_are_skipped(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text(
+        "# a comment\n--index-url https://example.invalid\n-e .\n\nqiskit>=2.1\n"
+    )
+    assert str(discover_profile(tmp_path).qiskit.specifier) == ">=2.1"
+
+
+def test_a_marker_in_a_requirements_file_makes_the_version_conditional(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text('qiskit>=2.0; python_version < "3.12"\n')
+    assert not discover_profile(tmp_path).qiskit.known
+
+
+def test_a_setup_file_anchors_a_root_without_supplying_a_version(tmp_path: Path) -> None:
+    (tmp_path / "setup.py").write_text("from setuptools import setup\nsetup()\n")
+    (tmp_path / "sub").mkdir()
+    assert find_project_root(tmp_path / "sub" / "app.py") == tmp_path
+    assert not discover_profile(tmp_path).qiskit.known
+
+
+def test_a_root_without_a_pyproject_still_loads_a_default_config(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text("qiskit-ibm-runtime>=0.45\n")
+    config = ConfigCache().for_path(tmp_path / "app.py")
+    assert config.root == tmp_path
+    assert config.source_path is None
+
+
+def test_an_unreadable_requirements_file_is_not_an_error(tmp_path: Path) -> None:
+    target = tmp_path / "requirements.txt"
+    target.write_text("qiskit==2.0\n")
+    target.chmod(0o000)
+    try:
+        assert not discover_profile(tmp_path).qiskit.known
+    finally:
+        target.chmod(0o644)
+
+
+@pytest.mark.parametrize("directive", ["-r", "-r=", "--requirement="])
+def test_an_empty_include_directive_is_skipped(tmp_path: Path, directive: str) -> None:
+    (tmp_path / "requirements.txt").write_text(f"{directive}\nqiskit==2.0\n")
+    assert str(discover_profile(tmp_path).qiskit.specifier) == "==2.0"
+
+
+def test_an_unparsable_requirement_line_is_skipped(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text("not a requirement!!\nqiskit==2.0\n")
+    assert str(discover_profile(tmp_path).qiskit.specifier) == "==2.0"
+
+
+def test_requirements_for_other_packages_are_ignored(tmp_path: Path) -> None:
+    (tmp_path / "requirements.txt").write_text("numpy>=1.26\nscipy\n")
+    assert not discover_profile(tmp_path).qiskit.known
+    assert not discover_profile(tmp_path).qiskit_ibm_runtime.known

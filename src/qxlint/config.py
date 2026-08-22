@@ -28,6 +28,7 @@ from dataclasses import dataclass, field, replace
 from pathlib import Path
 
 from qxlint.diagnostics import Tier
+from qxlint.paths import is_regular_file
 from qxlint.profile import (
     ProfileSource,
     SemanticProfile,
@@ -204,7 +205,10 @@ class ConfigCache:
         if root is None:
             return Config()
         if root not in self._by_root:
-            self._by_root[root] = load_config(root / "pyproject.toml")
+            manifest = root / "pyproject.toml"
+            self._by_root[root] = (
+                load_config(manifest) if is_regular_file(manifest) else Config(root=root)
+            )
         return self._by_root[root]
 
     def profile_for(self, config: Config) -> SemanticProfile:

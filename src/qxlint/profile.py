@@ -190,17 +190,30 @@ def knowledge_from_text(
             return VersionKnowledge(source=ProfileSource.NONE)
 
 
+# Files that mark a project root when no pyproject.toml is above the path.
+# Order matters only for reporting; any of them anchors a root.
+FALLBACK_MANIFESTS = ("requirements.txt", "setup.cfg", "setup.py")
+
+
 def find_project_root(start: Path) -> Path | None:
-    """Nearest ancestor directory holding a ``pyproject.toml``.
+    """Nearest ancestor directory holding a project manifest.
+
+    A pyproject.toml always wins, wherever it sits, because that is where the
+    configuration lives. Only when there is none does a requirements.txt or a
+    setup file anchor the root, so a project that never adopted pyproject still
+    gets a target version instead of silence.
 
     Resolution is per file, so each package in a monorepo gets its own profile.
-
-    A directory the user cannot traverse is a directory with no
-    pyproject.toml, on every supported version. See :mod:`qxlint.paths`.
+    A directory the user cannot traverse is a directory with no manifest, on
+    every supported version. See :mod:`qxlint.paths`.
     """
     current = start if is_directory(start) else start.parent
-    for candidate in [current, *current.parents]:
+    chain = [current, *current.parents]
+    for candidate in chain:
         if is_regular_file(candidate / "pyproject.toml"):
+            return candidate
+    for candidate in chain:
+        if any(is_regular_file(candidate / name) for name in FALLBACK_MANIFESTS):
             return candidate
     return None
 
@@ -208,20 +221,77 @@ def find_project_root(start: Path) -> Path | None:
 def discover_profile(root: Path) -> SemanticProfile:
     """Read target versions from a project root.
 
-    Only two sources are read in v0.1: declared dependencies in
-    ``pyproject.toml`` and an unambiguous pin in ``uv.lock``. Recursive
-    ``requirements.txt`` includes and multi environment locks are deliberately
-    out of scope, because resolving them correctly means writing a dependency
-    resolver before writing the linter.
+    Three sources, most authoritative first: declared dependencies in
+    ``pyproject.toml``, an unambiguous pin in ``uv.lock``, then
+    ``requirements.txt``. A multi environment lock is still out of scope,
+    because resolving one correctly means writing a dependency resolver.
     """
     declared = _from_pyproject(root / "pyproject.toml")
     locked = _from_uv_lock(root / "uv.lock")
-    return SemanticProfile(
-        qiskit=declared.get(QISKIT) or locked.get(QISKIT) or VersionKnowledge(),
-        qiskit_ibm_runtime=(
-            declared.get(QISKIT_IBM_RUNTIME) or locked.get(QISKIT_IBM_RUNTIME) or VersionKnowledge()
-        ),
-    )
+    listed = _from_requirements(root / "requirements.txt")
+
+    def pick(name: str) -> VersionKnowledge:
+        return declared.get(name) or locked.get(name) or listed.get(name) or VersionKnowledge()
+
+    return SemanticProfile(qiskit=pick(QISKIT), qiskit_ibm_runtime=pick(QISKIT_IBM_RUNTIME))
+
+
+# A requirements file that includes others can chain; stop well before a cycle
+# would matter, and never leave the tree the first file came from.
+MAX_REQUIREMENTS_DEPTH = 8
+
+
+def _requirement_lines(path: Path, seen: set[Path], depth: int) -> list[str]:
+    """Plain requirement lines, following ``-r`` includes but not option lines."""
+    resolved = path.resolve() if is_regular_file(path) else path
+    if depth > MAX_REQUIREMENTS_DEPTH or resolved in seen or not is_regular_file(path):
+        return []
+    seen.add(resolved)
+    try:
+        text = path.read_text(encoding="utf-8", errors="replace")
+    except OSError:
+        return []
+
+    out: list[str] = []
+    for raw in text.replace("\\\n", " ").splitlines():
+        line = raw.split(" #", 1)[0].strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("-"):
+            for flag in ("-r", "--requirement"):
+                prefix = f"{flag} "
+                if line.startswith(prefix) or line.startswith(f"{flag}="):
+                    included = line[len(flag) :].lstrip("= ").strip()
+                    if included:
+                        out.extend(_requirement_lines(path.parent / included, seen, depth + 1))
+                    break
+            continue
+        out.append(line)
+    return out
+
+
+def _from_requirements(path: Path) -> dict[str, VersionKnowledge]:
+    """Read declared versions from a requirements file."""
+    lines = _requirement_lines(path, set(), 0)
+    if not lines:
+        return {}
+
+    collected: dict[str, list[Requirement]] = {}
+    for raw in lines:
+        try:
+            requirement = Requirement(raw)
+        except InvalidRequirement:
+            continue
+        name = canonicalize_name(requirement.name)
+        if name in (QISKIT, QISKIT_IBM_RUNTIME):
+            collected.setdefault(name, []).append(requirement)
+
+    out: dict[str, VersionKnowledge] = {}
+    for package, requirements in collected.items():
+        knowledge = _combine_requirements(requirements, str(path))
+        if knowledge is not None:
+            out[package] = knowledge
+    return out
 
 
 def _from_pyproject(path: Path) -> dict[str, VersionKnowledge]:
