@@ -115,9 +115,13 @@ is not the same thing, and shows up in review as a missing "why".
 
 Anything the documentation says about Qiskit, about a standard, or about another
 tool needs a primary source, and where it can be executed it is executed. The
-external corpus in [corpus/](corpus/) is the same idea at a larger scale: two
-scans over 139 unseen repositories, pinned to commit SHAs and selected before
-the linter was run, with every finding labelled by hand.
+external corpus in [corpus/](corpus/) is the same idea at a larger scale:
+repeated scans over 244 unseen repositories, pinned to commit SHAs and selected
+before the linter was run, with every one of the 342 findings read and labelled.
+
+All 342 labels were written by an AI reviewer, `claude-opus-5`, and none has
+been confirmed by a human. The `reviewer` column records that on every row.
+Treat the corpus as evidence a maintainer still has to check, not as a verdict.
 
 Before a release the corpus is rescanned. A repairable false positive is
 repaired and the corpus rescanned again.
