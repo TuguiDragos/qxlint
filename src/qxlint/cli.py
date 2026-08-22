@@ -31,7 +31,7 @@ from qxlint.output.statistics import render_statistics, render_statistics_json
 from qxlint.paths import exists as path_exists
 from qxlint.paths import is_directory
 from qxlint.profile import ProfileSource, knowledge_from_text
-from qxlint.registry import tiers
+from qxlint.registry import source_reachable, tiers
 
 EXIT_OK = 0
 EXIT_FINDINGS = 1
@@ -282,9 +282,19 @@ def _check_flags(args: argparse.Namespace) -> None:
     removes nothing, so it cannot make a run wrongly clean.
     """
     registered = tiers()
-    for code in _codes(args.select) or ():
+    selected = _codes(args.select)
+    for code in selected or ():
         if not any(known.startswith(code) for known in registered):
             raise ConfigError(f"--select: no rule matches {code!r}")
+
+    if selected:
+        reachable = source_reachable()
+        if not any(known.startswith(code) for code in selected for known in reachable):
+            raise ConfigError(
+                "--select: every selected rule is a circuit rule, which needs an "
+                "in-memory circuit and cannot run over files. Use the library API, "
+                "or select a rule that reads source."
+            )
 
     for code in _codes(args.ignore) or ():
         if not any(known.startswith(code) for known in registered):

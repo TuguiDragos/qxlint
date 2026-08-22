@@ -660,3 +660,29 @@ def test_the_json_payload_names_the_engine_version(
     feed(monkeypatch, GOOD)
     assert main(["--stdin-filename", "buffer.py", "--format", "json"]) == EXIT_OK
     assert json.loads(capsys.readouterr().out)["toolVersion"] == __version__
+
+
+@pytest.mark.parametrize("value", ["QXL3", "QXL300", "QXL300,QXL301", "QXL302"])
+def test_a_selection_of_only_circuit_rules_is_refused(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str], value: str
+) -> None:
+    # These are registered rules, so they pass the "no rule matches" guard, but
+    # they read an in-memory circuit and can never fire from a file. Leaving the
+    # run green would take a CI gate green having checked nothing.
+    write(tmp_path, "bad.py", BAD)
+    assert main([str(tmp_path), "--select", value]) == 2
+    assert "every selected rule is a circuit rule" in capsys.readouterr().err
+
+
+def test_a_circuit_rule_alongside_a_source_rule_still_runs(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    assert main([str(tmp_path), "--select", "QXL301,QXL103"]) == 1
+    assert "QXL103" in capsys.readouterr().out
+
+
+def test_selecting_the_unparsable_rule_is_allowed(tmp_path: Path) -> None:
+    # QXL000 defines no source hook but the engine emits it, so it is reachable.
+    write(tmp_path, "clean.py", "x = 1\n")
+    assert main([str(tmp_path), "--select", "QXL000"]) == 0

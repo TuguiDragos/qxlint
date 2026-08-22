@@ -51,6 +51,18 @@ def all_meta() -> list[RuleMeta]:
     return sorted((cls.meta for cls in all_rules().values()), key=lambda meta: meta.code)
 
 
+# Circuit rules live in `qxlint.circuit` and read an in-memory circuit, so a run
+# over files can never reach them however they are selected.
+CIRCUIT_PACKAGE = "qxlint.circuit"
+
+
+def source_reachable() -> frozenset[str]:
+    """Codes a run over files can report."""
+    return frozenset(
+        code for code, cls in all_rules().items() if not cls.__module__.startswith(CIRCUIT_PACKAGE)
+    )
+
+
 def tiers() -> dict[str, Tier]:
     return {code: cls.meta.tier for code, cls in all_rules().items()}
 

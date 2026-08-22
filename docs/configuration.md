@@ -215,6 +215,7 @@ Exit 2 also covers a flag that cannot do what it says:
 | Command line | Result |
 | --- | --- |
 | `--select` with a code matching no rule | exit 2. It would leave every rule off, so the run reports nothing and reads as a clean project. |
+| `--select` naming only circuit rules | exit 2. QXL300 to QXL303 read an in-memory circuit and cannot fire from a file, so the run would report nothing for the same reason. Selecting one alongside a source rule is fine. |
 | `--target-qiskit` or `--target-runtime` that is not a version or a specifier | exit 2. It would silently disable the version gated rules. |
 | `--ignore` with a code matching no rule | warning on stderr, exit code unchanged. An ignore that removes nothing cannot make a run wrongly clean. |
 | the same codes in `[tool.qxlint]` | warning on stderr, exit code unchanged. A `pyproject.toml` belongs to the tree being scanned, and one stale entry in it must not end the whole run. |
