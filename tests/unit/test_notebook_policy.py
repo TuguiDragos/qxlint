@@ -13,6 +13,7 @@ from qxlint.notebook import (
     BARRIER_CALL,
     UNKNOWN_CALL,
     NotebookError,
+    _physical_lines,
     parse_cell,
     parse_notebook,
     prepare_cell_source,
@@ -257,3 +258,28 @@ def test_a_line_that_names_no_known_magic_stays_a_syntax_error() -> None:
 def test_a_single_word_line_is_not_read_as_a_magic() -> None:
     with pytest.raises(SyntaxError):
         parse_cell(prepare_cell_source("qc = QuantumCircuit(2\npip\n")[0])
+
+
+# Locating a cell in the raw file ---------------------------------------
+
+
+def test_an_empty_cell_has_no_lines_to_locate() -> None:
+    assert _physical_lines("{}", "", [0]) == ()
+
+
+def test_a_cell_that_is_not_in_the_file_yields_none() -> None:
+    # Neither the per line run nor the cell start can be found, and inventing a
+    # number would be worse than reporting nothing.
+    assert _physical_lines('{"cells": []}', "a = 1\nb = 2\n", [0]) == (None, None)
+
+
+def test_the_search_falls_back_to_the_whole_file() -> None:
+    # The cursor starts past the cell, so the forward pass finds nothing and the
+    # second pass from zero has to find it.
+    raw = "\n".join(["{", '  "a = 1\\n",', '  "b = 2\\n"', "}"])
+    assert _physical_lines(raw, "a = 1\nb = 2\n", [99]) == (2, 3)
+
+
+def test_a_cell_written_as_one_string_maps_to_that_line() -> None:
+    raw = "\n".join(["{", '  "source": "a = 1\\nb = 2\\n"', "}"])
+    assert _physical_lines(raw, "a = 1\nb = 2\n", [0]) == (2, 2)

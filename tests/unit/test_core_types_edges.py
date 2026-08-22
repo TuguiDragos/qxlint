@@ -643,3 +643,18 @@ def test_a_qubit_touched_only_by_an_ignored_operation_is_still_unused(
     getattr(qc, method)(*args)
     findings = [f for f in qxlint.check_circuit(qc, preview=True) if f.rule == "QXL303"]
     assert [f.location.qubits for f in findings] == [(1,)]
+
+
+def test_a_source_without_a_physical_line_map_reports_none() -> None:
+    # Both production callers build the map, so this is the guard for a cell
+    # source assembled without one, and for a line outside the map.
+    bare = SourceFile(path="n.ipynb", text="a = 1\n", cell_index=1)
+    assert bare.physical_line(1) is None
+
+    mapped = SourceFile(
+        path="n.ipynb", text="a = 1\nb = 2\n", cell_index=1, physical_line_of=(7, 8)
+    )
+    assert mapped.physical_line(1) == 7
+    assert mapped.physical_line(2) == 8
+    assert mapped.physical_line(3) is None
+    assert mapped.physical_line(0) is None

@@ -208,3 +208,102 @@ def test_clean_notebook_exits_zero(tmp_path: Path) -> None:
         encoding="utf-8",
     )
     assert main([str(path)]) == EXIT_OK
+
+
+# The line in the file on disk ------------------------------------------
+#
+# A notebook finding carries a cell and a line inside it, which no SARIF
+# consumer can turn into an annotation. The line in the .ipynb itself is what
+# GitHub code scanning and every other annotator needs.
+
+
+def _notebook(cells: list[dict], *, indent: int | None = 1) -> str:
+    return json.dumps(
+        {"cells": cells, "metadata": {}, "nbformat": 4, "nbformat_minor": 5},
+        indent=indent,
+        separators=None if indent is not None else (",", ":"),
+    )
+
+
+CODE_CELLS = [
+    {"cell_type": "markdown", "source": ["# title\n"], "metadata": {}},
+    {
+        "cell_type": "code",
+        "source": [
+            "from qiskit import QuantumCircuit\n",
+            "from qiskit.primitives import StatevectorSampler\n",
+        ],
+        "metadata": {},
+        "outputs": [],
+        "execution_count": None,
+    },
+    {
+        "cell_type": "code",
+        "source": ["qc = QuantumCircuit(2)\n", "StatevectorSampler().run([qc])\n"],
+        "metadata": {},
+        "outputs": [],
+        "execution_count": None,
+    },
+]
+
+
+def test_a_notebook_finding_carries_its_line_in_the_file(tmp_path: Path) -> None:
+    path = tmp_path / "n.ipynb"
+    path.write_text(_notebook(CODE_CELLS))
+    findings = analyse_path(
+        path, config=Config(), profile=SemanticProfile(), enabled=frozenset({"QXL103"})
+    )
+    assert len(findings) == 1
+    location = findings[0].location
+    assert isinstance(location, NotebookLocation)
+    assert location.cell_index == 2
+    assert location.line == 2
+    assert location.physical_line is not None
+    raw = path.read_text().splitlines()
+    assert "StatevectorSampler().run([qc])" in raw[location.physical_line - 1]
+
+
+def test_a_minified_notebook_points_at_the_line_the_cell_starts_on(tmp_path: Path) -> None:
+    # Everything is on line 1, so that is the only position there is, and it is
+    # still what an annotator needs. It must never be a plausible wrong number.
+    path = tmp_path / "n.ipynb"
+    path.write_text(_notebook(CODE_CELLS, indent=None))
+    assert len(path.read_text().splitlines()) == 1
+    findings = analyse_path(
+        path, config=Config(), profile=SemanticProfile(), enabled=frozenset({"QXL103"})
+    )
+    location = findings[0].location
+    assert isinstance(location, NotebookLocation)
+    assert location.physical_line == 1
+
+
+def test_an_unparsable_cell_also_carries_its_line_in_the_file(tmp_path: Path) -> None:
+    cells = [
+        {
+            "cell_type": "code",
+            "source": ["x = 1\n", "def broken(\n"],
+            "metadata": {},
+            "outputs": [],
+            "execution_count": None,
+        }
+    ]
+    path = tmp_path / "n.ipynb"
+    path.write_text(_notebook(cells))
+    findings = analyse_path(
+        path, config=Config(), profile=SemanticProfile(), enabled=frozenset({"QXL000"})
+    )
+    location = findings[0].location
+    assert isinstance(location, NotebookLocation)
+    assert location.physical_line is not None
+    raw = path.read_text().splitlines()
+    assert "def broken(" in raw[location.physical_line - 1]
+
+
+def test_the_json_output_carries_the_physical_line(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    path = tmp_path / "n.ipynb"
+    path.write_text(_notebook(CODE_CELLS))
+    main([str(path), "--format", "json", "--select", "QXL103"])
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["findings"][0]["location"]["physicalLine"] is not None

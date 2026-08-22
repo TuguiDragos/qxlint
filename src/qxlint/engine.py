@@ -192,6 +192,7 @@ def _notebook_findings(
             text=cell.text,
             cell_index=cell.index,
             column_offset=cell.column_offset,
+            physical_line_of=cell.physical_line_of,
         )
         noqa_by_cell[cell.index] = parse_noqa(cell.original)
         ctx = RuleContext(source=source, profile=profile, emit=findings.append)
@@ -234,7 +235,13 @@ def _syntax_finding(exc: SyntaxError, source: SourceFile) -> Finding:
     if source.cell_index is None:
         location: SourceLocation | NotebookLocation = SourceLocation(source.path, line, column)
     else:
-        location = NotebookLocation(source.path, source.cell_index, line, column)
+        location = NotebookLocation(
+            source.path,
+            source.cell_index,
+            line,
+            column,
+            physical_line=source.physical_line(line),
+        )
     reason = exc.msg or "invalid syntax"
     return _unparsable(f"cannot parse: {reason}", location)
 

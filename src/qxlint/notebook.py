@@ -167,6 +167,7 @@ class PreparedCell:
     original: str
     transformed: bool
     column_offset: int = 0
+    physical_line_of: tuple[int | None, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -208,10 +209,58 @@ def parse_notebook_text(path: str, raw: str) -> Notebook:
         raise NotebookError(f"invalid notebook JSON: {exc}") from exc
     except RecursionError as exc:
         raise NotebookError(f"notebook JSON nests too deeply to parse: {exc}") from exc
-    return parse_notebook(path, document)
+    return parse_notebook(path, document, raw=raw)
 
 
-def parse_notebook(path: str, document: object) -> Notebook:
+def _physical_lines(raw: str | None, source: str, cursor: list[int]) -> tuple[int | None, ...]:
+    """The line in the .ipynb holding each source line of a cell.
+
+    The exact line when the notebook is written one JSON string per line, which
+    is the usual shape, and otherwise the line where the cell's source starts,
+    which is all a minified notebook has. The block is located by finding a run where
+    every line matches consecutively, which is self checking: a line that also
+    occurs elsewhere cannot pull the mapping out of step, and a file that does
+    not have the shape at all yields None rather than a plausible wrong number.
+
+    `cursor` keeps the search moving forward across cells, which makes repeated
+    cells resolve to their own copy, and it falls back to the whole file when a
+    cell cannot be placed after it.
+    """
+    if raw is None:
+        return ()
+    lines = source.splitlines(keepends=True)
+    if not lines:
+        return ()
+    haystack = raw.splitlines()
+    encoded = [json.dumps(line) for line in lines]
+
+    def run_at(offset: int) -> bool:
+        if offset + len(encoded) > len(haystack):
+            return False
+        return all(text in haystack[offset + i] for i, text in enumerate(encoded))
+
+    # Forward from where the previous cell ended, then the whole file, so a cell
+    # that repeats earlier text still resolves to its own copy.
+    starts = (cursor[0], 0) if cursor[0] else (0,)
+    for begin in starts:
+        for offset in range(begin, len(haystack)):
+            if run_at(offset):
+                cursor[0] = offset + len(encoded)
+                return tuple(range(offset + 1, offset + 1 + len(encoded)))
+
+    # Not written one line per entry, which a minified notebook never is. The
+    # line where the cell's source starts is then the only position there is,
+    # and it is the one an annotator needs.
+    for candidate in (encoded[0], json.dumps(source)):
+        for begin in starts:
+            for offset in range(begin, len(haystack)):
+                if candidate in haystack[offset]:
+                    cursor[0] = offset
+                    return tuple([offset + 1] * len(lines))
+    return tuple([None] * len(lines))
+
+
+def parse_notebook(path: str, document: object, *, raw: str | None = None) -> Notebook:
     if not isinstance(document, dict):
         raise NotebookError("notebook root is not an object")
     cells = document.get("cells")
@@ -220,6 +269,7 @@ def parse_notebook(path: str, document: object) -> Notebook:
 
     prepared: list[PreparedCell] = []
     index = 0
+    cursor = [0]
     for cell in cells:
         if not isinstance(cell, dict) or cell.get("cell_type") != "code":
             continue
@@ -233,6 +283,7 @@ def parse_notebook(path: str, document: object) -> Notebook:
                 original=source,
                 transformed=transformed,
                 column_offset=offset,
+                physical_line_of=_physical_lines(raw, source, cursor),
             )
         )
     return Notebook(path=path, cells=tuple(prepared))
