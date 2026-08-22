@@ -449,3 +449,33 @@ def test_requirements_for_other_packages_are_ignored(tmp_path: Path) -> None:
     (tmp_path / "requirements.txt").write_text("numpy>=1.26\nscipy\n")
     assert not discover_profile(tmp_path).qiskit.known
     assert not discover_profile(tmp_path).qiskit_ibm_runtime.known
+
+
+# Globs in exclude -------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    ("entry", "candidate", "excluded"),
+    [
+        ("build/*", "build/generated/x.py", True),
+        ("build/*", "src/x.py", False),
+        ("*generated*", "build/generated/x.py", True),
+        ("test_*", "pkg/test_thing.py", True),
+        ("test_*", "pkg/thing.py", False),
+        ("build", "build/generated/x.py", True),
+        ("build", "rebuild/x.py", False),
+        ("[bd]uild", "build/x.py", True),
+    ],
+)
+def test_exclude_entries_match_plainly_and_by_glob(
+    entry: str, candidate: str, excluded: bool
+) -> None:
+    config = Config(exclude=(entry,))
+    assert config.is_excluded(Path(candidate)) is excluded
+
+
+def test_a_glob_in_extend_exclude_keeps_the_defaults(tmp_path: Path) -> None:
+    (tmp_path / "pyproject.toml").write_text('[tool.qxlint]\nextend-exclude = ["build/*"]\n')
+    config = load_config(tmp_path / "pyproject.toml")
+    assert config.is_excluded(Path("build/generated/x.py"))
+    assert config.is_excluded(Path(".venv/lib/x.py"))

@@ -112,8 +112,31 @@ class Config:
         return frozenset(out)
 
     def is_excluded(self, path: Path) -> bool:
-        parts = set(path.parts)
-        return any(entry in parts for entry in (*self.exclude, *self.extend_exclude))
+        """Does an exclude entry cover this path, given relative to the scan root?
+
+        A plain entry matches a path component, which is what makes `.venv`
+        skip a whole tree wherever it sits. An entry holding a glob character
+        is matched against the whole relative path as well, so `build/*` covers
+        everything under it rather than silently matching nothing.
+        """
+        parts = path.parts
+        as_component = set(parts)
+        posix = path.as_posix()
+        for entry in (*self.exclude, *self.extend_exclude):
+            if entry in as_component:
+                return True
+            if _has_glob(entry) and (
+                fnmatch.fnmatch(posix, entry) or any(fnmatch.fnmatch(part, entry) for part in parts)
+            ):
+                return True
+        return False
+
+
+_GLOB_CHARACTERS = frozenset("*?[")
+
+
+def _has_glob(entry: str) -> bool:
+    return any(character in _GLOB_CHARACTERS for character in entry)
 
 
 def load_config(path: Path) -> Config:

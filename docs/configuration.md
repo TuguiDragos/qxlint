@@ -72,9 +72,12 @@ There are two options, and they do different things.
 | `extend-exclude` | added to the list above. This is usually what you want. |
 | `exclude` | **replaces** the list above, so anything not named there is scanned, including `.venv` and `node_modules`. |
 
-Both match a whole path component, not a glob: `vendor` skips `vendor/a.py` and
-`src/vendor/b.py`, and never `vendored.py`. Matching is case sensitive, because
-directory names are.
+A plain entry matches a whole path component: `vendor` skips `vendor/a.py` and
+`src/vendor/b.py`, and never `vendored.py`. An entry containing `*`, `?` or `[`
+is a glob, matched against the path relative to the scanned directory as well as
+against each component, so `build/*` skips everything under `build` and
+`*_generated.py` skips that file wherever it sits. In a glob, `*` crosses `/`.
+Matching is case sensitive, because directory names are.
 
 Use `exclude` only to deliberately lint inside a directory the defaults skip.
 Setting it to add one entry is the common mistake: it brings the entire virtual
