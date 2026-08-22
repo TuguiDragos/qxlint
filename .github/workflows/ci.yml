@@ -127,6 +127,14 @@ jobs:
         if: matrix.python == '3.13' && matrix.qiskit == 'pinned'
         run: uv run pytest -q --cov --cov-report=term
 
+      - name: The API model still matches the installed Qiskit
+        # model.py is a hardcoded table and nothing else in CI notices when it
+        # drifts. A wrong constant there passes the tests, the coverage gate,
+        # ruff and mypy; only this script catches it. It needs Qiskit, so it
+        # runs wherever Qiskit is pinned.
+        if: matrix.qiskit == 'pinned'
+        run: uv run python scripts/verify_model.py
+
       - name: Generated docs are current
         run: |
           uv run python scripts/generate_docs.py
