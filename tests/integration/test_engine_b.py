@@ -385,3 +385,80 @@ def test_qxl303_still_reports_a_hand_written_circuit() -> None:
     qc.h(0)
     assert qc.layout is None
     assert [f.rule for f in qxlint.check_circuit(qc, preview=True)] == ["QXL303", "QXL303"]
+
+
+# The runtime answer to what Engine A cannot prove -----------------------
+
+
+def _measured() -> object:
+    from qiskit import QuantumCircuit
+
+    qc = QuantumCircuit(2)
+    qc.h(0)
+    qc.measure_all()
+    return qc
+
+
+def _unmeasured() -> object:
+    from qiskit import QuantumCircuit
+
+    qc = QuantumCircuit(2)
+    qc.h(0)
+    return qc
+
+
+def test_an_unmeasured_pub_is_refused() -> None:
+    # Verified against the real primitive: the data bin comes back empty, and
+    # Qiskit itself warns about it.
+    with pytest.raises(qxlint.NotSamplerReady) as caught:
+        qxlint.assert_sampler_ready([_unmeasured()])
+    assert [f.rule for f in caught.value.findings] == ["QXL103"]
+    assert "empty data bin" in str(caught.value)
+
+
+def test_a_measured_pub_passes() -> None:
+    assert qxlint.assert_sampler_ready([_measured()]) is None
+
+
+def test_the_position_of_the_offending_pub_is_named() -> None:
+    with pytest.raises(qxlint.NotSamplerReady) as caught:
+        qxlint.assert_sampler_ready([_measured(), _unmeasured()])
+    assert "pub 1" in str(caught.value)
+
+
+def test_a_pub_tuple_is_unwrapped() -> None:
+    from qiskit.quantum_info import SparsePauliOp
+
+    with pytest.raises(qxlint.NotSamplerReady):
+        qxlint.assert_sampler_ready([(_unmeasured(), SparsePauliOp("ZZ"))])
+
+
+def test_a_bare_circuit_is_accepted_as_one_pub() -> None:
+    assert qxlint.assert_sampler_ready(_measured()) is None
+    with pytest.raises(qxlint.NotSamplerReady):
+        qxlint.assert_sampler_ready(_unmeasured())
+
+
+def test_a_target_adds_the_isa_check() -> None:
+    pytest.importorskip("qiskit_ibm_runtime")
+    from qiskit import transpile
+    from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+    backend = FakeManilaV2()
+    with pytest.raises(qxlint.NotSamplerReady) as caught:
+        qxlint.assert_sampler_ready([_measured()], target=backend.target)
+    assert "QXL301" in [f.rule for f in caught.value.findings]
+    isa = transpile(_measured(), backend, optimization_level=1)
+    assert qxlint.assert_sampler_ready([isa], target=backend.target) is None
+
+
+def test_ignore_reaches_the_runtime_check_too() -> None:
+    assert qxlint.assert_sampler_ready([_unmeasured()], ignore=["QXL103"]) is None
+
+
+def test_an_empty_pub_list_says_nothing() -> None:
+    assert qxlint.assert_sampler_ready([]) is None
+
+
+def test_an_empty_pub_tuple_holds_no_circuit_to_check() -> None:
+    assert qxlint.assert_sampler_ready([(), _measured()]) is None

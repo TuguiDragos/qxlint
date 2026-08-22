@@ -9194,7 +9194,7 @@
       "endLine": 762,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -9213,7 +9213,7 @@
       "endLine": 303,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -9252,7 +9252,7 @@
       "endLine": 624,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -18275,7 +18275,7 @@
       "endLine": 1400,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -18336,7 +18336,7 @@
       "endLine": 309,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -18375,7 +18375,7 @@
       "endLine": 633,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -55438,7 +55438,7 @@
       "endLine": 803,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -55457,7 +55457,7 @@
       "endLine": 307,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }
@@ -55496,7 +55496,7 @@
       "endLine": 629,
       "endColumn": 39
      },
-     "fixHint": "add qc.measure_all() or an explicit qc.measure(...)",
+     "fixHint": "add measure_all(), or call qxlint.assert_sampler_ready(pubs) before run() to decide it on the real circuit",
      "context": {
       "primitiveKind": "sampler_v2"
      }

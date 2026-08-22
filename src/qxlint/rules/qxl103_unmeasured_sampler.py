@@ -73,7 +73,10 @@ class UnmeasuredCircuitToSampler(Rule):
                     location=ctx.source.location(event.node),
                     severity=self.meta.severity,
                     tier=self.meta.tier,
-                    fix_hint="add qc.measure_all() or an explicit qc.measure(...)",
+                    fix_hint=(
+                        "add measure_all(), or call qxlint.assert_sampler_ready(pubs) "
+                        "before run() to decide it on the real circuit"
+                    ),
                     context={"primitiveKind": event.primitive_facts.kind.value},
                 )
             )

@@ -399,6 +399,16 @@ for finding in qxlint.check_target(isa_circuit, backend.target):
 qxlint.check_circuit(qc, target=backend.target, preview=True)
 ```
 
+`qxlint.assert_sampler_ready(pubs, target=...)` is the runtime answer to what the
+source analyser cannot prove. It reads the real circuits, so it decides every
+call rather than the third it can see in source, and raises `NotSamplerReady`
+carrying the same `Finding` objects. Call it immediately before `sampler.run`:
+
+```python
+qxlint.assert_sampler_ready(pubs, target=backend.target)
+job = sampler.run(pubs)
+```
+
 `ignore` drops findings whose code starts with any prefix given, which is the
 only way to silence a circuit rule: the finding has no source line, so `# noqa`
 cannot reach it, and the library API reads no `[tool.qxlint]` section.

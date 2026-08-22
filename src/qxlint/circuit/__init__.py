@@ -13,13 +13,33 @@ from __future__ import annotations
 from collections.abc import Sequence
 from typing import Any
 
-from qxlint.diagnostics import Finding
+from qxlint.diagnostics import CircuitLocation, Finding, Severity, Tier
 
-__all__ = ["check_circuit", "check_target", "require_qiskit"]
+__all__ = [
+    "NotSamplerReady",
+    "QiskitNotInstalled",
+    "assert_sampler_ready",
+    "check_circuit",
+    "check_target",
+    "require_qiskit",
+]
+
+
+# The runtime counterpart of QXL103, reported on the object rather than inferred.
+UNMEASURED = "QXL103"
 
 
 class QiskitNotInstalled(RuntimeError):
     """Engine B needs Qiskit. Engine A does not."""
+
+
+class NotSamplerReady(ValueError):
+    """A pub is not ready for a SamplerV2. Carries the findings that say why."""
+
+    def __init__(self, findings: list[Finding]) -> None:
+        self.findings = findings
+        detail = "; ".join(f.message for f in findings)
+        super().__init__(f"these circuits are not ready to run: {detail}")
 
 
 def require_qiskit() -> None:
@@ -124,3 +144,63 @@ def check_circuit(
 
     findings.sort(key=Finding.sort_key)
     return _without(findings, ignore)
+
+
+def _circuit_of(pub: Any) -> Any:
+    """The circuit inside a pub, which is either the circuit or the first element."""
+    if isinstance(pub, tuple):
+        return pub[0] if pub else None
+    return pub
+
+
+def _is_measured(circuit: Any) -> bool:
+    """Does the circuit contain a measurement anywhere, control flow included?"""
+    from qxlint.circuit.walker import walk
+
+    return any(visited.name == "measure" for visited in walk(circuit))
+
+
+def assert_sampler_ready(
+    pubs: Any, *, target: Any | None = None, ignore: Sequence[str] | None = None
+) -> None:
+    """Raise unless every pub is ready to hand to a SamplerV2.
+
+    This is the runtime answer to what Engine A cannot prove. It reads real
+    circuits, so it decides exactly, for every call, where the source analyser
+    can only look at 32 percent of them. Call it just before `sampler.run(pubs)`.
+
+    Checks that each circuit contains a measurement, since a SamplerV2 handed an
+    unmeasured circuit returns an empty data bin rather than failing, and, when a
+    `target` is given, that each circuit is one the target accepts.
+
+    Raises NotSamplerReady, whose `findings` carries the same Finding objects the
+    rest of the tool produces. Returns None when there is nothing to say.
+    """
+    require_qiskit()
+    from qxlint.circuit.walker import circuit_name
+
+    items = list(pubs) if isinstance(pubs, (list, tuple)) else [pubs]
+    found: list[Finding] = []
+    for position, pub in enumerate(items):
+        circuit = _circuit_of(pub)
+        if circuit is None:
+            continue
+        if not _is_measured(circuit):
+            found.append(
+                Finding(
+                    rule=UNMEASURED,
+                    message=(
+                        f"pub {position} has no measurement instructions, so a SamplerV2 "
+                        "returns an empty data bin for it"
+                    ),
+                    location=CircuitLocation(circuit_name(circuit), ()),
+                    severity=Severity.ERROR,
+                    tier=Tier.DEFAULT,
+                    fix_hint="add measure_all(), or measure into a classical register",
+                )
+            )
+        if target is not None:
+            found.extend(check_target(circuit, target))
+    found = _without(found, ignore)
+    if found:
+        raise NotSamplerReady(found)
