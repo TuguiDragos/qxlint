@@ -355,3 +355,29 @@ def test_an_empty_or_absent_ignore_changes_nothing() -> None:
         assert [f.rule for f in qxlint.check_circuit(qc, target=target, ignore=spelling)] == [
             "QXL301"
         ]
+
+
+def test_qxl303_skips_a_transpiled_circuit() -> None:
+    # Measured on FakeSherbrooke before this: a 2 qubit circuit transpiles to
+    # 127 wide and the rule fired 125 times, one per idle physical qubit, on the
+    # one circuit shape QXL301 is meaningful on.
+    from qiskit import QuantumCircuit, transpile
+    from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+    backend = FakeManilaV2()
+    qc = QuantumCircuit(2)
+    qc.h(0)
+    qc.cx(0, 1)
+    qc.measure_all()
+    isa = transpile(qc, backend, optimization_level=1)
+    assert isa.layout is not None
+    assert qxlint.check_circuit(isa, target=backend.target, preview=True) == []
+
+
+def test_qxl303_still_reports_a_hand_written_circuit() -> None:
+    from qiskit import QuantumCircuit
+
+    qc = QuantumCircuit(3)
+    qc.h(0)
+    assert qc.layout is None
+    assert [f.rule for f in qxlint.check_circuit(qc, preview=True)] == ["QXL303", "QXL303"]

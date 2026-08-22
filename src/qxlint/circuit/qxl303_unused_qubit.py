@@ -28,11 +28,12 @@ class UnusedQubit(Rule):
             "use."
         ),
         when_legitimate=(
-            "Very often, which is why this is preview and informational. A "
-            "transpiled circuit is target sized and idle physical qubits are "
-            "expected. Ancillas reserved for a later step, fixed width protocol "
-            "circuits, templates and circuits built to a register size all "
-            "legitimately carry unused qubits."
+            "Often, which is why this is preview and informational. A transpiled "
+            "circuit is skipped outright, since it carries a `layout` and its "
+            "width is the device's rather than the author's. Ancillas reserved "
+            "for a later step, fixed width protocol circuits, templates and "
+            "circuits built to a register size all legitimately carry unused "
+            "qubits, and those are still reported."
         ),
         examples_checkable=False,
         bad_example="qc = QuantumCircuit(3)\nqc.h(0)\nqc.cx(0, 1)\n",
@@ -40,6 +41,14 @@ class UnusedQubit(Rule):
     )
 
     def check(self, circuit: Any) -> Iterator[Finding]:
+        if getattr(circuit, "layout", None) is not None:
+            # Transpiled to a target, so the width is the device's and idle
+            # physical qubits are the expected outcome rather than a mistake.
+            # Measured on FakeSherbrooke: a 2 qubit circuit becomes 127 wide and
+            # this rule fired 125 times, which is noise on the one circuit shape
+            # QXL301 is meaningful on. `layout` is set by transpilation and by
+            # nothing else, so it separates the two cases exactly.
+            return
         name = circuit_name(circuit)
         used: set[int] = set()
         for visited in walk(circuit):
