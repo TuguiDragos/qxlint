@@ -479,3 +479,39 @@ def test_a_glob_in_extend_exclude_keeps_the_defaults(tmp_path: Path) -> None:
     config = load_config(tmp_path / "pyproject.toml")
     assert config.is_excluded(Path("build/generated/x.py"))
     assert config.is_excluded(Path(".venv/lib/x.py"))
+
+
+# per-file-ignores does not move with the working directory ---------------
+
+
+def test_per_file_ignores_agrees_across_every_spelling(tmp_path: Path) -> None:
+    (tmp_path / "tests").mkdir()
+    target = tmp_path / "tests" / "t.py"
+    target.write_text("x = 1\n")
+    config = Config(per_file_ignores=(("tests/*", ("QXL103",)),), root=tmp_path)
+    for spelling in (
+        "tests/t.py",
+        str(target),
+        str(target.resolve()),
+        "./tests/t.py",
+    ):
+        assert config.ignored_for_path(spelling) == frozenset({"QXL103"}), spelling
+
+
+def test_per_file_ignores_still_matches_a_bare_name(tmp_path: Path) -> None:
+    config = Config(per_file_ignores=(("t.py", ("QXL103",)),), root=tmp_path)
+    assert config.ignored_for_path("deep/nested/t.py") == frozenset({"QXL103"})
+
+
+def test_a_path_outside_the_root_is_matched_on_its_own_spelling(tmp_path: Path) -> None:
+    other = tmp_path / "elsewhere"
+    other.mkdir()
+    config = Config(per_file_ignores=(("tests/*", ("QXL103",)),), root=tmp_path / "project")
+    assert config.ignored_for_path(str(other / "tests" / "t.py")) == frozenset()
+    assert config.ignored_for_path("tests/t.py") == frozenset({"QXL103"})
+
+
+def test_per_file_ignores_without_a_root_uses_the_path_as_given() -> None:
+    config = Config(per_file_ignores=(("tests/*", ("QXL103",)),))
+    assert config.ignored_for_path("tests/t.py") == frozenset({"QXL103"})
+    assert config.ignored_for_path("other/t.py") == frozenset()

@@ -95,7 +95,10 @@ In this order, every time:
    appears in `select`, so `select = ["QXL3"]` does not silently enable preview
    rules by prefix
 4. `ignore` removes codes matching one of its prefixes
-5. `per-file-ignores` removes further codes for paths matching a glob
+5. `per-file-ignores` removes further codes for paths matching a glob. A
+   pattern is matched against the path relative to the project root, the path
+   as it was typed, and the file name, so the same file is treated the same
+   way whether you run `qxlint .`, name the file, or pass an absolute path
 
 In 0.1.1 every preview rule is a circuit rule, reached through `check_circuit`
 rather than by linting a file, so `preview` changes nothing about a `qxlint`

@@ -102,14 +102,31 @@ class Config:
 
     def ignored_for_path(self, path: str) -> frozenset[str]:
         """Extra ignore prefixes contributed by ``per-file-ignores``."""
+        candidates = self._match_spellings(path)
         out: set[str] = set()
-        normalised = path.replace("\\", "/")
         for pattern, codes in self.per_file_ignores:
-            if fnmatch.fnmatch(normalised, pattern) or fnmatch.fnmatch(
-                Path(normalised).name, pattern
-            ):
+            if any(fnmatch.fnmatch(candidate, pattern) for candidate in candidates):
                 out.update(codes)
         return frozenset(out)
+
+    def _match_spellings(self, path: str) -> tuple[str, ...]:
+        """Every spelling a pattern may match, so the answer does not move with the cwd.
+
+        A pattern is written against the project, but the path reaching here is
+        whatever the caller typed. Matching the project relative form as well
+        makes `qxlint .`, `qxlint tests/t.py` and an absolute path agree.
+        """
+        # `as_posix` also drops a leading "./", which a pattern never carries.
+        as_written = Path(path.replace("\\", "/"))
+        spellings = [as_written.as_posix(), as_written.name]
+        if self.root is not None:
+            try:
+                relative = as_written.resolve().relative_to(self.root.resolve())
+            except (OSError, ValueError):
+                pass
+            else:
+                spellings.append(relative.as_posix())
+        return tuple(spellings)
 
     def is_excluded(self, path: Path) -> bool:
         """Does an exclude entry cover this path, given relative to the scan root?
