@@ -83,7 +83,7 @@ all, and only the in-memory circuit checks require it installed.
 | --- | --- | --- |
 | [QXL000](docs/rules/qxl000.md) | default | the file or notebook cell cannot be parsed |
 | [QXL101](docs/rules/qxl101.md) | default | `get_counts()` on a `PrimitiveResult`, `PubResult` or `DataBin` |
-| [QXL102](docs/rules/qxl102.md) | default | `quasi_dists` read from a V2 `PrimitiveResult` |
+| [QXL102](docs/rules/qxl102.md) | default | `quasi_dists` or `values` read from a V2 `PrimitiveResult` |
 | [QXL103](docs/rules/qxl103.md) | default | a provably unmeasured circuit reaches a `SamplerV2` |
 | [QXL104](docs/rules/qxl104.md) | default | a circuit method returning a new circuit whose result is dropped |
 | [QXL105](docs/rules/qxl105.md) | default | a measured circuit reaches a `StatevectorEstimator` |
@@ -336,7 +336,7 @@ qxlint --statistics .
 ```
   QXL104  ████████████████████████  37  discarded-circuit-result
   QXL101  █████░░░░░░░░░░░░░░░░░░░   7  get-counts-on-wrong-receiver
-  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░   2  quasi-dists-on-v2-result
+  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░   2  v1-result-field-on-v2-result
 
   46 findings across 22 files of 13861 scanned
 ```
@@ -437,10 +437,10 @@ linter was run on any of them.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings, every one read and labelled | 342 |
-| of which workflow defects rather than unparsable files | **172** |
+| Findings, every one read and labelled | 343 |
+| of which workflow defects rather than unparsable files | **173** |
 | False positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **307** |
+| Findings the current tree reports | **308** |
 | Defects the corpus found in qxlint, and fixed | **10** |
 
 The 35 are three defects. The first two are in the same place. The first, 30 rows: the notebook
@@ -474,7 +474,7 @@ always returns, so the comment on the first line describes something that does
 not happen.
 
 Every finding was read in context and labelled, with the line it was reported
-on, in [findings.csv](corpus/findings.csv). **Every one of those 342 labels was
+on, in [findings.csv](corpus/findings.csv). **Every one of those 343 labels was
 written by an AI reviewer, `claude-opus-5`, and none has been confirmed by a
 human yet**, which is recorded in the `reviewer` column of every row. Read the
 corpus as evidence of robustness and determinism, which it measures directly,

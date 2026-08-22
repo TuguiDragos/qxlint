@@ -168,7 +168,7 @@ qxlint --statistics .
 ```
   QXL104  ████████████████████████  37  discarded-circuit-result
   QXL101  █████░░░░░░░░░░░░░░░░░░░   7  get-counts-on-wrong-receiver
-  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░   2  quasi-dists-on-v2-result
+  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░   2  v1-result-field-on-v2-result
 
   46 findings across 22 files of 13861 scanned
 ```

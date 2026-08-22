@@ -1,5 +1,5 @@
 {
- "scanned_on": "2026-08-20",
+ "scanned_on": "2026-08-22",
  "qxlint_version": "qxlint 0.3.0",
  "target_runtime": "0.48",
  "repositories": 244,
@@ -12,10 +12,10 @@
   "QXL202": 21,
   "QXL104": 45,
   "QXL103": 9,
-  "QXL102": 11,
+  "QXL102": 12,
   "QXL101": 7
  },
- "findings": 307,
+ "findings": 308,
  "records": [
   {
    "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
@@ -2571,7 +2571,8 @@
    "notebooks": 4,
    "exit": 1,
    "counts": {
-    "QXL000": 1
+    "QXL000": 1,
+    "QXL102": 1
    },
    "findings": [
     {
@@ -2591,6 +2592,30 @@
       "endLine": null,
       "endColumn": null,
       "physicalLine": null
+     }
+    },
+    {
+     "rule": "QXL102",
+     "message": "values does not exist on a V2 PrimitiveResult; read result[i].data.evs instead",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "notebook",
+      "path": "notebooks/visualization_testing.ipynb",
+      "cellIndex": 39,
+      "cellIndexBase": 1,
+      "cellKind": "code",
+      "line": 23,
+      "column": 23,
+      "endLine": 23,
+      "endColumn": 36,
+      "physicalLine": null
+     },
+     "fixHint": "result[0].data.evs",
+     "context": {
+      "receiverKind": "primitive_result_v2",
+      "field": "values"
      }
     }
    ]
@@ -3269,7 +3294,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -3288,7 +3314,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     }
    ]
@@ -4769,7 +4796,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -4788,7 +4816,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -5188,7 +5217,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -5240,7 +5270,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     }
    ]
@@ -5704,7 +5735,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -5723,7 +5755,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -5742,7 +5775,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     }
    ]
@@ -7229,7 +7263,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {
@@ -7533,7 +7568,8 @@
      },
      "fixHint": "result[0].data.<register>.get_counts()",
      "context": {
-      "receiverKind": "primitive_result_v2"
+      "receiverKind": "primitive_result_v2",
+      "field": "quasi_dists"
      }
     },
     {

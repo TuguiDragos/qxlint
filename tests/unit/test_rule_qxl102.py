@@ -1,4 +1,4 @@
-"""QXL102: quasi_dists on a V2 result."""
+"""QXL102: a V1 result field on a V2 result."""
 
 from __future__ import annotations
 
@@ -56,3 +56,50 @@ def test_negative_on_a_runtime_v1_result_when_the_target_predates_the_rebinding(
     )
     assert codes(lint(source, runtime="0.27")) == []
     assert codes(lint(source, runtime="0.28")) == ["QXL102"]
+
+
+# The estimator half of the same mistake -------------------------------------
+
+ESTIMATOR = (
+    "from qiskit import QuantumCircuit\n"
+    "from qiskit.primitives import StatevectorEstimator\n"
+    "from qiskit.quantum_info import SparsePauliOp\n"
+    "qc = QuantumCircuit(2)\n"
+    "qc.h(0)\n"
+    "result = StatevectorEstimator().run([(qc, SparsePauliOp('ZZ'))]).result()\n"
+)
+
+
+def test_values_on_a_v2_estimator_result_is_reported() -> None:
+    # Verified on Qiskit 2.5.2: PrimitiveResult has no `values`, from either
+    # primitive, exactly as it has no `quasi_dists`.
+    findings = lint(ESTIMATOR + "energies = result.values\n")
+    assert codes(findings) == ["QXL102"]
+    assert "result[i].data.evs" in findings[0].message
+    assert findings[0].fix_hint == "result[0].data.evs"
+
+
+def test_values_on_a_v2_sampler_result_is_reported() -> None:
+    assert codes(lint(HEADER + "x = result.values\n")) == ["QXL102"]
+
+
+def test_both_fields_are_reported_on_the_same_object() -> None:
+    source = ESTIMATOR + "a = result.quasi_dists\nb = result.values\n"
+    assert codes(lint(source)) == ["QXL102", "QXL102"]
+
+
+def test_metadata_exists_on_a_v2_result_and_is_not_reported() -> None:
+    # Verified on Qiskit 2.5.2: `metadata` is a real field of PrimitiveResult.
+    assert codes(lint(HEADER + "m = result.metadata\n")) == []
+
+
+def test_values_on_the_data_bin_is_not_reported() -> None:
+    # DataBin is a mapping, so `.values` there is the dict method, not the V1 field.
+    assert codes(lint(HEADER + "v = result[0].data.values\n")) == []
+
+
+def test_each_field_carries_its_own_fix_hint() -> None:
+    counts = lint(HEADER + "d = result.quasi_dists\n")[0]
+    energies = lint(ESTIMATOR + "e = result.values\n")[0]
+    assert counts.fix_hint == "result[0].data.<register>.get_counts()"
+    assert energies.fix_hint == "result[0].data.evs"

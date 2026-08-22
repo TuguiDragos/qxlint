@@ -11,9 +11,9 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings, every one read and labelled | **342** |
+| Findings, every one read and labelled | **343** |
 | of which false positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **307** |
+| Findings the current tree reports | **308** |
 | Defects the corpus found in qxlint, all fixed | **10** |
 | Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
 
@@ -26,7 +26,7 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 
 ## Who labelled these
 
-All 342 labels were written by an AI reviewer, `claude-opus-5`, and **none has
+All 343 labels were written by an AI reviewer, `claude-opus-5`, and **none has
 been confirmed by a human**. Every row says so in its `reviewer` column, and no
 row claims otherwise.
 
@@ -76,7 +76,7 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 | --- | --- | --- | --- | --- |
 | QXL000 | 168 | 135 | 135 | 33 |
 | QXL101 | 7 | 7 | 7 | 0 |
-| QXL102 | 11 | 11 | 11 | 0 |
+| QXL102 | 12 | 12 | 12 | 0 |
 | QXL103 | 9 | 9 | 9 | 0 |
 | QXL104 | 47 | 45 | 45 | 2 |
 | QXL201 | 79 | 79 | 79 | 0 |
