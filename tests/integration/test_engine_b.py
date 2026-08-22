@@ -319,6 +319,7 @@ def test_preview_checks_also_report_an_incomplete_analysis() -> None:
 def test_ignore_drops_a_circuit_finding() -> None:
     # A circuit finding has no source line, so `# noqa` cannot reach it and the
     # library API reads no configuration file. This argument is the only way.
+    pytest.importorskip("qiskit_ibm_runtime")
     from qiskit import QuantumCircuit
     from qiskit_ibm_runtime.fake_provider import FakeManilaV2
 
@@ -332,6 +333,7 @@ def test_ignore_drops_a_circuit_finding() -> None:
 
 
 def test_ignore_matches_a_prefix_and_ignores_case_and_spacing() -> None:
+    pytest.importorskip("qiskit_ibm_runtime")
     from qiskit import QuantumCircuit
     from qiskit_ibm_runtime.fake_provider import FakeManilaV2
 
@@ -344,6 +346,7 @@ def test_ignore_matches_a_prefix_and_ignores_case_and_spacing() -> None:
 
 
 def test_an_empty_or_absent_ignore_changes_nothing() -> None:
+    pytest.importorskip("qiskit_ibm_runtime")
     from qiskit import QuantumCircuit
     from qiskit_ibm_runtime.fake_provider import FakeManilaV2
 
@@ -361,6 +364,7 @@ def test_qxl303_skips_a_transpiled_circuit() -> None:
     # Measured on FakeSherbrooke before this: a 2 qubit circuit transpiles to
     # 127 wide and the rule fired 125 times, one per idle physical qubit, on the
     # one circuit shape QXL301 is meaningful on.
+    pytest.importorskip("qiskit_ibm_runtime")
     from qiskit import QuantumCircuit, transpile
     from qiskit_ibm_runtime.fake_provider import FakeManilaV2
 
