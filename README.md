@@ -399,6 +399,10 @@ for finding in qxlint.check_target(isa_circuit, backend.target):
 qxlint.check_circuit(qc, target=backend.target, preview=True)
 ```
 
+`ignore` drops findings whose code starts with any prefix given, which is the
+only way to silence a circuit rule: the finding has no source line, so `# noqa`
+cannot reach it, and the library API reads no `[tool.qxlint]` section.
+
 `check_circuit` with neither `target` nor `preview` returns an empty list, and
 says so rather than leaving it as a surprise: QXL301 needs a target, and the
 other two circuit rules are preview tier.

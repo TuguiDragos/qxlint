@@ -311,3 +311,47 @@ def test_a_circuit_within_the_walk_depth_reports_nothing_incomplete() -> None:
 def test_preview_checks_also_report_an_incomplete_analysis() -> None:
     findings = qxlint.check_circuit(nested_conditionals(13), preview=True)
     assert "QXL300" in {f.rule for f in findings}
+
+
+# Silencing a circuit finding -------------------------------------------
+
+
+def test_ignore_drops_a_circuit_finding() -> None:
+    # A circuit finding has no source line, so `# noqa` cannot reach it and the
+    # library API reads no configuration file. This argument is the only way.
+    from qiskit import QuantumCircuit
+    from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+    qc = QuantumCircuit(2)
+    qc.h(0)
+    qc.cx(0, 1)
+    target = FakeManilaV2().target
+    assert [f.rule for f in qxlint.check_circuit(qc, target=target)] == ["QXL301"]
+    assert qxlint.check_circuit(qc, target=target, ignore=["QXL301"]) == []
+    assert qxlint.check_target(qc, target, ignore=["QXL301"]) == []
+
+
+def test_ignore_matches_a_prefix_and_ignores_case_and_spacing() -> None:
+    from qiskit import QuantumCircuit
+    from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+    qc = QuantumCircuit(2)
+    qc.h(0)
+    qc.cx(0, 1)
+    target = FakeManilaV2().target
+    for spelling in (["QXL3"], [" qxl301 "], ["qxl3"]):
+        assert qxlint.check_circuit(qc, target=target, ignore=spelling) == []
+
+
+def test_an_empty_or_absent_ignore_changes_nothing() -> None:
+    from qiskit import QuantumCircuit
+    from qiskit_ibm_runtime.fake_provider import FakeManilaV2
+
+    qc = QuantumCircuit(2)
+    qc.h(0)
+    qc.cx(0, 1)
+    target = FakeManilaV2().target
+    for spelling in (None, [], ["  "], ["QXL999"]):
+        assert [f.rule for f in qxlint.check_circuit(qc, target=target, ignore=spelling)] == [
+            "QXL301"
+        ]

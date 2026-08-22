@@ -10,6 +10,7 @@ traceback from deep inside a rule.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from typing import Any
 
 from qxlint.diagnostics import Finding
@@ -57,7 +58,24 @@ def _analysis_depth(circuit: Any) -> list[Finding]:
     return list(IncompleteCircuitAnalysis().check(circuit))
 
 
-def check_target(circuit: Any, target: Any) -> list[Finding]:
+def _without(findings: list[Finding], ignore: Sequence[str] | None) -> list[Finding]:
+    """Drop findings whose code starts with any ignored prefix.
+
+    A circuit finding has no source line, so `# noqa` cannot reach it, and the
+    library API never reads a `[tool.qxlint]` section. This argument is the only
+    way to silence one, which is why it exists.
+    """
+    if not ignore:
+        return findings
+    prefixes = tuple(code.strip().upper() for code in ignore if code.strip())
+    if not prefixes:
+        return findings
+    return [f for f in findings if not f.rule.startswith(prefixes)]
+
+
+def check_target(
+    circuit: Any, target: Any, *, ignore: Sequence[str] | None = None
+) -> list[Finding]:
     """Check a circuit against a Qiskit ``Target``.
 
     This is generic Target compatibility, not IBM Runtime acceptance. See the
@@ -69,11 +87,15 @@ def check_target(circuit: Any, target: Any) -> list[Finding]:
 
     findings = [*_analysis_depth(circuit), *TargetCompatibility().check(circuit, target)]
     findings.sort(key=Finding.sort_key)
-    return findings
+    return _without(findings, ignore)
 
 
 def check_circuit(
-    circuit: Any, *, target: Any | None = None, preview: bool = False
+    circuit: Any,
+    *,
+    target: Any | None = None,
+    preview: bool = False,
+    ignore: Sequence[str] | None = None,
 ) -> list[Finding]:
     """Run the circuit rules.
 
@@ -101,4 +123,4 @@ def check_circuit(
         findings.extend(UnusedQubit().check(circuit))
 
     findings.sort(key=Finding.sort_key)
-    return findings
+    return _without(findings, ignore)

@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from qxlint.registry import all_meta
+from qxlint.registry import all_meta, source_reachable
 from qxlint.rules.base import RuleMeta
 
 HEADER = "<!-- Generated from the rule modules by scripts/generate_docs.py. Do not edit. -->"
@@ -19,6 +19,38 @@ RULES_DIR = Path("docs") / "rules"
 
 def page_name(meta: RuleMeta) -> str:
     return f"{meta.code.lower()}.md"
+
+
+def _suppression(meta: RuleMeta) -> list[str]:
+    """How this rule is actually silenced.
+
+    A circuit rule reaches the user through the library API, so it has no source
+    line for a `# noqa` and no configuration file is read. Printing the source
+    rule form on those pages documented two mechanisms that do nothing.
+    """
+    if meta.code not in source_reachable():
+        return [
+            "```python",
+            "findings = qxlint.check_circuit(",
+            f'    qc, target=backend.target, ignore=["{meta.code}"]',
+            ")",
+            "```",
+            "",
+            "`# noqa` and `[tool.qxlint]` do not reach a circuit rule: the finding",
+            "has no source line and the library API reads no configuration file.",
+            "",
+        ]
+    return [
+        "```python",
+        f"result = compute()  # noqa: {meta.code}",
+        "```",
+        "",
+        "```toml",
+        "[tool.qxlint]",
+        f'ignore = ["{meta.code}"]',
+        "```",
+        "",
+    ]
 
 
 def render_rule_page(meta: RuleMeta) -> str:
@@ -54,15 +86,7 @@ def render_rule_page(meta: RuleMeta) -> str:
         "",
         "## Suppressing",
         "",
-        "```python",
-        f"result = compute()  # noqa: {meta.code}",
-        "```",
-        "",
-        "```toml",
-        "[tool.qxlint]",
-        f'ignore = ["{meta.code}"]',
-        "```",
-        "",
+        *_suppression(meta),
     ]
     if meta.references:
         lines.append("## References")
