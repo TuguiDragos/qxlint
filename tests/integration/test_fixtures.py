@@ -69,8 +69,11 @@ def test_positive_fixtures_report_exactly_their_rule(name: str, expected: list[s
     assert [f.rule for f in findings] == expected
 
 
-def test_version_gated_fixture_is_silent_without_a_target() -> None:
-    assert analyse(FIXTURES / "positive" / "qxl201_channel.py") == []
+def test_version_gated_fixture_reports_without_a_target() -> None:
+    # An undeclared target reads as current, where the channel is long gone.
+    findings = analyse(FIXTURES / "positive" / "qxl201_channel.py")
+    # The fixture builds the service twice, so it reports twice.
+    assert [f.rule for f in findings] == ["QXL201", "QXL201"]
 
 
 def test_clean_notebook_reports_nothing() -> None:

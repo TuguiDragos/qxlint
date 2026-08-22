@@ -102,14 +102,21 @@ class RemovedIbmQuantumChannel(Rule):
     def _report(self, node: ast.expr, ctx: RuleContext) -> None:
         removed = ctx.profile.runtime_at_least(REMOVED_IN)
 
-        if removed is Applicability.ALWAYS:
+        # Silent only when every version the target allows still has the
+        # channel. An undeclared target reads as current, and a target that
+        # spans the removal breaks on part of the range it claims to support.
+        # This is the policy QXL202, QXL203 and QXL205 use.
+        if removed is not Applicability.NEVER:
+            spans = removed is Applicability.MAYBE
+            detail = (
+                f"{REMOVED_IN}, which the declared target allows"
+                if spans
+                else f"{REMOVED_IN}; omit the channel argument"
+            )
             ctx.emit(
                 Finding(
                     rule=self.meta.code,
-                    message=(
-                        f'channel="{VALUE}" was removed in qiskit-ibm-runtime '
-                        f"{REMOVED_IN}; omit the channel argument"
-                    ),
+                    message=(f'channel="{VALUE}" was removed in qiskit-ibm-runtime {detail}'),
                     location=ctx.source.location(node),
                     severity=Severity.ERROR,
                     tier=self.meta.tier,
@@ -123,7 +130,7 @@ class RemovedIbmQuantumChannel(Rule):
             return
 
         deprecated = ctx.profile.runtime_at_least(DEPRECATED_IN)
-        if removed is Applicability.NEVER and deprecated is Applicability.ALWAYS:
+        if deprecated is Applicability.ALWAYS:
             ctx.emit(
                 Finding(
                     rule=self.meta.code,

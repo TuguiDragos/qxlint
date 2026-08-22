@@ -86,9 +86,10 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 | QXL204 | 2 | 2 | 2 | 0 |
 | QXL205 | 24 sampled | 5,845 | 24 sampled | 0 |
 
-QXL201 needs a declared target version, so the scan supplies
-`--target-runtime 0.48`. Without it that rule is silent by design and the total
-is 6080.
+The scan supplies `--target-runtime 0.48` so the version gated rules are pinned
+to a stated version rather than to whatever the reading of the day is. Since
+every one of them now reads an undeclared target as current, the total without
+the flag is the same 6,159.
 
 Two QXL104 rows were relabelled from `true-positive` to `false-positive` on
 20 August 2026, both in `ML-2-QML/QML/5514.py`. Each is

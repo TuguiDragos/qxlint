@@ -172,7 +172,9 @@ def test_target_flag_enables_the_version_gated_rule(
         'service = QiskitRuntimeService(channel="ibm_quantum")\n'
     )
     path = write(tmp_path, "svc.py", source)
-    assert main([str(path)]) == EXIT_OK
+    # An undeclared target reads as current, so the rule already fires. A target
+    # proven to predate the deprecation is what silences it.
+    assert main([str(path), "--target-runtime", "0.39"]) == EXIT_OK
     assert main([str(path), "--target-runtime", "0.48"]) == EXIT_FINDINGS
     assert "removed" in capsys.readouterr().out
 
@@ -194,11 +196,28 @@ def test_target_is_read_from_project_dependencies(
     assert main([str(path)]) == EXIT_FINDINGS
 
 
-def test_ambiguous_declared_range_keeps_the_rule_silent(tmp_path: Path) -> None:
+def test_a_declared_range_that_reaches_the_removal_is_reported(tmp_path: Path) -> None:
+    # The project says it supports up to 0.42, and the channel is gone from 0.41,
+    # so the call breaks inside the range the project claims to support.
     write(
         tmp_path,
         "pyproject.toml",
         '[project]\nname = "demo"\ndependencies = ["qiskit-ibm-runtime>=0.38,<0.43"]\n',
+    )
+    path = write(
+        tmp_path,
+        "svc.py",
+        "from qiskit_ibm_runtime import QiskitRuntimeService\n"
+        'service = QiskitRuntimeService(channel="ibm_quantum")\n',
+    )
+    assert main([str(path)]) == EXIT_FINDINGS
+
+
+def test_a_declared_range_entirely_before_the_deprecation_is_silent(tmp_path: Path) -> None:
+    write(
+        tmp_path,
+        "pyproject.toml",
+        '[project]\nname = "demo"\ndependencies = ["qiskit-ibm-runtime>=0.28,<0.40"]\n',
     )
     path = write(
         tmp_path,

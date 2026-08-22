@@ -30,16 +30,33 @@ def test_deprecation_message_below_the_removal_version(target: str) -> None:
 
 
 @pytest.mark.parametrize("target", [">=0.38,<0.43", ">=0.40", "!=0.41,>=0.38"])
-def test_silent_when_the_specifier_spans_the_removal(target: str) -> None:
-    assert codes(lint(SOURCE, runtime=target)) == []
+def test_a_specifier_that_spans_the_removal_is_reported(target: str) -> None:
+    # The project says it supports versions where the channel is gone, so the
+    # call breaks somewhere inside its own declared range. This is the policy
+    # QXL202, QXL203 and QXL205 use, and QXL201 now uses it too.
+    findings = lint(SOURCE, runtime=target)
+    assert codes(findings) == ["QXL201"]
+    assert findings[0].severity is Severity.ERROR
+    assert "which the declared target allows" in findings[0].message
 
 
 def test_silent_below_the_deprecation_version() -> None:
     assert codes(lint(SOURCE, runtime="0.39")) == []
 
 
-def test_silent_without_a_target_version() -> None:
-    assert codes(lint(SOURCE)) == []
+@pytest.mark.parametrize("target", ["0.30", ">=0.28,<0.40"])
+def test_silent_on_a_target_entirely_before_the_deprecation(target: str) -> None:
+    assert codes(lint(SOURCE, runtime=target)) == []
+
+
+def test_an_undeclared_target_reads_as_current() -> None:
+    # V1 era runtimes are 8 releases behind, so the reading that helps a
+    # migration is the current one, and it is the reading the other four
+    # version gated rules already take.
+    findings = lint(SOURCE)
+    assert codes(findings) == ["QXL201"]
+    assert findings[0].severity is Severity.ERROR
+    assert "was removed" in findings[0].message
 
 
 def test_constant_propagation_through_a_variable() -> None:
@@ -126,8 +143,10 @@ def test_save_account_on_an_instance_is_reported() -> None:
 def test_save_account_obeys_the_same_version_gate() -> None:
     assert codes(lint(SAVE, runtime="0.40")) == ["QXL201"]
     assert lint(SAVE, runtime="0.40")[0].severity is Severity.WARNING
-    assert codes(lint(SAVE, runtime=">=0.38,<0.43")) == []
-    assert codes(lint(SAVE)) == []
+    # A spanning target and an undeclared one both reach the removal.
+    assert codes(lint(SAVE, runtime=">=0.38,<0.43")) == ["QXL201"]
+    assert codes(lint(SAVE)) == ["QXL201"]
+    assert codes(lint(SAVE, runtime="0.39")) == []
 
 
 @pytest.mark.parametrize("channel", ["ibm_quantum_platform", "ibm_cloud"])
@@ -204,7 +223,7 @@ def test_renamed_service_class_on_an_instance_is_reported() -> None:
 
 
 def test_renamed_service_class_obeys_the_version_gate() -> None:
-    assert codes(lint(RENAMED)) == []
+    assert codes(lint(RENAMED)) == ["QXL201"]
     assert codes(lint(RENAMED, runtime="0.39")) == []
 
 
