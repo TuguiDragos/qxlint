@@ -90,3 +90,26 @@ def test_the_message_names_the_primitive_and_the_fix() -> None:
     assert "an EstimatorV2" in finding.message
     assert "raises TypeError" in finding.message
     assert finding.fix_hint == "pass one list of pubs"
+
+
+def test_a_bare_circuit_is_reported() -> None:
+    # Verified on Qiskit 2.5.2: run(qc) raises
+    # ValueError: An invalid Sampler pub-like was given.
+    findings = lint(HEADER + "sam.run(qc)\n")
+    assert "QXL204" in codes(findings)
+    finding = next(f for f in findings if f.rule == "QXL204")
+    assert "not a circuit" in finding.message
+    assert "raises ValueError" in finding.message
+    assert finding.fix_hint == "wrap it in a list, run([circuit])"
+
+
+def test_a_bare_circuit_to_an_estimator_is_reported() -> None:
+    assert "QXL204" in codes(lint(HEADER + "est.run(qc)\n"))
+
+
+def test_the_list_form_is_still_accepted() -> None:
+    assert "QXL204" not in codes(lint(HEADER + "sam.run([qc])\n"))
+
+
+def test_an_unproven_argument_is_not_called_a_circuit() -> None:
+    assert "QXL204" not in codes(lint(HEADER + "sam.run(whatever)\n"))

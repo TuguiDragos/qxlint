@@ -76,9 +76,20 @@ class V1RunSignature(Rule):
 
         name = READABLE[facts.kind]
         reason: str | None = None
+        raised = "TypeError"
         fix = "pass one list of pubs"
 
-        if event.args_complete and len(event.args) > 1:
+        first = event.args[0] if event.args else None
+        first_facts = event.state.facts(first) if first is not None else None
+        if first_facts is not None and first_facts.kind is ObjectKind.CIRCUIT:
+            # Verified on Qiskit 2.5.2: a bare circuit raises
+            # ValueError: An invalid Sampler pub-like was given.
+            reason = (
+                f"run() on {name} takes a list of pubs, not a circuit; a bare circuit is not a pub"
+            )
+            raised = "ValueError"
+            fix = "wrap it in a list, run([circuit])"
+        elif event.args_complete and len(event.args) > 1:
             reason = (
                 f"run() on {name} takes one argument, a list of pubs; "
                 "the V1 form took parallel lists"
@@ -96,11 +107,11 @@ class V1RunSignature(Rule):
         ctx.emit(
             Finding(
                 rule=self.meta.code,
-                message=f"{reason}, so this call raises TypeError",
+                message=f"{reason}, so this call raises {raised}",
                 location=ctx.source.location(event.node),
                 severity=self.meta.severity,
                 tier=self.meta.tier,
                 fix_hint=fix,
-                context={"receiverKind": facts.kind.value},
+                context={"receiverKind": facts.kind.value, "raises": raised},
             )
         )

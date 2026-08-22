@@ -11,10 +11,10 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings read and labelled individually | **373** |
+| Findings read and labelled individually | **379** |
 | QXL205 findings, counted in aggregate, 24 of them sampled and read | **5,845** |
 | of which false positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **6,159**, of which 314 outside QXL205 |
+| Findings the current tree reports | **6,165**, of which 320 outside QXL205 |
 | Defects the corpus found in qxlint, all fixed | **10** |
 | Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
 
@@ -27,7 +27,7 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 
 ## Who labelled these
 
-All 373 labels were written by an AI reviewer, `claude-opus-5`, and **none has
+All 379 labels were written by an AI reviewer, `claude-opus-5`, and **none has
 been confirmed by a human**. Every row says so in its `reviewer` column, and no
 row claims otherwise.
 
@@ -83,13 +83,13 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 | QXL201 | 79 | 79 | 79 | 0 |
 | QXL202 | 21 | 21 | 21 | 0 |
 | QXL203 | 4 | 4 | 4 | 0 |
-| QXL204 | 2 | 2 | 2 | 0 |
+| QXL204 | 8 | 8 | 8 | 0 |
 | QXL205 | 24 sampled | 5,845 | 24 sampled | 0 |
 
 The scan supplies `--target-runtime 0.48` so the version gated rules are pinned
 to a stated version rather than to whatever the reading of the day is. Since
 every one of them now reads an undeclared target as current, the total without
-the flag is the same 6,159.
+the flag is the same 6,165.
 
 Two QXL104 rows were relabelled from `true-positive` to `false-positive` on
 20 August 2026, both in `ML-2-QML/QML/5514.py`. Each is
