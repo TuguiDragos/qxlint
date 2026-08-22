@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from qxlint.config import Config
@@ -56,3 +58,20 @@ def qiskit_installed() -> bool:
     except ImportError:
         pytest.skip("qiskit is not installed")
     return True
+
+
+# The repository holds files a source distribution deliberately does not ship:
+# docs, the corpus, the editor and npm manifests, VERSION, CITATION.cff. Tests
+# that read them check the repository rather than the package, so they skip
+# where those files are absent. Without this a packager building from the sdist
+# sees 63 failures and the rational response is to disable the suite entirely,
+# which removes the only verification the package gets on their platform.
+REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
+HAS_REPOSITORY_LAYOUT = (REPOSITORY_ROOT / "docs" / "rules").is_dir() and (
+    REPOSITORY_ROOT / "VERSION"
+).is_file()
+
+requires_repository = pytest.mark.skipif(
+    not HAS_REPOSITORY_LAYOUT,
+    reason="needs the repository layout, which a source distribution does not ship",
+)

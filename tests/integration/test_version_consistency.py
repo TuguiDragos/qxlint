@@ -15,8 +15,11 @@ from pathlib import Path
 import pytest
 
 from qxlint import __version__
+from tests.conftest import requires_repository
 
 ROOT = Path(__file__).resolve().parents[2]
+
+pytestmark = requires_repository
 
 MANIFESTS = ["npm/package.json", "vscode/package.json", "vscode/package-lock.json"]
 

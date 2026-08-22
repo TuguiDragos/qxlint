@@ -18,9 +18,11 @@ import pytest
 from qxlint.docs import expected_pages, page_name
 from qxlint.registry import all_meta
 from qxlint.rules.base import RuleMeta
-from tests.conftest import codes, lint
+from tests.conftest import codes, lint, requires_repository
 
 ROOT = Path(__file__).resolve().parents[2]
+
+pytestmark = requires_repository
 METAS = all_meta()
 CHECKABLE = [meta for meta in METAS if meta.examples_checkable and meta.code != "QXL000"]
 

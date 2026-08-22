@@ -11,7 +11,11 @@ from pathlib import Path
 
 import pytest
 
+from tests.conftest import requires_repository
+
 ROOT = Path(__file__).resolve().parents[2]
+
+pytestmark = requires_repository
 README = (ROOT / "README.md").read_text(encoding="utf-8")
 
 LINK = re.compile(r"\]\(([^)]+)\)")
