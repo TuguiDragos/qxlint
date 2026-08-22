@@ -25,6 +25,7 @@ from __future__ import annotations
 import fnmatch
 import tomllib
 from dataclasses import dataclass, field, replace
+from difflib import get_close_matches
 from pathlib import Path
 
 from qxlint.diagnostics import Tier
@@ -149,6 +150,33 @@ class Config:
         return False
 
 
+# Every key `load_config` reads. A key outside this set is a typo, and a typo
+# that is accepted silently leaves the user believing a setting took effect.
+KNOWN_KEYS = frozenset(
+    {
+        "select",
+        "ignore",
+        "preview",
+        "per-file-ignores",
+        "exclude",
+        "extend-exclude",
+        "target-qiskit",
+        "target-runtime",
+    }
+)
+
+
+def _reject_unknown_keys(section: dict[str, object], path: Path) -> None:
+    unknown = sorted(key for key in section if key not in KNOWN_KEYS)
+    if not unknown:
+        return
+    details = []
+    for key in unknown:
+        close = get_close_matches(key, sorted(KNOWN_KEYS), n=1, cutoff=0.6)
+        details.append(f"{key!r}" + (f", did you mean {close[0]!r}" if close else ""))
+    raise ConfigError(f"unknown key in [tool.{SECTION}] in {path}: " + "; ".join(details))
+
+
 _GLOB_CHARACTERS = frozenset("*?[")
 
 
@@ -170,6 +198,8 @@ def load_config(path: Path) -> Config:
     section = tool.get(SECTION) if isinstance(tool, dict) else None
     if not isinstance(section, dict):
         return Config(source_path=path, root=path.parent)
+
+    _reject_unknown_keys(section, path)
 
     return Config(
         select=_str_tuple(section, "select", path),

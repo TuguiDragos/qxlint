@@ -515,3 +515,53 @@ def test_per_file_ignores_without_a_root_uses_the_path_as_given() -> None:
     config = Config(per_file_ignores=(("tests/*", ("QXL103",)),))
     assert config.ignored_for_path("tests/t.py") == frozenset({"QXL103"})
     assert config.ignored_for_path("other/t.py") == frozenset()
+
+
+# Unknown configuration keys ---------------------------------------------
+
+
+def test_an_unknown_key_is_rejected_with_a_suggestion(tmp_path: Path) -> None:
+    path = tmp_path / "pyproject.toml"
+    path.write_text('[tool.qxlint]\nignor = ["QXL103"]\n')
+    with pytest.raises(ConfigError) as caught:
+        load_config(path)
+    assert "'ignor'" in str(caught.value)
+    assert "did you mean 'ignore'" in str(caught.value)
+
+
+def test_every_unknown_key_is_named(tmp_path: Path) -> None:
+    path = tmp_path / "pyproject.toml"
+    path.write_text('[tool.qxlint]\nignor = []\ntarget_runtime = "0.48"\n')
+    with pytest.raises(ConfigError) as caught:
+        load_config(path)
+    message = str(caught.value)
+    assert "'ignor'" in message
+    assert "'target_runtime'" in message
+
+
+def test_a_key_with_no_close_match_is_reported_without_a_suggestion(tmp_path: Path) -> None:
+    path = tmp_path / "pyproject.toml"
+    path.write_text("[tool.qxlint]\nzzzzzzzz = 1\n")
+    with pytest.raises(ConfigError) as caught:
+        load_config(path)
+    assert "'zzzzzzzz'" in str(caught.value)
+    assert "did you mean" not in str(caught.value)
+
+
+def test_every_documented_key_is_accepted(tmp_path: Path) -> None:
+    path = tmp_path / "pyproject.toml"
+    path.write_text(
+        "[tool.qxlint]\n"
+        'select = ["QXL1"]\n'
+        'ignore = ["QXL104"]\n'
+        "preview = true\n"
+        'exclude = ["build"]\n'
+        'extend-exclude = ["vendor"]\n'
+        'target-qiskit = "2.0"\n'
+        'target-runtime = "0.48"\n'
+        "\n[tool.qxlint.per-file-ignores]\n"
+        '"tests/*" = ["QXL103"]\n'
+    )
+    config = load_config(path)
+    assert config.select == ("QXL1",)
+    assert config.per_file_ignores == (("tests/*", ("QXL103",)),)

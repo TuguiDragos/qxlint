@@ -18,6 +18,10 @@ target-runtime = "0.48"
 "tests/*" = ["QXL101"]
 ```
 
+A key that is not one of the eight above is a typo, and qxlint refuses to run
+rather than letting you believe a setting took effect. The message names every
+unknown key and suggests the closest real one.
+
 ## The command line
 
 ```
