@@ -11,9 +11,9 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings, every one read and labelled | **347** |
+| Findings, every one read and labelled | **349** |
 | of which false positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **312** |
+| Findings the current tree reports | **314** |
 | Defects the corpus found in qxlint, all fixed | **10** |
 | Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
 
@@ -26,7 +26,7 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 
 ## Who labelled these
 
-All 347 labels were written by an AI reviewer, `claude-opus-5`, and **none has
+All 349 labels were written by an AI reviewer, `claude-opus-5`, and **none has
 been confirmed by a human**. Every row says so in its `reviewer` column, and no
 row claims otherwise.
 
@@ -82,10 +82,11 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 | QXL201 | 79 | 79 | 79 | 0 |
 | QXL202 | 21 | 21 | 21 | 0 |
 | QXL203 | 4 | 4 | 4 | 0 |
+| QXL204 | 2 | 2 | 2 | 0 |
 
 QXL201 needs a declared target version, so the scan supplies
 `--target-runtime 0.48`. Without it that rule is silent by design and the total
-is 233.
+is 235.
 
 Two QXL104 rows were relabelled from `true-positive` to `false-positive` on
 20 August 2026, both in `ML-2-QML/QML/5514.py`. Each is

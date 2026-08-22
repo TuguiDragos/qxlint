@@ -14,9 +14,10 @@
   "QXL104": 45,
   "QXL103": 9,
   "QXL102": 12,
+  "QXL204": 2,
   "QXL101": 7
  },
- "findings": 312,
+ "findings": 314,
  "records": [
   {
    "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
@@ -3565,6 +3566,7 @@
    "counts": {
     "QXL201": 2,
     "QXL203": 1,
+    "QXL204": 1,
     "QXL000": 2
    },
    "findings": [
@@ -3606,6 +3608,25 @@
      "context": {
       "targetRuntime": "0.48",
       "removedIn": "0.34"
+     }
+    },
+    {
+     "rule": "QXL204",
+     "message": "run() on an EstimatorV2 takes one argument, a list of pubs; the V1 form took parallel lists, so this call raises TypeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "circuits.py",
+      "line": 128,
+      "column": 16,
+      "endLine": 128,
+      "endColumn": 101
+     },
+     "fixHint": "pass one list of pubs",
+     "context": {
+      "receiverKind": "estimator_v2"
      }
     },
     {
@@ -7328,6 +7349,7 @@
    "counts": {
     "QXL102": 2,
     "QXL104": 35,
+    "QXL204": 1,
     "QXL101": 7
    },
    "findings": [
@@ -7482,6 +7504,25 @@
      "fixHint": "assign the result",
      "context": {
       "method": "decompose"
+     }
+    },
+    {
+     "rule": "QXL204",
+     "message": "run() on an EstimatorV2 has no shots argument, so this call raises TypeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "ML-2-QML/QML/2507.py",
+      "line": 127,
+      "column": 15,
+      "endLine": 127,
+      "endColumn": 48
+     },
+     "fixHint": "use precision=, or set shots in the pub",
+     "context": {
+      "receiverKind": "estimator_v2"
      }
     },
     {

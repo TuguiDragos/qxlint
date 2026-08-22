@@ -61,9 +61,9 @@ was run on any of them. See [../corpus/](../corpus/).
 | Files read | 51,711: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | 0 |
 | Non deterministic results | 0 |
-| Findings, read and labelled | 347 |
+| Findings, read and labelled | 349 |
 | False positives, three defects, all since fixed | 35 |
-| Findings the current tree reports | 312 |
+| Findings the current tree reports | 314 |
 | Defects the corpus found in qxlint | 10 |
 
 Every finding is labelled in a versioned CSV carrying the line it was reported
@@ -83,7 +83,7 @@ or absent.
 ## Not met, and not claimed
 
 - **No precision figure.** Every finding across the corpus was read and
-  labelled, but a single reviewer on 347 findings is not an independent
+  labelled, but a single reviewer on 349 findings is not an independent
   precision measurement, and none is published. Thirty of those labels turned
   out to be wrong, which is the honest illustration of why one reviewer is not a
   measurement. QXL105 has still fired zero times on external code, so the corpus

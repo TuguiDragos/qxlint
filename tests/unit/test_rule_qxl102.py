@@ -55,7 +55,9 @@ def test_negative_on_a_runtime_v1_result_when_the_target_predates_the_rebinding(
         "dists = result.quasi_dists\n"
     )
     assert codes(lint(source, runtime="0.27")) == []
-    assert codes(lint(source, runtime="0.28")) == ["QXL102"]
+    # From 0.28 the bare name is SamplerV2, so the result is a V2 one and
+    # `run(circuits=...)` is the V1 grammar on a V2 primitive. Both are right.
+    assert codes(lint(source, runtime="0.28")) == ["QXL204", "QXL102"]
 
 
 # The estimator half of the same mistake -------------------------------------

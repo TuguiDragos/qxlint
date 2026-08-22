@@ -90,6 +90,7 @@ all, and only the in-memory circuit checks require it installed.
 | [QXL201](docs/rules/qxl201.md) | default | `channel="ibm_quantum"` on a target that removed it |
 | [QXL202](docs/rules/qxl202.md) | default | Runtime `SamplerV2` given `backend=` or `session=` instead of `mode=` |
 | [QXL203](docs/rules/qxl203.md) | default | `Session` or `Batch` given `service=`, removed in qiskit-ibm-runtime 0.34 |
+| [QXL204](docs/rules/qxl204.md) | default | a V2 primitive's `run()` called with the V1 argument grammar |
 | [QXL300](docs/rules/qxl300.md) | default, library | control flow nests deeper than the circuit walker descends |
 | [QXL301](docs/rules/qxl301.md) | default, library | a circuit uses an operation the `Target` does not support, control flow operations included |
 | [QXL302](docs/rules/qxl302.md) | preview, library | two adjacent identical self inverse gates cancel |
@@ -438,10 +439,10 @@ linter was run on any of them.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings, every one read and labelled | 347 |
-| of which workflow defects rather than unparsable files | **177** |
+| Findings, every one read and labelled | 349 |
+| of which workflow defects rather than unparsable files | **179** |
 | False positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **312** |
+| Findings the current tree reports | **314** |
 | Defects the corpus found in qxlint, and fixed | **10** |
 
 The 35 are three defects. The first two are in the same place. The first, 30 rows: the notebook
@@ -475,7 +476,7 @@ always returns, so the comment on the first line describes something that does
 not happen.
 
 Every finding was read in context and labelled, with the line it was reported
-on, in [findings.csv](corpus/findings.csv). **Every one of those 347 labels was
+on, in [findings.csv](corpus/findings.csv). **Every one of those 349 labels was
 written by an AI reviewer, `claude-opus-5`, and none has been confirmed by a
 human yet**, which is recorded in the `reviewer` column of every row. Read the
 corpus as evidence of robustness and determinism, which it measures directly,
