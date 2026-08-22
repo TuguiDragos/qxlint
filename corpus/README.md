@@ -11,9 +11,10 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | Files read | **51,711**: 50,385 `.py` and 1,326 `.ipynb` |
 | Crashes, timeouts, exit code 2 | **0** |
 | Non deterministic results | **0** |
-| Findings, every one read and labelled | **349** |
+| Findings read and labelled individually | **373** |
+| QXL205 findings, counted in aggregate, 24 of them sampled and read | **5,845** |
 | of which false positives, three defects, all since fixed | **35** |
-| Findings the current tree reports | **314** |
+| Findings the current tree reports | **6,159**, of which 314 outside QXL205 |
 | Defects the corpus found in qxlint, all fixed | **10** |
 | Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
 
@@ -26,7 +27,7 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 
 ## Who labelled these
 
-All 349 labels were written by an AI reviewer, `claude-opus-5`, and **none has
+All 373 labels were written by an AI reviewer, `claude-opus-5`, and **none has
 been confirmed by a human**. Every row says so in its `reviewer` column, and no
 row claims otherwise.
 
@@ -83,10 +84,11 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 | QXL202 | 21 | 21 | 21 | 0 |
 | QXL203 | 4 | 4 | 4 | 0 |
 | QXL204 | 2 | 2 | 2 | 0 |
+| QXL205 | 24 sampled | 5,845 | 24 sampled | 0 |
 
 QXL201 needs a declared target version, so the scan supplies
 `--target-runtime 0.48`. Without it that rule is silent by design and the total
-is 235.
+is 6080.
 
 Two QXL104 rows were relabelled from `true-positive` to `false-positive` on
 20 August 2026, both in `ML-2-QML/QML/5514.py`. Each is
@@ -115,6 +117,28 @@ A credential that appears in a scanned repository is replaced by `<redacted>` in
 the `source` column. Eight rows are affected. The value is still in the public
 repository the row points at; recording where a linter fired must not republish
 it here.
+
+### QXL205 is counted rather than read line by line
+
+QXL205 contributes 5,845 of the findings, and they are not individually
+labelled. The reason is that the rule makes no inference. It is a lookup in a
+table of 12 names, each with the release that removed it read from the published
+wheels and the absence confirmed on Qiskit 2.5.2, matched against the dotted
+path of an import statement. The claim that has to be checked is the table, not
+the 5,845 places the table matches.
+
+24 of them are read and labelled anyway, 2 for each of the 12 names, drawn from
+12 different repositories, so the match itself is evidenced. Every sampled line
+was opened in the corpus checkout and confirmed to import the name reported.
+
+The concentration is worth recording. 90 percent of the 5,845 come from two
+repositories that are collections of legacy files rather than projects:
+runtsang/Q-Bridge contributes 3,867 across 2,334 files and
+LucaGandolfi77/Qiskit-QuantumComputing 1,385 across 365. The other 32
+repositories that QXL205 touches receive at most 15 findings each.
+
+Every other rule keeps the original discipline: every finding read, every label
+recorded with its reason.
 
 ### The 30 false positives were one defect
 

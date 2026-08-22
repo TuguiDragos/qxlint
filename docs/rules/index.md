@@ -14,6 +14,7 @@
 | [QXL202](qxl202.md) | default | error | Runtime SamplerV2 or EstimatorV2 given backend= or session= instead of mode= |
 | [QXL203](qxl203.md) | default | error | service= passed to Session or Batch, which dropped the argument |
 | [QXL204](qxl204.md) | default | error | a V2 primitive's run() called the way V1 took its arguments |
+| [QXL205](qxl205.md) | default | error | an import of a name Qiskit 1.0 or 2.0 removed |
 | [QXL300](qxl300.md) | default | warning | control flow nests deeper than the 12 levels qxlint walks |
 | [QXL301](qxl301.md) | default | error | circuit uses an operation or qubit the target does not support |
 | [QXL302](qxl302.md) | preview | note | two adjacent identical self inverse gates cancel out |

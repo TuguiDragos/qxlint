@@ -88,6 +88,22 @@ class MethodCallEvent:
 
 
 @dataclass(frozen=True, slots=True)
+class ImportEvent:
+    """One name brought in by an ``import`` or ``from ... import`` statement.
+
+    ``qualified_name`` is the dotted path as written, so ``qiskit.opflow`` for
+    ``import qiskit.opflow`` and ``qiskit.execute`` for
+    ``from qiskit import execute``. A relative import has no dotted path that
+    means anything outside the package, so none is emitted for one.
+    """
+
+    node: ast.stmt
+    qualified_name: str
+    bound_name: str
+    state: State
+
+
+@dataclass(frozen=True, slots=True)
 class AttributeEvent:
     """A plain attribute read, not a call."""
 
@@ -143,6 +159,9 @@ class Rule:
     def on_primitive_run(self, event: PrimitiveRunEvent, ctx: RuleContext) -> None:
         """A sampler or estimator receiving circuits."""
 
+    def on_import(self, event: ImportEvent, ctx: RuleContext) -> None:
+        """A name brought in by an import statement."""
+
 
 @dataclass
 class RuleSet:
@@ -152,7 +171,7 @@ class RuleSet:
     _by_hook: dict[str, tuple[Rule, ...]] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
-        hooks = ("on_call", "on_method_call", "on_attribute", "on_primitive_run")
+        hooks = ("on_call", "on_method_call", "on_attribute", "on_primitive_run", "on_import")
         for hook in hooks:
             self._by_hook[hook] = tuple(
                 rule for rule in self.rules if getattr(type(rule), hook) is not getattr(Rule, hook)

@@ -27,6 +27,7 @@ from qxlint.profile import Applicability
 from qxlint.rules.base import (
     AttributeEvent,
     CallEvent,
+    ImportEvent,
     MethodCallEvent,
     PrimitiveRunEvent,
     PubArgument,
@@ -221,6 +222,7 @@ class Analyzer:
             bound = alias.asname or alias.name.split(".")[0]
             target = alias.name if alias.asname else alias.name.split(".")[0]
             state.bind(bound, ImportedSymbol(self._canonical(target)))
+            self._imported(node, alias.name, bound, state)
 
     def _stmt_ImportFrom(self, node: ast.ImportFrom, state: State) -> None:
         if node.level:
@@ -230,7 +232,14 @@ class Analyzer:
         module = node.module or ""
         for alias in node.names:
             qualified = f"{module}.{alias.name}" if module else alias.name
-            state.bind(alias.asname or alias.name, ImportedSymbol(self._canonical(qualified)))
+            bound = alias.asname or alias.name
+            state.bind(bound, ImportedSymbol(self._canonical(qualified)))
+            self._imported(node, qualified, bound, state)
+
+    def _imported(self, node: ast.stmt, qualified: str, bound: str, state: State) -> None:
+        event = ImportEvent(node=node, qualified_name=qualified, bound_name=bound, state=state)
+        for rule in self.ruleset.for_hook("on_import"):
+            rule.on_import(event, self.ctx)
 
     def _stmt_Assign(self, node: ast.Assign, state: State) -> None:
         value = self._eval(node.value, state)

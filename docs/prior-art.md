@@ -33,10 +33,19 @@ shape, observables, layout, or Session and Batch usage. Its own README notes tha
 the method-name checks are heuristic and can produce false positives without type
 inference.
 
-**qxlint implements no migration rules.** The two tools answer different
-questions. flake8-qiskit-migration answers "does this code still import and call
-things that exist". qxlint answers "is this a correct Primitives V2 workflow".
-Run both.
+**qxlint implements one migration rule, QXL205, and no more.** The two tools
+still answer different questions: flake8-qiskit-migration answers "does this code
+still import and call things that exist", qxlint answers "is this a correct
+Primitives V2 workflow". QXL205 exists because the corpus said the boundary was
+costing users the answer: 42 of the 244 repositories import a name Qiskit 1.0 or
+2.0 removed, and a fifth of those receive no other finding at all, so qxlint
+handed them a clean report on a file that cannot import.
+
+QXL205 covers 12 names, each with the release that dropped it read from the
+published wheels, and stops there. It does not attempt the 207 entry deprecated
+name table flake8-qiskit-migration maintains, and it checks imports only, never
+method names, so it cannot produce the heuristic false positives that tool's own
+README warns about. Run both.
 
 ## LintQ
 

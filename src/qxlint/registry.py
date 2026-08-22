@@ -41,6 +41,7 @@ def _load() -> None:
         qxl202_runtime_primitive_mode,
         qxl203_session_service,
         qxl204_v1_run_signature,
+        qxl205_removed_symbol,
     )
 
 

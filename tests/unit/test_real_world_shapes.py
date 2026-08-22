@@ -267,7 +267,12 @@ def test_the_local_v1_primitive_keeps_its_own_api() -> None:
         "job = Sampler().run([qc])\n"
         "dists = job.result().quasi_dists\n"
     )
-    assert codes(lint(source)) == []
+    # quasi_dists is the right spelling for a V1 result, so the V2 result rules
+    # stay quiet. On a target that still has the V1 Sampler nothing fires at all.
+    assert codes(lint(source, qiskit="1.4")) == []
+    # Without such a target the reading is current, where the import itself is
+    # dead: qiskit.primitives.Sampler was removed in Qiskit 2.0.
+    assert codes(lint(source)) == ["QXL205"]
 
 
 def test_a_measured_circuit_reused_for_an_estimator() -> None:
