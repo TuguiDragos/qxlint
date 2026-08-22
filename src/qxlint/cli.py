@@ -153,6 +153,10 @@ def _run(args: argparse.Namespace) -> int:
             )
             failed = True
 
+    if not targets:
+        # Zero files analysed and zero findings look identical to a clean run,
+        # and take a CI gate green having checked nothing.
+        print("qxlint: no Python or notebook files were analysed", file=sys.stderr)
     return _report(findings, args, total_files=len(targets), failed=failed)
 
 

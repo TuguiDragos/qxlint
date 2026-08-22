@@ -76,7 +76,14 @@ def render_statistics(
     """The histogram view."""
     counts = summarise(findings)
     if not counts:
-        return paint("No findings.", TEXT_DIM, depth)
+        if total_files is None:
+            summary = "No findings."
+        elif total_files == 0:
+            summary = "No files were analysed."
+        else:
+            unit = "file" if total_files == 1 else "files"
+            summary = f"No findings in {total_files} {unit}."
+        return paint(summary, TEXT_DIM, depth)
 
     filled_glyph, empty_glyph = bar_glyphs(stream)
     widest = max(entry.count for entry in counts)

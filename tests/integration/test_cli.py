@@ -273,7 +273,9 @@ def test_statistics_on_a_clean_tree_says_so_and_exits_zero(
 ) -> None:
     write(tmp_path, "good.py", GOOD)
     assert main([str(tmp_path), "--statistics"]) == EXIT_OK
-    assert "No findings." in capsys.readouterr().out
+    # The count is the point: a clean run has to be distinguishable from a run
+    # that analysed nothing, which is otherwise byte identical.
+    assert "No findings in 1 file." in capsys.readouterr().out
 
 
 def test_statistics_preserves_the_exit_code(tmp_path: Path) -> None:
@@ -431,7 +433,7 @@ def test_statistics_output_carries_no_escapes_when_piped(
 def test_statistics_respects_select(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
     write(tmp_path, "bad.py", BAD)
     assert main([str(tmp_path), "--statistics", "--select", "QXL101"]) == EXIT_OK
-    assert "No findings." in capsys.readouterr().out
+    assert "No findings in 1 file." in capsys.readouterr().out
 
 
 def test_statistics_is_deterministic(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
@@ -686,3 +688,30 @@ def test_selecting_the_unparsable_rule_is_allowed(tmp_path: Path) -> None:
     # QXL000 defines no source hook but the engine emits it, so it is reachable.
     write(tmp_path, "clean.py", "x = 1\n")
     assert main([str(tmp_path), "--select", "QXL000"]) == 0
+
+
+def test_a_run_that_analysed_nothing_says_so(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    (tmp_path / "notes.md").write_text("nothing to lint\n")
+    assert main([str(tmp_path)]) == EXIT_OK
+    captured = capsys.readouterr()
+    assert "no Python or notebook files were analysed" in captured.err
+    assert captured.out == ""
+
+
+def test_statistics_distinguishes_nothing_analysed_from_nothing_found(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    (tmp_path / "empty").mkdir()
+    assert main([str(tmp_path / "empty"), "--statistics"]) == EXIT_OK
+    assert "No files were analysed." in capsys.readouterr().out
+
+
+def test_a_clean_run_over_several_files_counts_them(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "a.py", GOOD)
+    write(tmp_path, "b.py", GOOD)
+    assert main([str(tmp_path), "--statistics"]) == EXIT_OK
+    assert "No findings in 2 files." in capsys.readouterr().out
