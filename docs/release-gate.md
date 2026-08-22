@@ -26,7 +26,7 @@ Every line under "Met" is checked by something that runs, not by review.
 
 ### The suite
 
-- **1052 tests**, green on Python 3.11, 3.12, 3.13 and 3.14.
+- **1125 tests**, green on Python 3.11, 3.12, 3.13 and 3.14.
 - **100% coverage of statements and branches**, enforced as a CI gate rather
   than reported as a number. Branch coverage is on because a guard whose false
   side never runs is exactly where a linter hides a wrong answer.
@@ -45,7 +45,7 @@ Every line under "Met" is checked by something that runs, not by review.
   Qiskit, not from documentation prose. The self inverse gate list was built by
   squaring operator matrices, and the library circuit table was built by
   constructing each entry and reading what it contained.
-- `scripts/verify_model.py` re-checks **340 claims** against the installed
+- `scripts/verify_model.py` re-checks **371 claims** against the installed
   packages. A scheduled workflow runs it on the 1st and the 15th of each month
   against the latest released Qiskit and qiskit-ibm-runtime, so an upstream
   change surfaces as a failing job rather than as a user report.

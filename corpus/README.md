@@ -78,7 +78,7 @@ produce byte identical output, and so do Python 3.13 and 3.14.
 | QXL101 | 7 | 7 | 7 | 0 |
 | QXL102 | 11 | 11 | 11 | 0 |
 | QXL103 | 9 | 9 | 9 | 0 |
-| QXL104 | 47 | 47 | 47 | 0 |
+| QXL104 | 47 | 45 | 45 | 2 |
 | QXL201 | 79 | 79 | 79 | 0 |
 | QXL202 | 21 | 21 | 21 | 0 |
 

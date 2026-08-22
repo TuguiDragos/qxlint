@@ -15,7 +15,7 @@
   <a href="https://github.com/TuguiDragos/qxlint/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/TuguiDragos/qxlint/ci.yml?branch=main&style=flat&color=161826&label=CI&logo=githubactions&logoColor=9184D9" /></a>
   <a href="https://www.python.org/"><img alt="Python 3.11 to 3.14" src="https://img.shields.io/badge/Python-3.11%20--%203.14-161826?style=flat&logo=python&logoColor=9184D9" /></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="1052 tests" src="https://img.shields.io/badge/tests-1052-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1125 tests" src="https://img.shields.io/badge/tests-1125-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-161826?style=flat" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
 </p>
@@ -414,12 +414,12 @@ Every claim on this page is backed by something that runs.
 
 | | |
 | --- | --- |
-| Tests | **1052**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
+| Tests | **1125**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
 | Qiskit matrix | 2.5.2, the declared floor 2.0.3, and a job with **no Qiskit installed at all** |
 | Coverage | **100% of statements and branches**, enforced as a CI gate, not reported as a number |
 | Types | `mypy --strict`, clean |
 | Style | `ruff check` and `ruff format --check`, clean |
-| API model | **340 checks** against a real Qiskit install, run on a schedule so an upstream change is a test failure rather than a user report |
+| API model | **371 checks** against a real Qiskit install, run on a schedule so an upstream change is a test failure rather than a user report |
 | Mutation testing | 46 hand written mutations, each changing one documented behaviour. 44 were caught; the 2 survivors were each verified to be equivalent mutants |
 
 The API tables were built by introspecting an installed Qiskit, not by reading
