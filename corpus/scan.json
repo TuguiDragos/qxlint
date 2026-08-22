@@ -10,12 +10,13 @@
   "QXL201": 79,
   "QXL000": 135,
   "QXL202": 21,
+  "QXL203": 4,
   "QXL104": 45,
   "QXL103": 9,
   "QXL102": 12,
   "QXL101": 7
  },
- "findings": 308,
+ "findings": 312,
  "records": [
   {
    "repo": "01134K/Quantum-Programming-Remote-Controlled-Randomness",
@@ -1786,6 +1787,7 @@
    "exit": 1,
    "counts": {
     "QXL201": 1,
+    "QXL203": 1,
     "QXL202": 1
    },
    "findings": [
@@ -1807,6 +1809,26 @@
      "context": {
       "targetRuntime": "0.48",
       "applicability": "always"
+     }
+    },
+    {
+     "rule": "QXL203",
+     "message": "Session takes no service argument; it was removed in qiskit-ibm-runtime 0.34 and passing it raises TypeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "src/backend/quantum/hardware.py",
+      "line": 101,
+      "column": 34,
+      "endLine": 101,
+      "endColumn": 41
+     },
+     "fixHint": "drop service=, and pass a backend object as backend=",
+     "context": {
+      "targetRuntime": "0.48",
+      "removedIn": "0.34"
      }
     },
     {
@@ -3542,6 +3564,7 @@
    "exit": 1,
    "counts": {
     "QXL201": 2,
+    "QXL203": 1,
     "QXL000": 2
    },
    "findings": [
@@ -3563,6 +3586,26 @@
      "context": {
       "targetRuntime": "0.48",
       "applicability": "always"
+     }
+    },
+    {
+     "rule": "QXL203",
+     "message": "Session takes no service argument; it was removed in qiskit-ibm-runtime 0.34 and passing it raises TypeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "circuits.py",
+      "line": 119,
+      "column": 22,
+      "endLine": 119,
+      "endColumn": 29
+     },
+     "fixHint": "drop service=, and pass a backend object as backend=",
+     "context": {
+      "targetRuntime": "0.48",
+      "removedIn": "0.34"
      }
     },
     {
@@ -4516,9 +4559,30 @@
    "notebooks": 0,
    "exit": 1,
    "counts": {
+    "QXL203": 2,
     "QXL202": 3
    },
    "findings": [
+    {
+     "rule": "QXL203",
+     "message": "Session takes no service argument; it was removed in qiskit-ibm-runtime 0.34 and passing it raises TypeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/function/vqe.py",
+      "line": 154,
+      "column": 30,
+      "endLine": 154,
+      "endColumn": 37
+     },
+     "fixHint": "drop service=, and pass a backend object as backend=",
+     "context": {
+      "targetRuntime": "0.48",
+      "removedIn": "0.34"
+     }
+    },
     {
      "rule": "QXL202",
      "message": "EstimatorV2 takes mode=, not backend=; the V2 primitives replaced both backend= and session= with mode=",
@@ -4536,6 +4600,26 @@
      "fixHint": "rename backend= to mode=",
      "context": {
       "argument": "backend"
+     }
+    },
+    {
+     "rule": "QXL203",
+     "message": "Session takes no service argument; it was removed in qiskit-ibm-runtime 0.34 and passing it raises TypeError",
+     "severity": "error",
+     "tier": "default",
+     "engine": "A",
+     "location": {
+      "kind": "source",
+      "path": "qiskit/function/vqe.py",
+      "line": 188,
+      "column": 30,
+      "endLine": 188,
+      "endColumn": 37
+     },
+     "fixHint": "drop service=, and pass a backend object as backend=",
+     "context": {
+      "targetRuntime": "0.48",
+      "removedIn": "0.34"
      }
     },
     {

@@ -39,6 +39,7 @@ def _load() -> None:
         qxl105_measured_to_statevector_estimator,
         qxl201_ibm_quantum_channel,
         qxl202_runtime_primitive_mode,
+        qxl203_session_service,
     )
 
 
