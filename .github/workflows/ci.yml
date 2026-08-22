@@ -167,10 +167,19 @@ jobs:
     # release rather than this commit. That still exercises everything the
     # action itself owns: argument building, the exit code contract, the
     # output file and paths that contain a space.
-    env:
-      PUBLISHED: "==0.1.1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          # Tags, so the version below is derived rather than written down.
+          fetch-depth: 0
+
+      - name: Pin the action to the last released version
+        # This was a literal and went two releases stale, so the job exercised
+        # 0.1.1 long after 0.3.0 shipped. Reading the newest tag cannot.
+        run: |
+          latest=$(git tag --list 'v*' --sort=-v:refname | head -1)
+          test -n "$latest"
+          echo "PUBLISHED===${latest#v}" >> "$GITHUB_ENV"
 
       - name: action.yml is well formed
         run: |

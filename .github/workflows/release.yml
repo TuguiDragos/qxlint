@@ -212,7 +212,7 @@ jobs:
       - name: VS Code Marketplace
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: npx @vscode/vsce@^3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate
+        run: npx --yes @vscode/vsce@3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate
 
   open-vsx:
     # The registry VSCodium, Cursor, Windsurf and Theia use. Its own job rather
@@ -237,7 +237,7 @@ jobs:
       - name: Open VSX
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
-        run: npx ovsx@^1.1.0 publish --packagePath vsix/*.vsix --skip-duplicate
+        run: npx --yes ovsx@1.1.1 publish --packagePath vsix/*.vsix --skip-duplicate
 
   github-release:
     # pyproject.toml points its Changelog URL at this page, and the extension's
