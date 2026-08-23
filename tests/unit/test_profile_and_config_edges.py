@@ -565,3 +565,50 @@ def test_every_documented_key_is_accepted(tmp_path: Path) -> None:
     config = load_config(path)
     assert config.select == ("QXL1",)
     assert config.per_file_ignores == (("tests/*", ("QXL103",)),)
+
+
+# A target version that is not one -----------------------------------------
+
+# `--target-runtime nonsense` exits 2, because a value that cannot be read as a
+# version leaves the target unknown and changes which findings the version gated
+# rules produce. The same mistake in a pyproject.toml was accepted in silence, so
+# a project could state a pin, have it discarded, and never be told.
+
+
+@pytest.mark.parametrize("key", ["target-qiskit", "target-runtime"])
+@pytest.mark.parametrize("value", ["not-a-version", "1.2.3.4.5.6.7-", ">=", "latest"])
+def test_a_target_that_is_not_a_version_is_rejected(tmp_path: Path, key: str, value: str) -> None:
+    path = tmp_path / "pyproject.toml"
+    path.write_text(f'[tool.qxlint]\n{key} = "{value}"\n')
+    with pytest.raises(ConfigError) as caught:
+        load_config(path)
+    message = str(caught.value)
+    assert key in message
+    assert repr(value) in message
+    assert "not a version or a specifier" in message
+
+
+@pytest.mark.parametrize("key", ["target-qiskit", "target-runtime"])
+@pytest.mark.parametrize("value", ["2.5", ">=2.0", "==0.40.*", ">=0.38,<0.43", "0.48.0"])
+def test_a_target_that_is_a_version_is_kept(tmp_path: Path, key: str, value: str) -> None:
+    path = tmp_path / "pyproject.toml"
+    path.write_text(f'[tool.qxlint]\n{key} = "{value}"\n')
+    config = load_config(path)
+    assert getattr(config, key.replace("-", "_")) == value
+
+
+def test_the_config_and_the_flag_reject_the_same_value(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # The two spellings of one setting must not disagree about what is valid.
+    source = tmp_path / "a.py"
+    source.write_text("x = 1\n")
+    assert main([str(source), "--target-runtime", "not-a-version"]) == 2
+    from_flag = capsys.readouterr().err
+
+    (tmp_path / "pyproject.toml").write_text('[tool.qxlint]\ntarget-runtime = "not-a-version"\n')
+    assert main([str(source)]) == 2
+    from_config = capsys.readouterr().err
+
+    for stream in (from_flag, from_config):
+        assert "'not-a-version' is not a version or a specifier" in stream

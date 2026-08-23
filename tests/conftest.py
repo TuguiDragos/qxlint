@@ -51,6 +51,26 @@ def codes(findings: list[Finding]) -> list[str]:
     return [finding.rule for finding in findings]
 
 
+# Colour is decided by four environment variables: NO_COLOR, FORCE_COLOR, TERM
+# and COLORTERM. A test that reads any of them from the shell it was started in
+# passes or fails by accident, and two did. Under TERM=dumb the flag test failed
+# because detect_depth correctly refuses colour there; under an exported
+# FORCE_COLOR the piped-output test failed because escapes were forced back on.
+#
+# TERM is pinned to a colour capable value rather than cleared, on purpose. It
+# is the hostile setting for the tests that assert no colour, so those have to
+# prove the mechanism works instead of passing because the terminal was mute.
+COLOUR_ENVIRONMENT = ("NO_COLOR", "FORCE_COLOR", "COLORTERM")
+
+
+@pytest.fixture(autouse=True)
+def neutral_colour_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Give every test the same colour environment, whatever the shell had."""
+    for name in COLOUR_ENVIRONMENT:
+        monkeypatch.delenv(name, raising=False)
+    monkeypatch.setenv("TERM", "xterm-256color")
+
+
 @pytest.fixture
 def qiskit_installed() -> bool:
     try:

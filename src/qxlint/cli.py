@@ -24,7 +24,14 @@ from pathlib import Path
 
 from qxlint import __version__
 from qxlint.baseline import BaselineError, build, load, serialise
-from qxlint.config import Config, ConfigCache, ConfigError, apply_cli_overrides, resolve_profile
+from qxlint.config import (
+    SECTION,
+    Config,
+    ConfigCache,
+    ConfigError,
+    apply_cli_overrides,
+    resolve_profile,
+)
 from qxlint.diagnostics import Finding
 from qxlint.engine import SUFFIXES, analyse_path, analyse_source, discover
 from qxlint.output import FORMATS
@@ -152,7 +159,7 @@ def _run(args: argparse.Namespace) -> int:
 
     _check_flags(args)
     _check_baseline_flags(args)
-    _warn_about_the_root_config(cache.for_path(paths[0]))
+    _warn_about_the_root_config(cache.for_path(paths[0]), args)
 
     if args.show_profile:
         return _print_profile(paths, cache, args)
@@ -296,7 +303,7 @@ def _run_stdin(args: argparse.Namespace) -> int:
     # The file's own config, not the effective one: a stale entry has to be
     # blamed on the file it is in, and a bad CLI flag is already reported by
     # _check_flags.
-    _warn_about_the_root_config(cache.for_path(directory))
+    _warn_about_the_root_config(cache.for_path(directory), args)
     config = _effective(cache.for_path(directory), args)
 
     if args.show_profile:
@@ -393,14 +400,7 @@ def _check_flags(args: argparse.Namespace) -> None:
         if not any(known.startswith(code) for known in registered):
             raise ConfigError(f"--select: no rule matches {code!r}")
 
-    if selected:
-        reachable = source_reachable()
-        if not any(known.startswith(code) for code in selected for known in reachable):
-            raise ConfigError(
-                "--select: every selected rule is a circuit rule, which needs an "
-                "in-memory circuit and cannot run over files. Use the library API, "
-                "or select a rule that reads source."
-            )
+    _reject_a_circuit_only_selection(selected or (), "--select")
 
     for code in _codes(args.ignore) or ():
         if not any(known.startswith(code) for known in registered):
@@ -414,12 +414,42 @@ def _check_flags(args: argparse.Namespace) -> None:
             raise ConfigError(f"{flag}: {value!r} is not a version or a specifier")
 
 
-def _warn_about_the_root_config(config: Config) -> None:
+def _reject_a_circuit_only_selection(selected: tuple[str, ...], spelling: str) -> None:
+    """A selection that can only match circuit rules reports nothing, ever.
+
+    QXL300 to QXL303 read an in-memory circuit, so a run over files cannot reach
+    them however they are selected. Selecting only those produces an empty,
+    exit 0 run on a project that really does have findings, which is the one
+    result a gate must never give. The flag spelling has always been an error;
+    the `[tool.qxlint]` spelling used to be silent, which made it the easier way
+    to reach the failure.
+    """
+    if not selected:
+        return
+    reachable = source_reachable()
+    if any(known.startswith(code) for code in selected for known in reachable):
+        return
+    raise ConfigError(
+        f"{spelling}: every selected rule is a circuit rule, which needs an "
+        "in-memory circuit and cannot run over files. Use the library API, "
+        "or select a rule that reads source."
+    )
+
+
+def _warn_about_the_root_config(config: Config, args: argparse.Namespace) -> None:
     """A configured code that matches no rule was silent before this.
 
     It is a warning rather than an error: a pyproject.toml belongs to the tree
     being scanned, and one stale entry in it must not end a whole run.
+
+    A configured selection that can only match circuit rules is the exception,
+    and is an error, because it does not merely remove a rule: it removes every
+    rule a file run can reach, and the result is an empty exit 0 report. A
+    `--select` flag replaces the configured list entirely, so the configured
+    one is only judged when no flag was given.
     """
+    if not _codes(args.select):
+        _reject_a_circuit_only_selection(config.select, f"[tool.{SECTION}] select")
     registered = tiers()
     for key, codes in (("select", config.select), ("ignore", config.ignore)):
         for code in codes:

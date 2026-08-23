@@ -291,7 +291,28 @@ Exit 2 also covers a flag that cannot do what it says:
 | --- | --- |
 | `--select` with a code matching no rule | exit 2. It would leave every rule off, so the run reports nothing and reads as a clean project. |
 | `--select` naming only circuit rules | exit 2. QXL300 to QXL303 read an in-memory circuit and cannot fire from a file, so the run would report nothing for the same reason. Selecting one alongside a source rule is fine. |
-| `--target-qiskit` or `--target-runtime` that is not a version or a specifier | exit 2. It would silently disable the version gated rules. |
+| `--target-qiskit` or `--target-runtime` that is not a version or a specifier | exit 2. It would silently discard the target you stated and change which findings the version gated rules produce. |
 | `--ignore` with a code matching no rule | warning on stderr, exit code unchanged. An ignore that removes nothing cannot make a run wrongly clean. |
 | a run that analysed no files at all | warning on stderr, exit code unchanged. `--statistics` says `No files were analysed.` rather than a count, so it cannot be mistaken for a clean project. |
-| the same codes in `[tool.qxlint]` | warning on stderr, exit code unchanged. A `pyproject.toml` belongs to the tree being scanned, and one stale entry in it must not end the whole run. |
+| a stale `select` or `ignore` code in `[tool.qxlint]` | warning on stderr, exit code unchanged. A `pyproject.toml` belongs to the tree being scanned, and one stale entry in it must not end the whole run. |
+| `select` in `[tool.qxlint]` naming only circuit rules | exit 2, the same as the flag. This one does not merely remove a rule, it removes every rule a file run can reach, and the result is an empty exit 0 report on a project that has findings. |
+| `target-qiskit` or `target-runtime` in `[tool.qxlint]` that is not a version | exit 2, the same as the flag. The two spellings of one setting must not disagree about what is valid. |
+
+A `--select` flag replaces the configured list rather than extending it, so a
+usable flag is accepted whatever the file says, and the configured list is only
+judged when no flag was given.
+
+## Under flake8
+
+`flake8 --select=QXL` runs the same analysis, and flake8 owns selection,
+suppression, output and the exit code.
+
+A configuration qxlint cannot read is reported as a QXL000 finding on line 1 of
+each analysed file, rather than being swallowed. The command exits 2 and says
+why; a plugin cannot set an exit code and a raised exception becomes a flake8
+traceback, so a finding is the only way to be heard. Before this, a broken
+`pyproject.toml` made `flake8 --select=QXL` print nothing and exit 0, which took
+a CI gate green on a project that had not been analysed at all.
+
+Findings from files flake8 itself cannot parse are left to flake8, which reports
+them as E999. Reporting them twice would help nobody.

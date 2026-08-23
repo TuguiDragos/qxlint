@@ -23,6 +23,7 @@ from qxlint.config import ConfigCache, ConfigError
 from qxlint.diagnostics import Finding, SourceLocation
 from qxlint.engine import analyse_text
 from qxlint.registry import tiers
+from qxlint.rules.qxl000_unparsable import CODE as UNPARSABLE
 from qxlint.source import byte_offset_to_column
 
 NAME = "qxlint"
@@ -51,7 +52,15 @@ class QxlintFlake8Plugin:
         path = Path(self._filename)
         try:
             config = _CACHE.for_path(path)
-        except ConfigError:
+        except ConfigError as exc:
+            # Returning quietly here made `flake8 --select=QXL` exit 0 having
+            # analysed nothing, so a project whose configuration is broken took
+            # its CI gate green. The standalone command exits 2 and says why,
+            # but flake8 owns the exit code and swallows a raised exception into
+            # a traceback, so reporting a finding is the only way to be heard.
+            # QXL000 already means qxlint could not analyse this file, which is
+            # exactly what happened.
+            yield 1, 0, f"{UNPARSABLE} {exc}", QxlintFlake8Plugin
             return
         profile = _CACHE.profile_for(config)
         enabled = config.enabled_codes(tiers())

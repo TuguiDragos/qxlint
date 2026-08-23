@@ -3,8 +3,19 @@
 from __future__ import annotations
 
 import ast
+from pathlib import Path
 
+import pytest
+
+from qxlint import flake8_plugin
+from qxlint.config import ConfigCache
 from qxlint.flake8_plugin import QxlintFlake8Plugin
+
+
+def reset_config_cache() -> None:
+    """The plugin caches config per root, so each case needs a fresh one."""
+    flake8_plugin._CACHE = ConfigCache()
+
 
 SOURCE = (
     "from qiskit import QuantumCircuit\n"
@@ -83,3 +94,58 @@ def test_plugin_version_matches_the_package() -> None:
 
     assert QxlintFlake8Plugin.version == __version__
     assert QxlintFlake8Plugin.name == "qxlint"
+
+
+# A broken configuration used to end the plugin's run with a bare `return`, so
+# `flake8 --select=QXL` printed nothing and exited 0. That takes a CI gate green
+# on a project qxlint never analysed, which is the one failure mode a linter
+# must not have. Reproduced before the fix: exit 0 and no output, while the
+# standalone command exited 2 and named the key.
+
+
+def broken_config(tmp_path: Path, text: str) -> Path:
+    (tmp_path / "pyproject.toml").write_text(text, encoding="utf-8")
+    source = tmp_path / "bad.py"
+    source.write_text(SOURCE, encoding="utf-8")
+    return source
+
+
+@pytest.mark.parametrize(
+    ("config", "fragment"),
+    [
+        ("[tool.qxlint]\nnope = 1\n", "unknown key"),
+        ("[tool.qxlint\nselect = [", "invalid TOML"),
+        ("[tool.qxlint]\nselect = 42\n", "select"),
+        ('[tool.qxlint]\ntarget-runtime = "not-a-version"\n', "not a version"),
+    ],
+)
+def test_a_broken_config_is_reported_rather_than_swallowed(
+    tmp_path: Path, config: str, fragment: str
+) -> None:
+    source = broken_config(tmp_path, config)
+    reset_config_cache()
+    results = run(SOURCE, str(source))
+    assert len(results) == 1, results
+    line, column, message, cls = results[0]
+    assert (line, column) == (1, 0)
+    assert message.startswith("QXL000 ")
+    assert fragment in message
+    assert cls is QxlintFlake8Plugin
+
+
+def test_a_working_config_still_produces_the_findings(tmp_path: Path) -> None:
+    source = broken_config(tmp_path, '[tool.qxlint]\nselect = ["QXL103"]\n')
+    reset_config_cache()
+    results = run(SOURCE, str(source))
+    assert [message.split()[0] for _, _, message, _ in results] == ["QXL103"]
+
+
+def test_every_file_under_a_broken_config_is_reported(tmp_path: Path) -> None:
+    # One finding per file, so no file is silently skipped and the count in a
+    # CI log matches the number of files that were not analysed.
+    source = broken_config(tmp_path, "[tool.qxlint]\nnope = 1\n")
+    other = tmp_path / "other.py"
+    other.write_text(SOURCE, encoding="utf-8")
+    reset_config_cache()
+    assert len(run(SOURCE, str(source))) == 1
+    assert len(run(SOURCE, str(other))) == 1

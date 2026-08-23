@@ -1036,3 +1036,57 @@ def test_explain_covers_every_registered_rule(capsys: pytest.CaptureFixture[str]
     for meta in all_meta():
         assert main(["--explain", meta.code]) == EXIT_OK
         assert meta.code in capsys.readouterr().out
+
+
+# A selection that can only match circuit rules ----------------------------
+
+# The flag spelling has always been an error. The [tool.qxlint] spelling was
+# silent, so the same mistake produced an empty exit 0 run on a file that really
+# does have findings, which is the one answer a CI gate must never give.
+
+
+def test_a_configured_circuit_only_selection_is_an_error(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    write(tmp_path, "pyproject.toml", '[tool.qxlint]\nselect = ["QXL301"]\n')
+    assert main([str(tmp_path)]) == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert "[tool.qxlint] select" in err
+    assert "every selected rule is a circuit rule" in err
+
+
+def test_the_two_spellings_of_a_circuit_only_selection_agree(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    assert main([str(tmp_path), "--select", "QXL301"]) == EXIT_ERROR
+    from_flag = capsys.readouterr().err
+
+    write(tmp_path, "pyproject.toml", '[tool.qxlint]\nselect = ["QXL301"]\n')
+    assert main([str(tmp_path)]) == EXIT_ERROR
+    from_config = capsys.readouterr().err
+
+    tail = "every selected rule is a circuit rule"
+    assert tail in from_flag
+    assert tail in from_config
+
+
+def test_a_configured_selection_reaching_one_source_rule_is_fine(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    write(tmp_path, "pyproject.toml", '[tool.qxlint]\nselect = ["QXL301", "QXL103"]\n')
+    assert main([str(tmp_path)]) == EXIT_FINDINGS
+    assert "QXL103" in capsys.readouterr().out
+
+
+def test_a_select_flag_replaces_a_circuit_only_configured_selection(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # The flag replaces the configured list rather than extending it, so a
+    # usable flag must not be rejected because of what the file happens to say.
+    write(tmp_path, "bad.py", BAD)
+    write(tmp_path, "pyproject.toml", '[tool.qxlint]\nselect = ["QXL301"]\n')
+    assert main([str(tmp_path), "--select", "QXL103"]) == EXIT_FINDINGS
+    assert "QXL103" in capsys.readouterr().out

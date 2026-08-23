@@ -102,19 +102,30 @@ def test_a_file_that_cannot_be_read_yields_nothing_at_all(tmp_path: Path) -> Non
     assert run_plugin("x = 1\n", str(tmp_path / "gone.py"), lines=None) == []
 
 
-def test_a_broken_project_config_silences_the_plugin_instead_of_raising(tmp_path: Path) -> None:
+def test_a_broken_project_config_is_reported_rather_than_raising(tmp_path: Path) -> None:
+    # This test used to assert the plugin fell silent, which was the bug: flake8
+    # then printed nothing and exited 0, so a project with a broken config took
+    # its gate green having been analysed by nothing. Not raising is still the
+    # requirement, because flake8 turns a raised exception into a traceback.
     config = tmp_path / "pyproject.toml"
     config.write_text('[tool.qxlint]\nselect = "nope"\n', encoding="utf-8")
     path = tmp_path / "bad.py"
     path.write_text(BAD, encoding="utf-8")
     lines = BAD.splitlines(keepends=True)
 
-    assert run_plugin(BAD, str(path), lines=lines) == []
+    results = run_plugin(BAD, str(path), lines=lines)
+    assert len(results) == 1
+    line, column, message, cls = results[0]
+    assert (line, column) == (1, 0)
+    assert message.startswith("QXL000 ")
+    assert cls is QxlintFlake8Plugin
 
-    # The same file with a readable config still reports, so the silence above
-    # came from the config error and not from the analysis.
+    # The same file with a readable config reports the analysis instead, so the
+    # QXL000 above came from the config error and not from the file.
     config.write_text("[tool.qxlint]\nignore = []\n", encoding="utf-8")
-    assert len(run_plugin(BAD, str(path), lines=lines)) == 1
+    reported = run_plugin(BAD, str(path), lines=lines)
+    assert len(reported) == 1
+    assert reported[0][2].startswith("QXL103 ")
 
 
 @pytest.mark.parametrize("line", [0, 2, 99])

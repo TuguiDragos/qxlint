@@ -213,11 +213,28 @@ def load_config(path: Path) -> Config:
         # `node_modules` back into the run.
         exclude=_str_tuple(section, "exclude", path) or DEFAULT_EXCLUDES,
         extend_exclude=_str_tuple(section, "extend-exclude", path),
-        target_qiskit=_opt_str(section, "target-qiskit", path),
-        target_runtime=_opt_str(section, "target-runtime", path),
+        target_qiskit=_version_spec(section, "target-qiskit", path),
+        target_runtime=_version_spec(section, "target-runtime", path),
         source_path=path,
         root=path.parent,
     )
+
+
+def _version_spec(section: dict[str, object], key: str, path: Path) -> str | None:
+    """A target version from the config, rejected here if it is not one.
+
+    ``--target-runtime nonsense`` exits 2, because a value that cannot be read
+    as a version leaves the target unknown and quietly changes which findings
+    the version gated rules produce. The same mistake spelled in a
+    ``pyproject.toml`` was accepted in silence, so a project could state a pin,
+    have it discarded, and never be told. The two spellings now agree.
+    """
+    value = _opt_str(section, key, path)
+    if value is not None and not knowledge_from_text(value, ProfileSource.CLI_FLAG).known:
+        raise ConfigError(
+            f"[tool.{SECTION}] {key} in {path}: {value!r} is not a version or a specifier"
+        )
+    return value
 
 
 def apply_cli_overrides(
