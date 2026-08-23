@@ -64,14 +64,14 @@ The launcher tries, in order:
 If none of them works it prints the install options and exits 2.
 
 Steps 1 to 3 run whatever you installed, which is the point of them. Step 4
-installs, so it pins: running `npx @tuguidragos/qxlint@0.3.0` and getting some
+installs, so it pins: running `npx @tuguidragos/qxlint@0.3.5` and getting some
 other analyser would make the version in the command line meaningless.
 
 Exit codes pass through unchanged: `0` clean, `1` findings, `2` qxlint could not
 run. That is what makes it usable as a CI gate:
 
 ```yaml
-- run: npx @tuguidragos/qxlint@0.3.0 src
+- run: npx @tuguidragos/qxlint@0.3.5 src
 ```
 
 ## What it checks

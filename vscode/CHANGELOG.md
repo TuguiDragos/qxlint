@@ -7,7 +7,7 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
-## Unreleased
+## 0.3.5
 
 ### Fixed
 
@@ -17,6 +17,23 @@ rules themselves are listed with
   zero findings, so the file came back clean and nothing said otherwise. A
   payload without `findings` is no longer a lint payload, and a summary payload
   is reported with the reason and the flag to remove.
+
+- **A `target-qiskit` or `target-runtime` in `[tool.qxlint]` that is not a
+  version is no longer discarded in silence.** The analyser accepted the value,
+  failed to read it, and left the target unknown, so the editor showed the
+  findings for an unstated version while the project believed it had pinned one.
+  It is now reported the same way the command line has always reported it.
+
+- **A `select` in `[tool.qxlint]` naming only circuit rules is no longer
+  accepted.** QXL300 to QXL303 need an in-memory circuit and cannot fire on a
+  file, so that configuration made every file read clean. The command line has
+  always refused it; both spellings now agree.
+
+### Changed
+
+- Version dependent rules report on a target that cannot be established, rather
+  than falling silent. Silence is now reserved for a target that proves the code
+  still works. The extension README described the old behaviour.
 
 ## 0.3.0
 
