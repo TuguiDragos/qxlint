@@ -22,6 +22,7 @@ import sys
 from pathlib import Path
 
 from qxlint import __version__
+from qxlint.baseline import BaselineError, build, load, serialise
 from qxlint.config import Config, ConfigCache, ConfigError, apply_cli_overrides, resolve_profile
 from qxlint.diagnostics import Finding
 from qxlint.engine import SUFFIXES, analyse_path, analyse_source, discover
@@ -78,6 +79,21 @@ def build_parser() -> argparse.ArgumentParser:
         help="summarise findings per rule instead of listing them",
     )
     parser.add_argument(
+        "--baseline",
+        metavar="PATH",
+        type=Path,
+        help=(
+            "suppress the findings recorded in PATH, so a gate reports only "
+            "what a project has not already accepted"
+        ),
+    )
+    parser.add_argument(
+        "--baseline-write",
+        metavar="PATH",
+        type=Path,
+        help="write the current findings to PATH as a baseline and report nothing",
+    )
+    parser.add_argument(
         "--show-profile",
         action="store_true",
         help="print the resolved target versions and exit",
@@ -91,7 +107,7 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         return _run(args)
-    except ConfigError as exc:
+    except (ConfigError, BaselineError) as exc:
         print(f"qxlint: {exc}", file=sys.stderr)
         return EXIT_ERROR
     except KeyboardInterrupt:  # pragma: no cover
@@ -118,6 +134,7 @@ def _run(args: argparse.Namespace) -> int:
         cache.override = load_config(args.config)
 
     _check_flags(args)
+    _check_baseline_flags(args)
     _warn_about_the_root_config(cache.for_path(paths[0]))
 
     if args.show_profile:
@@ -164,6 +181,11 @@ def _report(
     findings: list[Finding], args: argparse.Namespace, *, total_files: int, failed: bool
 ) -> int:
     findings.sort(key=Finding.sort_key)
+
+    if args.baseline_write is not None:
+        return _write_baseline(findings, args.baseline_write, failed=failed)
+    if args.baseline is not None:
+        findings = _suppress(findings, args.baseline)
     depth = detect_depth(sys.stdout, no_color=args.no_color)
 
     if args.statistics:
@@ -176,6 +198,35 @@ def _report(
     if failed:
         return EXIT_ERROR
     return EXIT_FINDINGS if findings else EXIT_OK
+
+
+def _write_baseline(findings: list[Finding], path: Path, *, failed: bool) -> int:
+    """Record the current findings and report none of them.
+
+    Exit is 0 even though findings were found: the run did what it was asked to
+    do. A file qxlint could not analyse still ends in 2, because a baseline
+    written from an incomplete run would silently accept whatever that file
+    holds.
+    """
+    try:
+        path.write_text(serialise(build(findings), tool_version=__version__), encoding="utf-8")
+    except OSError as exc:
+        raise BaselineError(f"cannot write baseline {path}: {exc}") from exc
+    print(f"qxlint: wrote {len(findings)} findings to {path}", file=sys.stderr)
+    return EXIT_ERROR if failed else EXIT_OK
+
+
+def _suppress(findings: list[Finding], path: Path) -> list[Finding]:
+    remaining, stale = load(path).filter(findings)
+    if stale:
+        # Not a failure: code that fixed an accepted finding is the point. It is
+        # reported so the file can be regenerated rather than growing forever.
+        print(
+            f"qxlint: baseline {path}: {stale} recorded findings no longer occur, "
+            "rewrite it with --baseline-write",
+            file=sys.stderr,
+        )
+    return remaining
 
 
 def _run_stdin(args: argparse.Namespace) -> int:
@@ -208,6 +259,7 @@ def _run_stdin(args: argparse.Namespace) -> int:
         cache.override = load_config(args.config)
 
     _check_flags(args)
+    _check_baseline_flags(args)
     directory = path.parent if str(path.parent) else Path()
     # The file's own config, not the effective one: a stale entry has to be
     # blamed on the file it is in, and a bad CLI flag is already reported by
@@ -272,6 +324,24 @@ def _codes(value: str | None) -> tuple[str, ...] | None:
     if value is None:
         return None
     return tuple(part.strip().upper() for part in value.split(",") if part.strip())
+
+
+def _check_baseline_flags(args: argparse.Namespace) -> None:
+    """Reject baseline flag combinations that cannot do what they say."""
+    if args.baseline is not None and args.baseline_write is not None:
+        raise ConfigError(
+            "--baseline and --baseline-write cannot be combined: one reads the "
+            "accepted findings, the other replaces them"
+        )
+    if args.baseline_write is not None and args.stdin_filename is not None:
+        raise ConfigError(
+            "--baseline-write needs the whole project, so it cannot be combined "
+            "with --stdin-filename, which analyses one buffer"
+        )
+    if args.baseline is not None and not path_exists(args.baseline):
+        # Silently treating a missing baseline as empty would report every
+        # accepted finding again and read as a regression in the code.
+        raise ConfigError(f"--baseline: path does not exist: {args.baseline}")
 
 
 def _check_flags(args: argparse.Namespace) -> None:

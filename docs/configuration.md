@@ -40,6 +40,8 @@ With no path, the current directory is analysed.
 | `--format {text,json,sarif}` | output format, `text` by default |
 | `--no-color` | never colour the output |
 | `--statistics` | per rule counts instead of a listing |
+| `--baseline PATH` | suppress the findings recorded in PATH |
+| `--baseline-write PATH` | write the current findings to PATH and report none of them |
 | `--show-profile` | print the resolved target versions and exit |
 | `--version` | print the version and exit |
 
@@ -130,6 +132,49 @@ is linted by the `qxlint` command or by `flake8 --select=QXL`.
 Comments are read with `tokenize`, so `# noqa` inside a string literal is not a
 suppression. Under flake8, suppression is flake8's job and qxlint does not
 apply it twice.
+
+## Baselines
+
+A project adopting qxlint after the fact starts with findings it is not going
+to fix today. Turning the gate off or turning rules off both stop the tool from
+reporting the next mistake, so instead record what is already there:
+
+```bash
+qxlint --baseline-write qxlint-baseline.json
+```
+
+and gate on what the baseline does not account for:
+
+```bash
+qxlint --baseline qxlint-baseline.json
+```
+
+Writing a baseline exits 0 and prints nothing on stdout; the count goes to
+stderr. A run that could not analyse some file still exits 2, because a
+baseline written from an incomplete run would silently accept whatever that
+file holds.
+
+An entry records the path, the rule and the message, and how many times that
+combination occurred. It deliberately does **not** record the line, so
+inserting a line above an accepted finding does not make the baseline stale.
+Repeats are counted rather than collapsed, so a file with two accepted
+`get_counts` calls that grows a third reports one finding. A baseline is a
+record of what was accepted, not a per file mute.
+
+When a recorded finding no longer occurs, the run says so on stderr and stays
+green. Rewrite the file with `--baseline-write` to prune it.
+
+Paths are recorded relative to where qxlint ran, in forward slash form so a
+baseline written on Windows keeps matching elsewhere. Write and use a baseline
+from the same directory, which for a CI job is the repository root.
+
+A baseline that cannot be read, is not JSON, or carries an unknown format
+version is an error rather than an empty baseline: treating it as empty would
+report every accepted finding again and read as a regression in the code.
+
+`--baseline` and `--baseline-write` cannot be combined, and `--baseline-write`
+cannot be combined with `--stdin-filename`, which sees one buffer rather than
+the project.
 
 ## Target versions
 

@@ -806,3 +806,140 @@ def test_explicit_paths_are_reported_in_sorted_order(
     lines = [line for line in capsys.readouterr().out.splitlines() if line.strip()]
     assert lines == sorted(lines), lines
     assert "alpha.py" in lines[0]
+
+
+def test_baseline_write_records_the_findings_and_exits_clean(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    baseline = tmp_path / "baseline.json"
+    assert main([str(tmp_path), "--baseline-write", str(baseline)]) == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+    document = json.loads(baseline.read_text(encoding="utf-8"))
+    assert document["version"] == 1
+    assert [entry["rule"] for entry in document["entries"]] == ["QXL103"]
+
+
+def test_a_baseline_suppresses_what_it_recorded(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    baseline = tmp_path / "baseline.json"
+    main([str(tmp_path), "--baseline-write", str(baseline)])
+    capsys.readouterr()
+    assert main([str(tmp_path), "--baseline", str(baseline)]) == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+
+
+def test_a_baseline_survives_the_findings_moving(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    path = write(tmp_path, "bad.py", BAD)
+    baseline = tmp_path / "baseline.json"
+    main([str(tmp_path), "--baseline-write", str(baseline)])
+    path.write_text("# padding\n" * 30 + BAD, encoding="utf-8")
+    capsys.readouterr()
+    assert main([str(tmp_path), "--baseline", str(baseline)]) == EXIT_OK
+
+
+def test_a_baseline_still_reports_a_new_finding_of_a_recorded_rule(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    path = write(tmp_path, "bad.py", BAD)
+    baseline = tmp_path / "baseline.json"
+    main([str(tmp_path), "--baseline-write", str(baseline)])
+    path.write_text(BAD + BAD, encoding="utf-8")
+    capsys.readouterr()
+    assert main([str(tmp_path), "--baseline", str(baseline)]) == EXIT_FINDINGS
+    assert capsys.readouterr().out.count("QXL103") == 1
+
+
+def test_a_baseline_entry_that_no_longer_occurs_is_named(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    path = write(tmp_path, "bad.py", BAD)
+    baseline = tmp_path / "baseline.json"
+    main([str(tmp_path), "--baseline-write", str(baseline)])
+    path.write_text(GOOD, encoding="utf-8")
+    capsys.readouterr()
+    assert main([str(tmp_path), "--baseline", str(baseline)]) == EXIT_OK
+    assert "no longer occur" in capsys.readouterr().err
+
+
+def test_a_missing_baseline_is_an_error(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
+    write(tmp_path, "bad.py", BAD)
+    assert main([str(tmp_path), "--baseline", str(tmp_path / "nope.json")]) == EXIT_ERROR
+    assert "path does not exist" in capsys.readouterr().err
+
+
+def test_a_malformed_baseline_is_an_error_not_an_empty_one(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    baseline = write(tmp_path, "baseline.json", "not json")
+    assert main([str(tmp_path), "--baseline", str(baseline)]) == EXIT_ERROR
+    assert "not valid JSON" in capsys.readouterr().err
+
+
+def test_the_two_baseline_flags_cannot_be_combined(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    baseline = write(tmp_path, "baseline.json", '{"version": 1, "entries": []}')
+    code = main([str(tmp_path), "--baseline", str(baseline), "--baseline-write", str(baseline)])
+    assert code == EXIT_ERROR
+    assert "cannot be combined" in capsys.readouterr().err
+
+
+def test_baseline_write_rejects_a_stdin_buffer(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["--stdin-filename", "a.py", "--baseline-write", "b.json"]) == EXIT_ERROR
+    assert "cannot be combined" in capsys.readouterr().err
+
+
+def test_baseline_write_reports_an_unwritable_destination(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    destination = tmp_path / "missing" / "baseline.json"
+    assert main([str(tmp_path), "--baseline-write", str(destination)]) == EXIT_ERROR
+    assert "cannot write baseline" in capsys.readouterr().err
+
+
+def test_a_baseline_applies_to_a_stdin_buffer(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    write(tmp_path, "bad.py", BAD)
+    baseline = tmp_path / "baseline.json"
+    main([str(tmp_path), "--baseline-write", str(baseline)])
+    document = json.loads(baseline.read_text(encoding="utf-8"))
+    document["entries"][0]["path"] = "buffer.py"
+    baseline.write_text(json.dumps(document), encoding="utf-8")
+    monkeypatch.setattr(sys, "stdin", io.TextIOWrapper(io.BytesIO(BAD.encode("utf-8"))))
+    capsys.readouterr()
+    code = main(["--stdin-filename", "buffer.py", "--baseline", str(baseline)])
+    assert code == EXIT_OK
+    assert capsys.readouterr().out.strip() == ""
+
+
+def test_a_baseline_from_an_incomplete_run_still_fails(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str], monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # The file is still written, because a half baseline is more useful than
+    # none, but the run ends in 2 so nobody commits it believing it covers the
+    # whole project.
+    write(tmp_path, "bad.py", BAD)
+    write(tmp_path, "boom.py", GOOD)
+    import qxlint.cli as cli_module
+
+    real = cli_module.analyse_path
+
+    def explode(path: Path, **kwargs: object) -> object:
+        if path.name == "boom.py":
+            raise ZeroDivisionError("something nobody predicted")
+        return real(path, **kwargs)  # type: ignore[arg-type]
+
+    monkeypatch.setattr(cli_module, "analyse_path", explode)
+    baseline = tmp_path / "baseline.json"
+    assert main([str(tmp_path), "--baseline-write", str(baseline)]) == EXIT_ERROR
+    assert "internal error analysing" in capsys.readouterr().err
+    assert json.loads(baseline.read_text(encoding="utf-8"))["entries"]
