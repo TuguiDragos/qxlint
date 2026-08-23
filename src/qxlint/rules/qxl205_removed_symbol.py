@@ -82,7 +82,7 @@ class RemovedQiskitSymbol(Rule):
     meta = RuleMeta(
         code="QXL205",
         name="removed-qiskit-symbol",
-        summary="an import of a name Qiskit 1.0 or 2.0 removed",
+        summary="an import or a method call naming something Qiskit 1.0 or 2.0 removed",
         tier=Tier.DEFAULT,
         severity=Severity.ERROR,
         rationale=(
@@ -92,18 +92,30 @@ class RemovedQiskitSymbol(Rule):
             "Sampler, Estimator, BackendSampler and BackendEstimator. Each "
             "release was read from the published wheels and each absence "
             "confirmed on Qiskit 2.5.2. The import raises before a single line "
-            "of the script runs, so nothing downstream can be reached."
+            "of the script runs, so nothing downstream can be reached. Two "
+            "QuantumCircuit methods went the same way, bind_parameters and qasm, "
+            "and are reported on the call rather than on an import."
         ),
         when_legitimate=(
             "On a target proven to predate the release that removed the name, "
             "the import still works and the rule stays silent. It reads the "
             "dotted path of the import rather than the bound name, so a local "
             "module of the same name is not touched, and a relative import, "
-            "which names nothing outside the package, is never considered."
+            "which names nothing outside the package, is never considered. A "
+            "removed method is reported only on a receiver the analyser has "
+            "proved to be a QuantumCircuit, so a method of the same name on any "
+            "other object is left alone."
         ),
-        bad_example="from qiskit import QuantumCircuit, execute, Aer\n",
+        bad_example=(
+            "from qiskit import QuantumCircuit, execute, Aer\n\n"
+            "qc = QuantumCircuit(2)\n"
+            "bound = qc.bind_parameters({})\n"
+        ),
         good_example=(
-            "from qiskit import QuantumCircuit, transpile\nfrom qiskit_aer import AerSimulator\n"
+            "from qiskit import QuantumCircuit, transpile\n"
+            "from qiskit_aer import AerSimulator\n\n"
+            "qc = QuantumCircuit(2)\n"
+            "bound = qc.assign_parameters({})\n"
         ),
         references=("https://quantum.cloud.ibm.com/docs/migration-guides/qiskit-1.0-features",),
     )

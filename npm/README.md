@@ -15,7 +15,7 @@
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
   <a href="https://jupyter.org/"><img alt="Jupyter notebooks" src="https://img.shields.io/badge/Jupyter-notebooks-161826?style=flat&logo=jupyter&logoColor=9184D9" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="1125 tests" src="https://img.shields.io/badge/tests-1125-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1339 tests" src="https://img.shields.io/badge/tests-1339-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
 </p>
 
 ---
@@ -82,11 +82,16 @@ something that looks like a result:
 
 - `get_counts()` on a `PrimitiveResult`, where counts live on the `BitArray`
   one level down.
-- `quasi_dists` read from a V2 result, where the attribute no longer exists.
+- `quasi_dists` or `values` read from a V2 result, where the attribute no longer
+  exists.
 - A circuit with no measurement handed to a Sampler, which returns an empty
   data bin and a warning that is easy to miss.
 - A measured circuit handed to a `StatevectorEstimator`, which raises.
 - `channel="ibm_quantum"` against a runtime release that removed it.
+- A `Session` or `Batch` given `service=`, dropped in `qiskit-ibm-runtime` 0.34.
+- A V2 primitive's `run()` called with the V1 argument grammar.
+- An import, or a `QuantumCircuit` method call, naming something Qiskit 1.0 or
+  2.0 removed, which raises before anything else runs.
 
 Every rule reports only what it can prove. Where the analyser cannot decide,
 it says nothing rather than guessing, because a linter that cries wolf gets

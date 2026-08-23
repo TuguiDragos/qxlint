@@ -45,7 +45,7 @@ Every line under "Met" is checked by something that runs, not by review.
   Qiskit, not from documentation prose. The self inverse gate list was built by
   squaring operator matrices, and the library circuit table was built by
   constructing each entry and reading what it contained.
-- `scripts/verify_model.py` re-checks **371 claims** against the installed
+- `scripts/verify_model.py` re-checks **396 claims** against the installed
   packages. A scheduled workflow runs it on the 1st and the 15th of each month
   against the latest released Qiskit and qiskit-ibm-runtime, so an upstream
   change surfaces as a failing job rather than as a user report.

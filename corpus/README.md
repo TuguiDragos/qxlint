@@ -16,7 +16,7 @@ a rule does to it. Everything needed to reproduce the run is in this directory.
 | of which false positives, three defects, all since fixed | **35** |
 | Findings the current tree reports | **6,283**, of which 320 outside QXL205 |
 | Defects the corpus found in qxlint, all fixed | **10** |
-| Wall clock | 77 s for all 244 in one process; the largest repository, 5,874 files, takes 5.6 s and peaks at 98 MB |
+| Wall clock | 77 s for all 244 in one process; the largest repository, 13,861 files, takes 18 s |
 
 ## Files
 
@@ -41,7 +41,7 @@ What that does and does not support:
   No precision figure is published anywhere in this project, and none should be
   quoted from this directory until the labels have been reviewed by hand.
 | [scan.json](scan.json) | the machine output of the current run, per repository |
-| [bugs-found.json](bugs-found.json) | the nine defects this corpus exposed in qxlint, each with its regression test |
+| [bugs-found.json](bugs-found.json) | the ten defects this corpus exposed in qxlint, each with its regression test |
 | [candidates.json](candidates.json) | the pool each stratum drew from, so the selection rule can be checked |
 
 ## How the selection works
@@ -115,7 +115,7 @@ there is no line to read: one file is zero bytes and the rest have their opening
 brace replaced by a colon.
 
 A credential that appears in a scanned repository is replaced by `<redacted>` in
-the `source` column. Eight rows are affected. The value is still in the public
+the `source` column. Nine rows are affected. The value is still in the public
 repository the row points at; recording where a linter fired must not republish
 it here.
 
@@ -123,20 +123,20 @@ it here.
 
 QXL205 contributes 5,963 of the findings, and they are not individually
 labelled. The reason is that the rule makes no inference. It is a lookup in a
-table of 12 names, each with the release that removed it read from the published
-wheels and the absence confirmed on Qiskit 2.5.2, matched against the dotted
-path of an import statement. The claim that has to be checked is the table, not
-the 5,963 places the table matches.
+table of 13 dotted paths, four whole modules, the `fake_provider` backend family
+and two removed `QuantumCircuit` methods, each with the release that removed it
+read from the published wheels and the absence confirmed on Qiskit 2.5.2. The
+claim that has to be checked is the table, not the 5,963 places it matches.
 
 52 of them are read and labelled anyway, covering every name in the table, drawn
 from many different repositories, so the match itself is evidenced. Every sampled line
 was opened in the corpus checkout and confirmed to import the name reported.
 
-The concentration is worth recording. 90 percent of them come from two
+The concentration is worth recording. 89 percent of them come from two
 repositories that are collections of legacy files rather than projects:
-runtsang/Q-Bridge contributes 3,867 across 2,334 files and
-LucaGandolfi77/Qiskit-QuantumComputing 1,385 across 365. The other 32
-repositories that QXL205 touches receive at most 15 findings each.
+runtsang/Q-Bridge contributes 3,896 across 2,340 files and
+LucaGandolfi77/Qiskit-QuantumComputing 1,385 across 365. QXL205 touches 40
+further repositories, the largest of which receives 214 findings.
 
 Every other rule keeps the original discipline: every finding read, every label
 recorded with its reason.
@@ -168,9 +168,10 @@ corpus that only records what the linter currently gets right is not evidence.
 
 The corpus contains **4,003** `.get_counts(` calls and **286** `quasi_dists`
 occurrences. A linter matching those textually would have reported 4,289
-findings. qxlint reports 18: seven QXL101 and eleven QXL102, each on a V2 result
-object. Every one of the other 4,271 is correct legacy or V1 code, where
-`get_counts()` is exactly right.
+findings. qxlint reports 18 of them: seven QXL101 and eleven of the twelve
+QXL102, the twelfth being a `values` read that neither textual pattern covers.
+Each is on a V2 result object. Every one of the other 4,271 is correct legacy or
+V1 code, where `get_counts()` is exactly right.
 
 ### What QXL104 found
 

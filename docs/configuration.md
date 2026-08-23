@@ -37,6 +37,7 @@ With no path, the current directory is analysed.
 | `--target-qiskit SPEC` | target Qiskit version or specifier, for example `2.5` or `>=2.0` |
 | `--target-runtime SPEC` | target `qiskit-ibm-runtime` version or specifier |
 | `--config PATH` | read settings from this `pyproject.toml` and no other, for every analysed file |
+| `--stdin-filename PATH` | read the source from stdin and report it as PATH; the file itself is never opened |
 | `--format {text,json,sarif}` | output format, `text` by default |
 | `--no-color` | never colour the output |
 | `--statistics` | per rule counts instead of a listing |
@@ -208,11 +209,19 @@ Resolution order for `target-qiskit` and `target-runtime`:
    conditional
 4. an exact pin in `uv.lock`, used only when the package resolves to exactly one
    version across the whole lock
-5. otherwise unknown, and every version dependent rule stays silent
+5. `requirements.txt`, whose `-r` and `--requirement` includes are followed, to a
+   bounded depth and without revisiting a file
+6. otherwise unknown, which is read as the current release rather than as a
+   reason for silence
 
-Recursive `requirements.txt` includes and multi environment locks are out of
-scope for v0.1. Resolving them correctly means writing a dependency resolver
-before writing the linter.
+Step 6 is the one worth stating plainly. A version dependent rule stays silent
+only where the target **proves** the code still works. An unknown target proves
+nothing, and treating it as a licence for silence hid these rules from every
+project that never declares a version, which is most of them. So an undeclared
+target reports.
+
+Multi environment locks are out of scope. Resolving them correctly means writing
+a dependency resolver before writing the linter.
 
 Check what qxlint resolved:
 
@@ -230,11 +239,13 @@ qxlint --statistics .
 ```
 
 ```
-  QXL104  ████████████████████████  37  discarded-circuit-result
-  QXL101  █████░░░░░░░░░░░░░░░░░░░   7  get-counts-on-wrong-receiver
-  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░   2  v1-result-field-on-v2-result
+  QXL205  ████████████████████████  3896  removed-qiskit-symbol
+  QXL104  █░░░░░░░░░░░░░░░░░░░░░░░    35  discarded-circuit-result
+  QXL101  █░░░░░░░░░░░░░░░░░░░░░░░     7  get-counts-on-wrong-receiver
+  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░     2  v1-result-field-on-v2-result
+  QXL204  █░░░░░░░░░░░░░░░░░░░░░░░     2  v1-run-signature
 
-  46 findings across 22 files of 13861 scanned
+  3942 findings across 2353 files of 13861 scanned
 ```
 
 It composes with `--format json`, which emits the same summary as data. It has

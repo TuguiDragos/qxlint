@@ -15,7 +15,7 @@
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
   <a href="https://jupyter.org/"><img alt="Jupyter notebooks" src="https://img.shields.io/badge/Jupyter-notebooks-161826?style=flat&logo=jupyter&logoColor=9184D9" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="1125 tests" src="https://img.shields.io/badge/tests-1125-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1339 tests" src="https://img.shields.io/badge/tests-1339-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
 </p>
 
 ---
@@ -34,12 +34,15 @@ It never imports or executes your code.
 | Code | Fires when |
 | --- | --- |
 | `QXL101` | `get_counts()` on a `PrimitiveResult`, `PubResult` or `DataBin` instead of the `BitArray` |
-| `QXL102` | `quasi_dists` read from a V2 `PrimitiveResult` |
+| `QXL102` | `quasi_dists` or `values` read from a V2 `PrimitiveResult` |
 | `QXL103` | a provably unmeasured circuit reaches a `SamplerV2` |
 | `QXL104` | a circuit method that returns a new circuit, called as a bare statement |
 | `QXL105` | a measured circuit reaches a `StatevectorEstimator` |
 | `QXL201` | `channel="ibm_quantum"`, removed in `qiskit-ibm-runtime` 0.41 |
 | `QXL202` | a Runtime `SamplerV2` or `EstimatorV2` given `backend=` or `session=` instead of `mode=` |
+| `QXL203` | a `Session` or `Batch` given `service=`, removed in `qiskit-ibm-runtime` 0.34 |
+| `QXL204` | a V2 primitive's `run()` called with the V1 argument grammar |
+| `QXL205` | an import, or a `QuantumCircuit` method call, naming something Qiskit 1.0 or 2.0 removed |
 | `QXL000` | a file or notebook cell that cannot be parsed |
 
 Rule codes in the Problems panel link straight to the rule's documentation.
@@ -95,15 +98,19 @@ namespace-mutating magics act as a barrier so no stale fact survives them.
 | `qxlint.ignore` | `""` | Comma separated codes or prefixes to skip |
 | `qxlint.targetQiskit` | `""` | Target Qiskit version or specifier |
 | `qxlint.targetRuntime` | `""` | Target `qiskit-ibm-runtime` version or specifier |
-| `qxlint.args` | `[]` | Extra CLI arguments |
+| `qxlint.args` | `[]` | Extra CLI arguments. A flag that changes the shape of the output, such as `--statistics`, is rejected rather than silently reporting every file as clean |
 
-`onType` re-runs the analyser shortly after you stop typing, but the analyser
-reads the file from disk, so unsaved edits are not reflected until you save.
+`onType` re-runs the analyser shortly after you stop typing. The editor buffer is
+sent to the analyser, so unsaved edits are checked without saving first. An
+installed qxlint too old to accept a buffer makes the extension fall back to the
+file on disk, and it says so in its log.
 
-Version dependent rules stay silent unless the target version can be
-established, from these settings or from your project's `pyproject.toml`.
-Project level `[tool.qxlint]` configuration is read by the CLI itself, so the
-editor and CI agree.
+Version dependent rules stay silent only where the target version proves the code
+still works. A target that cannot be established is read as the current release,
+so those rules report rather than going quiet. The target comes from these
+settings, or from your project's `pyproject.toml`, `uv.lock` or
+`requirements.txt`. Project level `[tool.qxlint]` configuration is read by the CLI
+itself, so the editor and CI agree.
 
 ## Commands
 

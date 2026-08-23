@@ -91,7 +91,7 @@ all, and only the in-memory circuit checks require it installed.
 | [QXL202](docs/rules/qxl202.md) | default | Runtime `SamplerV2` given `backend=` or `session=` instead of `mode=` |
 | [QXL203](docs/rules/qxl203.md) | default | `Session` or `Batch` given `service=`, removed in qiskit-ibm-runtime 0.34 |
 | [QXL204](docs/rules/qxl204.md) | default | a V2 primitive's `run()` called with the V1 argument grammar |
-| [QXL205](docs/rules/qxl205.md) | default | an import of a name Qiskit 1.0 or 2.0 removed |
+| [QXL205](docs/rules/qxl205.md) | default | an import, or a `QuantumCircuit` method call, naming something Qiskit 1.0 or 2.0 removed |
 | [QXL300](docs/rules/qxl300.md) | default, library | control flow nests deeper than the circuit walker descends |
 | [QXL301](docs/rules/qxl301.md) | default, library | a circuit uses an operation the `Target` does not support, control flow operations included |
 | [QXL302](docs/rules/qxl302.md) | preview, library | two adjacent identical self inverse gates cancel |
@@ -175,19 +175,26 @@ so an ansatz is not an opaque object the rules cannot reach.
 ### Version gated rules
 
 A version specifier is not a version. `>=0.38,<0.43` spans releases where
-`channel="ibm_quantum"` is valid, deprecated and removed, so QXL201 asks whether
-a predicate holds across *every* version the target allows, and fires only when
-it always does.
+`channel="ibm_quantum"` is valid, deprecated and removed, so QXL201 asks what the
+target proves rather than what it merely allows.
 
 | Declared target | QXL201 |
 | --- | --- |
 | `0.48`, `>=0.41` | error: removed in 0.41 |
 | `0.40.2`, `==0.40.*` | warning: deprecated since 0.40 |
-| `>=0.38,<0.43` | silent, the range spans the change |
-| not declared | silent |
+| `>=0.38,<0.43` | error, the range does not prove the code is safe |
+| not declared | error, an unstated target is read as current |
+
+Silence is reserved for a target that **proves** the value still works, which
+means a pin below 0.41. A range spanning the change does not prove that, and
+neither does saying nothing: a project that never states a version is far more
+likely to be on today's release than on one from before 0.41. Reading an
+undeclared target as silent hid the finding from every project without a pin,
+which is why it now reports.
 
 Targets come from `--target-runtime`, then `[tool.qxlint]`, then the analysed
-project's `pyproject.toml` dependencies, then an unambiguous `uv.lock` pin.
+project's `pyproject.toml` dependencies, then an unambiguous `uv.lock` pin, then
+`requirements.txt`, whose `-r` includes are followed.
 qxlint never inspects its own installed Qiskit for this: the version in the
 linter's environment is not the version your project targets.
 
@@ -239,7 +246,7 @@ accepted mistake is still reported. See
 ```yaml
 repos:
   - repo: https://github.com/TuguiDragos/qxlint
-    rev: v0.1.1
+    rev: v0.3.0
     hooks:
       - id: qxlint
       - id: qxlint-notebook
@@ -361,11 +368,13 @@ qxlint --statistics .
 ```
 
 ```
-  QXL104  ████████████████████████  37  discarded-circuit-result
-  QXL101  █████░░░░░░░░░░░░░░░░░░░   7  get-counts-on-wrong-receiver
-  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░   2  v1-result-field-on-v2-result
+  QXL205  ████████████████████████  3896  removed-qiskit-symbol
+  QXL104  █░░░░░░░░░░░░░░░░░░░░░░░    35  discarded-circuit-result
+  QXL101  █░░░░░░░░░░░░░░░░░░░░░░░     7  get-counts-on-wrong-receiver
+  QXL102  █░░░░░░░░░░░░░░░░░░░░░░░     2  v1-result-field-on-v2-result
+  QXL204  █░░░░░░░░░░░░░░░░░░░░░░░     2  v1-run-signature
 
-  46 findings across 22 files of 13861 scanned
+  3942 findings across 2353 files of 13861 scanned
 ```
 
 That is real output from one repository in the corpus below.
@@ -460,7 +469,7 @@ Every claim on this page is backed by something that runs.
 | Coverage | **100% of statements and branches**, enforced as a CI gate, not reported as a number |
 | Types | `mypy --strict`, clean |
 | Style | `ruff check` and `ruff format --check`, clean |
-| API model | **371 checks** against a real Qiskit install, run on a schedule so an upstream change is a test failure rather than a user report |
+| API model | **396 checks** against a real Qiskit install, run on a schedule so an upstream change is a test failure rather than a user report |
 | Mutation testing | 46 hand written mutations, each changing one documented behaviour. 44 were caught; the 2 survivors were each verified to be equivalent mutants |
 
 The API tables were built by introspecting an installed Qiskit, not by reading
@@ -541,9 +550,10 @@ or costs the findings in the rest of the tree.
 ### Speed
 
 The whole corpus, 51,711 files across 244 repositories, is **77 seconds** in one
-process on one laptop core. The largest repository in it, 5,874 files, takes 5.6
-seconds and peaks at 98 MB. A typical repository is well under a second, which is
-what makes it invisible in a pre-commit hook.
+process on one laptop core. The largest repository in it, 13,861 files, takes 18
+seconds. The median repository holds 11 files and the ninetieth percentile 141,
+so a typical repository is a fraction of a second, which is what makes it
+invisible in a pre-commit hook.
 
 ---
 
@@ -557,17 +567,17 @@ what makes it invisible in a pre-commit hook.
   is unknown inside a function, because the order in which functions run is not
   known and assuming one would invent facts. So a module level `sampler` used
   inside a function reaches the rules as unknown, and nothing fires. This is
-  measured, not guessed: on the 218 repository corpus it costs 8 of 437 primitive
-  calls and no findings at all. [Details](docs/semantic-layer.md).
+  measured, not guessed: on the corpus as it stood at 218 repositories it cost 8
+  of 437 primitive calls and no findings at all. [Details](docs/semantic-layer.md).
 - **The finding set is per interpreter.** qxlint parses with the CPython running
   it, so syntax that changed between versions is judged by that version. An
   f-string with nested same quotes, `f"{d["k"]}"`, is a syntax error on 3.11 and
   valid from 3.12, and QXL000 follows. Run the same interpreter locally and in
   CI, as you would for any other linter.
-- **No precision figure is published.** Every finding across the corpus was
-  read and labelled and none was wrong, but the single reviewer was an AI and
-  its labels are still unconfirmed by a human, which is not an independent
-  precision measurement. See the
+- **No precision figure is published.** Every finding across the corpus was read
+  and labelled, 35 of the 407 as false positives from three defects since fixed,
+  but the single reviewer was an AI and its labels are still unconfirmed by a
+  human, which is not an independent precision measurement. See the
   [release gate](docs/release-gate.md) for exactly what is and is not claimed.
 - **Recall is measured for one rule only.** For the removed channel, where the
   textual pattern is precise enough to build a trustworthy denominator, qxlint
@@ -612,8 +622,9 @@ of why qxlint implements no migration rules at all.
 It is a weaker criticism of this design. qxlint targets Primitives V2, which is
 the stabilised surface rather than the moving one: V1 primitives were removed in
 Qiskit 2.0 and the V2 shape is now the supported path. Version dependent rules
-consult a declared target and stay silent when they cannot prove applicability,
-so an API change makes qxlint quieter rather than wrong. And determinism is not a
+consult a declared target and stay silent when it proves the code still works,
+so an API change makes qxlint quieter rather than wrong on the projects that
+state their version. And determinism is not a
 stylistic preference in CI: the same commit must produce the same findings, at no
 per-run cost, offline, with a reviewable reason for every one.
 

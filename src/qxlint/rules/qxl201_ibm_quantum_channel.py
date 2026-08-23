@@ -52,10 +52,13 @@ class RemovedIbmQuantumChannel(Rule):
             "omitted entirely."
         ),
         when_legitimate=(
-            "On a project pinned below qiskit-ibm-runtime 0.41 the value still "
-            "works, so the rule downgrades to a deprecation notice there and says "
-            "nothing at all when the target version cannot be established. A "
-            "project that cannot prove its target version never sees this rule."
+            "On a target proven to predate qiskit-ibm-runtime 0.41 the value still "
+            "works, and the rule downgrades to a deprecation notice from 0.40 and "
+            "stays silent below it. A target that cannot be established is read as "
+            "current, so the rule reports: a project that never states its version "
+            "is far more likely to be running today's release than one from before "
+            "0.41, and staying silent there hid the finding from every project "
+            "without a declared target."
         ),
         example_target_runtime="0.48",
         bad_example=(

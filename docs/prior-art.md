@@ -38,14 +38,16 @@ still answer different questions: flake8-qiskit-migration answers "does this cod
 still import and call things that exist", qxlint answers "is this a correct
 Primitives V2 workflow". QXL205 exists because the corpus said the boundary was
 costing users the answer: 42 of the 244 repositories import a name Qiskit 1.0 or
-2.0 removed, and a fifth of those receive no other finding at all, so qxlint
+2.0 removed, and 19 of those 42 receive no other finding at all, so qxlint
 handed them a clean report on a file that cannot import.
 
-QXL205 covers 12 names, each with the release that dropped it read from the
-published wheels, and stops there. It does not attempt the 207 entry deprecated
-name table flake8-qiskit-migration maintains, and it checks imports only, never
-method names, so it cannot produce the heuristic false positives that tool's own
-README warns about. Run both.
+QXL205 covers 13 dotted paths, four whole modules, the `fake_provider` backend
+family and two removed `QuantumCircuit` methods, each with the release that
+dropped it read from the published wheels, and stops there. It does not attempt
+the 207 entry deprecated name table flake8-qiskit-migration maintains. The two
+method names it does check are matched on a receiver the analyser has proved to
+be a `QuantumCircuit`, not on the name alone, so they cannot produce the
+heuristic false positives that tool's own README warns about. Run both.
 
 ## LintQ
 

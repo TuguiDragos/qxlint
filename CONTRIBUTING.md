@@ -117,9 +117,9 @@ Anything the documentation says about Qiskit, about a standard, or about another
 tool needs a primary source, and where it can be executed it is executed. The
 external corpus in [corpus/](corpus/) is the same idea at a larger scale:
 repeated scans over 244 unseen repositories, pinned to commit SHAs and selected
-before the linter was run, with every one of the 342 findings read and labelled.
+before the linter was run, with 407 findings read and labelled individually.
 
-All 342 labels were written by an AI reviewer, `claude-opus-5`, and none has
+All 407 labels were written by an AI reviewer, `claude-opus-5`, and none has
 been confirmed by a human. The `reviewer` column records that on every row.
 Treat the corpus as evidence a maintainer still has to check, not as a verdict.
 
@@ -134,9 +134,11 @@ Qiskit without a primary source in the pull request description.
 
 ## Releases
 
-There is no changelog file in the repository. Each release carries its notes on
-its [GitHub release](https://github.com/TuguiDragos/qxlint/releases), which is
-also what the `Changelog` link on PyPI points at.
+The analyser keeps no changelog file. Each release carries its notes on its
+[GitHub release](https://github.com/TuguiDragos/qxlint/releases), which is also
+what the `Changelog` link on PyPI points at. The VS Code extension is the
+exception: the Marketplace renders a changelog, so extension facing changes go in
+[vscode/CHANGELOG.md](vscode/CHANGELOG.md).
 
 `pyproject.toml`, `npm/package.json` and `vscode/package.json` all carry the
 version, and the release workflow refuses to run if they disagree with each
