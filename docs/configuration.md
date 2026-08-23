@@ -40,6 +40,8 @@ With no path, the current directory is analysed.
 | `--format {text,json,sarif}` | output format, `text` by default |
 | `--no-color` | never colour the output |
 | `--statistics` | per rule counts instead of a listing |
+| `--list-rules` | print every rule with its severity and tier, and exit |
+| `--explain CODE` | print what one rule checks and why it exists, and exit |
 | `--baseline PATH` | suppress the findings recorded in PATH |
 | `--baseline-write PATH` | write the current findings to PATH and report none of them |
 | `--show-profile` | print the resolved target versions and exit |
@@ -132,6 +134,23 @@ is linted by the `qxlint` command or by `flake8 --select=QXL`.
 Comments are read with `tokenize`, so `# noqa` inside a string literal is not a
 suppression. Under flake8, suppression is flake8's job and qxlint does not
 apply it twice.
+
+## Finding out what a rule is
+
+```bash
+qxlint --list-rules
+qxlint --explain QXL203
+```
+
+`--explain` prints the rule's summary, severity, tier, whether it is version
+gated, why it exists, when the pattern it reports is legitimate, and a reported
+and a not reported example. It reads the rule's own metadata, the same source
+the generated pages under `docs/rules` are built from, so it works from an
+installed package with no documentation checked out and no network. Codes are
+matched case insensitively, and a code that does not exist names the closest
+ones.
+
+Neither flag reads a path, so both work anywhere.
 
 ## Baselines
 

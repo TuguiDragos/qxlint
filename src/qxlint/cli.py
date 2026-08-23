@@ -19,6 +19,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from difflib import get_close_matches
 from pathlib import Path
 
 from qxlint import __version__
@@ -27,12 +28,13 @@ from qxlint.config import Config, ConfigCache, ConfigError, apply_cli_overrides,
 from qxlint.diagnostics import Finding
 from qxlint.engine import SUFFIXES, analyse_path, analyse_source, discover
 from qxlint.output import FORMATS
+from qxlint.output.explain import render_listing, render_rule
 from qxlint.output.palette import Depth, detect_depth
 from qxlint.output.statistics import render_statistics, render_statistics_json
 from qxlint.paths import exists as path_exists
 from qxlint.paths import is_directory
 from qxlint.profile import ProfileSource, knowledge_from_text
-from qxlint.registry import source_reachable, tiers
+from qxlint.registry import all_meta, source_reachable, tiers
 
 EXIT_OK = 0
 EXIT_FINDINGS = 1
@@ -94,6 +96,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="write the current findings to PATH as a baseline and report nothing",
     )
     parser.add_argument(
+        "--list-rules",
+        action="store_true",
+        help="print every rule with its severity and tier, and exit",
+    )
+    parser.add_argument(
+        "--explain",
+        metavar="CODE",
+        help="print what one rule checks and why it exists, and exit",
+    )
+    parser.add_argument(
         "--show-profile",
         action="store_true",
         help="print the resolved target versions and exit",
@@ -118,6 +130,11 @@ def main(argv: list[str] | None = None) -> int:
 
 
 def _run(args: argparse.Namespace) -> int:
+    if args.list_rules:
+        print(render_listing())
+        return EXIT_OK
+    if args.explain is not None:
+        return _explain(args.explain)
     if args.stdin_filename is not None:
         return _run_stdin(args)
 
@@ -198,6 +215,21 @@ def _report(
     if failed:
         return EXIT_ERROR
     return EXIT_FINDINGS if findings else EXIT_OK
+
+
+def _explain(code: str) -> int:
+    """Print one rule, or name the closest codes when there is no such rule."""
+    wanted = code.strip().upper()
+    for meta in all_meta():
+        if meta.code == wanted:
+            print(render_rule(meta))
+            return EXIT_OK
+    known = [meta.code for meta in all_meta()]
+    close = get_close_matches(wanted, known, n=3, cutoff=0.5)
+    if len(close) > 1:
+        close = [", ".join(close[:-1]) + " or " + close[-1]]
+    suggestion = f", did you mean {close[0]}" if close else ""
+    raise ConfigError(f"--explain: no rule {code!r}{suggestion}. See --list-rules")
 
 
 def _write_baseline(findings: list[Finding], path: Path, *, failed: bool) -> int:

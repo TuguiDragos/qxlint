@@ -81,3 +81,56 @@ def test_unparsable_example_produces_qxl000() -> None:
     meta = next(m for m in METAS if m.code == "QXL000")
     assert codes(lint(meta.bad_example)) == ["QXL000"]
     assert codes(lint(meta.good_example)) == []
+
+
+README = ROOT / "README.md"
+NUMBER_WORDS = {
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+    10: "ten",
+}
+
+
+def readme_rows() -> dict[str, str]:
+    """Rule code to the tier cell of its README row."""
+    rows = {}
+    for line in README.read_text(encoding="utf-8").splitlines():
+        if not line.startswith("| [QXL"):
+            continue
+        cells = [cell.strip() for cell in line.strip("|").split("|")]
+        code = cells[0][1 : cells[0].index("]")]
+        rows[code] = cells[1]
+    return rows
+
+
+def test_the_readme_table_lists_exactly_the_registered_rules() -> None:
+    assert sorted(readme_rows()) == sorted(meta.code for meta in METAS)
+
+
+@pytest.mark.parametrize("meta", METAS, ids=lambda meta: meta.code)
+def test_the_readme_row_matches_the_registered_tier(meta: RuleMeta) -> None:
+    assert readme_rows()[meta.code].startswith(meta.tier.value)
+
+
+def test_the_readme_marks_exactly_the_circuit_rules_as_library() -> None:
+    from qxlint.registry import source_reachable
+
+    reachable = source_reachable()
+    marked = {code for code, tier in readme_rows().items() if "library" in tier}
+    assert marked == {meta.code for meta in METAS if meta.code not in reachable}
+
+
+def test_the_readme_counts_the_library_rules_correctly() -> None:
+    # A rule added or moved between the engines leaves this sentence wrong, and
+    # a wrong count in the first thing anybody reads is worse than none.
+    from qxlint.registry import source_reachable
+
+    total = len([meta for meta in METAS if meta.code not in source_reachable()])
+    assert f"The {NUMBER_WORDS[total]} marked *library*" in README.read_text(encoding="utf-8")

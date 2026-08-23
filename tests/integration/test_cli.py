@@ -943,3 +943,96 @@ def test_a_baseline_from_an_incomplete_run_still_fails(
     assert main([str(tmp_path), "--baseline-write", str(baseline)]) == EXIT_ERROR
     assert "internal error analysing" in capsys.readouterr().err
     assert json.loads(baseline.read_text(encoding="utf-8"))["entries"]
+
+
+def test_list_rules_names_every_registered_rule(capsys: pytest.CaptureFixture[str]) -> None:
+    from qxlint.registry import all_meta
+
+    assert main(["--list-rules"]) == EXIT_OK
+    out = capsys.readouterr().out
+    for meta in all_meta():
+        assert meta.code in out
+        assert meta.name in out
+    assert f"{len(all_meta())} rules" in out
+
+
+def test_list_rules_separates_file_rules_from_circuit_rules(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    main(["--list-rules"])
+    lines = {
+        line.split()[0]: line for line in capsys.readouterr().out.splitlines() if line[:3] == "QXL"
+    }
+    assert lines["QXL101"].endswith("files")
+    assert lines["QXL301"].endswith("circuits")
+
+
+def test_list_rules_marks_the_preview_tier(capsys: pytest.CaptureFixture[str]) -> None:
+    main(["--list-rules"])
+    lines = capsys.readouterr().out.splitlines()
+    line = next(entry for entry in lines if entry.startswith("QXL302"))
+    assert "preview" in line
+
+
+def test_explain_prints_the_rule(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["--explain", "QXL203"]) == EXIT_OK
+    out = capsys.readouterr().out
+    assert out.startswith("QXL203  session-service-argument")
+    for heading in ("Why", "When it is legitimate", "Reported", "Not reported", "References"):
+        assert f"\n{heading}" in out
+
+
+def test_explain_accepts_a_lowercase_code(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["--explain", " qxl101 "]) == EXIT_OK
+    assert capsys.readouterr().out.startswith("QXL101")
+
+
+def test_explain_marks_a_preview_rule_and_a_circuit_rule(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    main(["--explain", "QXL302"])
+    out = capsys.readouterr().out
+    assert "off unless selected" in out
+    assert "in-memory circuits" in out
+
+
+def test_explain_marks_a_version_gated_rule(capsys: pytest.CaptureFixture[str]) -> None:
+    main(["--explain", "QXL201"])
+    assert "only fires on a target where the change applies" in capsys.readouterr().out
+
+
+def test_explain_suggests_close_codes(capsys: pytest.CaptureFixture[str]) -> None:
+    assert main(["--explain", "QXL10"]) == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert "did you mean" in err
+    assert "QXL105, QXL104 or QXL103" in err
+
+
+def test_explain_without_a_close_code_still_points_at_the_listing(
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    assert main(["--explain", "nonsense"]) == EXIT_ERROR
+    err = capsys.readouterr().err
+    assert "did you mean" not in err
+    assert "--list-rules" in err
+
+
+def test_the_listing_and_the_explanation_need_no_project(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # Neither reads a path, so neither may fail on a directory that holds no
+    # Python at all, and neither may warn about zero files analysed.
+    monkeypatch.chdir(tmp_path)
+    assert main(["--list-rules"]) == EXIT_OK
+    assert main(["--explain", "QXL101"]) == EXIT_OK
+    assert capsys.readouterr().err == ""
+
+
+def test_explain_covers_every_registered_rule(capsys: pytest.CaptureFixture[str]) -> None:
+    # A rule added without the metadata the renderer reads would raise here
+    # rather than printing a half explanation to whoever asked.
+    from qxlint.registry import all_meta
+
+    for meta in all_meta():
+        assert main(["--explain", meta.code]) == EXIT_OK
+        assert meta.code in capsys.readouterr().out

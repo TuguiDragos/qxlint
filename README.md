@@ -15,7 +15,7 @@
   <a href="https://github.com/TuguiDragos/qxlint/actions/workflows/ci.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/TuguiDragos/qxlint/ci.yml?branch=main&style=flat&color=161826&label=CI&logo=githubactions&logoColor=9184D9" /></a>
   <a href="https://www.python.org/"><img alt="Python 3.11 to 3.14" src="https://img.shields.io/badge/Python-3.11%20--%203.14-161826?style=flat&logo=python&logoColor=9184D9" /></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
-  <a href="https://docs.pytest.org/"><img alt="1301 tests" src="https://img.shields.io/badge/tests-1301-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
+  <a href="https://docs.pytest.org/"><img alt="1339 tests" src="https://img.shields.io/badge/tests-1339-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-161826?style=flat" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
 </p>
@@ -100,8 +100,16 @@ all, and only the in-memory circuit checks require it installed.
 Every rule page documents **when the pattern is legitimate**. If that section
 cannot be written, the rule does not ship.
 
-The three marked *library* work on an in-memory circuit and are reached through
+The four marked *library* work on an in-memory circuit and are reached through
 `qxlint.check_target` and `qxlint.check_circuit`, not by linting a file.
+
+The same table is available from the tool itself, with no documentation checked
+out and no network:
+
+```bash
+qxlint --list-rules
+qxlint --explain QXL203
+```
 
 ### Precision over recall
 
@@ -447,7 +455,7 @@ Every claim on this page is backed by something that runs.
 
 | | |
 | --- | --- |
-| Tests | **1301**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
+| Tests | **1339**, on Python 3.11, 3.12, 3.13 and 3.14, each job proving it runs the interpreter it is named after |
 | Qiskit matrix | 2.5.2, the declared floor 2.0.3, and a job with **no Qiskit installed at all** |
 | Coverage | **100% of statements and branches**, enforced as a CI gate, not reported as a number |
 | Types | `mypy --strict`, clean |
