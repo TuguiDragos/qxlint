@@ -175,9 +175,18 @@ jobs:
 
       - name: Pin the action to the last released version
         # This was a literal and went two releases stale, so the job exercised
-        # 0.1.1 long after 0.3.0 shipped. Reading the newest tag cannot.
+        # 0.1.1 long after 0.3.0 shipped. Reading the newest tag cannot. It
+        # takes the newest tag PyPI already serves: a tag pushed with its
+        # release commit exists minutes before its upload, and 0.3.7 failed
+        # this job by asking pip for a version that was still on its way.
         run: |
-          latest=$(git tag --list 'v*' --sort=-v:refname | head -1)
+          latest=""
+          for tag in $(git tag --list 'v*' --sort=-v:refname); do
+            if curl -fsS -o /dev/null "https://pypi.org/pypi/qxlint/${tag#v}/json"; then
+              latest=$tag
+              break
+            fi
+          done
           test -n "$latest"
           echo "PUBLISHED===${latest#v}" >> "$GITHUB_ENV"
 
