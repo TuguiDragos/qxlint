@@ -7,6 +7,15 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
+## 0.3.7
+
+### Changed
+
+- The extension's page on the Marketplace and on Open VSX has a Sponsor link,
+  to [GitHub Sponsors](https://github.com/sponsors/TuguiDragos).
+
+The analyser is unchanged: the same rules give the same output as in 0.3.6.
+
 ## 0.3.6
 
 ### Fixed
