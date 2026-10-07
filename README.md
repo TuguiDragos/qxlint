@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://raw.githubusercontent.com/TuguiDragos/qxlint/main/readme-assets/png/qxlint-icon-256.png" alt="" width="56" align="center" />
+  <img src="https://raw.githubusercontent.com/TuguiDragos/qxlint/main/readme-assets/png/qxlint-icon-256.png" alt="" width="56" align="absmiddle" />
   &nbsp;qxlint
 </h1>
 
