@@ -10,6 +10,9 @@
     "url": "https://tuguidragos.com"
   },
   "homepage": "https://qxlint.tuguidragos.com/",
+  "sponsor": {
+    "url": "https://github.com/sponsors/TuguiDragos"
+  },
   "bugs": {
     "url": "https://github.com/TuguiDragos/qxlint/issues"
   },

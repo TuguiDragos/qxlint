@@ -9,6 +9,10 @@
     "static-analysis"
   ],
   "homepage": "https://qxlint.tuguidragos.com/",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/TuguiDragos"
+  },
   "bugs": "https://github.com/TuguiDragos/qxlint/issues",
   "repository": {
     "type": "git",

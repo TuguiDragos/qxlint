@@ -17,6 +17,7 @@
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
   <a href="https://docs.pytest.org/"><img alt="1368 tests" src="https://img.shields.io/badge/tests-1368-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
   <a href="https://mypy-lang.org/"><img alt="mypy strict" src="https://img.shields.io/badge/mypy-strict-161826?style=flat" /></a>
+  <a href="https://qxlint.tuguidragos.com/"><img alt="qxlint.tuguidragos.com" src="https://img.shields.io/badge/qxlint.tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
 </p>
 

@@ -14,6 +14,7 @@
   <a href="https://www.python.org/"><img alt="Python 3.11 to 3.14" src="https://img.shields.io/badge/Python-3.11%20--%203.14-161826?style=flat&logo=python&logoColor=9184D9" /></a>
   <a href="https://www.ibm.com/quantum/qiskit"><img alt="Qiskit optional" src="https://img.shields.io/badge/Qiskit-optional-161826?style=flat&logo=qiskit&logoColor=9184D9" /></a>
   <a href="https://jupyter.org/"><img alt="Jupyter notebooks" src="https://img.shields.io/badge/Jupyter-notebooks-161826?style=flat&logo=jupyter&logoColor=9184D9" /></a>
+  <a href="https://qxlint.tuguidragos.com/"><img alt="qxlint.tuguidragos.com" src="https://img.shields.io/badge/qxlint.tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
   <a href="https://tuguidragos.com"><img alt="tuguidragos.com" src="https://img.shields.io/badge/tuguidragos.com-161826?style=flat&logo=safari&logoColor=9184D9" /></a>
   <a href="https://docs.pytest.org/"><img alt="1368 tests" src="https://img.shields.io/badge/tests-1368-161826?style=flat&logo=pytest&logoColor=9184D9" /></a>
 </p>

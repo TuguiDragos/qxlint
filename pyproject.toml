@@ -38,6 +38,7 @@ Homepage = "https://qxlint.tuguidragos.com/"
 Repository = "https://github.com/TuguiDragos/qxlint"
 Issues = "https://github.com/TuguiDragos/qxlint/issues"
 Changelog = "https://github.com/TuguiDragos/qxlint/releases"
+Funding = "https://github.com/sponsors/TuguiDragos"
 Blog = "https://tuguidragos.com"
 
 [project.scripts]
