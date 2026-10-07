@@ -4,6 +4,6 @@
   "description": "Builds qxlint.tuguidragos.com from this repository.",
   "type": "module",
   "dependencies": {
-    "shiki": "3.23.0"
+    "shiki": "4.5.0"
   }
 }
