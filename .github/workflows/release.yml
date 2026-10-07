@@ -196,6 +196,8 @@ jobs:
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     environment: vscode-marketplace
+    permissions:
+      id-token: write
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -205,14 +207,58 @@ jobs:
         with:
           node-version: "24"
 
-      # vsce still requires an Azure DevOps PAT. Its --oidc trusted publishing
-      # exists only on the `next` tag, is hidden from help, and the marketplace
-      # side is not documented yet, so it is deliberately not used here.
-      # Azure DevOps global PATs retire on 2026-12-01.
-      - name: VS Code Marketplace
+      # VSCE_PAT is an Azure DevOps global PAT, and those retire on 2026-12-01.
+      # Microsoft Entra ID replaces it: a managed identity trusts this
+      # environment's OIDC token, so no token is stored. It takes over as soon
+      # as the environment has AZURE_CLIENT_ID and AZURE_TENANT_ID variables;
+      # until then the PAT publishes as before. vsce's own --oidc trusted
+      # publishing is still hidden from help and only settling on prereleases,
+      # so it is deliberately not used here.
+      - name: Sign in to Microsoft Entra ID
+        if: vars.AZURE_CLIENT_ID != ''
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      - name: VS Code Marketplace, signed in with Entra ID
+        if: vars.AZURE_CLIENT_ID != ''
+        run: npx --yes @vscode/vsce@3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate --azure-credential
+
+      - name: VS Code Marketplace, with VSCE_PAT
+        if: vars.AZURE_CLIENT_ID == ''
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
         run: npx --yes @vscode/vsce@3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate
+
+  marketplace-identity:
+    # A publisher can only add the Entra identity as a member by the ID the
+    # Marketplace gives it, and only the identity itself can ask for that ID. A
+    # manual run asks, which also proves the sign in works before a tag depends
+    # on it. Nothing is published.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: vscode-marketplace
+    permissions:
+      id-token: write
+    steps:
+      - name: Sign in to Microsoft Entra ID
+        if: vars.AZURE_CLIENT_ID != ''
+        uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      # 499b84ac-1321-427f-aa17-267ca6975798 is Azure DevOps, which the
+      # Marketplace runs on. The id printed here is what the publisher's
+      # Members page accepts, with the Contributor role.
+      - name: The ID to add to the Marketplace publisher
+        if: vars.AZURE_CLIENT_ID != ''
+        run: |
+          az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me \
+            --resource 499b84ac-1321-427f-aa17-267ca6975798 --query id -o tsv
 
   open-vsx:
     # The registry VSCodium, Cursor, Windsurf and Theia use. Its own job rather
@@ -222,6 +268,8 @@ jobs:
     if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     environment: vscode-marketplace
+    permissions:
+      id-token: write
     steps:
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -232,12 +280,15 @@ jobs:
           node-version: "24"
 
       # The namespace must exist before the first publish and is created by
-      # hand, not here: creating it needs the same token and doing it on every
-      # tag would be a no-op at best.
+      # hand, not here: creating it needs a token, and doing it on every tag
+      # would be a no-op at best.
+      #
+      # Trusted publishing means no token is stored for Open VSX either. It
+      # trusts release.yml running in this environment, and exchanges the job's
+      # OIDC token for one that lasts minutes and can publish this extension
+      # only. ovsx has had --trusted-publishing since 1.1.0.
       - name: Open VSX
-        env:
-          OVSX_PAT: ${{ secrets.OVSX_PAT }}
-        run: npx --yes ovsx@1.1.1 publish --packagePath vsix/*.vsix --skip-duplicate
+        run: npx --yes ovsx@1.1.1 publish --packagePath vsix/*.vsix --skip-duplicate --trusted-publishing
 
   github-release:
     # pyproject.toml points its Changelog URL at this page, and the extension's
