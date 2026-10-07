@@ -32,6 +32,12 @@ updates:
     groups:
       vscode-extension:
         patterns: ["*"]
+    # @types/vscode has to match engines.vscode, the oldest VS Code the
+    # extension supports, and vsce refuses to package when it is newer. Raising
+    # it means dropping editors, which is decided by hand with engines, not by a
+    # monthly bump.
+    ignore:
+      - dependency-name: "@types/vscode"
     commit-message:
       prefix: "build"
 
