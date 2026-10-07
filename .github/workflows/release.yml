@@ -14,8 +14,15 @@ on:
   push:
     tags: ["v*"]
   # A manual run builds and validates without publishing: every publishing job
-  # is gated on the ref being a tag.
+  # is gated on the ref being a tag. The one exception is open-vsx-tag, which
+  # redoes the Open VSX stage, and only that, for a release that already exists.
   workflow_dispatch:
+    inputs:
+      open-vsx-tag:
+        description: An existing release tag, such as v0.3.6, to publish to Open VSX again
+        required: false
+        default: ""
+        type: string
 
 permissions:
   contents: read
@@ -224,13 +231,13 @@ jobs:
 
       - name: VS Code Marketplace, signed in with Entra ID
         if: vars.AZURE_CLIENT_ID != ''
-        run: npx --yes @vscode/vsce@3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate --azure-credential
+        run: npx --yes @vscode/vsce@4.0.0 publish --packagePath vsix/*.vsix --skip-duplicate --azure-credential
 
       - name: VS Code Marketplace, with VSCE_PAT
         if: vars.AZURE_CLIENT_ID == ''
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: npx --yes @vscode/vsce@3.9.2 publish --packagePath vsix/*.vsix --skip-duplicate
+        run: npx --yes @vscode/vsce@4.0.0 publish --packagePath vsix/*.vsix --skip-duplicate
 
   marketplace-identity:
     # A publisher can only add the Entra identity as a member by the ID the
@@ -273,7 +280,7 @@ jobs:
         working-directory: vscode
         run: |
           publisher=$(node -p "require('./package.json').publisher")
-          npx --yes @vscode/vsce@3.9.2 verify-pat --azure-credential "$publisher"
+          npx --yes @vscode/vsce@4.0.0 verify-pat --azure-credential "$publisher"
 
   open-vsx:
     # The registry VSCodium, Cursor, Windsurf and Theia use. Its own job rather
@@ -301,9 +308,45 @@ jobs:
       # Trusted publishing means no token is stored for Open VSX either. It
       # trusts release.yml running in this environment, and exchanges the job's
       # OIDC token for one that lasts minutes and can publish this extension
-      # only. ovsx has had --trusted-publishing since 1.1.0.
+      # only. --trusted-publishing arrived in ovsx 1.2.0: 1.1.1 refused the
+      # flag, which is how 0.3.6 first missed Open VSX.
       - name: Open VSX
-        run: npx --yes ovsx@1.1.1 publish --packagePath vsix/*.vsix --skip-duplicate --trusted-publishing
+        run: npx --yes ovsx@1.2.0 publish --packagePath vsix/*.vsix --skip-duplicate --trusted-publishing
+
+  open-vsx-again:
+    # Open VSX alone, for a tag that went out everywhere else. Re-running the
+    # failed job runs the workflow as it was at that tag, so a fix to this stage
+    # could never reach the release that needed it. This runs the stage as it
+    # is now, on the VSIX that the tag's own run built, once its attestation
+    # says so.
+    if: github.event_name == 'workflow_dispatch' && inputs.open-vsx-tag != ''
+    runs-on: ubuntu-latest
+    environment: vscode-marketplace
+    permissions:
+      actions: read
+      attestations: read
+      contents: read
+      id-token: write
+    steps:
+      - name: The VSIX the tag's release run built
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.open-vsx-tag }}
+        run: |
+          if ! [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error::$TAG is not a release tag"
+            exit 1
+          fi
+          run=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow release.yml \
+            --branch "$TAG" --event push --limit 1 --json databaseId --jq '.[0].databaseId')
+          test -n "$run"
+          gh run download "$run" --repo "$GITHUB_REPOSITORY" --name vsix --dir vsix
+          gh attestation verify vsix/*.vsix --repo "$GITHUB_REPOSITORY" --source-ref "refs/tags/$TAG"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24"
+      - name: Open VSX
+        run: npx --yes ovsx@1.2.0 publish --packagePath vsix/*.vsix --skip-duplicate --trusted-publishing
 
   github-release:
     # pyproject.toml points its Changelog URL at this page, and the extension's
