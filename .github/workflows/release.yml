@@ -241,8 +241,14 @@ jobs:
     runs-on: ubuntu-latest
     environment: vscode-marketplace
     permissions:
+      contents: read
       id-token: write
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "24"
+
       - name: Sign in to Microsoft Entra ID
         if: vars.AZURE_CLIENT_ID != ''
         uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
@@ -259,6 +265,15 @@ jobs:
         run: |
           az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me \
             --resource 499b84ac-1321-427f-aa17-267ca6975798 --query id -o tsv
+
+      # Fails until that ID is a member of the publisher and passes once it is,
+      # so a second manual run proves the next tag will reach the Marketplace.
+      - name: The identity can publish as the extension's publisher
+        if: vars.AZURE_CLIENT_ID != ''
+        working-directory: vscode
+        run: |
+          publisher=$(node -p "require('./package.json').publisher")
+          npx --yes @vscode/vsce@3.9.2 verify-pat --azure-credential "$publisher"
 
   open-vsx:
     # The registry VSCodium, Cursor, Windsurf and Theia use. Its own job rather
