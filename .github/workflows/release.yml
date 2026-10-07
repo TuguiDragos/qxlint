@@ -1,14 +1,16 @@
 name: Release
 
-# One tag publishes to all three registries, in dependency order:
+# One tag publishes to four registries, in dependency order:
 #   PyPI                 -> the analyser itself, everything else launches it
 #   npm                  -> `npx @tuguidragos/qxlint`
 #   VS Code Marketplace  -> the editor extension
+#   Open VSX             -> the same extension, for VSCodium, Cursor and the rest
 #
 # Each stage waits for the one before it, so a failed PyPI publish never leaves
 # an extension in the marketplace pointing at a version that does not exist.
 #
-# A GitHub release is drafted once all of them succeed.
+# A GitHub release is drafted once PyPI, npm and the Marketplace succeed. Open
+# VSX is kept out of that on purpose, and open-vsx-tag can redo it alone.
 
 on:
   push:
@@ -214,36 +216,28 @@ jobs:
         with:
           node-version: "24"
 
-      # VSCE_PAT is an Azure DevOps global PAT, and those retire on 2026-12-01.
-      # Microsoft Entra ID replaces it: a managed identity trusts this
-      # environment's OIDC token, so no token is stored. It takes over as soon
-      # as the environment has AZURE_CLIENT_ID and AZURE_TENANT_ID variables;
-      # until then the PAT publishes as before. vsce's own --oidc trusted
-      # publishing is still hidden from help and only settling on prereleases,
-      # so it is deliberately not used here.
+      # Microsoft Entra ID, not a token: a managed identity trusts this
+      # environment's OIDC token, so nothing is stored to leak or expire. It
+      # replaced VSCE_PAT, an Azure DevOps global PAT, before those stopped
+      # working on 2026-12-01. vsce's own --oidc trusted publishing is still
+      # hidden from help and only settling on prereleases, so it is deliberately
+      # not used here.
       - name: Sign in to Microsoft Entra ID
-        if: vars.AZURE_CLIENT_ID != ''
         uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
           tenant-id: ${{ vars.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
-      - name: VS Code Marketplace, signed in with Entra ID
-        if: vars.AZURE_CLIENT_ID != ''
+      - name: VS Code Marketplace
         run: npx --yes @vscode/vsce@4.0.0 publish --packagePath vsix/*.vsix --skip-duplicate --azure-credential
 
-      - name: VS Code Marketplace, with VSCE_PAT
-        if: vars.AZURE_CLIENT_ID == ''
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: npx --yes @vscode/vsce@4.0.0 publish --packagePath vsix/*.vsix --skip-duplicate
-
   marketplace-identity:
-    # A publisher can only add the Entra identity as a member by the ID the
-    # Marketplace gives it, and only the identity itself can ask for that ID. A
-    # manual run asks, which also proves the sign in works before a tag depends
-    # on it. Nothing is published.
+    # A manual run proves the Entra sign in and the identity's place on the
+    # publisher before a tag depends on them. It also prints the ID the
+    # Marketplace gives the identity, which is the only one the publisher's
+    # Members page accepts, should the identity ever be replaced. Nothing is
+    # published.
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     environment: vscode-marketplace
@@ -257,7 +251,6 @@ jobs:
           node-version: "24"
 
       - name: Sign in to Microsoft Entra ID
-        if: vars.AZURE_CLIENT_ID != ''
         uses: azure/login@a641126d1b8aa4d1fa005f4f92df94a3a4c4c906 # v3.1.0
         with:
           client-id: ${{ vars.AZURE_CLIENT_ID }}
@@ -268,7 +261,6 @@ jobs:
       # Marketplace runs on. The id printed here is what the publisher's
       # Members page accepts, with the Contributor role.
       - name: The ID to add to the Marketplace publisher
-        if: vars.AZURE_CLIENT_ID != ''
         run: |
           az rest -u https://app.vssps.visualstudio.com/_apis/profile/profiles/me \
             --resource 499b84ac-1321-427f-aa17-267ca6975798 --query id -o tsv
@@ -276,7 +268,6 @@ jobs:
       # Fails until that ID is a member of the publisher and passes once it is,
       # so a second manual run proves the next tag will reach the Marketplace.
       - name: The identity can publish as the extension's publisher
-        if: vars.AZURE_CLIENT_ID != ''
         working-directory: vscode
         run: |
           publisher=$(node -p "require('./package.json').publisher")
