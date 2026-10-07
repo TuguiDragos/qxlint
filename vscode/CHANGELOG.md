@@ -7,6 +7,17 @@ are released together from one tag and share a version number. Changes to the
 rules themselves are listed with
 [the analyser's releases](https://github.com/TuguiDragos/qxlint/releases).
 
+## 0.3.6
+
+### Changed
+
+- The extension carries qxlint's new icon.
+- Its homepage is now [qxlint.tuguidragos.com](https://qxlint.tuguidragos.com/),
+  which shows every rule with what it flags, what it leaves alone and what
+  qxlint printed for each. The repository stays linked as the source.
+
+The analyser is unchanged: the same rules give the same output as in 0.3.5.
+
 ## 0.3.5
 
 ### Fixed

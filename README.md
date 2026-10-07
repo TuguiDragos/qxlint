@@ -246,7 +246,7 @@ accepted mistake is still reported. See
 ```yaml
 repos:
   - repo: https://github.com/TuguiDragos/qxlint
-    rev: v0.3.5
+    rev: v0.3.6
     hooks:
       - id: qxlint
       - id: qxlint-notebook
@@ -266,7 +266,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: TuguiDragos/qxlint@v0.3.5
+      - uses: TuguiDragos/qxlint@v0.3.6
         with:
           paths: .
           format: sarif
@@ -277,7 +277,7 @@ jobs:
           sarif_file: qxlint.sarif
 ```
 
-The tag pins the analyser too: `@v0.3.5` installs qxlint 0.3.5, not whatever
+The tag pins the analyser too: `@v0.3.6` installs qxlint 0.3.6, not whatever
 PyPI holds on the day the workflow runs. Override it with the `version` input
 when you want something else.
 
