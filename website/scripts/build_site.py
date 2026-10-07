@@ -1,13 +1,16 @@
 """Builds qxlint's website from the repository it sits in: the rule pages, the output qxlint printed for each
 example, the test suite, the model check, and the corpus run. Every figure is read here, on every build, so the page
-grows with the project; a sentence the page quotes from the docs is checked against them, and a build whose claim no
-longer holds stops rather than publishing it."""
+grows with the project. The examples on the page, the QXL201 table and the commands in the integration cards are run
+or looked up here too, and a build whose claim no longer holds stops rather than publishing it. The rest of the prose
+(the notebook table, the limits, the FAQ) is written by hand and is only as true as its last review."""
 import csv
 import datetime
 import html
 import json
 import re
 import subprocess
+import sys
+import tempfile
 import urllib.request
 import tomllib
 from pathlib import Path
@@ -64,7 +67,9 @@ assert pyproject["project"]["requires-python"] == f">={pythons[0]}"
 python_list = ", ".join(pythons[:-1]) + f" and {pythons[-1]}"
 ci = (ROOT / ".github/workflows/ci.yml").read_text()
 assert f'python: [{", ".join(chr(34) + p + chr(34) for p in pythons)}]' in ci, "the CI matrix is the classifiers' list"
-TESTS = sum(int(n) for n in re.findall(r": (\d+)$", (WORK / "collect.txt").read_text(), re.M))
+# The tests that pass when the suite runs here, as it runs in CI. Every interpreter skips one of a version-specific
+# pair, so this is what one CI job passes and what the README quotes, not the count pytest collects.
+TESTS = int(re.search(r"\b(\d+) passed\b", (WORK / "tests.txt").read_text().strip().splitlines()[-1]).group(1))
 MODEL_CHECKS = int(re.search(r"all (\d+) model checks agree", (WORK / "model.txt").read_text()).group(1))
 assert "fail_under = 100" in (ROOT / "pyproject.toml").read_text()
 assert '- cron: "0 6 1,15 * *"' in (ROOT / ".github/workflows/scheduled.yml").read_text()
@@ -90,18 +95,55 @@ SNIPPETS = {}
 for r in rules:
     SNIPPETS[f"{r['code']}-flagged"] = (r["flagged"], "python")
     SNIPPETS[f"{r['code']}-clean"] = (r["clean"], "python")
+
+
+def lint(code, *flags, cwd=None):
+    """What qxlint prints for a file holding this code. By default it runs outside the repository, so the repository's
+    own [tool.qxlint] settings never change what a reader would see."""
+    run = subprocess.run([sys.executable, "-m", "qxlint", "--stdin-filename", "example.py", "--no-color", *flags],
+                         input=code, capture_output=True, text=True, cwd=cwd or SCRATCH)
+    assert run.returncode in (0, 1), (flags, run.stderr)
+    return run.stdout
+
+
+SCRATCH = tempfile.mkdtemp()
+# The lines every example below sits under, which the page states once beneath them.
+DECIDES_SETUP = "from qiskit import QuantumCircuit\nfrom qiskit.primitives import StatevectorSampler\nsampler = StatevectorSampler()\n"
 DECIDES = [
     ("Names point at objects, not at facts.", "So an alias carries what was done through it.",
      "qc = QuantumCircuit(1)\nalias = qc\nalias.measure_all()\nsampler.run([qc])          # silent, the measurement is on the same object"),
     ("A local container is not an escape.", "This is how most Sampler code is written, so it has to be analyzable.",
-     "circuits = []\ncircuits.append(qc)\nsampler.run(circuits)      # the circuit is still tracked"),
+     "qc = QuantumCircuit(1)\ncircuits = []\ncircuits.append(qc)\nsampler.run(circuits)      # QXL103 fires: the circuit is still tracked"),
     ("Effects are scoped.", "A call that cannot reach a circuit does not affect it; a call that receives it does.",
      "qc = QuantumCircuit(2)\nqc.h(0)\nprint(\"running\")           # cannot touch qc\nsampler.run([qc])          # QXL103 fires\n\nqc2 = QuantumCircuit(2)\nhelper(qc2)                # may keep and mutate it\nsampler.run([qc2])         # silent"),
     ("Proof, or silence.", "A rule fires only on what the analyzer can prove, never on maybe and never on unknown.",
      "qc = QuantumCircuit(1)\nif condition:\n    qc.measure_all()\nsampler.run([qc])          # QXL103 stays silent: measured on some paths"),
 ]
-for i, (_, _, code) in enumerate(DECIDES):
+for i, (title, _, code) in enumerate(DECIDES):
     SNIPPETS[f"decides-{i}"] = (code, "python")
+    # Run as written under that setup, QXL103 lands on exactly the lines whose comment says it fires, and on no other.
+    said = [DECIDES_SETUP.count("\n") + n for n, line in enumerate(code.splitlines(), 1) if "QXL103 fires" in line]
+    found = [(int(n), rule) for n, rule in re.findall(r"^example\.py:(\d+):\d+: (QXL\d+)", lint(DECIDES_SETUP + code), re.M)]
+    assert found == [(n, "QXL103") for n in said], (title, found)
+
+# The QXL201 table, row by row, checked against the rule's own flagged example under each target the row names. An
+# empty list is the project that declares nothing.
+TARGETS = [
+    (["0.48", ">=0.41"], "An error: removed in 0.41", "error"),
+    (["0.40.2", "==0.40.*"], "A warning: deprecated since 0.40", "warning"),
+    ([">=0.38,<0.43"], "An error, because the range does not prove the code is safe", "error"),
+    ([], "An error, because an unstated target is read as current", "error"),
+    (["0.39"], "Nothing, because a pin below 0.40 predates the deprecation", None),
+]
+for targets, _, severity in TARGETS:
+    for target in targets or [None]:
+        flags = ["--format", "json", *(["--target-runtime", target] if target else [])]
+        found = [f["severity"] for f in json.loads(lint(by_code["QXL201"]["flagged"], *flags))["findings"] if f["rule"] == "QXL201"]
+        assert found == ([severity] if severity else []), ("QXL201", target, found)
+targets_html = "".join(
+    f'<tr><td>{", ".join(f"<code>{esc(t)}</code>" for t in targets) or "Not declared"}</td><td>{esc(says)}</td></tr>'
+    for targets, says, _ in TARGETS)
+
 INTEGRATIONS = [
     ("pre-commit", "Two hooks, one for Python files and one for notebooks.",
      "repos:\n  - repo: https://github.com/TuguiDragos/qxlint\n    rev: v" + VERSION + "\n    hooks:\n      - id: qxlint\n      - id: qxlint-notebook", "yaml"),
@@ -118,6 +160,18 @@ INTEGRATIONS = [
 ]
 for i, (_, _, code, lang) in enumerate(INTEGRATIONS):
     SNIPPETS[f"integration-{i}"] = (code, lang)
+# What the cards tell a reader to type, looked up where it is defined: the hook ids, the Action's inputs, the flags,
+# the flake8 entry point, and the configuration block, which qxlint has to accept as written.
+hooks = (ROOT / ".pre-commit-hooks.yaml").read_text()
+assert all(f"- id: {hook}\n" in hooks for hook in ("qxlint", "qxlint-notebook")), "the pre-commit card's hooks"
+action = (ROOT / "action.yml").read_text()
+assert all(re.search(rf"^  {name}:$", action, re.M) for name in ("paths", "format", "output")), "the Action card's inputs"
+usage = subprocess.run([sys.executable, "-m", "qxlint", "--help"], capture_output=True, text=True, check=True).stdout
+assert all(flag in usage for flag in ("--baseline PATH", "--baseline-write PATH", "--target-runtime")), "the CLI's flags"
+assert pyproject["project"]["entry-points"]["flake8.extension"] == {"QXL": "qxlint.flake8_plugin:QxlintFlake8Plugin"}
+configured = Path(tempfile.mkdtemp())
+(configured / "pyproject.toml").write_text(next(c for t, _, c, _ in INTEGRATIONS if t == "Configuration") + "\n")
+lint("", cwd=configured)
 
 source = WORK / "snippets.json"
 source.write_text(json.dumps([{"id": k, "code": c, "lang": l} for k, (c, l) in SNIPPETS.items()]))
@@ -240,7 +294,8 @@ FAQ = [
      "<code>--baseline-write</code> and gate on what is added with <code>--baseline</code>."),
     ("Can I use qxlint in CI and in my editor?",
      "Yes: as a pre-commit hook, as a GitHub Action that writes SARIF for code scanning, as a flake8 plugin, and as a VS "
-     "Code extension that runs the same CLI with the same configuration, so the editor and CI agree."),
+     "Code extension that runs the same CLI on the same <code>[tool.qxlint]</code> configuration, so the editor and CI "
+     "agree as long as they run the same qxlint version and the extension’s own settings add nothing."),
     ("Is qxlint free?", "Yes. qxlint is free and open source under the MIT License."),
 ]
 faq_html = "\n".join(f"<details><summary>{q}</summary><p>{a}</p></details>" for q, a in FAQ)
@@ -468,16 +523,13 @@ page = f"""<!DOCTYPE html>
         <div class="examples">
           {decides_html}
         </div>
+        <p class="note reveal">In every example <code>sampler</code> is a <code>StatevectorSampler()</code>. Each one is run through qxlint whenever this page is built, and the page is not published unless its comments still hold.</p>
         <div class="table-wrap reveal">
           <table>
             <caption>QXL201 reads the qiskit-ibm-runtime version your project declares</caption>
             <thead><tr><th scope="col">Declared target</th><th scope="col">What QXL201 reports</th></tr></thead>
             <tbody>
-              <tr><td><code>0.48</code>, <code>&gt;=0.41</code></td><td>An error: removed in 0.41</td></tr>
-              <tr><td><code>0.40.2</code>, <code>==0.40.*</code></td><td>A warning: deprecated since 0.40</td></tr>
-              <tr><td><code>&gt;=0.38,&lt;0.43</code></td><td>An error, because the range does not prove the code is safe</td></tr>
-              <tr><td>Not declared</td><td>An error, because an unstated target is read as current</td></tr>
-              <tr><td><code>0.39</code></td><td>Nothing, because a pin below 0.40 predates the deprecation</td></tr>
+              {targets_html}
             </tbody>
           </table>
         </div>
@@ -514,7 +566,7 @@ page = f"""<!DOCTYPE html>
         <div class="feature-head center reveal">
           <p class="eyebrow">Integrations</p>
           <h2 class="headline" id="integrations-title">In your editor. In your gate.</h2>
-          <p class="lede">The same analyzer behind every way in, <strong>so the editor and CI cannot disagree.</strong> Exit code 0 is clean, 1 is findings, and 2 means qxlint could not run.</p>
+          <p class="lede">The same analyzer behind every way in, <strong>so on the same version and configuration the editor and CI agree.</strong> Exit code 0 is clean, 1 is findings, and 2 means qxlint could not run.</p>
         </div>
         <ul class="cards">
           {integrations_html}

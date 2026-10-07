@@ -5,15 +5,22 @@ The website is built from this repository, so its figures follow the code instea
 | On the page | Read from |
 | --- | --- |
 | The rules, their examples and what qxlint printed for each | `docs/rules/*.md`, and qxlint run on every example |
-| Tests | `pytest --collect-only` on this tree |
+| Tests | the suite run on this tree as CI runs it: the tests that pass, which is what the README quotes |
 | API checks | `scripts/verify_model.py`, run during the build |
 | The corpus run, and the version and date it was scanned with | `corpus/scan.json`, `corpus/manifest.json`, `corpus/findings.csv` |
 | Version, supported Pythons | `pyproject.toml`, checked against the CI matrix |
+| The "How it decides" examples | qxlint run on each, which must report exactly where the comments say it does |
+| The QXL201 table | qxlint run on the rule's example under every target the table names |
+| The integration cards | the hook ids, the Action's inputs, the CLI's flags and the flake8 entry point, looked up where they are defined, and the configuration block, which qxlint must accept |
 | The 404 terminal | qxlint run on a path that does not exist |
 
-A sentence the page quotes from the docs is checked against them, and every figure is checked for consistency with the
-files it comes from. When one no longer holds, the build stops with the reason instead of publishing a page that says
-something untrue, and the site already online stays as it was.
+Every figure is checked for consistency with the files it comes from, and every claim in the table above is run or
+looked up. When one no longer holds, the build stops with the reason instead of publishing a page that says something
+untrue, and the site already online stays as it was.
+
+The rest is written by hand: the opening statement, the notebook table, the limits, the FAQ and the wording around
+the cards. The build cannot tell when those stop being true, so a change to what qxlint does should be read against
+them too.
 
 The page is dated by what it says, not by when it was built: the build compares the page with the one already
 online and keeps that page's date unless something on it changed, so `dateModified` and the sitemap's `lastmod` only
