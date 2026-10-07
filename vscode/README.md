@@ -110,7 +110,8 @@ still works. A target that cannot be established is read as the current release,
 so those rules report rather than going quiet. The target comes from these
 settings, or from your project's `pyproject.toml`, `uv.lock` or
 `requirements.txt`. Project level `[tool.qxlint]` configuration is read by the CLI
-itself, so the editor and CI agree.
+itself, so with these settings left empty and the same qxlint version as CI, the
+editor and CI agree.
 
 ## Commands
 

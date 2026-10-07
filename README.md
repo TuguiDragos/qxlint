@@ -149,9 +149,10 @@ sampler.run([qc])          # silent, the measurement is on the same object
 written, so it has to be analysable:
 
 ```python
+qc = QuantumCircuit(1)
 circuits = []
 circuits.append(qc)
-sampler.run(circuits)      # the circuit is still tracked
+sampler.run(circuits)      # QXL103 fires: the circuit is still tracked
 ```
 
 **Effects are scoped.** A call that cannot reach a circuit does not affect it; a
@@ -307,8 +308,8 @@ pip install qxlint
 
 Diagnostics appear in `.py` files and in notebook cells, and each rule code in
 the Problems panel links to its documentation page. The extension runs the same
-CLI with the same `[tool.qxlint]` configuration, so the editor and CI cannot
-disagree.
+CLI on the same `[tool.qxlint]` configuration, so the editor and CI agree as long
+as they run the same qxlint version and the extension's own settings add nothing.
 
 With the Python extension installed it follows the interpreter you have
 selected. Without it, point `qxlint.path` at the executable, or have one on
