@@ -24,7 +24,7 @@ repository-artifact: "https://pypi.org/project/qxlint/"
 url: "https://qxlint.tuguidragos.com/"
 license: MIT
 version: 0.3.6
-date-released: "2026-08-14"
+date-released: "2026-10-07"
 keywords:
   - qiskit
   - quantum computing
