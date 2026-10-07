@@ -239,7 +239,7 @@ FAQ = [
      "<code>[tool.qxlint]</code> in pyproject.toml. On a project that already has findings, record them once with "
      "<code>--baseline-write</code> and gate on what is added with <code>--baseline</code>."),
     ("Can I use qxlint in CI and in my editor?",
-     "Yes: as a pre-commit hook, as a GitHub Action that uploads SARIF to code scanning, as a flake8 plugin, and as a VS "
+     "Yes: as a pre-commit hook, as a GitHub Action that writes SARIF for code scanning, as a flake8 plugin, and as a VS "
      "Code extension that runs the same CLI with the same configuration, so the editor and CI agree."),
     ("Is qxlint free?", "Yes. qxlint is free and open source under the MIT License."),
 ]
@@ -477,7 +477,7 @@ page = f"""<!DOCTYPE html>
               <tr><td><code>0.40.2</code>, <code>==0.40.*</code></td><td>A warning: deprecated since 0.40</td></tr>
               <tr><td><code>&gt;=0.38,&lt;0.43</code></td><td>An error, because the range does not prove the code is safe</td></tr>
               <tr><td>Not declared</td><td>An error, because an unstated target is read as current</td></tr>
-              <tr><td><code>0.39</code></td><td>Nothing, because a pin below 0.41 proves the value still works</td></tr>
+              <tr><td><code>0.39</code></td><td>Nothing, because a pin below 0.40 predates the deprecation</td></tr>
             </tbody>
           </table>
         </div>

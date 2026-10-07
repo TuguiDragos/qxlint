@@ -51,7 +51,7 @@ A rule fires only on what the analyzer can prove, and every rule page documents 
 ## Docs
 
 - [README](https://raw.githubusercontent.com/TuguiDragos/qxlint/main/README.md): what qxlint checks, how it decides, and how it is tested
-- [Rules](https://raw.githubusercontent.com/TuguiDragos/qxlint/main/docs/rules/index.md): every rule, with when it is legitimate
+- [Rules](https://raw.githubusercontent.com/TuguiDragos/qxlint/main/docs/rules/index.md): every rule, with its tier and severity, linking to the page that says when it is legitimate
 - [Configuration](https://raw.githubusercontent.com/TuguiDragos/qxlint/main/docs/configuration.md): every option
 - [Release gate](https://raw.githubusercontent.com/TuguiDragos/qxlint/main/docs/release-gate.md): what is claimed and what is not
 

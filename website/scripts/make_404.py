@@ -250,7 +250,7 @@ page = """<!DOCTYPE html>
   </main>
   <script>
     // The address asked for, as qxlint would print it; quoted on the command line only when a shell would need it.
-    let path = location.pathname.replace(/^\\/+/, "");
+    let path = location.pathname.replace(/^\\/+|\\/+$/g, "");
     try { path = decodeURIComponent(path); } catch {}
     if (path) {
       const quoted = /^[\\w@%+=:,./-]+$/.test(path) ? path : `'${path.replaceAll("'", "'\\\\''")}'`;
