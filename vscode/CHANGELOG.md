@@ -9,6 +9,12 @@ rules themselves are listed with
 
 ## 0.3.6
 
+### Fixed
+
+- **The `qxlint.targetRuntime` setting no longer says version gated rules stay
+  silent without a target.** They have reported on an undeclared target since
+  0.3.5, and the README said so; the description in the settings did not.
+
 ### Changed
 
 - The extension carries qxlint's new icon.

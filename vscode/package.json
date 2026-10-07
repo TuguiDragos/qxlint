@@ -120,7 +120,7 @@
           "type": "string",
           "default": "",
           "scope": "resource",
-          "markdownDescription": "Target `qiskit-ibm-runtime` version or specifier. Version gated rules stay silent without one."
+          "markdownDescription": "Target `qiskit-ibm-runtime` version or specifier, for example `0.48` or `>=0.41`. Empty uses what the project declares, and a target nothing declares is read as the current release."
         },
         "qxlint.args": {
           "type": "array",
