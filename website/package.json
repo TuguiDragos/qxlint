@@ -1,0 +1,9 @@
+{
+  "name": "qxlint-website",
+  "private": true,
+  "description": "Builds qxlint.tuguidragos.com from this repository.",
+  "type": "module",
+  "dependencies": {
+    "shiki": "3.23.0"
+  }
+}

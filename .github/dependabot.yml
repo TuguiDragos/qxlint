@@ -41,3 +41,12 @@ updates:
       interval: monthly
     commit-message:
       prefix: "build"
+
+  # The website's highlighter. A release that colors code differently stops the
+  # build instead of reaching the page.
+  - package-ecosystem: npm
+    directory: /website
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: "build"

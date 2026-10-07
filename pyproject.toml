@@ -105,7 +105,8 @@ src = ["src", "tests"]
 # the formatter would join into one, which is the opposite of the point, and
 # several pages align trailing comments so a reader can compare them.
 # The VS Code test fixtures are input to that suite, not project code.
-extend-exclude = ["*.md", "vscode/test/fixtures"]
+# The website's build scripts are not shipped; the Website workflow runs them.
+extend-exclude = ["*.md", "vscode/test/fixtures", "website"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "SIM", "RUF", "PL", "C4", "PTH"]
